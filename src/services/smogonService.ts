@@ -1,5 +1,6 @@
 export interface MovesetOption {
   name: string;
+  format?: string;
   abilities: string[];
   items: string[];
   moves: string[][];
@@ -78,18 +79,43 @@ export class SmogonService {
         }
 
         if (!this.smogonSetsPromise) {
-          const files = ['gen9ou', 'gen9ubers', 'gen9uu', 'gen9ru', 'gen9nu', 'gen9pu', 'gen9lc', 'gen9doublesou', 'gen9monotype'];
+          const files = [
+            { id: 'gen9nationaldex', name: 'Champions / NatDex' },
+            { id: 'gen9vgc2024', name: 'Gen 9 VGC 2024 (Scarlet & Violet)' },
+            { id: 'gen9ou', name: 'Gen 9 OU (Scarlet & Violet)' },
+            { id: 'gen9ubers', name: 'Gen 9 Ubers (Scarlet & Violet)' },
+            { id: 'gen9uu', name: 'Gen 9 UU' },
+            { id: 'gen9ru', name: 'Gen 9 RU' },
+            { id: 'gen9nu', name: 'Gen 9 NU' },
+            { id: 'gen9pu', name: 'Gen 9 PU' },
+            { id: 'gen9lc', name: 'Gen 9 Little Cup' },
+            { id: 'gen9doublesou', name: 'Gen 9 Doubles' },
+            { id: 'gen9monotype', name: 'Gen 9 Monotype' }
+          ];
+
           this.smogonSetsPromise = Promise.all(
             files.map(f =>
-              fetch(`https://pkmn.github.io/smogon/data/sets/${f}.json`, {
+              fetch(`https://pkmn.github.io/smogon/data/sets/${f.id}.json`, {
                 signal: AbortSignal.timeout(3000),
               })
                 .then(r => (r.ok ? r.json() : {}))
-                .catch(() => ({}))
+                .then(data => ({ f, data }))
+                .catch(() => ({ f, data: {} }))
             )
           ).then(results => {
             const combined: Record<string, any> = {};
-            results.forEach(r => Object.assign(combined, r));
+            results.forEach(({ f, data }) => {
+              if (!data || typeof data !== 'object') return;
+              Object.keys(data).forEach(speciesKey => {
+                const formattedKey = speciesKey.toLowerCase().replace(/[^a-z0-9]/g, '');
+                if (!combined[formattedKey]) combined[formattedKey] = {};
+                Object.keys(data[speciesKey]).forEach(buildName => {
+                  if (!combined[formattedKey][buildName]) {
+                    combined[formattedKey][buildName] = Object.assign({ format: f.name }, data[speciesKey][buildName]);
+                  }
+                });
+              });
+            });
             return combined;
           }).catch(() => ({}));
         }
@@ -125,7 +151,7 @@ export class SmogonService {
     this.showdownDexPromise = null;
     this.smogonSetsPromise = null;
 
-    // 3. Fallback data when offline or request fails (AC-ST-005-02)
+    // 3. Fallback data when offline or request fails
     const fallbackData = this.generateFallbackData(formattedName);
     this.cache.set(formattedName, fallbackData);
     return fallbackData;
@@ -158,6 +184,7 @@ export class SmogonService {
 
         movesets.push({
           name: buildName,
+          format: b.format || 'Gen 9 Competitive',
           abilities: buildAbilities,
           items: buildItems,
           moves: buildMoves,
@@ -181,6 +208,7 @@ export class SmogonService {
 
       movesets.push({
         name: `${tier} Competitive Build`,
+        format: 'Smogon Standard',
         abilities: abilities,
         items: ['Choice Band', 'Choice Specs', 'Life Orb', 'Leftovers', 'Heavy-Duty Boots'],
         moves: [
@@ -241,6 +269,7 @@ export class SmogonService {
     return [
       {
         name: 'Offensive Attacker (Smogon Standard Build)',
+        format: 'Smogon Standard',
         abilities: ['Standard Competitive Ability'],
         items: ['Choice Band', 'Choice Specs', 'Life Orb', 'Leftovers'],
         moves: [

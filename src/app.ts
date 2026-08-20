@@ -624,7 +624,7 @@ class PokedexApp {
         </div>
       `;
     } else {
-      // Competitive tab with multi-builds prioritizing Champions / Gen 9
+      // Competitive tab with exact format badges per build
       const compData = await this.smogonService.getCompetitiveData(p.name);
       
       const warningBanner = compData.isOfflineFallback
@@ -636,7 +636,7 @@ class PokedexApp {
       const movesetsHTML = compData.movesets.map((m: MovesetOption, buildIdx: number) => `
         <div style="background: rgba(15,23,42,0.6); padding: 1.1rem; border-radius: 14px; margin-bottom: 1rem; text-align: left; border: 1px solid ${buildIdx === 0 ? '#38bdf8' : 'rgba(255,255,255,0.08)'}; box-shadow: ${buildIdx === 0 ? '0 0 15px rgba(56,189,248,0.2)' : 'none'};">
           <div style="font-weight: 800; color: #38bdf8; font-size: 1.05rem; margin-bottom: 0.6rem; display: flex; align-items: center; justify-content: space-between;">
-            <span>🎯 Build #${buildIdx + 1}: ${m.name} ${buildIdx === 0 ? '<span style="font-size: 0.7rem; background: #38bdf8; color: #0f172a; padding: 0.15rem 0.5rem; border-radius: 6px; font-weight: 800; margin-left: 0.5rem;">META PRINCIPAL / CHAMPIONS</span>' : ''}</span>
+            <span>🎯 Build #${buildIdx + 1}: ${m.name} <span style="font-size: 0.7rem; background: ${buildIdx === 0 ? '#38bdf8' : 'rgba(255,255,255,0.15)'}; color: ${buildIdx === 0 ? '#0f172a' : '#f8fafc'}; padding: 0.15rem 0.5rem; border-radius: 6px; font-weight: 800; margin-left: 0.5rem;">${m.format || 'Gen 9 Competitive'}</span></span>
           </div>
           <div style="font-size: 0.85rem; color: #cbd5e1; margin-bottom: 0.75rem; display: grid; grid-template-columns: 1fr 1fr; gap: 0.5rem; background: rgba(0,0,0,0.2); padding: 0.75rem; border-radius: 10px;">
             <div><strong style="color: #94a3b8;">Habilidade:</strong> <span style="color: #f1f5f9;">${m.abilities.join(' / ')}</span></div>
