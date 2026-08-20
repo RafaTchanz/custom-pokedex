@@ -5,15 +5,17 @@
   "type": "module",
   "scripts": {
     "dev": "vite",
-    "build": "tsc && vite build",
+    "build": "vite build",
     "preview": "vite preview",
     "test": "vitest run",
     "update-smogon": "node src/scripts/updateSmogon.js"
   },
+  "dependencies": {
+    "typescript": "^5.0.0",
+    "vite": "^5.0.0"
+  },
   "devDependencies": {
     "@types/node": "^26.2.0",
-    "typescript": "^5.0.0",
-    "vite": "^5.0.0",
     "vitest": "^1.0.0"
   }
 }
