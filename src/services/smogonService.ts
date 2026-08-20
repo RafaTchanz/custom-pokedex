@@ -53,12 +53,27 @@ export class SmogonService {
 
         const localDataset = await this.localBuildsPromise;
         if (localDataset) {
-          const matchedKey = Object.keys(localDataset).find(k => k === formattedName)
-            || Object.keys(localDataset).find(k => formattedName.includes(k))
-            || Object.keys(localDataset).find(k => k.includes(formattedName));
+          let entry = localDataset[formattedName];
 
-          if (matchedKey && localDataset[matchedKey]) {
-            const entry = localDataset[matchedKey];
+          // Robust variant fallback resolution if direct variant key has no sets
+          if (!entry || !entry.sets || Object.keys(entry.sets).length === 0) {
+            const keys = Object.keys(localDataset);
+            // Match base species prefix (e.g. 'charizard' from 'charizardmegax', 'venusaur' from 'venusaurmega')
+            const baseKey = keys.find(k => formattedName.startsWith(k) && localDataset[k]?.sets && Object.keys(localDataset[k].sets).length > 0)
+              || keys.find(k => formattedName.includes(k) && localDataset[k]?.sets && Object.keys(localDataset[k].sets).length > 0);
+
+            if (baseKey && localDataset[baseKey]) {
+              const baseEntry = localDataset[baseKey];
+              entry = {
+                tier: (entry && entry.tier && entry.tier !== 'Illegal') ? entry.tier : baseEntry.tier,
+                baseStats: entry ? entry.baseStats : baseEntry.baseStats,
+                abilities: (entry && entry.abilities && entry.abilities.length > 0) ? entry.abilities : baseEntry.abilities,
+                sets: baseEntry.sets
+              };
+            }
+          }
+
+          if (entry && entry.sets && Object.keys(entry.sets).length > 0) {
             const data = this.parseBuildsEntry(formattedName, entry.tier || 'OU', entry.baseStats, entry.abilities, entry.sets);
             this.cache.set(formattedName, data);
             return data;
@@ -128,6 +143,7 @@ export class SmogonService {
         if (setsData) {
           const keys = Object.keys(setsData);
           const matchedKey = keys.find(k => k.toLowerCase().replace(/[^a-z0-9]/g, '') === formattedName)
+            || keys.find(k => formattedName.startsWith(k.toLowerCase().replace(/[^a-z0-9]/g, '')))
             || keys.find(k => k.toLowerCase().replace(/[^a-z0-9]/g, '').includes(formattedName));
           if (matchedKey) setEntry = setsData[matchedKey];
         }
