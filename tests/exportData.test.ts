@@ -1,30 +1,23 @@
-import { describe, it } from 'vitest';
+import { describe, it, expect } from 'vitest';
 import * as fs from 'fs';
 import * as path from 'path';
-import { LocalDataEngine } from '../src/services/localDataEngine';
-import { MediaProvider } from '../src/services/mediaProvider';
+import { execSync } from 'child_process';
 
-const SNAPSHOT_PATH = 'C:\\Users\\rafae\\OneDrive\\Área de Trabalho\\Git\\pokeapi';
-const OUTPUT_DIR = path.join(process.cwd(), 'public', 'data');
-const OUTPUT_FILE = path.join(OUTPUT_DIR, 'pokemon.json');
+const OUTPUT_FILE = path.join(process.cwd(), 'public', 'data', 'pokemon.json');
 
-describe('Export JSON Dataset for Web UI', () => {
-  it('generates public/data/pokemon.json from local snapshot', async () => {
-    const engine = new LocalDataEngine(SNAPSHOT_PATH);
-    await engine.initialize();
-    const media = new MediaProvider(SNAPSHOT_PATH);
+describe('Export Enriched JSON Dataset for Web UI', () => {
+  it('generates public/data/pokemon.json with full moves, encounters, and 3D models', () => {
+    execSync('node src/scripts/exportDataEnriched.js', { stdio: 'inherit' });
+    expect(fs.existsSync(OUTPUT_FILE)).toBe(true);
 
-    const allPokemon = engine.queryPokemon({});
-    const enriched = allPokemon.map(p => ({
-      ...p,
-      media: media.getMediaForPokemon(p.id)
-    }));
+    const content = fs.readFileSync(OUTPUT_FILE, 'utf-8');
+    const data = JSON.parse(content);
+    expect(data.length).toBeGreaterThan(1000);
 
-    if (!fs.existsSync(OUTPUT_DIR)) {
-      fs.mkdirSync(OUTPUT_DIR, { recursive: true });
-    }
-
-    fs.writeFileSync(OUTPUT_FILE, JSON.stringify(enriched, null, 2), 'utf-8');
-    console.log(`✅ Successfully generated ${enriched.length} Pokémons to ${OUTPUT_FILE}`);
+    const bulbasaur = data.find((p: any) => p.name === 'Bulbasaur');
+    expect(bulbasaur).toBeDefined();
+    expect(bulbasaur.media.animated3dUrl).toBeDefined();
+    expect(bulbasaur.moves.length).toBeGreaterThan(0);
+    expect(bulbasaur.evolutionChain.length).toBeGreaterThan(0);
   });
 });
