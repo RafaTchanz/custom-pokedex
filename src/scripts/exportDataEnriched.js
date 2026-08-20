@@ -175,10 +175,48 @@ parseCsv('location_areas.csv').forEach(row => {
 const encountersList = parseCsv('encounters.csv');
 const starterIds = [1,4,7,152,155,158,252,255,258,387,390,393,495,498,501,650,653,656,722,725,728,810,813,816,906,909,912];
 
+const allStarterFamilyIds = [
+  1,2,3, 4,5,6, 7,8,9,
+  152,153,154, 155,156,157, 158,159,160,
+  252,253,254, 255,256,257, 258,259,260,
+  387,388,389, 390,391,392, 393,394,395,
+  495,496,497, 498,499,500, 501,502,503,
+  650,651,652, 653,654,655, 656,657,658,
+  722,723,724, 725,726,727, 728,729,730,
+  810,811,812, 813,814,815, 816,817,818
+];
+
 function getRecentEncounters(speciesId, name, pRow) {
   const encs = [];
   const lowerName = name.toLowerCase();
   const ident = pRow.identifier.toLowerCase();
+
+  // All Starters Gen 1-8 in Indigo Disk DLC & Scarlet / Violet
+  if (allStarterFamilyIds.includes(speciesId)) {
+    encs.push({
+      game: 'The Indigo Disk (DLC)',
+      location: 'Terarium da Academia Blueberry (Biomas Cânion, Polar, Savana e Costeiro)',
+      minLevel: 55,
+      maxLevel: 70
+    });
+    encs.push({
+      game: 'Pokémon Scarlet & Violet',
+      location: 'Paldea / Terarium (Obtenção via DLC Indigo Disk, Raids Terastal & Troca Especial)',
+      minLevel: 5,
+      maxLevel: 75
+    });
+  }
+
+  // Kalos & Lumiose Pokémons + Featured Starters in Legends: Z-A
+  const zaFeatured = [650,651,652, 653,654,655, 656,657,658, 495,496,497, 155,156,157, 725,726,727, 252,253,254];
+  if ((speciesId >= 650 && speciesId <= 721) || zaFeatured.includes(speciesId)) {
+    encs.push({
+      game: 'Pokémon Legends: Z-A',
+      location: 'Cidade de Lumiose (Áreas Urbanas, Parques de Reurbanização & Escolha de Inicial)',
+      minLevel: 5,
+      maxLevel: 75
+    });
+  }
 
   // Hisui / Legends: Arceus (#899 - #905 or form -hisui)
   if ((speciesId >= 899 && speciesId <= 905) || ident.includes('-hisui')) {
@@ -444,7 +482,7 @@ const enrichedPokemon = pokemonList.map(pRow => {
     });
   });
 
-  // Enrich with recent games (Gen 8 Legends: Arceus / BDSP and Gen 9 Scarlet & Violet / DLCs)
+  // Enrich with recent games (Gen 8 Legends: Arceus / BDSP and Gen 9 Scarlet & Violet / DLCs / Legends: Z-A)
   const recentEncs = getRecentEncounters(speciesId, name, pRow);
   recentEncs.forEach(rEnc => {
     if (!formattedEncounters.some(fe => fe.game === rEnc.game)) {

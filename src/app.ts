@@ -460,16 +460,21 @@ class PokedexApp {
     return !!this.cardShinyState.get(speciesId);
   }
 
-  private getCardImageUrl(p: PokemonCardData, speciesId: number): string {
-    const isShiny = this.isCardShinyActive(speciesId);
-    if (this.isGlobal3DActive) {
+  private getPokemonMediaUrl(p: PokemonCardData, isShiny: boolean, is3D: boolean): string {
+    const id = p.id;
+    if (is3D) {
       return isShiny
-        ? (p.media.shinyAnimated3dUrl || p.media.animated3dUrl || p.media.shinyArtwork || p.media.officialArtworkUrl)
-        : (p.media.animated3dUrl || p.media.officialArtworkUrl || p.media.spriteUrl);
+        ? `https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/showdown/shiny/${id}.gif`
+        : `https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/showdown/${id}.gif`;
     }
     return isShiny
-      ? (p.media.shinyArtwork || p.media.shinyOfficialArtworkUrl || p.media.shinySpriteFront || p.media.officialArtworkUrl)
-      : (p.media.officialArtworkUrl || p.media.spriteUrl);
+      ? `https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/shiny/${id}.png`
+      : `https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/${id}.png`;
+  }
+
+  private getCardImageUrl(p: PokemonCardData, speciesId: number): string {
+    const isShiny = this.isCardShinyActive(speciesId);
+    return this.getPokemonMediaUrl(p, isShiny, this.isGlobal3DActive);
   }
 
   private render(): void {
@@ -677,7 +682,7 @@ class PokedexApp {
         <button id="card-shiny-btn-${group.speciesId}" class="card-shiny-btn ${isShiny ? 'active' : ''}" title="Alternar forma Shiny">✨ Shiny</button>
         <span class="card-number">${formattedId}</span>
         <div class="card-img-container">
-          <img class="card-artwork ${hdClass}" src="${imgUrl}" alt="${p.name}" loading="lazy" onerror="this.src='${p.media.spriteUrl}'">
+          <img class="card-artwork ${hdClass}" src="${imgUrl}" alt="${p.name}" loading="lazy" onerror="if(this.src.includes('/showdown/shiny/')){this.src='https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/shiny/${p.id}.png';}else if(this.src.includes('/showdown/')){this.src='https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/${p.id}.png';}else if(this.src.includes('/official-artwork/shiny/')){this.src='https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/${p.id}.png';}else{this.src='https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/${p.id}.png';}">
         </div>
         <h3 class="card-title">${p.name}</h3>
         <div class="type-badges">
@@ -778,22 +783,12 @@ class PokedexApp {
         : '';
 
       // Natural Proportional Image Display (Preserves character scale proportions!)
-      let imgDisplayUrl = '';
-      if (this.is3DModelActive) {
-        imgDisplayUrl = this.isShinyActive
-          ? (p.media.shinyAnimated3dUrl || p.media.animated3dUrl || p.media.shinyArtwork || p.media.officialArtworkUrl)
-          : (p.media.animated3dUrl || p.media.officialArtworkUrl || p.media.spriteUrl);
-      } else {
-        imgDisplayUrl = this.isShinyActive
-          ? (p.media.shinyArtwork || p.media.shinyOfficialArtworkUrl || p.media.shinySpriteFront || p.media.officialArtworkUrl)
-          : (p.media.officialArtworkUrl || p.media.spriteUrl);
-      }
-
+      const imgDisplayUrl = this.getPokemonMediaUrl(p, this.isShinyActive, this.is3DModelActive);
       const hdClassModal = this.is3DModelActive ? '' : 'hd-art';
 
       const mediaHeroHTML = `
         <div class="modal-hero-container">
-          <img class="modal-hero-img ${hdClassModal}" src="${imgDisplayUrl}" alt="${p.name}" onerror="this.src='${p.media.officialArtworkUrl || p.media.spriteUrl}'">
+          <img class="modal-hero-img ${hdClassModal}" src="${imgDisplayUrl}" alt="${p.name}" onerror="if(this.src.includes('/showdown/shiny/')){this.src='https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/shiny/${p.id}.png';}else if(this.src.includes('/showdown/')){this.src='https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/${p.id}.png';}else if(this.src.includes('/official-artwork/shiny/')){this.src='https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/${p.id}.png';}else{this.src='https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/${p.id}.png';}">
         </div>
       `;
 
