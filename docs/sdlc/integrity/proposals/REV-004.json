@@ -1,14 +1,1 @@
-{
-  "id": "REV-004",
-  "evidence_class": "final_revision",
-  "story_id": "ST-002",
-  "ac_ids": ["AC-ST-002-01", "AC-ST-002-02"],
-  "input_revisions": [{"id": "ST-002", "revision": 1, "content_sha256": "944f0baf8cc1094c58c9668b86f692b2ab9d4163a4f8a5a5ef1634f31f07012f"}],
-  "producer_role": "sdlc-coder-backend",
-  "created_at": "2026-08-20T12:45:30Z",
-  "revision_type": "git_commit",
-  "commit_sha": "30acc379842bd1417a857b775b0ec265f4484603",
-  "tree_sha": "c91a6bb54d0a472a521f9ed8877eed22f7a4c0c3",
-  "precommit_revision_id": "REV-003",
-  "result": "PASS"
-}
+{"ac_ids":["AC-ST-002-01","AC-ST-002-02"],"commit_sha":"fedb9c26a340cf98f9cb06a70d233fbf6567037b","content_sha256":"f3d2e80c811876e69238ea979da9e7f38708b869417e6eacbe9bfe0a70c8897c","created_at":"2026-08-20T12:45:30Z","evidence_class":"final_revision","id":"REV-004","input_revisions":[{"content_sha256":"944f0baf8cc1094c58c9668b86f692b2ab9d4163a4f8a5a5ef1634f31f07012f","id":"ST-002","revision":1}],"precommit_revision_id":"REV-003","producer_role":"sdlc-coder-backend","result":"PASS","revision_type":"git_commit","story_id":"ST-002","tree_sha":"c91a6bb54d0a472a521f9ed8877eed22f7a4c0c3"}

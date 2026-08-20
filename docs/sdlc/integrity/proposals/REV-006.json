@@ -1,0 +1,14 @@
+{
+  "id": "REV-006",
+  "evidence_class": "final_revision",
+  "story_id": "ST-003",
+  "ac_ids": ["AC-ST-003-01", "AC-ST-003-02"],
+  "input_revisions": [{"id": "ST-003", "revision": 1, "content_sha256": "9e0154a597653d748a6986ef3c34371f4b5eeec247cadaee159f36f3a6fa39af"}],
+  "producer_role": "sdlc-coder-frontend",
+  "created_at": "2026-08-20T14:18:05Z",
+  "revision_type": "git_commit",
+  "commit_sha": "fedb9c26a340cf98f9cb06a70d233fbf6567037b",
+  "tree_sha": "a0ba5080271f03814654bb3c2a2d855fbf02955b",
+  "precommit_revision_id": "REV-005",
+  "result": "PASS"
+}

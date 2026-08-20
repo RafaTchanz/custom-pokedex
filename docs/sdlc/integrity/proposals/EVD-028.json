@@ -1,0 +1,10 @@
+{
+  "id": "EVD-028",
+  "evidence_class": "architecture",
+  "story_id": "ST-003",
+  "ac_ids": ["AC-ST-003-01", "AC-ST-003-02"],
+  "input_revisions": [{"id": "ST-003", "revision": 1, "content_sha256": "9e0154a597653d748a6986ef3c34371f4b5eeec247cadaee159f36f3a6fa39af"}],
+  "producer_role": "sdlc-architect",
+  "created_at": "2026-08-20T14:07:23Z",
+  "result": "PASS"
+}

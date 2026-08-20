@@ -1,0 +1,16 @@
+{
+  "id": "EVD-034",
+  "evidence_class": "quality",
+  "story_id": "ST-003",
+  "ac_ids": ["AC-ST-003-01", "AC-ST-003-02"],
+  "input_revisions": [{"id": "ST-003", "revision": 1, "content_sha256": "9e0154a597653d748a6986ef3c34371f4b5eeec247cadaee159f36f3a6fa39af"}],
+  "code_revision_id": "REV-005",
+  "producer_role": "sdlc-reviewer",
+  "created_at": "2026-08-20T14:12:35Z",
+  "commands": [{"argv": ["npx.cmd", "tsc", "--noEmit"], "exit_code": 0}],
+  "quality_profile": {
+    "name": "custom-pokedex-quality-profile",
+    "version": "1.0.0"
+  },
+  "result": "PASS"
+}

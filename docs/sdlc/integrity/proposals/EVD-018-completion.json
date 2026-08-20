@@ -1,0 +1,22 @@
+{
+  "criterion_conclusions": [
+    {
+      "ac_id": "AC-ST-003-01",
+      "conclusion": "COVERED",
+      "evidence_ids": ["EVD-025", "EVD-026", "TST-003"],
+      "gaps": []
+    },
+    {
+      "ac_id": "AC-ST-003-02",
+      "conclusion": "COVERED",
+      "evidence_ids": ["EVD-025", "EVD-026", "TST-003"],
+      "gaps": []
+    }
+  ],
+  "code_revision_id": "REV-005",
+  "reviewer_role": "sdlc-reviewer",
+  "reviewer_approval": true,
+  "result": "PASS",
+  "created_at": "2026-08-20T14:12:08Z",
+  "rationale": "All acceptance criteria AC-ST-003-01 and AC-ST-003-02 verified with unit and integration tests."
+}
