@@ -186,6 +186,16 @@ const allStarterFamilyIds = [
   810,811,812, 813,814,815, 816,817,818
 ];
 
+// Hisui Dex ID set for Legends: Arceus (242 species)
+const legendsArceusDexIds = new Set([
+  1,2,3, 4,5,6, 7,8,9, 25,26, 35,36, 37,38, 41,42, 43,44,45, 54,55, 58,59, 63,64,65, 66,67,68, 74,75,76, 77,78, 81,82, 92,93,94, 95, 100,101, 108, 111,112, 113, 114, 122, 123, 126, 129,130, 133,134,135,136, 137, 143, 148,149, 155,156,157, 172, 173, 174, 175,176, 190, 196,197, 198, 201, 207, 211, 212, 214, 215, 216,217, 220,221, 223,224, 226, 233, 239, 240, 242, 280,281,282, 315, 339,340, 355,356, 361,362, 363,364,365, 396,397,398, 399,400, 401,402, 403,404,405, 406,407, 408,409, 410,411, 412,413, 417, 418,419, 420,421, 422,423, 424, 425,426, 427,428, 429, 431,432, 433, 434,435, 436,437, 438, 439, 440, 441, 442, 443,444,445, 446, 447,448, 449,450, 451,452, 453,454, 455, 458, 459,460, 461, 462, 463, 464, 465, 466, 467, 468, 469, 470, 471, 472, 473, 474, 475, 476, 477, 478, 479, 480,481,482, 483, 484, 485, 486, 487, 488, 489,490, 491, 492, 493, 501,502,503, 548,549, 570,571, 627,628, 629,630, 641,642,645, 704,705,706, 712,713, 722,723,724, 899,900,901,902,903,904,905
+]);
+
+// Legends Z-A Dex ID set (Kalos + Starters + Featured Megas & Lumiose species)
+const legendsZADexIds = new Set([
+  1,2,3, 4,5,6, 7,8,9, 25,26, 94, 130, 133,134,135,136,196,197,470,471,700, 149, 150, 152,153,154, 155,156,157, 158,159,160, 212, 214, 248, 252,253,254, 255,256,257, 258,259,260, 282, 302, 303, 359, 373, 376, 384, 387,388,389, 390,391,392, 393,394,395, 445, 448, 475, 495,496,497, 498,499,500, 501,502,503, 650,651,652,653,654,655,656,657,658,659,660,661,662,663,664,665,666,667,668,669,670,671,672,673,674,675,676,677,678,679,680,681,682,683,684,685,686,687,688,689,690,691,692,693,694,695,696,697,698,699,700,701,702,703,704,705,706,707,708,709,710,711,712,713,714,715,716,717,718,719,720,721, 722,723,724,725,726,727,728,729,730, 810,811,812,813,814,815,816,817,818
+]);
+
 function getRecentEncounters(speciesId, name, pRow) {
   const encs = [];
   const lowerName = name.toLowerCase();
@@ -207,9 +217,8 @@ function getRecentEncounters(speciesId, name, pRow) {
     });
   }
 
-  // Kalos & Lumiose Pokémons + Featured Starters in Legends: Z-A
-  const zaFeatured = [650,651,652, 653,654,655, 656,657,658, 495,496,497, 155,156,157, 725,726,727, 252,253,254];
-  if ((speciesId >= 650 && speciesId <= 721) || zaFeatured.includes(speciesId)) {
+  // Legends: Z-A
+  if (legendsZADexIds.has(speciesId)) {
     encs.push({
       game: 'Pokémon Legends: Z-A',
       location: 'Cidade de Lumiose (Áreas Urbanas, Parques de Reurbanização & Escolha de Inicial)',
@@ -218,13 +227,13 @@ function getRecentEncounters(speciesId, name, pRow) {
     });
   }
 
-  // Hisui / Legends: Arceus (#899 - #905 or form -hisui)
-  if ((speciesId >= 899 && speciesId <= 905) || ident.includes('-hisui')) {
+  // Hisui / Legends: Arceus
+  if (legendsArceusDexIds.has(speciesId) || ident.includes('-hisui')) {
     encs.push({
       game: 'Legends: Arceus',
-      location: 'Hisui (Obsidian Fieldlands, Crimson Mirelands, Cobalt Coastlands, Coronet Highlands)',
-      minLevel: 15,
-      maxLevel: 70
+      location: 'Hisui (Obsidian Fieldlands, Crimson Mirelands, Cobalt Coastlands, Coronet Highlands, Alabaster Icelands)',
+      minLevel: 5,
+      maxLevel: 75
     });
   }
 
