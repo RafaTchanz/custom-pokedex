@@ -72,9 +72,11 @@ export class LocalDataEngine {
 
       // Format name nicely (capitalize first letter)
       const formattedName = identifier.charAt(0).toUpperCase() + identifier.slice(1);
+      const speciesId = parseInt(row['species_id'] || row['id'], 10) || id;
 
       this.pokemonMap.set(id, {
         id,
+        speciesId,
         name: formattedName,
         height,
         weight,

@@ -1,6 +1,7 @@
 [
   {
     "id": 1,
+    "speciesId": 1,
     "name": "Bulbasaur",
     "height": 7,
     "weight": 69,
@@ -59,6 +60,7 @@
   },
   {
     "id": 2,
+    "speciesId": 2,
     "name": "Ivysaur",
     "height": 10,
     "weight": 130,
@@ -117,6 +119,7 @@
   },
   {
     "id": 3,
+    "speciesId": 3,
     "name": "Venusaur",
     "height": 20,
     "weight": 1000,
@@ -175,6 +178,7 @@
   },
   {
     "id": 4,
+    "speciesId": 4,
     "name": "Charmander",
     "height": 6,
     "weight": 85,
@@ -229,6 +233,7 @@
   },
   {
     "id": 5,
+    "speciesId": 5,
     "name": "Charmeleon",
     "height": 11,
     "weight": 190,
@@ -283,6 +288,7 @@
   },
   {
     "id": 6,
+    "speciesId": 6,
     "name": "Charizard",
     "height": 17,
     "weight": 905,
@@ -341,6 +347,7 @@
   },
   {
     "id": 7,
+    "speciesId": 7,
     "name": "Squirtle",
     "height": 5,
     "weight": 90,
@@ -395,6 +402,7 @@
   },
   {
     "id": 8,
+    "speciesId": 8,
     "name": "Wartortle",
     "height": 10,
     "weight": 225,
@@ -449,6 +457,7 @@
   },
   {
     "id": 9,
+    "speciesId": 9,
     "name": "Blastoise",
     "height": 16,
     "weight": 855,
@@ -503,6 +512,7 @@
   },
   {
     "id": 10,
+    "speciesId": 10,
     "name": "Caterpie",
     "height": 3,
     "weight": 29,
@@ -557,6 +567,7 @@
   },
   {
     "id": 11,
+    "speciesId": 11,
     "name": "Metapod",
     "height": 7,
     "weight": 99,
@@ -611,6 +622,7 @@
   },
   {
     "id": 12,
+    "speciesId": 12,
     "name": "Butterfree",
     "height": 11,
     "weight": 320,
@@ -669,6 +681,7 @@
   },
   {
     "id": 13,
+    "speciesId": 13,
     "name": "Weedle",
     "height": 3,
     "weight": 32,
@@ -727,6 +740,7 @@
   },
   {
     "id": 14,
+    "speciesId": 14,
     "name": "Kakuna",
     "height": 6,
     "weight": 100,
@@ -785,6 +799,7 @@
   },
   {
     "id": 15,
+    "speciesId": 15,
     "name": "Beedrill",
     "height": 10,
     "weight": 295,
@@ -843,6 +858,7 @@
   },
   {
     "id": 16,
+    "speciesId": 16,
     "name": "Pidgey",
     "height": 3,
     "weight": 18,
@@ -901,6 +917,7 @@
   },
   {
     "id": 17,
+    "speciesId": 17,
     "name": "Pidgeotto",
     "height": 11,
     "weight": 300,
@@ -959,6 +976,7 @@
   },
   {
     "id": 18,
+    "speciesId": 18,
     "name": "Pidgeot",
     "height": 15,
     "weight": 395,
@@ -1017,6 +1035,7 @@
   },
   {
     "id": 19,
+    "speciesId": 19,
     "name": "Rattata",
     "height": 3,
     "weight": 35,
@@ -1071,6 +1090,7 @@
   },
   {
     "id": 20,
+    "speciesId": 20,
     "name": "Raticate",
     "height": 7,
     "weight": 185,
@@ -1125,6 +1145,7 @@
   },
   {
     "id": 21,
+    "speciesId": 21,
     "name": "Spearow",
     "height": 3,
     "weight": 20,
@@ -1183,6 +1204,7 @@
   },
   {
     "id": 22,
+    "speciesId": 22,
     "name": "Fearow",
     "height": 12,
     "weight": 380,
@@ -1241,6 +1263,7 @@
   },
   {
     "id": 23,
+    "speciesId": 23,
     "name": "Ekans",
     "height": 20,
     "weight": 69,
@@ -1295,6 +1318,7 @@
   },
   {
     "id": 24,
+    "speciesId": 24,
     "name": "Arbok",
     "height": 35,
     "weight": 650,
@@ -1349,6 +1373,7 @@
   },
   {
     "id": 25,
+    "speciesId": 25,
     "name": "Pikachu",
     "height": 4,
     "weight": 60,
@@ -1403,6 +1428,7 @@
   },
   {
     "id": 26,
+    "speciesId": 26,
     "name": "Raichu",
     "height": 8,
     "weight": 300,
@@ -1457,6 +1483,7 @@
   },
   {
     "id": 27,
+    "speciesId": 27,
     "name": "Sandshrew",
     "height": 6,
     "weight": 120,
@@ -1511,6 +1538,7 @@
   },
   {
     "id": 28,
+    "speciesId": 28,
     "name": "Sandslash",
     "height": 10,
     "weight": 295,
@@ -1565,6 +1593,7 @@
   },
   {
     "id": 29,
+    "speciesId": 29,
     "name": "Nidoran-f",
     "height": 4,
     "weight": 70,
@@ -1619,6 +1648,7 @@
   },
   {
     "id": 30,
+    "speciesId": 30,
     "name": "Nidorina",
     "height": 8,
     "weight": 200,
@@ -1673,6 +1703,7 @@
   },
   {
     "id": 31,
+    "speciesId": 31,
     "name": "Nidoqueen",
     "height": 13,
     "weight": 600,
@@ -1731,6 +1762,7 @@
   },
   {
     "id": 32,
+    "speciesId": 32,
     "name": "Nidoran-m",
     "height": 5,
     "weight": 90,
@@ -1785,6 +1817,7 @@
   },
   {
     "id": 33,
+    "speciesId": 33,
     "name": "Nidorino",
     "height": 9,
     "weight": 195,
@@ -1839,6 +1872,7 @@
   },
   {
     "id": 34,
+    "speciesId": 34,
     "name": "Nidoking",
     "height": 14,
     "weight": 620,
@@ -1897,6 +1931,7 @@
   },
   {
     "id": 35,
+    "speciesId": 35,
     "name": "Clefairy",
     "height": 6,
     "weight": 75,
@@ -1951,6 +1986,7 @@
   },
   {
     "id": 36,
+    "speciesId": 36,
     "name": "Clefable",
     "height": 13,
     "weight": 400,
@@ -2005,6 +2041,7 @@
   },
   {
     "id": 37,
+    "speciesId": 37,
     "name": "Vulpix",
     "height": 6,
     "weight": 99,
@@ -2059,6 +2096,7 @@
   },
   {
     "id": 38,
+    "speciesId": 38,
     "name": "Ninetales",
     "height": 11,
     "weight": 199,
@@ -2113,6 +2151,7 @@
   },
   {
     "id": 39,
+    "speciesId": 39,
     "name": "Jigglypuff",
     "height": 5,
     "weight": 55,
@@ -2171,6 +2210,7 @@
   },
   {
     "id": 40,
+    "speciesId": 40,
     "name": "Wigglytuff",
     "height": 10,
     "weight": 120,
@@ -2229,6 +2269,7 @@
   },
   {
     "id": 41,
+    "speciesId": 41,
     "name": "Zubat",
     "height": 8,
     "weight": 75,
@@ -2287,6 +2328,7 @@
   },
   {
     "id": 42,
+    "speciesId": 42,
     "name": "Golbat",
     "height": 16,
     "weight": 550,
@@ -2345,6 +2387,7 @@
   },
   {
     "id": 43,
+    "speciesId": 43,
     "name": "Oddish",
     "height": 5,
     "weight": 54,
@@ -2403,6 +2446,7 @@
   },
   {
     "id": 44,
+    "speciesId": 44,
     "name": "Gloom",
     "height": 8,
     "weight": 86,
@@ -2461,6 +2505,7 @@
   },
   {
     "id": 45,
+    "speciesId": 45,
     "name": "Vileplume",
     "height": 12,
     "weight": 186,
@@ -2519,6 +2564,7 @@
   },
   {
     "id": 46,
+    "speciesId": 46,
     "name": "Paras",
     "height": 3,
     "weight": 54,
@@ -2577,6 +2623,7 @@
   },
   {
     "id": 47,
+    "speciesId": 47,
     "name": "Parasect",
     "height": 10,
     "weight": 295,
@@ -2635,6 +2682,7 @@
   },
   {
     "id": 48,
+    "speciesId": 48,
     "name": "Venonat",
     "height": 10,
     "weight": 300,
@@ -2693,6 +2741,7 @@
   },
   {
     "id": 49,
+    "speciesId": 49,
     "name": "Venomoth",
     "height": 15,
     "weight": 125,
@@ -2751,6 +2800,7 @@
   },
   {
     "id": 50,
+    "speciesId": 50,
     "name": "Diglett",
     "height": 2,
     "weight": 8,
@@ -2805,6 +2855,7 @@
   },
   {
     "id": 51,
+    "speciesId": 51,
     "name": "Dugtrio",
     "height": 7,
     "weight": 333,
@@ -2859,6 +2910,7 @@
   },
   {
     "id": 52,
+    "speciesId": 52,
     "name": "Meowth",
     "height": 4,
     "weight": 42,
@@ -2913,6 +2965,7 @@
   },
   {
     "id": 53,
+    "speciesId": 53,
     "name": "Persian",
     "height": 10,
     "weight": 320,
@@ -2967,6 +3020,7 @@
   },
   {
     "id": 54,
+    "speciesId": 54,
     "name": "Psyduck",
     "height": 8,
     "weight": 196,
@@ -3021,6 +3075,7 @@
   },
   {
     "id": 55,
+    "speciesId": 55,
     "name": "Golduck",
     "height": 17,
     "weight": 766,
@@ -3075,6 +3130,7 @@
   },
   {
     "id": 56,
+    "speciesId": 56,
     "name": "Mankey",
     "height": 5,
     "weight": 280,
@@ -3129,6 +3185,7 @@
   },
   {
     "id": 57,
+    "speciesId": 57,
     "name": "Primeape",
     "height": 10,
     "weight": 320,
@@ -3183,6 +3240,7 @@
   },
   {
     "id": 58,
+    "speciesId": 58,
     "name": "Growlithe",
     "height": 7,
     "weight": 190,
@@ -3237,6 +3295,7 @@
   },
   {
     "id": 59,
+    "speciesId": 59,
     "name": "Arcanine",
     "height": 19,
     "weight": 1550,
@@ -3291,6 +3350,7 @@
   },
   {
     "id": 60,
+    "speciesId": 60,
     "name": "Poliwag",
     "height": 6,
     "weight": 124,
@@ -3345,6 +3405,7 @@
   },
   {
     "id": 61,
+    "speciesId": 61,
     "name": "Poliwhirl",
     "height": 10,
     "weight": 200,
@@ -3399,6 +3460,7 @@
   },
   {
     "id": 62,
+    "speciesId": 62,
     "name": "Poliwrath",
     "height": 13,
     "weight": 540,
@@ -3457,6 +3519,7 @@
   },
   {
     "id": 63,
+    "speciesId": 63,
     "name": "Abra",
     "height": 9,
     "weight": 195,
@@ -3511,6 +3574,7 @@
   },
   {
     "id": 64,
+    "speciesId": 64,
     "name": "Kadabra",
     "height": 13,
     "weight": 565,
@@ -3565,6 +3629,7 @@
   },
   {
     "id": 65,
+    "speciesId": 65,
     "name": "Alakazam",
     "height": 15,
     "weight": 480,
@@ -3619,6 +3684,7 @@
   },
   {
     "id": 66,
+    "speciesId": 66,
     "name": "Machop",
     "height": 8,
     "weight": 195,
@@ -3673,6 +3739,7 @@
   },
   {
     "id": 67,
+    "speciesId": 67,
     "name": "Machoke",
     "height": 15,
     "weight": 705,
@@ -3727,6 +3794,7 @@
   },
   {
     "id": 68,
+    "speciesId": 68,
     "name": "Machamp",
     "height": 16,
     "weight": 1300,
@@ -3781,6 +3849,7 @@
   },
   {
     "id": 69,
+    "speciesId": 69,
     "name": "Bellsprout",
     "height": 7,
     "weight": 40,
@@ -3839,6 +3908,7 @@
   },
   {
     "id": 70,
+    "speciesId": 70,
     "name": "Weepinbell",
     "height": 10,
     "weight": 64,
@@ -3897,6 +3967,7 @@
   },
   {
     "id": 71,
+    "speciesId": 71,
     "name": "Victreebel",
     "height": 17,
     "weight": 155,
@@ -3955,6 +4026,7 @@
   },
   {
     "id": 72,
+    "speciesId": 72,
     "name": "Tentacool",
     "height": 9,
     "weight": 455,
@@ -4013,6 +4085,7 @@
   },
   {
     "id": 73,
+    "speciesId": 73,
     "name": "Tentacruel",
     "height": 16,
     "weight": 550,
@@ -4071,6 +4144,7 @@
   },
   {
     "id": 74,
+    "speciesId": 74,
     "name": "Geodude",
     "height": 4,
     "weight": 200,
@@ -4129,6 +4203,7 @@
   },
   {
     "id": 75,
+    "speciesId": 75,
     "name": "Graveler",
     "height": 10,
     "weight": 1050,
@@ -4187,6 +4262,7 @@
   },
   {
     "id": 76,
+    "speciesId": 76,
     "name": "Golem",
     "height": 14,
     "weight": 3000,
@@ -4245,6 +4321,7 @@
   },
   {
     "id": 77,
+    "speciesId": 77,
     "name": "Ponyta",
     "height": 10,
     "weight": 300,
@@ -4299,6 +4376,7 @@
   },
   {
     "id": 78,
+    "speciesId": 78,
     "name": "Rapidash",
     "height": 17,
     "weight": 950,
@@ -4353,6 +4431,7 @@
   },
   {
     "id": 79,
+    "speciesId": 79,
     "name": "Slowpoke",
     "height": 12,
     "weight": 360,
@@ -4411,6 +4490,7 @@
   },
   {
     "id": 80,
+    "speciesId": 80,
     "name": "Slowbro",
     "height": 16,
     "weight": 785,
@@ -4469,6 +4549,7 @@
   },
   {
     "id": 81,
+    "speciesId": 81,
     "name": "Magnemite",
     "height": 3,
     "weight": 60,
@@ -4527,6 +4608,7 @@
   },
   {
     "id": 82,
+    "speciesId": 82,
     "name": "Magneton",
     "height": 10,
     "weight": 600,
@@ -4585,6 +4667,7 @@
   },
   {
     "id": 83,
+    "speciesId": 83,
     "name": "Farfetchd",
     "height": 8,
     "weight": 150,
@@ -4643,6 +4726,7 @@
   },
   {
     "id": 84,
+    "speciesId": 84,
     "name": "Doduo",
     "height": 14,
     "weight": 392,
@@ -4701,6 +4785,7 @@
   },
   {
     "id": 85,
+    "speciesId": 85,
     "name": "Dodrio",
     "height": 18,
     "weight": 852,
@@ -4759,6 +4844,7 @@
   },
   {
     "id": 86,
+    "speciesId": 86,
     "name": "Seel",
     "height": 11,
     "weight": 900,
@@ -4813,6 +4899,7 @@
   },
   {
     "id": 87,
+    "speciesId": 87,
     "name": "Dewgong",
     "height": 17,
     "weight": 1200,
@@ -4871,6 +4958,7 @@
   },
   {
     "id": 88,
+    "speciesId": 88,
     "name": "Grimer",
     "height": 9,
     "weight": 300,
@@ -4925,6 +5013,7 @@
   },
   {
     "id": 89,
+    "speciesId": 89,
     "name": "Muk",
     "height": 12,
     "weight": 300,
@@ -4979,6 +5068,7 @@
   },
   {
     "id": 90,
+    "speciesId": 90,
     "name": "Shellder",
     "height": 3,
     "weight": 40,
@@ -5033,6 +5123,7 @@
   },
   {
     "id": 91,
+    "speciesId": 91,
     "name": "Cloyster",
     "height": 15,
     "weight": 1325,
@@ -5091,6 +5182,7 @@
   },
   {
     "id": 92,
+    "speciesId": 92,
     "name": "Gastly",
     "height": 13,
     "weight": 1,
@@ -5149,6 +5241,7 @@
   },
   {
     "id": 93,
+    "speciesId": 93,
     "name": "Haunter",
     "height": 16,
     "weight": 1,
@@ -5207,6 +5300,7 @@
   },
   {
     "id": 94,
+    "speciesId": 94,
     "name": "Gengar",
     "height": 15,
     "weight": 405,
@@ -5265,6 +5359,7 @@
   },
   {
     "id": 95,
+    "speciesId": 95,
     "name": "Onix",
     "height": 88,
     "weight": 2100,
@@ -5323,6 +5418,7 @@
   },
   {
     "id": 96,
+    "speciesId": 96,
     "name": "Drowzee",
     "height": 10,
     "weight": 324,
@@ -5377,6 +5473,7 @@
   },
   {
     "id": 97,
+    "speciesId": 97,
     "name": "Hypno",
     "height": 16,
     "weight": 756,
@@ -5431,6 +5528,7 @@
   },
   {
     "id": 98,
+    "speciesId": 98,
     "name": "Krabby",
     "height": 4,
     "weight": 65,
@@ -5485,6 +5583,7 @@
   },
   {
     "id": 99,
+    "speciesId": 99,
     "name": "Kingler",
     "height": 13,
     "weight": 600,
@@ -5539,6 +5638,7 @@
   },
   {
     "id": 100,
+    "speciesId": 100,
     "name": "Voltorb",
     "height": 5,
     "weight": 104,
@@ -5593,6 +5693,7 @@
   },
   {
     "id": 101,
+    "speciesId": 101,
     "name": "Electrode",
     "height": 12,
     "weight": 666,
@@ -5647,6 +5748,7 @@
   },
   {
     "id": 102,
+    "speciesId": 102,
     "name": "Exeggcute",
     "height": 4,
     "weight": 25,
@@ -5705,6 +5807,7 @@
   },
   {
     "id": 103,
+    "speciesId": 103,
     "name": "Exeggutor",
     "height": 20,
     "weight": 1200,
@@ -5763,6 +5866,7 @@
   },
   {
     "id": 104,
+    "speciesId": 104,
     "name": "Cubone",
     "height": 4,
     "weight": 65,
@@ -5817,6 +5921,7 @@
   },
   {
     "id": 105,
+    "speciesId": 105,
     "name": "Marowak",
     "height": 10,
     "weight": 450,
@@ -5871,6 +5976,7 @@
   },
   {
     "id": 106,
+    "speciesId": 106,
     "name": "Hitmonlee",
     "height": 15,
     "weight": 498,
@@ -5925,6 +6031,7 @@
   },
   {
     "id": 107,
+    "speciesId": 107,
     "name": "Hitmonchan",
     "height": 14,
     "weight": 502,
@@ -5979,6 +6086,7 @@
   },
   {
     "id": 108,
+    "speciesId": 108,
     "name": "Lickitung",
     "height": 12,
     "weight": 655,
@@ -6033,6 +6141,7 @@
   },
   {
     "id": 109,
+    "speciesId": 109,
     "name": "Koffing",
     "height": 6,
     "weight": 10,
@@ -6087,6 +6196,7 @@
   },
   {
     "id": 110,
+    "speciesId": 110,
     "name": "Weezing",
     "height": 12,
     "weight": 95,
@@ -6141,6 +6251,7 @@
   },
   {
     "id": 111,
+    "speciesId": 111,
     "name": "Rhyhorn",
     "height": 10,
     "weight": 1150,
@@ -6199,6 +6310,7 @@
   },
   {
     "id": 112,
+    "speciesId": 112,
     "name": "Rhydon",
     "height": 19,
     "weight": 1200,
@@ -6257,6 +6369,7 @@
   },
   {
     "id": 113,
+    "speciesId": 113,
     "name": "Chansey",
     "height": 11,
     "weight": 346,
@@ -6311,6 +6424,7 @@
   },
   {
     "id": 114,
+    "speciesId": 114,
     "name": "Tangela",
     "height": 10,
     "weight": 350,
@@ -6365,6 +6479,7 @@
   },
   {
     "id": 115,
+    "speciesId": 115,
     "name": "Kangaskhan",
     "height": 22,
     "weight": 800,
@@ -6419,6 +6534,7 @@
   },
   {
     "id": 116,
+    "speciesId": 116,
     "name": "Horsea",
     "height": 4,
     "weight": 80,
@@ -6473,6 +6589,7 @@
   },
   {
     "id": 117,
+    "speciesId": 117,
     "name": "Seadra",
     "height": 12,
     "weight": 250,
@@ -6527,6 +6644,7 @@
   },
   {
     "id": 118,
+    "speciesId": 118,
     "name": "Goldeen",
     "height": 6,
     "weight": 150,
@@ -6581,6 +6699,7 @@
   },
   {
     "id": 119,
+    "speciesId": 119,
     "name": "Seaking",
     "height": 13,
     "weight": 390,
@@ -6635,6 +6754,7 @@
   },
   {
     "id": 120,
+    "speciesId": 120,
     "name": "Staryu",
     "height": 8,
     "weight": 345,
@@ -6689,6 +6809,7 @@
   },
   {
     "id": 121,
+    "speciesId": 121,
     "name": "Starmie",
     "height": 11,
     "weight": 800,
@@ -6747,6 +6868,7 @@
   },
   {
     "id": 122,
+    "speciesId": 122,
     "name": "Mr-mime",
     "height": 13,
     "weight": 545,
@@ -6805,6 +6927,7 @@
   },
   {
     "id": 123,
+    "speciesId": 123,
     "name": "Scyther",
     "height": 15,
     "weight": 560,
@@ -6863,6 +6986,7 @@
   },
   {
     "id": 124,
+    "speciesId": 124,
     "name": "Jynx",
     "height": 14,
     "weight": 406,
@@ -6921,6 +7045,7 @@
   },
   {
     "id": 125,
+    "speciesId": 125,
     "name": "Electabuzz",
     "height": 11,
     "weight": 300,
@@ -6975,6 +7100,7 @@
   },
   {
     "id": 126,
+    "speciesId": 126,
     "name": "Magmar",
     "height": 13,
     "weight": 445,
@@ -7029,6 +7155,7 @@
   },
   {
     "id": 127,
+    "speciesId": 127,
     "name": "Pinsir",
     "height": 15,
     "weight": 550,
@@ -7083,6 +7210,7 @@
   },
   {
     "id": 128,
+    "speciesId": 128,
     "name": "Tauros",
     "height": 14,
     "weight": 884,
@@ -7137,6 +7265,7 @@
   },
   {
     "id": 129,
+    "speciesId": 129,
     "name": "Magikarp",
     "height": 9,
     "weight": 100,
@@ -7191,6 +7320,7 @@
   },
   {
     "id": 130,
+    "speciesId": 130,
     "name": "Gyarados",
     "height": 65,
     "weight": 2350,
@@ -7249,6 +7379,7 @@
   },
   {
     "id": 131,
+    "speciesId": 131,
     "name": "Lapras",
     "height": 25,
     "weight": 2200,
@@ -7307,6 +7438,7 @@
   },
   {
     "id": 132,
+    "speciesId": 132,
     "name": "Ditto",
     "height": 3,
     "weight": 40,
@@ -7361,6 +7493,7 @@
   },
   {
     "id": 133,
+    "speciesId": 133,
     "name": "Eevee",
     "height": 3,
     "weight": 65,
@@ -7415,6 +7548,7 @@
   },
   {
     "id": 134,
+    "speciesId": 134,
     "name": "Vaporeon",
     "height": 10,
     "weight": 290,
@@ -7469,6 +7603,7 @@
   },
   {
     "id": 135,
+    "speciesId": 135,
     "name": "Jolteon",
     "height": 8,
     "weight": 245,
@@ -7523,6 +7658,7 @@
   },
   {
     "id": 136,
+    "speciesId": 136,
     "name": "Flareon",
     "height": 9,
     "weight": 250,
@@ -7577,6 +7713,7 @@
   },
   {
     "id": 137,
+    "speciesId": 137,
     "name": "Porygon",
     "height": 8,
     "weight": 365,
@@ -7631,6 +7768,7 @@
   },
   {
     "id": 138,
+    "speciesId": 138,
     "name": "Omanyte",
     "height": 4,
     "weight": 75,
@@ -7689,6 +7827,7 @@
   },
   {
     "id": 139,
+    "speciesId": 139,
     "name": "Omastar",
     "height": 10,
     "weight": 350,
@@ -7747,6 +7886,7 @@
   },
   {
     "id": 140,
+    "speciesId": 140,
     "name": "Kabuto",
     "height": 5,
     "weight": 115,
@@ -7805,6 +7945,7 @@
   },
   {
     "id": 141,
+    "speciesId": 141,
     "name": "Kabutops",
     "height": 13,
     "weight": 405,
@@ -7863,6 +8004,7 @@
   },
   {
     "id": 142,
+    "speciesId": 142,
     "name": "Aerodactyl",
     "height": 18,
     "weight": 590,
@@ -7921,6 +8063,7 @@
   },
   {
     "id": 143,
+    "speciesId": 143,
     "name": "Snorlax",
     "height": 21,
     "weight": 4600,
@@ -7975,6 +8118,7 @@
   },
   {
     "id": 144,
+    "speciesId": 144,
     "name": "Articuno",
     "height": 17,
     "weight": 554,
@@ -8033,6 +8177,7 @@
   },
   {
     "id": 145,
+    "speciesId": 145,
     "name": "Zapdos",
     "height": 16,
     "weight": 526,
@@ -8091,6 +8236,7 @@
   },
   {
     "id": 146,
+    "speciesId": 146,
     "name": "Moltres",
     "height": 20,
     "weight": 600,
@@ -8149,6 +8295,7 @@
   },
   {
     "id": 147,
+    "speciesId": 147,
     "name": "Dratini",
     "height": 18,
     "weight": 33,
@@ -8203,6 +8350,7 @@
   },
   {
     "id": 148,
+    "speciesId": 148,
     "name": "Dragonair",
     "height": 40,
     "weight": 165,
@@ -8257,6 +8405,7 @@
   },
   {
     "id": 149,
+    "speciesId": 149,
     "name": "Dragonite",
     "height": 22,
     "weight": 2100,
@@ -8315,6 +8464,7 @@
   },
   {
     "id": 150,
+    "speciesId": 150,
     "name": "Mewtwo",
     "height": 20,
     "weight": 1220,
@@ -8369,6 +8519,7 @@
   },
   {
     "id": 151,
+    "speciesId": 151,
     "name": "Mew",
     "height": 4,
     "weight": 40,
@@ -8423,6 +8574,7 @@
   },
   {
     "id": 152,
+    "speciesId": 152,
     "name": "Chikorita",
     "height": 9,
     "weight": 64,
@@ -8477,6 +8629,7 @@
   },
   {
     "id": 153,
+    "speciesId": 153,
     "name": "Bayleef",
     "height": 12,
     "weight": 158,
@@ -8531,6 +8684,7 @@
   },
   {
     "id": 154,
+    "speciesId": 154,
     "name": "Meganium",
     "height": 18,
     "weight": 1005,
@@ -8585,6 +8739,7 @@
   },
   {
     "id": 155,
+    "speciesId": 155,
     "name": "Cyndaquil",
     "height": 5,
     "weight": 79,
@@ -8639,6 +8794,7 @@
   },
   {
     "id": 156,
+    "speciesId": 156,
     "name": "Quilava",
     "height": 9,
     "weight": 190,
@@ -8693,6 +8849,7 @@
   },
   {
     "id": 157,
+    "speciesId": 157,
     "name": "Typhlosion",
     "height": 17,
     "weight": 795,
@@ -8747,6 +8904,7 @@
   },
   {
     "id": 158,
+    "speciesId": 158,
     "name": "Totodile",
     "height": 6,
     "weight": 95,
@@ -8801,6 +8959,7 @@
   },
   {
     "id": 159,
+    "speciesId": 159,
     "name": "Croconaw",
     "height": 11,
     "weight": 250,
@@ -8855,6 +9014,7 @@
   },
   {
     "id": 160,
+    "speciesId": 160,
     "name": "Feraligatr",
     "height": 23,
     "weight": 888,
@@ -8909,6 +9069,7 @@
   },
   {
     "id": 161,
+    "speciesId": 161,
     "name": "Sentret",
     "height": 8,
     "weight": 60,
@@ -8963,6 +9124,7 @@
   },
   {
     "id": 162,
+    "speciesId": 162,
     "name": "Furret",
     "height": 18,
     "weight": 325,
@@ -9017,6 +9179,7 @@
   },
   {
     "id": 163,
+    "speciesId": 163,
     "name": "Hoothoot",
     "height": 7,
     "weight": 212,
@@ -9075,6 +9238,7 @@
   },
   {
     "id": 164,
+    "speciesId": 164,
     "name": "Noctowl",
     "height": 16,
     "weight": 408,
@@ -9133,6 +9297,7 @@
   },
   {
     "id": 165,
+    "speciesId": 165,
     "name": "Ledyba",
     "height": 10,
     "weight": 108,
@@ -9191,6 +9356,7 @@
   },
   {
     "id": 166,
+    "speciesId": 166,
     "name": "Ledian",
     "height": 14,
     "weight": 356,
@@ -9249,6 +9415,7 @@
   },
   {
     "id": 167,
+    "speciesId": 167,
     "name": "Spinarak",
     "height": 5,
     "weight": 85,
@@ -9307,6 +9474,7 @@
   },
   {
     "id": 168,
+    "speciesId": 168,
     "name": "Ariados",
     "height": 11,
     "weight": 335,
@@ -9365,6 +9533,7 @@
   },
   {
     "id": 169,
+    "speciesId": 169,
     "name": "Crobat",
     "height": 18,
     "weight": 750,
@@ -9423,6 +9592,7 @@
   },
   {
     "id": 170,
+    "speciesId": 170,
     "name": "Chinchou",
     "height": 5,
     "weight": 120,
@@ -9481,6 +9651,7 @@
   },
   {
     "id": 171,
+    "speciesId": 171,
     "name": "Lanturn",
     "height": 12,
     "weight": 225,
@@ -9539,6 +9710,7 @@
   },
   {
     "id": 172,
+    "speciesId": 172,
     "name": "Pichu",
     "height": 3,
     "weight": 20,
@@ -9593,6 +9765,7 @@
   },
   {
     "id": 173,
+    "speciesId": 173,
     "name": "Cleffa",
     "height": 3,
     "weight": 30,
@@ -9647,6 +9820,7 @@
   },
   {
     "id": 174,
+    "speciesId": 174,
     "name": "Igglybuff",
     "height": 3,
     "weight": 10,
@@ -9705,6 +9879,7 @@
   },
   {
     "id": 175,
+    "speciesId": 175,
     "name": "Togepi",
     "height": 3,
     "weight": 15,
@@ -9759,6 +9934,7 @@
   },
   {
     "id": 176,
+    "speciesId": 176,
     "name": "Togetic",
     "height": 6,
     "weight": 32,
@@ -9817,6 +9993,7 @@
   },
   {
     "id": 177,
+    "speciesId": 177,
     "name": "Natu",
     "height": 2,
     "weight": 20,
@@ -9875,6 +10052,7 @@
   },
   {
     "id": 178,
+    "speciesId": 178,
     "name": "Xatu",
     "height": 15,
     "weight": 150,
@@ -9933,6 +10111,7 @@
   },
   {
     "id": 179,
+    "speciesId": 179,
     "name": "Mareep",
     "height": 6,
     "weight": 78,
@@ -9987,6 +10166,7 @@
   },
   {
     "id": 180,
+    "speciesId": 180,
     "name": "Flaaffy",
     "height": 8,
     "weight": 133,
@@ -10041,6 +10221,7 @@
   },
   {
     "id": 181,
+    "speciesId": 181,
     "name": "Ampharos",
     "height": 14,
     "weight": 615,
@@ -10095,6 +10276,7 @@
   },
   {
     "id": 182,
+    "speciesId": 182,
     "name": "Bellossom",
     "height": 4,
     "weight": 58,
@@ -10149,6 +10331,7 @@
   },
   {
     "id": 183,
+    "speciesId": 183,
     "name": "Marill",
     "height": 4,
     "weight": 85,
@@ -10207,6 +10390,7 @@
   },
   {
     "id": 184,
+    "speciesId": 184,
     "name": "Azumarill",
     "height": 8,
     "weight": 285,
@@ -10265,6 +10449,7 @@
   },
   {
     "id": 185,
+    "speciesId": 185,
     "name": "Sudowoodo",
     "height": 12,
     "weight": 380,
@@ -10319,6 +10504,7 @@
   },
   {
     "id": 186,
+    "speciesId": 186,
     "name": "Politoed",
     "height": 11,
     "weight": 339,
@@ -10373,6 +10559,7 @@
   },
   {
     "id": 187,
+    "speciesId": 187,
     "name": "Hoppip",
     "height": 4,
     "weight": 5,
@@ -10431,6 +10618,7 @@
   },
   {
     "id": 188,
+    "speciesId": 188,
     "name": "Skiploom",
     "height": 6,
     "weight": 10,
@@ -10489,6 +10677,7 @@
   },
   {
     "id": 189,
+    "speciesId": 189,
     "name": "Jumpluff",
     "height": 8,
     "weight": 30,
@@ -10547,6 +10736,7 @@
   },
   {
     "id": 190,
+    "speciesId": 190,
     "name": "Aipom",
     "height": 8,
     "weight": 115,
@@ -10601,6 +10791,7 @@
   },
   {
     "id": 191,
+    "speciesId": 191,
     "name": "Sunkern",
     "height": 3,
     "weight": 18,
@@ -10655,6 +10846,7 @@
   },
   {
     "id": 192,
+    "speciesId": 192,
     "name": "Sunflora",
     "height": 8,
     "weight": 85,
@@ -10709,6 +10901,7 @@
   },
   {
     "id": 193,
+    "speciesId": 193,
     "name": "Yanma",
     "height": 12,
     "weight": 380,
@@ -10767,6 +10960,7 @@
   },
   {
     "id": 194,
+    "speciesId": 194,
     "name": "Wooper",
     "height": 4,
     "weight": 85,
@@ -10825,6 +11019,7 @@
   },
   {
     "id": 195,
+    "speciesId": 195,
     "name": "Quagsire",
     "height": 14,
     "weight": 750,
@@ -10883,6 +11078,7 @@
   },
   {
     "id": 196,
+    "speciesId": 196,
     "name": "Espeon",
     "height": 9,
     "weight": 265,
@@ -10937,6 +11133,7 @@
   },
   {
     "id": 197,
+    "speciesId": 197,
     "name": "Umbreon",
     "height": 10,
     "weight": 270,
@@ -10991,6 +11188,7 @@
   },
   {
     "id": 198,
+    "speciesId": 198,
     "name": "Murkrow",
     "height": 5,
     "weight": 21,
@@ -11049,6 +11247,7 @@
   },
   {
     "id": 199,
+    "speciesId": 199,
     "name": "Slowking",
     "height": 20,
     "weight": 795,
@@ -11107,6 +11306,7 @@
   },
   {
     "id": 200,
+    "speciesId": 200,
     "name": "Misdreavus",
     "height": 7,
     "weight": 10,
@@ -11161,6 +11361,7 @@
   },
   {
     "id": 201,
+    "speciesId": 201,
     "name": "Unown",
     "height": 5,
     "weight": 50,
@@ -11215,6 +11416,7 @@
   },
   {
     "id": 202,
+    "speciesId": 202,
     "name": "Wobbuffet",
     "height": 13,
     "weight": 285,
@@ -11269,6 +11471,7 @@
   },
   {
     "id": 203,
+    "speciesId": 203,
     "name": "Girafarig",
     "height": 15,
     "weight": 415,
@@ -11327,6 +11530,7 @@
   },
   {
     "id": 204,
+    "speciesId": 204,
     "name": "Pineco",
     "height": 6,
     "weight": 72,
@@ -11381,6 +11585,7 @@
   },
   {
     "id": 205,
+    "speciesId": 205,
     "name": "Forretress",
     "height": 12,
     "weight": 1258,
@@ -11439,6 +11644,7 @@
   },
   {
     "id": 206,
+    "speciesId": 206,
     "name": "Dunsparce",
     "height": 15,
     "weight": 140,
@@ -11493,6 +11699,7 @@
   },
   {
     "id": 207,
+    "speciesId": 207,
     "name": "Gligar",
     "height": 11,
     "weight": 648,
@@ -11551,6 +11758,7 @@
   },
   {
     "id": 208,
+    "speciesId": 208,
     "name": "Steelix",
     "height": 92,
     "weight": 4000,
@@ -11609,6 +11817,7 @@
   },
   {
     "id": 209,
+    "speciesId": 209,
     "name": "Snubbull",
     "height": 6,
     "weight": 78,
@@ -11663,6 +11872,7 @@
   },
   {
     "id": 210,
+    "speciesId": 210,
     "name": "Granbull",
     "height": 14,
     "weight": 487,
@@ -11717,6 +11927,7 @@
   },
   {
     "id": 211,
+    "speciesId": 211,
     "name": "Qwilfish",
     "height": 5,
     "weight": 39,
@@ -11775,6 +11986,7 @@
   },
   {
     "id": 212,
+    "speciesId": 212,
     "name": "Scizor",
     "height": 18,
     "weight": 1180,
@@ -11833,6 +12045,7 @@
   },
   {
     "id": 213,
+    "speciesId": 213,
     "name": "Shuckle",
     "height": 6,
     "weight": 205,
@@ -11891,6 +12104,7 @@
   },
   {
     "id": 214,
+    "speciesId": 214,
     "name": "Heracross",
     "height": 15,
     "weight": 540,
@@ -11949,6 +12163,7 @@
   },
   {
     "id": 215,
+    "speciesId": 215,
     "name": "Sneasel",
     "height": 9,
     "weight": 280,
@@ -12007,6 +12222,7 @@
   },
   {
     "id": 216,
+    "speciesId": 216,
     "name": "Teddiursa",
     "height": 6,
     "weight": 88,
@@ -12061,6 +12277,7 @@
   },
   {
     "id": 217,
+    "speciesId": 217,
     "name": "Ursaring",
     "height": 18,
     "weight": 1258,
@@ -12115,6 +12332,7 @@
   },
   {
     "id": 218,
+    "speciesId": 218,
     "name": "Slugma",
     "height": 7,
     "weight": 350,
@@ -12169,6 +12387,7 @@
   },
   {
     "id": 219,
+    "speciesId": 219,
     "name": "Magcargo",
     "height": 8,
     "weight": 550,
@@ -12227,6 +12446,7 @@
   },
   {
     "id": 220,
+    "speciesId": 220,
     "name": "Swinub",
     "height": 4,
     "weight": 65,
@@ -12285,6 +12505,7 @@
   },
   {
     "id": 221,
+    "speciesId": 221,
     "name": "Piloswine",
     "height": 11,
     "weight": 558,
@@ -12343,6 +12564,7 @@
   },
   {
     "id": 222,
+    "speciesId": 222,
     "name": "Corsola",
     "height": 6,
     "weight": 50,
@@ -12401,6 +12623,7 @@
   },
   {
     "id": 223,
+    "speciesId": 223,
     "name": "Remoraid",
     "height": 6,
     "weight": 120,
@@ -12455,6 +12678,7 @@
   },
   {
     "id": 224,
+    "speciesId": 224,
     "name": "Octillery",
     "height": 9,
     "weight": 285,
@@ -12509,6 +12733,7 @@
   },
   {
     "id": 225,
+    "speciesId": 225,
     "name": "Delibird",
     "height": 9,
     "weight": 160,
@@ -12567,6 +12792,7 @@
   },
   {
     "id": 226,
+    "speciesId": 226,
     "name": "Mantine",
     "height": 21,
     "weight": 2200,
@@ -12625,6 +12851,7 @@
   },
   {
     "id": 227,
+    "speciesId": 227,
     "name": "Skarmory",
     "height": 17,
     "weight": 505,
@@ -12683,6 +12910,7 @@
   },
   {
     "id": 228,
+    "speciesId": 228,
     "name": "Houndour",
     "height": 6,
     "weight": 108,
@@ -12741,6 +12969,7 @@
   },
   {
     "id": 229,
+    "speciesId": 229,
     "name": "Houndoom",
     "height": 14,
     "weight": 350,
@@ -12799,6 +13028,7 @@
   },
   {
     "id": 230,
+    "speciesId": 230,
     "name": "Kingdra",
     "height": 18,
     "weight": 1520,
@@ -12857,6 +13087,7 @@
   },
   {
     "id": 231,
+    "speciesId": 231,
     "name": "Phanpy",
     "height": 5,
     "weight": 335,
@@ -12911,6 +13142,7 @@
   },
   {
     "id": 232,
+    "speciesId": 232,
     "name": "Donphan",
     "height": 11,
     "weight": 1200,
@@ -12965,6 +13197,7 @@
   },
   {
     "id": 233,
+    "speciesId": 233,
     "name": "Porygon2",
     "height": 6,
     "weight": 325,
@@ -13019,6 +13252,7 @@
   },
   {
     "id": 234,
+    "speciesId": 234,
     "name": "Stantler",
     "height": 14,
     "weight": 712,
@@ -13073,6 +13307,7 @@
   },
   {
     "id": 235,
+    "speciesId": 235,
     "name": "Smeargle",
     "height": 12,
     "weight": 580,
@@ -13127,6 +13362,7 @@
   },
   {
     "id": 236,
+    "speciesId": 236,
     "name": "Tyrogue",
     "height": 7,
     "weight": 210,
@@ -13181,6 +13417,7 @@
   },
   {
     "id": 237,
+    "speciesId": 237,
     "name": "Hitmontop",
     "height": 14,
     "weight": 480,
@@ -13235,6 +13472,7 @@
   },
   {
     "id": 238,
+    "speciesId": 238,
     "name": "Smoochum",
     "height": 4,
     "weight": 60,
@@ -13293,6 +13531,7 @@
   },
   {
     "id": 239,
+    "speciesId": 239,
     "name": "Elekid",
     "height": 6,
     "weight": 235,
@@ -13347,6 +13586,7 @@
   },
   {
     "id": 240,
+    "speciesId": 240,
     "name": "Magby",
     "height": 7,
     "weight": 214,
@@ -13401,6 +13641,7 @@
   },
   {
     "id": 241,
+    "speciesId": 241,
     "name": "Miltank",
     "height": 12,
     "weight": 755,
@@ -13455,6 +13696,7 @@
   },
   {
     "id": 242,
+    "speciesId": 242,
     "name": "Blissey",
     "height": 15,
     "weight": 468,
@@ -13509,6 +13751,7 @@
   },
   {
     "id": 243,
+    "speciesId": 243,
     "name": "Raikou",
     "height": 19,
     "weight": 1780,
@@ -13563,6 +13806,7 @@
   },
   {
     "id": 244,
+    "speciesId": 244,
     "name": "Entei",
     "height": 21,
     "weight": 1980,
@@ -13617,6 +13861,7 @@
   },
   {
     "id": 245,
+    "speciesId": 245,
     "name": "Suicune",
     "height": 20,
     "weight": 1870,
@@ -13671,6 +13916,7 @@
   },
   {
     "id": 246,
+    "speciesId": 246,
     "name": "Larvitar",
     "height": 6,
     "weight": 720,
@@ -13729,6 +13975,7 @@
   },
   {
     "id": 247,
+    "speciesId": 247,
     "name": "Pupitar",
     "height": 12,
     "weight": 1520,
@@ -13787,6 +14034,7 @@
   },
   {
     "id": 248,
+    "speciesId": 248,
     "name": "Tyranitar",
     "height": 20,
     "weight": 2020,
@@ -13845,6 +14093,7 @@
   },
   {
     "id": 249,
+    "speciesId": 249,
     "name": "Lugia",
     "height": 52,
     "weight": 2160,
@@ -13903,6 +14152,7 @@
   },
   {
     "id": 250,
+    "speciesId": 250,
     "name": "Ho-oh",
     "height": 38,
     "weight": 1990,
@@ -13961,6 +14211,7 @@
   },
   {
     "id": 251,
+    "speciesId": 251,
     "name": "Celebi",
     "height": 6,
     "weight": 50,
@@ -14019,6 +14270,7 @@
   },
   {
     "id": 252,
+    "speciesId": 252,
     "name": "Treecko",
     "height": 5,
     "weight": 50,
@@ -14073,6 +14325,7 @@
   },
   {
     "id": 253,
+    "speciesId": 253,
     "name": "Grovyle",
     "height": 9,
     "weight": 216,
@@ -14127,6 +14380,7 @@
   },
   {
     "id": 254,
+    "speciesId": 254,
     "name": "Sceptile",
     "height": 17,
     "weight": 522,
@@ -14181,6 +14435,7 @@
   },
   {
     "id": 255,
+    "speciesId": 255,
     "name": "Torchic",
     "height": 4,
     "weight": 25,
@@ -14235,6 +14490,7 @@
   },
   {
     "id": 256,
+    "speciesId": 256,
     "name": "Combusken",
     "height": 9,
     "weight": 195,
@@ -14293,6 +14549,7 @@
   },
   {
     "id": 257,
+    "speciesId": 257,
     "name": "Blaziken",
     "height": 19,
     "weight": 520,
@@ -14351,6 +14608,7 @@
   },
   {
     "id": 258,
+    "speciesId": 258,
     "name": "Mudkip",
     "height": 4,
     "weight": 76,
@@ -14405,6 +14663,7 @@
   },
   {
     "id": 259,
+    "speciesId": 259,
     "name": "Marshtomp",
     "height": 7,
     "weight": 280,
@@ -14463,6 +14722,7 @@
   },
   {
     "id": 260,
+    "speciesId": 260,
     "name": "Swampert",
     "height": 15,
     "weight": 819,
@@ -14521,6 +14781,7 @@
   },
   {
     "id": 261,
+    "speciesId": 261,
     "name": "Poochyena",
     "height": 5,
     "weight": 136,
@@ -14575,6 +14836,7 @@
   },
   {
     "id": 262,
+    "speciesId": 262,
     "name": "Mightyena",
     "height": 10,
     "weight": 370,
@@ -14629,6 +14891,7 @@
   },
   {
     "id": 263,
+    "speciesId": 263,
     "name": "Zigzagoon",
     "height": 4,
     "weight": 175,
@@ -14683,6 +14946,7 @@
   },
   {
     "id": 264,
+    "speciesId": 264,
     "name": "Linoone",
     "height": 5,
     "weight": 325,
@@ -14737,6 +15001,7 @@
   },
   {
     "id": 265,
+    "speciesId": 265,
     "name": "Wurmple",
     "height": 3,
     "weight": 36,
@@ -14791,6 +15056,7 @@
   },
   {
     "id": 266,
+    "speciesId": 266,
     "name": "Silcoon",
     "height": 6,
     "weight": 100,
@@ -14845,6 +15111,7 @@
   },
   {
     "id": 267,
+    "speciesId": 267,
     "name": "Beautifly",
     "height": 10,
     "weight": 284,
@@ -14903,6 +15170,7 @@
   },
   {
     "id": 268,
+    "speciesId": 268,
     "name": "Cascoon",
     "height": 7,
     "weight": 115,
@@ -14957,6 +15225,7 @@
   },
   {
     "id": 269,
+    "speciesId": 269,
     "name": "Dustox",
     "height": 12,
     "weight": 316,
@@ -15015,6 +15284,7 @@
   },
   {
     "id": 270,
+    "speciesId": 270,
     "name": "Lotad",
     "height": 5,
     "weight": 26,
@@ -15073,6 +15343,7 @@
   },
   {
     "id": 271,
+    "speciesId": 271,
     "name": "Lombre",
     "height": 12,
     "weight": 325,
@@ -15131,6 +15402,7 @@
   },
   {
     "id": 272,
+    "speciesId": 272,
     "name": "Ludicolo",
     "height": 15,
     "weight": 550,
@@ -15189,6 +15461,7 @@
   },
   {
     "id": 273,
+    "speciesId": 273,
     "name": "Seedot",
     "height": 5,
     "weight": 40,
@@ -15243,6 +15516,7 @@
   },
   {
     "id": 274,
+    "speciesId": 274,
     "name": "Nuzleaf",
     "height": 10,
     "weight": 280,
@@ -15301,6 +15575,7 @@
   },
   {
     "id": 275,
+    "speciesId": 275,
     "name": "Shiftry",
     "height": 13,
     "weight": 596,
@@ -15359,6 +15634,7 @@
   },
   {
     "id": 276,
+    "speciesId": 276,
     "name": "Taillow",
     "height": 3,
     "weight": 23,
@@ -15417,6 +15693,7 @@
   },
   {
     "id": 277,
+    "speciesId": 277,
     "name": "Swellow",
     "height": 7,
     "weight": 198,
@@ -15475,6 +15752,7 @@
   },
   {
     "id": 278,
+    "speciesId": 278,
     "name": "Wingull",
     "height": 6,
     "weight": 95,
@@ -15533,6 +15811,7 @@
   },
   {
     "id": 279,
+    "speciesId": 279,
     "name": "Pelipper",
     "height": 12,
     "weight": 280,
@@ -15591,6 +15870,7 @@
   },
   {
     "id": 280,
+    "speciesId": 280,
     "name": "Ralts",
     "height": 4,
     "weight": 66,
@@ -15649,6 +15929,7 @@
   },
   {
     "id": 281,
+    "speciesId": 281,
     "name": "Kirlia",
     "height": 8,
     "weight": 202,
@@ -15707,6 +15988,7 @@
   },
   {
     "id": 282,
+    "speciesId": 282,
     "name": "Gardevoir",
     "height": 16,
     "weight": 484,
@@ -15765,6 +16047,7 @@
   },
   {
     "id": 283,
+    "speciesId": 283,
     "name": "Surskit",
     "height": 5,
     "weight": 17,
@@ -15823,6 +16106,7 @@
   },
   {
     "id": 284,
+    "speciesId": 284,
     "name": "Masquerain",
     "height": 8,
     "weight": 36,
@@ -15881,6 +16165,7 @@
   },
   {
     "id": 285,
+    "speciesId": 285,
     "name": "Shroomish",
     "height": 4,
     "weight": 45,
@@ -15935,6 +16220,7 @@
   },
   {
     "id": 286,
+    "speciesId": 286,
     "name": "Breloom",
     "height": 12,
     "weight": 392,
@@ -15993,6 +16279,7 @@
   },
   {
     "id": 287,
+    "speciesId": 287,
     "name": "Slakoth",
     "height": 8,
     "weight": 240,
@@ -16047,6 +16334,7 @@
   },
   {
     "id": 288,
+    "speciesId": 288,
     "name": "Vigoroth",
     "height": 14,
     "weight": 465,
@@ -16101,6 +16389,7 @@
   },
   {
     "id": 289,
+    "speciesId": 289,
     "name": "Slaking",
     "height": 20,
     "weight": 1305,
@@ -16155,6 +16444,7 @@
   },
   {
     "id": 290,
+    "speciesId": 290,
     "name": "Nincada",
     "height": 5,
     "weight": 55,
@@ -16213,6 +16503,7 @@
   },
   {
     "id": 291,
+    "speciesId": 291,
     "name": "Ninjask",
     "height": 8,
     "weight": 120,
@@ -16271,6 +16562,7 @@
   },
   {
     "id": 292,
+    "speciesId": 292,
     "name": "Shedinja",
     "height": 8,
     "weight": 12,
@@ -16329,6 +16621,7 @@
   },
   {
     "id": 293,
+    "speciesId": 293,
     "name": "Whismur",
     "height": 6,
     "weight": 163,
@@ -16383,6 +16676,7 @@
   },
   {
     "id": 294,
+    "speciesId": 294,
     "name": "Loudred",
     "height": 10,
     "weight": 405,
@@ -16437,6 +16731,7 @@
   },
   {
     "id": 295,
+    "speciesId": 295,
     "name": "Exploud",
     "height": 15,
     "weight": 840,
@@ -16491,6 +16786,7 @@
   },
   {
     "id": 296,
+    "speciesId": 296,
     "name": "Makuhita",
     "height": 10,
     "weight": 864,
@@ -16545,6 +16841,7 @@
   },
   {
     "id": 297,
+    "speciesId": 297,
     "name": "Hariyama",
     "height": 23,
     "weight": 2538,
@@ -16599,6 +16896,7 @@
   },
   {
     "id": 298,
+    "speciesId": 298,
     "name": "Azurill",
     "height": 2,
     "weight": 20,
@@ -16657,6 +16955,7 @@
   },
   {
     "id": 299,
+    "speciesId": 299,
     "name": "Nosepass",
     "height": 10,
     "weight": 970,
@@ -16711,6 +17010,7 @@
   },
   {
     "id": 300,
+    "speciesId": 300,
     "name": "Skitty",
     "height": 6,
     "weight": 110,
@@ -16765,6 +17065,7 @@
   },
   {
     "id": 301,
+    "speciesId": 301,
     "name": "Delcatty",
     "height": 11,
     "weight": 326,
@@ -16819,6 +17120,7 @@
   },
   {
     "id": 302,
+    "speciesId": 302,
     "name": "Sableye",
     "height": 5,
     "weight": 110,
@@ -16877,6 +17179,7 @@
   },
   {
     "id": 303,
+    "speciesId": 303,
     "name": "Mawile",
     "height": 6,
     "weight": 115,
@@ -16935,6 +17238,7 @@
   },
   {
     "id": 304,
+    "speciesId": 304,
     "name": "Aron",
     "height": 4,
     "weight": 600,
@@ -16993,6 +17297,7 @@
   },
   {
     "id": 305,
+    "speciesId": 305,
     "name": "Lairon",
     "height": 9,
     "weight": 1200,
@@ -17051,6 +17356,7 @@
   },
   {
     "id": 306,
+    "speciesId": 306,
     "name": "Aggron",
     "height": 21,
     "weight": 3600,
@@ -17109,6 +17415,7 @@
   },
   {
     "id": 307,
+    "speciesId": 307,
     "name": "Meditite",
     "height": 6,
     "weight": 112,
@@ -17167,6 +17474,7 @@
   },
   {
     "id": 308,
+    "speciesId": 308,
     "name": "Medicham",
     "height": 13,
     "weight": 315,
@@ -17225,6 +17533,7 @@
   },
   {
     "id": 309,
+    "speciesId": 309,
     "name": "Electrike",
     "height": 6,
     "weight": 152,
@@ -17279,6 +17588,7 @@
   },
   {
     "id": 310,
+    "speciesId": 310,
     "name": "Manectric",
     "height": 15,
     "weight": 402,
@@ -17333,6 +17643,7 @@
   },
   {
     "id": 311,
+    "speciesId": 311,
     "name": "Plusle",
     "height": 4,
     "weight": 42,
@@ -17387,6 +17698,7 @@
   },
   {
     "id": 312,
+    "speciesId": 312,
     "name": "Minun",
     "height": 4,
     "weight": 42,
@@ -17441,6 +17753,7 @@
   },
   {
     "id": 313,
+    "speciesId": 313,
     "name": "Volbeat",
     "height": 7,
     "weight": 177,
@@ -17495,6 +17808,7 @@
   },
   {
     "id": 314,
+    "speciesId": 314,
     "name": "Illumise",
     "height": 6,
     "weight": 177,
@@ -17549,6 +17863,7 @@
   },
   {
     "id": 315,
+    "speciesId": 315,
     "name": "Roselia",
     "height": 3,
     "weight": 20,
@@ -17607,6 +17922,7 @@
   },
   {
     "id": 316,
+    "speciesId": 316,
     "name": "Gulpin",
     "height": 4,
     "weight": 103,
@@ -17661,6 +17977,7 @@
   },
   {
     "id": 317,
+    "speciesId": 317,
     "name": "Swalot",
     "height": 17,
     "weight": 800,
@@ -17715,6 +18032,7 @@
   },
   {
     "id": 318,
+    "speciesId": 318,
     "name": "Carvanha",
     "height": 8,
     "weight": 208,
@@ -17773,6 +18091,7 @@
   },
   {
     "id": 319,
+    "speciesId": 319,
     "name": "Sharpedo",
     "height": 18,
     "weight": 888,
@@ -17831,6 +18150,7 @@
   },
   {
     "id": 320,
+    "speciesId": 320,
     "name": "Wailmer",
     "height": 20,
     "weight": 1300,
@@ -17885,6 +18205,7 @@
   },
   {
     "id": 321,
+    "speciesId": 321,
     "name": "Wailord",
     "height": 145,
     "weight": 3980,
@@ -17939,6 +18260,7 @@
   },
   {
     "id": 322,
+    "speciesId": 322,
     "name": "Numel",
     "height": 7,
     "weight": 240,
@@ -17997,6 +18319,7 @@
   },
   {
     "id": 323,
+    "speciesId": 323,
     "name": "Camerupt",
     "height": 19,
     "weight": 2200,
@@ -18055,6 +18378,7 @@
   },
   {
     "id": 324,
+    "speciesId": 324,
     "name": "Torkoal",
     "height": 5,
     "weight": 804,
@@ -18109,6 +18433,7 @@
   },
   {
     "id": 325,
+    "speciesId": 325,
     "name": "Spoink",
     "height": 7,
     "weight": 306,
@@ -18163,6 +18488,7 @@
   },
   {
     "id": 326,
+    "speciesId": 326,
     "name": "Grumpig",
     "height": 9,
     "weight": 715,
@@ -18217,6 +18543,7 @@
   },
   {
     "id": 327,
+    "speciesId": 327,
     "name": "Spinda",
     "height": 11,
     "weight": 50,
@@ -18271,6 +18598,7 @@
   },
   {
     "id": 328,
+    "speciesId": 328,
     "name": "Trapinch",
     "height": 7,
     "weight": 150,
@@ -18325,6 +18653,7 @@
   },
   {
     "id": 329,
+    "speciesId": 329,
     "name": "Vibrava",
     "height": 11,
     "weight": 153,
@@ -18383,6 +18712,7 @@
   },
   {
     "id": 330,
+    "speciesId": 330,
     "name": "Flygon",
     "height": 20,
     "weight": 820,
@@ -18441,6 +18771,7 @@
   },
   {
     "id": 331,
+    "speciesId": 331,
     "name": "Cacnea",
     "height": 4,
     "weight": 513,
@@ -18495,6 +18826,7 @@
   },
   {
     "id": 332,
+    "speciesId": 332,
     "name": "Cacturne",
     "height": 13,
     "weight": 774,
@@ -18553,6 +18885,7 @@
   },
   {
     "id": 333,
+    "speciesId": 333,
     "name": "Swablu",
     "height": 4,
     "weight": 12,
@@ -18611,6 +18944,7 @@
   },
   {
     "id": 334,
+    "speciesId": 334,
     "name": "Altaria",
     "height": 11,
     "weight": 206,
@@ -18669,6 +19003,7 @@
   },
   {
     "id": 335,
+    "speciesId": 335,
     "name": "Zangoose",
     "height": 13,
     "weight": 403,
@@ -18723,6 +19058,7 @@
   },
   {
     "id": 336,
+    "speciesId": 336,
     "name": "Seviper",
     "height": 27,
     "weight": 525,
@@ -18777,6 +19113,7 @@
   },
   {
     "id": 337,
+    "speciesId": 337,
     "name": "Lunatone",
     "height": 10,
     "weight": 1680,
@@ -18835,6 +19172,7 @@
   },
   {
     "id": 338,
+    "speciesId": 338,
     "name": "Solrock",
     "height": 12,
     "weight": 1540,
@@ -18893,6 +19231,7 @@
   },
   {
     "id": 339,
+    "speciesId": 339,
     "name": "Barboach",
     "height": 4,
     "weight": 19,
@@ -18951,6 +19290,7 @@
   },
   {
     "id": 340,
+    "speciesId": 340,
     "name": "Whiscash",
     "height": 9,
     "weight": 236,
@@ -19009,6 +19349,7 @@
   },
   {
     "id": 341,
+    "speciesId": 341,
     "name": "Corphish",
     "height": 6,
     "weight": 115,
@@ -19063,6 +19404,7 @@
   },
   {
     "id": 342,
+    "speciesId": 342,
     "name": "Crawdaunt",
     "height": 11,
     "weight": 328,
@@ -19121,6 +19463,7 @@
   },
   {
     "id": 343,
+    "speciesId": 343,
     "name": "Baltoy",
     "height": 5,
     "weight": 215,
@@ -19179,6 +19522,7 @@
   },
   {
     "id": 344,
+    "speciesId": 344,
     "name": "Claydol",
     "height": 15,
     "weight": 1080,
@@ -19237,6 +19581,7 @@
   },
   {
     "id": 345,
+    "speciesId": 345,
     "name": "Lileep",
     "height": 10,
     "weight": 238,
@@ -19295,6 +19640,7 @@
   },
   {
     "id": 346,
+    "speciesId": 346,
     "name": "Cradily",
     "height": 15,
     "weight": 604,
@@ -19353,6 +19699,7 @@
   },
   {
     "id": 347,
+    "speciesId": 347,
     "name": "Anorith",
     "height": 7,
     "weight": 125,
@@ -19411,6 +19758,7 @@
   },
   {
     "id": 348,
+    "speciesId": 348,
     "name": "Armaldo",
     "height": 15,
     "weight": 682,
@@ -19469,6 +19817,7 @@
   },
   {
     "id": 349,
+    "speciesId": 349,
     "name": "Feebas",
     "height": 6,
     "weight": 74,
@@ -19523,6 +19872,7 @@
   },
   {
     "id": 350,
+    "speciesId": 350,
     "name": "Milotic",
     "height": 62,
     "weight": 1620,
@@ -19577,6 +19927,7 @@
   },
   {
     "id": 351,
+    "speciesId": 351,
     "name": "Castform",
     "height": 3,
     "weight": 8,
@@ -19631,6 +19982,7 @@
   },
   {
     "id": 352,
+    "speciesId": 352,
     "name": "Kecleon",
     "height": 10,
     "weight": 220,
@@ -19685,6 +20037,7 @@
   },
   {
     "id": 353,
+    "speciesId": 353,
     "name": "Shuppet",
     "height": 6,
     "weight": 23,
@@ -19739,6 +20092,7 @@
   },
   {
     "id": 354,
+    "speciesId": 354,
     "name": "Banette",
     "height": 11,
     "weight": 125,
@@ -19793,6 +20147,7 @@
   },
   {
     "id": 355,
+    "speciesId": 355,
     "name": "Duskull",
     "height": 8,
     "weight": 150,
@@ -19847,6 +20202,7 @@
   },
   {
     "id": 356,
+    "speciesId": 356,
     "name": "Dusclops",
     "height": 16,
     "weight": 306,
@@ -19901,6 +20257,7 @@
   },
   {
     "id": 357,
+    "speciesId": 357,
     "name": "Tropius",
     "height": 20,
     "weight": 1000,
@@ -19959,6 +20316,7 @@
   },
   {
     "id": 358,
+    "speciesId": 358,
     "name": "Chimecho",
     "height": 6,
     "weight": 10,
@@ -20013,6 +20371,7 @@
   },
   {
     "id": 359,
+    "speciesId": 359,
     "name": "Absol",
     "height": 12,
     "weight": 470,
@@ -20067,6 +20426,7 @@
   },
   {
     "id": 360,
+    "speciesId": 360,
     "name": "Wynaut",
     "height": 6,
     "weight": 140,
@@ -20121,6 +20481,7 @@
   },
   {
     "id": 361,
+    "speciesId": 361,
     "name": "Snorunt",
     "height": 7,
     "weight": 168,
@@ -20175,6 +20536,7 @@
   },
   {
     "id": 362,
+    "speciesId": 362,
     "name": "Glalie",
     "height": 15,
     "weight": 2565,
@@ -20229,6 +20591,7 @@
   },
   {
     "id": 363,
+    "speciesId": 363,
     "name": "Spheal",
     "height": 8,
     "weight": 395,
@@ -20287,6 +20650,7 @@
   },
   {
     "id": 364,
+    "speciesId": 364,
     "name": "Sealeo",
     "height": 11,
     "weight": 876,
@@ -20345,6 +20709,7 @@
   },
   {
     "id": 365,
+    "speciesId": 365,
     "name": "Walrein",
     "height": 14,
     "weight": 1506,
@@ -20403,6 +20768,7 @@
   },
   {
     "id": 366,
+    "speciesId": 366,
     "name": "Clamperl",
     "height": 4,
     "weight": 525,
@@ -20457,6 +20823,7 @@
   },
   {
     "id": 367,
+    "speciesId": 367,
     "name": "Huntail",
     "height": 17,
     "weight": 270,
@@ -20511,6 +20878,7 @@
   },
   {
     "id": 368,
+    "speciesId": 368,
     "name": "Gorebyss",
     "height": 18,
     "weight": 226,
@@ -20565,6 +20933,7 @@
   },
   {
     "id": 369,
+    "speciesId": 369,
     "name": "Relicanth",
     "height": 10,
     "weight": 234,
@@ -20623,6 +20992,7 @@
   },
   {
     "id": 370,
+    "speciesId": 370,
     "name": "Luvdisc",
     "height": 6,
     "weight": 87,
@@ -20677,6 +21047,7 @@
   },
   {
     "id": 371,
+    "speciesId": 371,
     "name": "Bagon",
     "height": 6,
     "weight": 421,
@@ -20731,6 +21102,7 @@
   },
   {
     "id": 372,
+    "speciesId": 372,
     "name": "Shelgon",
     "height": 11,
     "weight": 1105,
@@ -20785,6 +21157,7 @@
   },
   {
     "id": 373,
+    "speciesId": 373,
     "name": "Salamence",
     "height": 15,
     "weight": 1026,
@@ -20843,6 +21216,7 @@
   },
   {
     "id": 374,
+    "speciesId": 374,
     "name": "Beldum",
     "height": 6,
     "weight": 952,
@@ -20901,6 +21275,7 @@
   },
   {
     "id": 375,
+    "speciesId": 375,
     "name": "Metang",
     "height": 12,
     "weight": 2025,
@@ -20959,6 +21334,7 @@
   },
   {
     "id": 376,
+    "speciesId": 376,
     "name": "Metagross",
     "height": 16,
     "weight": 5500,
@@ -21017,6 +21393,7 @@
   },
   {
     "id": 377,
+    "speciesId": 377,
     "name": "Regirock",
     "height": 17,
     "weight": 2300,
@@ -21071,6 +21448,7 @@
   },
   {
     "id": 378,
+    "speciesId": 378,
     "name": "Regice",
     "height": 18,
     "weight": 1750,
@@ -21125,6 +21503,7 @@
   },
   {
     "id": 379,
+    "speciesId": 379,
     "name": "Registeel",
     "height": 19,
     "weight": 2050,
@@ -21179,6 +21558,7 @@
   },
   {
     "id": 380,
+    "speciesId": 380,
     "name": "Latias",
     "height": 14,
     "weight": 400,
@@ -21237,6 +21617,7 @@
   },
   {
     "id": 381,
+    "speciesId": 381,
     "name": "Latios",
     "height": 20,
     "weight": 600,
@@ -21295,6 +21676,7 @@
   },
   {
     "id": 382,
+    "speciesId": 382,
     "name": "Kyogre",
     "height": 45,
     "weight": 3520,
@@ -21349,6 +21731,7 @@
   },
   {
     "id": 383,
+    "speciesId": 383,
     "name": "Groudon",
     "height": 35,
     "weight": 9500,
@@ -21403,6 +21786,7 @@
   },
   {
     "id": 384,
+    "speciesId": 384,
     "name": "Rayquaza",
     "height": 70,
     "weight": 2065,
@@ -21461,6 +21845,7 @@
   },
   {
     "id": 385,
+    "speciesId": 385,
     "name": "Jirachi",
     "height": 3,
     "weight": 11,
@@ -21519,6 +21904,7 @@
   },
   {
     "id": 386,
+    "speciesId": 386,
     "name": "Deoxys-normal",
     "height": 17,
     "weight": 608,
@@ -21573,6 +21959,7 @@
   },
   {
     "id": 387,
+    "speciesId": 387,
     "name": "Turtwig",
     "height": 4,
     "weight": 102,
@@ -21627,6 +22014,7 @@
   },
   {
     "id": 388,
+    "speciesId": 388,
     "name": "Grotle",
     "height": 11,
     "weight": 970,
@@ -21681,6 +22069,7 @@
   },
   {
     "id": 389,
+    "speciesId": 389,
     "name": "Torterra",
     "height": 22,
     "weight": 3100,
@@ -21739,6 +22128,7 @@
   },
   {
     "id": 390,
+    "speciesId": 390,
     "name": "Chimchar",
     "height": 5,
     "weight": 62,
@@ -21793,6 +22183,7 @@
   },
   {
     "id": 391,
+    "speciesId": 391,
     "name": "Monferno",
     "height": 9,
     "weight": 220,
@@ -21851,6 +22242,7 @@
   },
   {
     "id": 392,
+    "speciesId": 392,
     "name": "Infernape",
     "height": 12,
     "weight": 550,
@@ -21909,6 +22301,7 @@
   },
   {
     "id": 393,
+    "speciesId": 393,
     "name": "Piplup",
     "height": 4,
     "weight": 52,
@@ -21963,6 +22356,7 @@
   },
   {
     "id": 394,
+    "speciesId": 394,
     "name": "Prinplup",
     "height": 8,
     "weight": 230,
@@ -22017,6 +22411,7 @@
   },
   {
     "id": 395,
+    "speciesId": 395,
     "name": "Empoleon",
     "height": 17,
     "weight": 845,
@@ -22075,6 +22470,7 @@
   },
   {
     "id": 396,
+    "speciesId": 396,
     "name": "Starly",
     "height": 3,
     "weight": 20,
@@ -22133,6 +22529,7 @@
   },
   {
     "id": 397,
+    "speciesId": 397,
     "name": "Staravia",
     "height": 6,
     "weight": 155,
@@ -22191,6 +22588,7 @@
   },
   {
     "id": 398,
+    "speciesId": 398,
     "name": "Staraptor",
     "height": 12,
     "weight": 249,
@@ -22249,6 +22647,7 @@
   },
   {
     "id": 399,
+    "speciesId": 399,
     "name": "Bidoof",
     "height": 5,
     "weight": 200,
@@ -22303,6 +22702,7 @@
   },
   {
     "id": 400,
+    "speciesId": 400,
     "name": "Bibarel",
     "height": 10,
     "weight": 315,
@@ -22361,6 +22761,7 @@
   },
   {
     "id": 401,
+    "speciesId": 401,
     "name": "Kricketot",
     "height": 3,
     "weight": 22,
@@ -22415,6 +22816,7 @@
   },
   {
     "id": 402,
+    "speciesId": 402,
     "name": "Kricketune",
     "height": 10,
     "weight": 255,
@@ -22469,6 +22871,7 @@
   },
   {
     "id": 403,
+    "speciesId": 403,
     "name": "Shinx",
     "height": 5,
     "weight": 95,
@@ -22523,6 +22926,7 @@
   },
   {
     "id": 404,
+    "speciesId": 404,
     "name": "Luxio",
     "height": 9,
     "weight": 305,
@@ -22577,6 +22981,7 @@
   },
   {
     "id": 405,
+    "speciesId": 405,
     "name": "Luxray",
     "height": 14,
     "weight": 420,
@@ -22631,6 +23036,7 @@
   },
   {
     "id": 406,
+    "speciesId": 406,
     "name": "Budew",
     "height": 2,
     "weight": 12,
@@ -22689,6 +23095,7 @@
   },
   {
     "id": 407,
+    "speciesId": 407,
     "name": "Roserade",
     "height": 9,
     "weight": 145,
@@ -22747,6 +23154,7 @@
   },
   {
     "id": 408,
+    "speciesId": 408,
     "name": "Cranidos",
     "height": 9,
     "weight": 315,
@@ -22801,6 +23209,7 @@
   },
   {
     "id": 409,
+    "speciesId": 409,
     "name": "Rampardos",
     "height": 16,
     "weight": 1025,
@@ -22855,6 +23264,7 @@
   },
   {
     "id": 410,
+    "speciesId": 410,
     "name": "Shieldon",
     "height": 5,
     "weight": 570,
@@ -22913,6 +23323,7 @@
   },
   {
     "id": 411,
+    "speciesId": 411,
     "name": "Bastiodon",
     "height": 13,
     "weight": 1495,
@@ -22971,6 +23382,7 @@
   },
   {
     "id": 412,
+    "speciesId": 412,
     "name": "Burmy",
     "height": 2,
     "weight": 34,
@@ -23025,6 +23437,7 @@
   },
   {
     "id": 413,
+    "speciesId": 413,
     "name": "Wormadam-plant",
     "height": 5,
     "weight": 65,
@@ -23083,6 +23496,7 @@
   },
   {
     "id": 414,
+    "speciesId": 414,
     "name": "Mothim",
     "height": 9,
     "weight": 233,
@@ -23141,6 +23555,7 @@
   },
   {
     "id": 415,
+    "speciesId": 415,
     "name": "Combee",
     "height": 3,
     "weight": 55,
@@ -23199,6 +23614,7 @@
   },
   {
     "id": 416,
+    "speciesId": 416,
     "name": "Vespiquen",
     "height": 12,
     "weight": 385,
@@ -23257,6 +23673,7 @@
   },
   {
     "id": 417,
+    "speciesId": 417,
     "name": "Pachirisu",
     "height": 4,
     "weight": 39,
@@ -23311,6 +23728,7 @@
   },
   {
     "id": 418,
+    "speciesId": 418,
     "name": "Buizel",
     "height": 7,
     "weight": 295,
@@ -23365,6 +23783,7 @@
   },
   {
     "id": 419,
+    "speciesId": 419,
     "name": "Floatzel",
     "height": 11,
     "weight": 335,
@@ -23419,6 +23838,7 @@
   },
   {
     "id": 420,
+    "speciesId": 420,
     "name": "Cherubi",
     "height": 4,
     "weight": 33,
@@ -23473,6 +23893,7 @@
   },
   {
     "id": 421,
+    "speciesId": 421,
     "name": "Cherrim",
     "height": 5,
     "weight": 93,
@@ -23527,6 +23948,7 @@
   },
   {
     "id": 422,
+    "speciesId": 422,
     "name": "Shellos",
     "height": 3,
     "weight": 63,
@@ -23581,6 +24003,7 @@
   },
   {
     "id": 423,
+    "speciesId": 423,
     "name": "Gastrodon",
     "height": 9,
     "weight": 299,
@@ -23639,6 +24062,7 @@
   },
   {
     "id": 424,
+    "speciesId": 424,
     "name": "Ambipom",
     "height": 12,
     "weight": 203,
@@ -23693,6 +24117,7 @@
   },
   {
     "id": 425,
+    "speciesId": 425,
     "name": "Drifloon",
     "height": 4,
     "weight": 12,
@@ -23751,6 +24176,7 @@
   },
   {
     "id": 426,
+    "speciesId": 426,
     "name": "Drifblim",
     "height": 12,
     "weight": 150,
@@ -23809,6 +24235,7 @@
   },
   {
     "id": 427,
+    "speciesId": 427,
     "name": "Buneary",
     "height": 4,
     "weight": 55,
@@ -23863,6 +24290,7 @@
   },
   {
     "id": 428,
+    "speciesId": 428,
     "name": "Lopunny",
     "height": 12,
     "weight": 333,
@@ -23917,6 +24345,7 @@
   },
   {
     "id": 429,
+    "speciesId": 429,
     "name": "Mismagius",
     "height": 9,
     "weight": 44,
@@ -23971,6 +24400,7 @@
   },
   {
     "id": 430,
+    "speciesId": 430,
     "name": "Honchkrow",
     "height": 9,
     "weight": 273,
@@ -24029,6 +24459,7 @@
   },
   {
     "id": 431,
+    "speciesId": 431,
     "name": "Glameow",
     "height": 5,
     "weight": 39,
@@ -24083,6 +24514,7 @@
   },
   {
     "id": 432,
+    "speciesId": 432,
     "name": "Purugly",
     "height": 10,
     "weight": 438,
@@ -24137,6 +24569,7 @@
   },
   {
     "id": 433,
+    "speciesId": 433,
     "name": "Chingling",
     "height": 2,
     "weight": 6,
@@ -24191,6 +24624,7 @@
   },
   {
     "id": 434,
+    "speciesId": 434,
     "name": "Stunky",
     "height": 4,
     "weight": 192,
@@ -24249,6 +24683,7 @@
   },
   {
     "id": 435,
+    "speciesId": 435,
     "name": "Skuntank",
     "height": 10,
     "weight": 380,
@@ -24307,6 +24742,7 @@
   },
   {
     "id": 436,
+    "speciesId": 436,
     "name": "Bronzor",
     "height": 5,
     "weight": 605,
@@ -24365,6 +24801,7 @@
   },
   {
     "id": 437,
+    "speciesId": 437,
     "name": "Bronzong",
     "height": 13,
     "weight": 1870,
@@ -24423,6 +24860,7 @@
   },
   {
     "id": 438,
+    "speciesId": 438,
     "name": "Bonsly",
     "height": 5,
     "weight": 150,
@@ -24477,6 +24915,7 @@
   },
   {
     "id": 439,
+    "speciesId": 439,
     "name": "Mime-jr",
     "height": 6,
     "weight": 130,
@@ -24535,6 +24974,7 @@
   },
   {
     "id": 440,
+    "speciesId": 440,
     "name": "Happiny",
     "height": 6,
     "weight": 244,
@@ -24589,6 +25029,7 @@
   },
   {
     "id": 441,
+    "speciesId": 441,
     "name": "Chatot",
     "height": 5,
     "weight": 19,
@@ -24647,6 +25088,7 @@
   },
   {
     "id": 442,
+    "speciesId": 442,
     "name": "Spiritomb",
     "height": 10,
     "weight": 1080,
@@ -24705,6 +25147,7 @@
   },
   {
     "id": 443,
+    "speciesId": 443,
     "name": "Gible",
     "height": 7,
     "weight": 205,
@@ -24763,6 +25206,7 @@
   },
   {
     "id": 444,
+    "speciesId": 444,
     "name": "Gabite",
     "height": 14,
     "weight": 560,
@@ -24821,6 +25265,7 @@
   },
   {
     "id": 445,
+    "speciesId": 445,
     "name": "Garchomp",
     "height": 19,
     "weight": 950,
@@ -24879,6 +25324,7 @@
   },
   {
     "id": 446,
+    "speciesId": 446,
     "name": "Munchlax",
     "height": 6,
     "weight": 1050,
@@ -24933,6 +25379,7 @@
   },
   {
     "id": 447,
+    "speciesId": 447,
     "name": "Riolu",
     "height": 7,
     "weight": 202,
@@ -24987,6 +25434,7 @@
   },
   {
     "id": 448,
+    "speciesId": 448,
     "name": "Lucario",
     "height": 12,
     "weight": 540,
@@ -25045,6 +25493,7 @@
   },
   {
     "id": 449,
+    "speciesId": 449,
     "name": "Hippopotas",
     "height": 8,
     "weight": 495,
@@ -25099,6 +25548,7 @@
   },
   {
     "id": 450,
+    "speciesId": 450,
     "name": "Hippowdon",
     "height": 20,
     "weight": 3000,
@@ -25153,6 +25603,7 @@
   },
   {
     "id": 451,
+    "speciesId": 451,
     "name": "Skorupi",
     "height": 8,
     "weight": 120,
@@ -25211,6 +25662,7 @@
   },
   {
     "id": 452,
+    "speciesId": 452,
     "name": "Drapion",
     "height": 13,
     "weight": 615,
@@ -25269,6 +25721,7 @@
   },
   {
     "id": 453,
+    "speciesId": 453,
     "name": "Croagunk",
     "height": 7,
     "weight": 230,
@@ -25327,6 +25780,7 @@
   },
   {
     "id": 454,
+    "speciesId": 454,
     "name": "Toxicroak",
     "height": 13,
     "weight": 444,
@@ -25385,6 +25839,7 @@
   },
   {
     "id": 455,
+    "speciesId": 455,
     "name": "Carnivine",
     "height": 14,
     "weight": 270,
@@ -25439,6 +25894,7 @@
   },
   {
     "id": 456,
+    "speciesId": 456,
     "name": "Finneon",
     "height": 4,
     "weight": 70,
@@ -25493,6 +25949,7 @@
   },
   {
     "id": 457,
+    "speciesId": 457,
     "name": "Lumineon",
     "height": 12,
     "weight": 240,
@@ -25547,6 +26004,7 @@
   },
   {
     "id": 458,
+    "speciesId": 458,
     "name": "Mantyke",
     "height": 10,
     "weight": 650,
@@ -25605,6 +26063,7 @@
   },
   {
     "id": 459,
+    "speciesId": 459,
     "name": "Snover",
     "height": 10,
     "weight": 505,
@@ -25663,6 +26122,7 @@
   },
   {
     "id": 460,
+    "speciesId": 460,
     "name": "Abomasnow",
     "height": 22,
     "weight": 1355,
@@ -25721,6 +26181,7 @@
   },
   {
     "id": 461,
+    "speciesId": 461,
     "name": "Weavile",
     "height": 11,
     "weight": 340,
@@ -25779,6 +26240,7 @@
   },
   {
     "id": 462,
+    "speciesId": 462,
     "name": "Magnezone",
     "height": 12,
     "weight": 1800,
@@ -25837,6 +26299,7 @@
   },
   {
     "id": 463,
+    "speciesId": 463,
     "name": "Lickilicky",
     "height": 17,
     "weight": 1400,
@@ -25891,6 +26354,7 @@
   },
   {
     "id": 464,
+    "speciesId": 464,
     "name": "Rhyperior",
     "height": 24,
     "weight": 2828,
@@ -25949,6 +26413,7 @@
   },
   {
     "id": 465,
+    "speciesId": 465,
     "name": "Tangrowth",
     "height": 20,
     "weight": 1286,
@@ -26003,6 +26468,7 @@
   },
   {
     "id": 466,
+    "speciesId": 466,
     "name": "Electivire",
     "height": 18,
     "weight": 1386,
@@ -26057,6 +26523,7 @@
   },
   {
     "id": 467,
+    "speciesId": 467,
     "name": "Magmortar",
     "height": 16,
     "weight": 680,
@@ -26111,6 +26578,7 @@
   },
   {
     "id": 468,
+    "speciesId": 468,
     "name": "Togekiss",
     "height": 15,
     "weight": 380,
@@ -26169,6 +26637,7 @@
   },
   {
     "id": 469,
+    "speciesId": 469,
     "name": "Yanmega",
     "height": 19,
     "weight": 515,
@@ -26227,6 +26696,7 @@
   },
   {
     "id": 470,
+    "speciesId": 470,
     "name": "Leafeon",
     "height": 10,
     "weight": 255,
@@ -26281,6 +26751,7 @@
   },
   {
     "id": 471,
+    "speciesId": 471,
     "name": "Glaceon",
     "height": 8,
     "weight": 259,
@@ -26335,6 +26806,7 @@
   },
   {
     "id": 472,
+    "speciesId": 472,
     "name": "Gliscor",
     "height": 20,
     "weight": 425,
@@ -26393,6 +26865,7 @@
   },
   {
     "id": 473,
+    "speciesId": 473,
     "name": "Mamoswine",
     "height": 25,
     "weight": 2910,
@@ -26451,6 +26924,7 @@
   },
   {
     "id": 474,
+    "speciesId": 474,
     "name": "Porygon-z",
     "height": 9,
     "weight": 340,
@@ -26505,6 +26979,7 @@
   },
   {
     "id": 475,
+    "speciesId": 475,
     "name": "Gallade",
     "height": 16,
     "weight": 520,
@@ -26563,6 +27038,7 @@
   },
   {
     "id": 476,
+    "speciesId": 476,
     "name": "Probopass",
     "height": 14,
     "weight": 3400,
@@ -26621,6 +27097,7 @@
   },
   {
     "id": 477,
+    "speciesId": 477,
     "name": "Dusknoir",
     "height": 22,
     "weight": 1066,
@@ -26675,6 +27152,7 @@
   },
   {
     "id": 478,
+    "speciesId": 478,
     "name": "Froslass",
     "height": 13,
     "weight": 266,
@@ -26733,6 +27211,7 @@
   },
   {
     "id": 479,
+    "speciesId": 479,
     "name": "Rotom",
     "height": 3,
     "weight": 3,
@@ -26791,6 +27270,7 @@
   },
   {
     "id": 480,
+    "speciesId": 480,
     "name": "Uxie",
     "height": 3,
     "weight": 3,
@@ -26845,6 +27325,7 @@
   },
   {
     "id": 481,
+    "speciesId": 481,
     "name": "Mesprit",
     "height": 3,
     "weight": 3,
@@ -26899,6 +27380,7 @@
   },
   {
     "id": 482,
+    "speciesId": 482,
     "name": "Azelf",
     "height": 3,
     "weight": 3,
@@ -26953,6 +27435,7 @@
   },
   {
     "id": 483,
+    "speciesId": 483,
     "name": "Dialga",
     "height": 54,
     "weight": 6830,
@@ -27011,6 +27494,7 @@
   },
   {
     "id": 484,
+    "speciesId": 484,
     "name": "Palkia",
     "height": 42,
     "weight": 3360,
@@ -27069,6 +27553,7 @@
   },
   {
     "id": 485,
+    "speciesId": 485,
     "name": "Heatran",
     "height": 17,
     "weight": 4300,
@@ -27127,6 +27612,7 @@
   },
   {
     "id": 486,
+    "speciesId": 486,
     "name": "Regigigas",
     "height": 37,
     "weight": 4200,
@@ -27181,6 +27667,7 @@
   },
   {
     "id": 487,
+    "speciesId": 487,
     "name": "Giratina-altered",
     "height": 45,
     "weight": 7500,
@@ -27239,6 +27726,7 @@
   },
   {
     "id": 488,
+    "speciesId": 488,
     "name": "Cresselia",
     "height": 15,
     "weight": 856,
@@ -27293,6 +27781,7 @@
   },
   {
     "id": 489,
+    "speciesId": 489,
     "name": "Phione",
     "height": 4,
     "weight": 31,
@@ -27347,6 +27836,7 @@
   },
   {
     "id": 490,
+    "speciesId": 490,
     "name": "Manaphy",
     "height": 3,
     "weight": 14,
@@ -27401,6 +27891,7 @@
   },
   {
     "id": 491,
+    "speciesId": 491,
     "name": "Darkrai",
     "height": 15,
     "weight": 505,
@@ -27455,6 +27946,7 @@
   },
   {
     "id": 492,
+    "speciesId": 492,
     "name": "Shaymin-land",
     "height": 2,
     "weight": 21,
@@ -27509,6 +28001,7 @@
   },
   {
     "id": 493,
+    "speciesId": 493,
     "name": "Arceus",
     "height": 32,
     "weight": 3200,
@@ -27563,6 +28056,7 @@
   },
   {
     "id": 494,
+    "speciesId": 494,
     "name": "Victini",
     "height": 4,
     "weight": 40,
@@ -27621,6 +28115,7 @@
   },
   {
     "id": 495,
+    "speciesId": 495,
     "name": "Snivy",
     "height": 6,
     "weight": 81,
@@ -27675,6 +28170,7 @@
   },
   {
     "id": 496,
+    "speciesId": 496,
     "name": "Servine",
     "height": 8,
     "weight": 160,
@@ -27729,6 +28225,7 @@
   },
   {
     "id": 497,
+    "speciesId": 497,
     "name": "Serperior",
     "height": 33,
     "weight": 630,
@@ -27783,6 +28280,7 @@
   },
   {
     "id": 498,
+    "speciesId": 498,
     "name": "Tepig",
     "height": 5,
     "weight": 99,
@@ -27837,6 +28335,7 @@
   },
   {
     "id": 499,
+    "speciesId": 499,
     "name": "Pignite",
     "height": 10,
     "weight": 555,
@@ -27895,6 +28394,7 @@
   },
   {
     "id": 500,
+    "speciesId": 500,
     "name": "Emboar",
     "height": 16,
     "weight": 1500,
@@ -27953,6 +28453,7 @@
   },
   {
     "id": 501,
+    "speciesId": 501,
     "name": "Oshawott",
     "height": 5,
     "weight": 59,
@@ -28007,6 +28508,7 @@
   },
   {
     "id": 502,
+    "speciesId": 502,
     "name": "Dewott",
     "height": 8,
     "weight": 245,
@@ -28061,6 +28563,7 @@
   },
   {
     "id": 503,
+    "speciesId": 503,
     "name": "Samurott",
     "height": 15,
     "weight": 946,
@@ -28115,6 +28618,7 @@
   },
   {
     "id": 504,
+    "speciesId": 504,
     "name": "Patrat",
     "height": 5,
     "weight": 116,
@@ -28169,6 +28673,7 @@
   },
   {
     "id": 505,
+    "speciesId": 505,
     "name": "Watchog",
     "height": 11,
     "weight": 270,
@@ -28223,6 +28728,7 @@
   },
   {
     "id": 506,
+    "speciesId": 506,
     "name": "Lillipup",
     "height": 4,
     "weight": 41,
@@ -28277,6 +28783,7 @@
   },
   {
     "id": 507,
+    "speciesId": 507,
     "name": "Herdier",
     "height": 9,
     "weight": 147,
@@ -28331,6 +28838,7 @@
   },
   {
     "id": 508,
+    "speciesId": 508,
     "name": "Stoutland",
     "height": 12,
     "weight": 610,
@@ -28385,6 +28893,7 @@
   },
   {
     "id": 509,
+    "speciesId": 509,
     "name": "Purrloin",
     "height": 4,
     "weight": 101,
@@ -28439,6 +28948,7 @@
   },
   {
     "id": 510,
+    "speciesId": 510,
     "name": "Liepard",
     "height": 11,
     "weight": 375,
@@ -28493,6 +29003,7 @@
   },
   {
     "id": 511,
+    "speciesId": 511,
     "name": "Pansage",
     "height": 6,
     "weight": 105,
@@ -28547,6 +29058,7 @@
   },
   {
     "id": 512,
+    "speciesId": 512,
     "name": "Simisage",
     "height": 11,
     "weight": 305,
@@ -28601,6 +29113,7 @@
   },
   {
     "id": 513,
+    "speciesId": 513,
     "name": "Pansear",
     "height": 6,
     "weight": 110,
@@ -28655,6 +29168,7 @@
   },
   {
     "id": 514,
+    "speciesId": 514,
     "name": "Simisear",
     "height": 10,
     "weight": 280,
@@ -28709,6 +29223,7 @@
   },
   {
     "id": 515,
+    "speciesId": 515,
     "name": "Panpour",
     "height": 6,
     "weight": 135,
@@ -28763,6 +29278,7 @@
   },
   {
     "id": 516,
+    "speciesId": 516,
     "name": "Simipour",
     "height": 10,
     "weight": 290,
@@ -28817,6 +29333,7 @@
   },
   {
     "id": 517,
+    "speciesId": 517,
     "name": "Munna",
     "height": 6,
     "weight": 233,
@@ -28871,6 +29388,7 @@
   },
   {
     "id": 518,
+    "speciesId": 518,
     "name": "Musharna",
     "height": 11,
     "weight": 605,
@@ -28925,6 +29443,7 @@
   },
   {
     "id": 519,
+    "speciesId": 519,
     "name": "Pidove",
     "height": 3,
     "weight": 21,
@@ -28983,6 +29502,7 @@
   },
   {
     "id": 520,
+    "speciesId": 520,
     "name": "Tranquill",
     "height": 6,
     "weight": 150,
@@ -29041,6 +29561,7 @@
   },
   {
     "id": 521,
+    "speciesId": 521,
     "name": "Unfezant",
     "height": 12,
     "weight": 290,
@@ -29099,6 +29620,7 @@
   },
   {
     "id": 522,
+    "speciesId": 522,
     "name": "Blitzle",
     "height": 8,
     "weight": 298,
@@ -29153,6 +29675,7 @@
   },
   {
     "id": 523,
+    "speciesId": 523,
     "name": "Zebstrika",
     "height": 16,
     "weight": 795,
@@ -29207,6 +29730,7 @@
   },
   {
     "id": 524,
+    "speciesId": 524,
     "name": "Roggenrola",
     "height": 4,
     "weight": 180,
@@ -29261,6 +29785,7 @@
   },
   {
     "id": 525,
+    "speciesId": 525,
     "name": "Boldore",
     "height": 9,
     "weight": 1020,
@@ -29315,6 +29840,7 @@
   },
   {
     "id": 526,
+    "speciesId": 526,
     "name": "Gigalith",
     "height": 17,
     "weight": 2600,
@@ -29369,6 +29895,7 @@
   },
   {
     "id": 527,
+    "speciesId": 527,
     "name": "Woobat",
     "height": 4,
     "weight": 21,
@@ -29427,6 +29954,7 @@
   },
   {
     "id": 528,
+    "speciesId": 528,
     "name": "Swoobat",
     "height": 9,
     "weight": 105,
@@ -29485,6 +30013,7 @@
   },
   {
     "id": 529,
+    "speciesId": 529,
     "name": "Drilbur",
     "height": 3,
     "weight": 85,
@@ -29539,6 +30068,7 @@
   },
   {
     "id": 530,
+    "speciesId": 530,
     "name": "Excadrill",
     "height": 7,
     "weight": 404,
@@ -29597,6 +30127,7 @@
   },
   {
     "id": 531,
+    "speciesId": 531,
     "name": "Audino",
     "height": 11,
     "weight": 310,
@@ -29651,6 +30182,7 @@
   },
   {
     "id": 532,
+    "speciesId": 532,
     "name": "Timburr",
     "height": 6,
     "weight": 125,
@@ -29705,6 +30237,7 @@
   },
   {
     "id": 533,
+    "speciesId": 533,
     "name": "Gurdurr",
     "height": 12,
     "weight": 400,
@@ -29759,6 +30292,7 @@
   },
   {
     "id": 534,
+    "speciesId": 534,
     "name": "Conkeldurr",
     "height": 14,
     "weight": 870,
@@ -29813,6 +30347,7 @@
   },
   {
     "id": 535,
+    "speciesId": 535,
     "name": "Tympole",
     "height": 5,
     "weight": 45,
@@ -29867,6 +30402,7 @@
   },
   {
     "id": 536,
+    "speciesId": 536,
     "name": "Palpitoad",
     "height": 8,
     "weight": 170,
@@ -29925,6 +30461,7 @@
   },
   {
     "id": 537,
+    "speciesId": 537,
     "name": "Seismitoad",
     "height": 15,
     "weight": 620,
@@ -29983,6 +30520,7 @@
   },
   {
     "id": 538,
+    "speciesId": 538,
     "name": "Throh",
     "height": 13,
     "weight": 555,
@@ -30037,6 +30575,7 @@
   },
   {
     "id": 539,
+    "speciesId": 539,
     "name": "Sawk",
     "height": 14,
     "weight": 510,
@@ -30091,6 +30630,7 @@
   },
   {
     "id": 540,
+    "speciesId": 540,
     "name": "Sewaddle",
     "height": 3,
     "weight": 25,
@@ -30149,6 +30689,7 @@
   },
   {
     "id": 541,
+    "speciesId": 541,
     "name": "Swadloon",
     "height": 5,
     "weight": 73,
@@ -30207,6 +30748,7 @@
   },
   {
     "id": 542,
+    "speciesId": 542,
     "name": "Leavanny",
     "height": 12,
     "weight": 205,
@@ -30265,6 +30807,7 @@
   },
   {
     "id": 543,
+    "speciesId": 543,
     "name": "Venipede",
     "height": 4,
     "weight": 53,
@@ -30323,6 +30866,7 @@
   },
   {
     "id": 544,
+    "speciesId": 544,
     "name": "Whirlipede",
     "height": 12,
     "weight": 585,
@@ -30381,6 +30925,7 @@
   },
   {
     "id": 545,
+    "speciesId": 545,
     "name": "Scolipede",
     "height": 25,
     "weight": 2005,
@@ -30439,6 +30984,7 @@
   },
   {
     "id": 546,
+    "speciesId": 546,
     "name": "Cottonee",
     "height": 3,
     "weight": 6,
@@ -30497,6 +31043,7 @@
   },
   {
     "id": 547,
+    "speciesId": 547,
     "name": "Whimsicott",
     "height": 7,
     "weight": 66,
@@ -30555,6 +31102,7 @@
   },
   {
     "id": 548,
+    "speciesId": 548,
     "name": "Petilil",
     "height": 5,
     "weight": 66,
@@ -30609,6 +31157,7 @@
   },
   {
     "id": 549,
+    "speciesId": 549,
     "name": "Lilligant",
     "height": 11,
     "weight": 163,
@@ -30663,6 +31212,7 @@
   },
   {
     "id": 550,
+    "speciesId": 550,
     "name": "Basculin-red-striped",
     "height": 10,
     "weight": 180,
@@ -30717,6 +31267,7 @@
   },
   {
     "id": 551,
+    "speciesId": 551,
     "name": "Sandile",
     "height": 7,
     "weight": 152,
@@ -30775,6 +31326,7 @@
   },
   {
     "id": 552,
+    "speciesId": 552,
     "name": "Krokorok",
     "height": 10,
     "weight": 334,
@@ -30833,6 +31385,7 @@
   },
   {
     "id": 553,
+    "speciesId": 553,
     "name": "Krookodile",
     "height": 15,
     "weight": 963,
@@ -30891,6 +31444,7 @@
   },
   {
     "id": 554,
+    "speciesId": 554,
     "name": "Darumaka",
     "height": 6,
     "weight": 375,
@@ -30945,6 +31499,7 @@
   },
   {
     "id": 555,
+    "speciesId": 555,
     "name": "Darmanitan-standard",
     "height": 13,
     "weight": 929,
@@ -30999,6 +31554,7 @@
   },
   {
     "id": 556,
+    "speciesId": 556,
     "name": "Maractus",
     "height": 10,
     "weight": 280,
@@ -31053,6 +31609,7 @@
   },
   {
     "id": 557,
+    "speciesId": 557,
     "name": "Dwebble",
     "height": 3,
     "weight": 145,
@@ -31111,6 +31668,7 @@
   },
   {
     "id": 558,
+    "speciesId": 558,
     "name": "Crustle",
     "height": 14,
     "weight": 2000,
@@ -31169,6 +31727,7 @@
   },
   {
     "id": 559,
+    "speciesId": 559,
     "name": "Scraggy",
     "height": 6,
     "weight": 118,
@@ -31227,6 +31786,7 @@
   },
   {
     "id": 560,
+    "speciesId": 560,
     "name": "Scrafty",
     "height": 11,
     "weight": 300,
@@ -31285,6 +31845,7 @@
   },
   {
     "id": 561,
+    "speciesId": 561,
     "name": "Sigilyph",
     "height": 14,
     "weight": 140,
@@ -31343,6 +31904,7 @@
   },
   {
     "id": 562,
+    "speciesId": 562,
     "name": "Yamask",
     "height": 5,
     "weight": 15,
@@ -31397,6 +31959,7 @@
   },
   {
     "id": 563,
+    "speciesId": 563,
     "name": "Cofagrigus",
     "height": 17,
     "weight": 765,
@@ -31451,6 +32014,7 @@
   },
   {
     "id": 564,
+    "speciesId": 564,
     "name": "Tirtouga",
     "height": 7,
     "weight": 165,
@@ -31509,6 +32073,7 @@
   },
   {
     "id": 565,
+    "speciesId": 565,
     "name": "Carracosta",
     "height": 12,
     "weight": 810,
@@ -31567,6 +32132,7 @@
   },
   {
     "id": 566,
+    "speciesId": 566,
     "name": "Archen",
     "height": 5,
     "weight": 95,
@@ -31625,6 +32191,7 @@
   },
   {
     "id": 567,
+    "speciesId": 567,
     "name": "Archeops",
     "height": 14,
     "weight": 320,
@@ -31683,6 +32250,7 @@
   },
   {
     "id": 568,
+    "speciesId": 568,
     "name": "Trubbish",
     "height": 6,
     "weight": 310,
@@ -31737,6 +32305,7 @@
   },
   {
     "id": 569,
+    "speciesId": 569,
     "name": "Garbodor",
     "height": 19,
     "weight": 1073,
@@ -31791,6 +32360,7 @@
   },
   {
     "id": 570,
+    "speciesId": 570,
     "name": "Zorua",
     "height": 7,
     "weight": 125,
@@ -31845,6 +32415,7 @@
   },
   {
     "id": 571,
+    "speciesId": 571,
     "name": "Zoroark",
     "height": 16,
     "weight": 811,
@@ -31899,6 +32470,7 @@
   },
   {
     "id": 572,
+    "speciesId": 572,
     "name": "Minccino",
     "height": 4,
     "weight": 58,
@@ -31953,6 +32525,7 @@
   },
   {
     "id": 573,
+    "speciesId": 573,
     "name": "Cinccino",
     "height": 5,
     "weight": 75,
@@ -32007,6 +32580,7 @@
   },
   {
     "id": 574,
+    "speciesId": 574,
     "name": "Gothita",
     "height": 4,
     "weight": 58,
@@ -32061,6 +32635,7 @@
   },
   {
     "id": 575,
+    "speciesId": 575,
     "name": "Gothorita",
     "height": 7,
     "weight": 180,
@@ -32115,6 +32690,7 @@
   },
   {
     "id": 576,
+    "speciesId": 576,
     "name": "Gothitelle",
     "height": 15,
     "weight": 440,
@@ -32169,6 +32745,7 @@
   },
   {
     "id": 577,
+    "speciesId": 577,
     "name": "Solosis",
     "height": 3,
     "weight": 10,
@@ -32223,6 +32800,7 @@
   },
   {
     "id": 578,
+    "speciesId": 578,
     "name": "Duosion",
     "height": 6,
     "weight": 80,
@@ -32277,6 +32855,7 @@
   },
   {
     "id": 579,
+    "speciesId": 579,
     "name": "Reuniclus",
     "height": 10,
     "weight": 201,
@@ -32331,6 +32910,7 @@
   },
   {
     "id": 580,
+    "speciesId": 580,
     "name": "Ducklett",
     "height": 5,
     "weight": 55,
@@ -32389,6 +32969,7 @@
   },
   {
     "id": 581,
+    "speciesId": 581,
     "name": "Swanna",
     "height": 13,
     "weight": 242,
@@ -32447,6 +33028,7 @@
   },
   {
     "id": 582,
+    "speciesId": 582,
     "name": "Vanillite",
     "height": 4,
     "weight": 57,
@@ -32501,6 +33083,7 @@
   },
   {
     "id": 583,
+    "speciesId": 583,
     "name": "Vanillish",
     "height": 11,
     "weight": 410,
@@ -32555,6 +33138,7 @@
   },
   {
     "id": 584,
+    "speciesId": 584,
     "name": "Vanilluxe",
     "height": 13,
     "weight": 575,
@@ -32609,6 +33193,7 @@
   },
   {
     "id": 585,
+    "speciesId": 585,
     "name": "Deerling",
     "height": 6,
     "weight": 195,
@@ -32667,6 +33252,7 @@
   },
   {
     "id": 586,
+    "speciesId": 586,
     "name": "Sawsbuck",
     "height": 19,
     "weight": 925,
@@ -32725,6 +33311,7 @@
   },
   {
     "id": 587,
+    "speciesId": 587,
     "name": "Emolga",
     "height": 4,
     "weight": 50,
@@ -32783,6 +33370,7 @@
   },
   {
     "id": 588,
+    "speciesId": 588,
     "name": "Karrablast",
     "height": 5,
     "weight": 59,
@@ -32837,6 +33425,7 @@
   },
   {
     "id": 589,
+    "speciesId": 589,
     "name": "Escavalier",
     "height": 10,
     "weight": 330,
@@ -32895,6 +33484,7 @@
   },
   {
     "id": 590,
+    "speciesId": 590,
     "name": "Foongus",
     "height": 2,
     "weight": 10,
@@ -32953,6 +33543,7 @@
   },
   {
     "id": 591,
+    "speciesId": 591,
     "name": "Amoonguss",
     "height": 6,
     "weight": 105,
@@ -33011,6 +33602,7 @@
   },
   {
     "id": 592,
+    "speciesId": 592,
     "name": "Frillish-male",
     "height": 12,
     "weight": 330,
@@ -33069,6 +33661,7 @@
   },
   {
     "id": 593,
+    "speciesId": 593,
     "name": "Jellicent-male",
     "height": 22,
     "weight": 1350,
@@ -33127,6 +33720,7 @@
   },
   {
     "id": 594,
+    "speciesId": 594,
     "name": "Alomomola",
     "height": 12,
     "weight": 316,
@@ -33181,6 +33775,7 @@
   },
   {
     "id": 595,
+    "speciesId": 595,
     "name": "Joltik",
     "height": 1,
     "weight": 6,
@@ -33239,6 +33834,7 @@
   },
   {
     "id": 596,
+    "speciesId": 596,
     "name": "Galvantula",
     "height": 8,
     "weight": 143,
@@ -33297,6 +33893,7 @@
   },
   {
     "id": 597,
+    "speciesId": 597,
     "name": "Ferroseed",
     "height": 6,
     "weight": 188,
@@ -33355,6 +33952,7 @@
   },
   {
     "id": 598,
+    "speciesId": 598,
     "name": "Ferrothorn",
     "height": 10,
     "weight": 1100,
@@ -33413,6 +34011,7 @@
   },
   {
     "id": 599,
+    "speciesId": 599,
     "name": "Klink",
     "height": 3,
     "weight": 210,
@@ -33467,6 +34066,7 @@
   },
   {
     "id": 600,
+    "speciesId": 600,
     "name": "Klang",
     "height": 6,
     "weight": 510,
@@ -33521,6 +34121,7 @@
   },
   {
     "id": 601,
+    "speciesId": 601,
     "name": "Klinklang",
     "height": 6,
     "weight": 810,
@@ -33575,6 +34176,7 @@
   },
   {
     "id": 602,
+    "speciesId": 602,
     "name": "Tynamo",
     "height": 2,
     "weight": 3,
@@ -33629,6 +34231,7 @@
   },
   {
     "id": 603,
+    "speciesId": 603,
     "name": "Eelektrik",
     "height": 12,
     "weight": 220,
@@ -33683,6 +34286,7 @@
   },
   {
     "id": 604,
+    "speciesId": 604,
     "name": "Eelektross",
     "height": 21,
     "weight": 805,
@@ -33737,6 +34341,7 @@
   },
   {
     "id": 605,
+    "speciesId": 605,
     "name": "Elgyem",
     "height": 5,
     "weight": 90,
@@ -33791,6 +34396,7 @@
   },
   {
     "id": 606,
+    "speciesId": 606,
     "name": "Beheeyem",
     "height": 10,
     "weight": 345,
@@ -33845,6 +34451,7 @@
   },
   {
     "id": 607,
+    "speciesId": 607,
     "name": "Litwick",
     "height": 3,
     "weight": 31,
@@ -33903,6 +34510,7 @@
   },
   {
     "id": 608,
+    "speciesId": 608,
     "name": "Lampent",
     "height": 6,
     "weight": 130,
@@ -33961,6 +34569,7 @@
   },
   {
     "id": 609,
+    "speciesId": 609,
     "name": "Chandelure",
     "height": 10,
     "weight": 343,
@@ -34019,6 +34628,7 @@
   },
   {
     "id": 610,
+    "speciesId": 610,
     "name": "Axew",
     "height": 6,
     "weight": 180,
@@ -34073,6 +34683,7 @@
   },
   {
     "id": 611,
+    "speciesId": 611,
     "name": "Fraxure",
     "height": 10,
     "weight": 360,
@@ -34127,6 +34738,7 @@
   },
   {
     "id": 612,
+    "speciesId": 612,
     "name": "Haxorus",
     "height": 18,
     "weight": 1055,
@@ -34181,6 +34793,7 @@
   },
   {
     "id": 613,
+    "speciesId": 613,
     "name": "Cubchoo",
     "height": 5,
     "weight": 85,
@@ -34235,6 +34848,7 @@
   },
   {
     "id": 614,
+    "speciesId": 614,
     "name": "Beartic",
     "height": 26,
     "weight": 2600,
@@ -34289,6 +34903,7 @@
   },
   {
     "id": 615,
+    "speciesId": 615,
     "name": "Cryogonal",
     "height": 11,
     "weight": 1480,
@@ -34343,6 +34958,7 @@
   },
   {
     "id": 616,
+    "speciesId": 616,
     "name": "Shelmet",
     "height": 4,
     "weight": 77,
@@ -34397,6 +35013,7 @@
   },
   {
     "id": 617,
+    "speciesId": 617,
     "name": "Accelgor",
     "height": 8,
     "weight": 253,
@@ -34451,6 +35068,7 @@
   },
   {
     "id": 618,
+    "speciesId": 618,
     "name": "Stunfisk",
     "height": 7,
     "weight": 110,
@@ -34509,6 +35127,7 @@
   },
   {
     "id": 619,
+    "speciesId": 619,
     "name": "Mienfoo",
     "height": 9,
     "weight": 200,
@@ -34563,6 +35182,7 @@
   },
   {
     "id": 620,
+    "speciesId": 620,
     "name": "Mienshao",
     "height": 14,
     "weight": 355,
@@ -34617,6 +35237,7 @@
   },
   {
     "id": 621,
+    "speciesId": 621,
     "name": "Druddigon",
     "height": 16,
     "weight": 1390,
@@ -34671,6 +35292,7 @@
   },
   {
     "id": 622,
+    "speciesId": 622,
     "name": "Golett",
     "height": 10,
     "weight": 920,
@@ -34729,6 +35351,7 @@
   },
   {
     "id": 623,
+    "speciesId": 623,
     "name": "Golurk",
     "height": 28,
     "weight": 3300,
@@ -34787,6 +35410,7 @@
   },
   {
     "id": 624,
+    "speciesId": 624,
     "name": "Pawniard",
     "height": 5,
     "weight": 102,
@@ -34845,6 +35469,7 @@
   },
   {
     "id": 625,
+    "speciesId": 625,
     "name": "Bisharp",
     "height": 16,
     "weight": 700,
@@ -34903,6 +35528,7 @@
   },
   {
     "id": 626,
+    "speciesId": 626,
     "name": "Bouffalant",
     "height": 16,
     "weight": 946,
@@ -34957,6 +35583,7 @@
   },
   {
     "id": 627,
+    "speciesId": 627,
     "name": "Rufflet",
     "height": 5,
     "weight": 105,
@@ -35015,6 +35642,7 @@
   },
   {
     "id": 628,
+    "speciesId": 628,
     "name": "Braviary",
     "height": 15,
     "weight": 410,
@@ -35073,6 +35701,7 @@
   },
   {
     "id": 629,
+    "speciesId": 629,
     "name": "Vullaby",
     "height": 5,
     "weight": 90,
@@ -35131,6 +35760,7 @@
   },
   {
     "id": 630,
+    "speciesId": 630,
     "name": "Mandibuzz",
     "height": 12,
     "weight": 395,
@@ -35189,6 +35819,7 @@
   },
   {
     "id": 631,
+    "speciesId": 631,
     "name": "Heatmor",
     "height": 14,
     "weight": 580,
@@ -35243,6 +35874,7 @@
   },
   {
     "id": 632,
+    "speciesId": 632,
     "name": "Durant",
     "height": 3,
     "weight": 330,
@@ -35301,6 +35933,7 @@
   },
   {
     "id": 633,
+    "speciesId": 633,
     "name": "Deino",
     "height": 8,
     "weight": 173,
@@ -35359,6 +35992,7 @@
   },
   {
     "id": 634,
+    "speciesId": 634,
     "name": "Zweilous",
     "height": 14,
     "weight": 500,
@@ -35417,6 +36051,7 @@
   },
   {
     "id": 635,
+    "speciesId": 635,
     "name": "Hydreigon",
     "height": 18,
     "weight": 1600,
@@ -35475,6 +36110,7 @@
   },
   {
     "id": 636,
+    "speciesId": 636,
     "name": "Larvesta",
     "height": 11,
     "weight": 288,
@@ -35533,6 +36169,7 @@
   },
   {
     "id": 637,
+    "speciesId": 637,
     "name": "Volcarona",
     "height": 16,
     "weight": 460,
@@ -35591,6 +36228,7 @@
   },
   {
     "id": 638,
+    "speciesId": 638,
     "name": "Cobalion",
     "height": 21,
     "weight": 2500,
@@ -35649,6 +36287,7 @@
   },
   {
     "id": 639,
+    "speciesId": 639,
     "name": "Terrakion",
     "height": 19,
     "weight": 2600,
@@ -35707,6 +36346,7 @@
   },
   {
     "id": 640,
+    "speciesId": 640,
     "name": "Virizion",
     "height": 20,
     "weight": 2000,
@@ -35765,6 +36405,7 @@
   },
   {
     "id": 641,
+    "speciesId": 641,
     "name": "Tornadus-incarnate",
     "height": 15,
     "weight": 630,
@@ -35819,6 +36460,7 @@
   },
   {
     "id": 642,
+    "speciesId": 642,
     "name": "Thundurus-incarnate",
     "height": 15,
     "weight": 610,
@@ -35877,6 +36519,7 @@
   },
   {
     "id": 643,
+    "speciesId": 643,
     "name": "Reshiram",
     "height": 32,
     "weight": 3300,
@@ -35935,6 +36578,7 @@
   },
   {
     "id": 644,
+    "speciesId": 644,
     "name": "Zekrom",
     "height": 29,
     "weight": 3450,
@@ -35993,6 +36637,7 @@
   },
   {
     "id": 645,
+    "speciesId": 645,
     "name": "Landorus-incarnate",
     "height": 15,
     "weight": 680,
@@ -36051,6 +36696,7 @@
   },
   {
     "id": 646,
+    "speciesId": 646,
     "name": "Kyurem",
     "height": 30,
     "weight": 3250,
@@ -36109,6 +36755,7 @@
   },
   {
     "id": 647,
+    "speciesId": 647,
     "name": "Keldeo-ordinary",
     "height": 14,
     "weight": 485,
@@ -36167,6 +36814,7 @@
   },
   {
     "id": 648,
+    "speciesId": 648,
     "name": "Meloetta-aria",
     "height": 6,
     "weight": 65,
@@ -36225,6 +36873,7 @@
   },
   {
     "id": 649,
+    "speciesId": 649,
     "name": "Genesect",
     "height": 15,
     "weight": 825,
@@ -36283,6 +36932,7 @@
   },
   {
     "id": 650,
+    "speciesId": 650,
     "name": "Chespin",
     "height": 4,
     "weight": 90,
@@ -36337,6 +36987,7 @@
   },
   {
     "id": 651,
+    "speciesId": 651,
     "name": "Quilladin",
     "height": 7,
     "weight": 290,
@@ -36391,6 +37042,7 @@
   },
   {
     "id": 652,
+    "speciesId": 652,
     "name": "Chesnaught",
     "height": 16,
     "weight": 900,
@@ -36449,6 +37101,7 @@
   },
   {
     "id": 653,
+    "speciesId": 653,
     "name": "Fennekin",
     "height": 4,
     "weight": 94,
@@ -36503,6 +37156,7 @@
   },
   {
     "id": 654,
+    "speciesId": 654,
     "name": "Braixen",
     "height": 10,
     "weight": 145,
@@ -36557,6 +37211,7 @@
   },
   {
     "id": 655,
+    "speciesId": 655,
     "name": "Delphox",
     "height": 15,
     "weight": 390,
@@ -36615,6 +37270,7 @@
   },
   {
     "id": 656,
+    "speciesId": 656,
     "name": "Froakie",
     "height": 3,
     "weight": 70,
@@ -36669,6 +37325,7 @@
   },
   {
     "id": 657,
+    "speciesId": 657,
     "name": "Frogadier",
     "height": 6,
     "weight": 109,
@@ -36723,6 +37380,7 @@
   },
   {
     "id": 658,
+    "speciesId": 658,
     "name": "Greninja",
     "height": 15,
     "weight": 400,
@@ -36781,6 +37439,7 @@
   },
   {
     "id": 659,
+    "speciesId": 659,
     "name": "Bunnelby",
     "height": 4,
     "weight": 50,
@@ -36835,6 +37494,7 @@
   },
   {
     "id": 660,
+    "speciesId": 660,
     "name": "Diggersby",
     "height": 10,
     "weight": 424,
@@ -36893,6 +37553,7 @@
   },
   {
     "id": 661,
+    "speciesId": 661,
     "name": "Fletchling",
     "height": 3,
     "weight": 17,
@@ -36951,6 +37612,7 @@
   },
   {
     "id": 662,
+    "speciesId": 662,
     "name": "Fletchinder",
     "height": 7,
     "weight": 160,
@@ -37009,6 +37671,7 @@
   },
   {
     "id": 663,
+    "speciesId": 663,
     "name": "Talonflame",
     "height": 12,
     "weight": 245,
@@ -37067,6 +37730,7 @@
   },
   {
     "id": 664,
+    "speciesId": 664,
     "name": "Scatterbug",
     "height": 3,
     "weight": 25,
@@ -37121,6 +37785,7 @@
   },
   {
     "id": 665,
+    "speciesId": 665,
     "name": "Spewpa",
     "height": 3,
     "weight": 84,
@@ -37175,6 +37840,7 @@
   },
   {
     "id": 666,
+    "speciesId": 666,
     "name": "Vivillon",
     "height": 12,
     "weight": 170,
@@ -37233,6 +37899,7 @@
   },
   {
     "id": 667,
+    "speciesId": 667,
     "name": "Litleo",
     "height": 6,
     "weight": 135,
@@ -37291,6 +37958,7 @@
   },
   {
     "id": 668,
+    "speciesId": 668,
     "name": "Pyroar-male",
     "height": 15,
     "weight": 815,
@@ -37349,6 +38017,7 @@
   },
   {
     "id": 669,
+    "speciesId": 669,
     "name": "Flabebe",
     "height": 1,
     "weight": 1,
@@ -37403,6 +38072,7 @@
   },
   {
     "id": 670,
+    "speciesId": 670,
     "name": "Floette",
     "height": 2,
     "weight": 9,
@@ -37457,6 +38127,7 @@
   },
   {
     "id": 671,
+    "speciesId": 671,
     "name": "Florges",
     "height": 11,
     "weight": 100,
@@ -37511,6 +38182,7 @@
   },
   {
     "id": 672,
+    "speciesId": 672,
     "name": "Skiddo",
     "height": 9,
     "weight": 310,
@@ -37565,6 +38237,7 @@
   },
   {
     "id": 673,
+    "speciesId": 673,
     "name": "Gogoat",
     "height": 17,
     "weight": 910,
@@ -37619,6 +38292,7 @@
   },
   {
     "id": 674,
+    "speciesId": 674,
     "name": "Pancham",
     "height": 6,
     "weight": 80,
@@ -37673,6 +38347,7 @@
   },
   {
     "id": 675,
+    "speciesId": 675,
     "name": "Pangoro",
     "height": 21,
     "weight": 1360,
@@ -37731,6 +38406,7 @@
   },
   {
     "id": 676,
+    "speciesId": 676,
     "name": "Furfrou",
     "height": 12,
     "weight": 280,
@@ -37785,6 +38461,7 @@
   },
   {
     "id": 677,
+    "speciesId": 677,
     "name": "Espurr",
     "height": 3,
     "weight": 35,
@@ -37839,6 +38516,7 @@
   },
   {
     "id": 678,
+    "speciesId": 678,
     "name": "Meowstic-male",
     "height": 6,
     "weight": 85,
@@ -37893,6 +38571,7 @@
   },
   {
     "id": 679,
+    "speciesId": 679,
     "name": "Honedge",
     "height": 8,
     "weight": 20,
@@ -37951,6 +38630,7 @@
   },
   {
     "id": 680,
+    "speciesId": 680,
     "name": "Doublade",
     "height": 8,
     "weight": 45,
@@ -38009,6 +38689,7 @@
   },
   {
     "id": 681,
+    "speciesId": 681,
     "name": "Aegislash-shield",
     "height": 17,
     "weight": 530,
@@ -38067,6 +38748,7 @@
   },
   {
     "id": 682,
+    "speciesId": 682,
     "name": "Spritzee",
     "height": 2,
     "weight": 5,
@@ -38121,6 +38803,7 @@
   },
   {
     "id": 683,
+    "speciesId": 683,
     "name": "Aromatisse",
     "height": 8,
     "weight": 155,
@@ -38175,6 +38858,7 @@
   },
   {
     "id": 684,
+    "speciesId": 684,
     "name": "Swirlix",
     "height": 4,
     "weight": 35,
@@ -38229,6 +38913,7 @@
   },
   {
     "id": 685,
+    "speciesId": 685,
     "name": "Slurpuff",
     "height": 8,
     "weight": 50,
@@ -38283,6 +38968,7 @@
   },
   {
     "id": 686,
+    "speciesId": 686,
     "name": "Inkay",
     "height": 4,
     "weight": 35,
@@ -38341,6 +39027,7 @@
   },
   {
     "id": 687,
+    "speciesId": 687,
     "name": "Malamar",
     "height": 15,
     "weight": 470,
@@ -38399,6 +39086,7 @@
   },
   {
     "id": 688,
+    "speciesId": 688,
     "name": "Binacle",
     "height": 5,
     "weight": 310,
@@ -38457,6 +39145,7 @@
   },
   {
     "id": 689,
+    "speciesId": 689,
     "name": "Barbaracle",
     "height": 13,
     "weight": 960,
@@ -38515,6 +39204,7 @@
   },
   {
     "id": 690,
+    "speciesId": 690,
     "name": "Skrelp",
     "height": 5,
     "weight": 73,
@@ -38573,6 +39263,7 @@
   },
   {
     "id": 691,
+    "speciesId": 691,
     "name": "Dragalge",
     "height": 18,
     "weight": 815,
@@ -38631,6 +39322,7 @@
   },
   {
     "id": 692,
+    "speciesId": 692,
     "name": "Clauncher",
     "height": 5,
     "weight": 83,
@@ -38685,6 +39377,7 @@
   },
   {
     "id": 693,
+    "speciesId": 693,
     "name": "Clawitzer",
     "height": 13,
     "weight": 353,
@@ -38739,6 +39432,7 @@
   },
   {
     "id": 694,
+    "speciesId": 694,
     "name": "Helioptile",
     "height": 5,
     "weight": 60,
@@ -38797,6 +39491,7 @@
   },
   {
     "id": 695,
+    "speciesId": 695,
     "name": "Heliolisk",
     "height": 10,
     "weight": 210,
@@ -38855,6 +39550,7 @@
   },
   {
     "id": 696,
+    "speciesId": 696,
     "name": "Tyrunt",
     "height": 8,
     "weight": 260,
@@ -38913,6 +39609,7 @@
   },
   {
     "id": 697,
+    "speciesId": 697,
     "name": "Tyrantrum",
     "height": 25,
     "weight": 2700,
@@ -38971,6 +39668,7 @@
   },
   {
     "id": 698,
+    "speciesId": 698,
     "name": "Amaura",
     "height": 13,
     "weight": 252,
@@ -39029,6 +39727,7 @@
   },
   {
     "id": 699,
+    "speciesId": 699,
     "name": "Aurorus",
     "height": 27,
     "weight": 2250,
@@ -39087,6 +39786,7 @@
   },
   {
     "id": 700,
+    "speciesId": 700,
     "name": "Sylveon",
     "height": 10,
     "weight": 235,
@@ -39141,6 +39841,7 @@
   },
   {
     "id": 701,
+    "speciesId": 701,
     "name": "Hawlucha",
     "height": 8,
     "weight": 215,
@@ -39199,6 +39900,7 @@
   },
   {
     "id": 702,
+    "speciesId": 702,
     "name": "Dedenne",
     "height": 2,
     "weight": 22,
@@ -39257,6 +39959,7 @@
   },
   {
     "id": 703,
+    "speciesId": 703,
     "name": "Carbink",
     "height": 3,
     "weight": 57,
@@ -39315,6 +40018,7 @@
   },
   {
     "id": 704,
+    "speciesId": 704,
     "name": "Goomy",
     "height": 3,
     "weight": 28,
@@ -39369,6 +40073,7 @@
   },
   {
     "id": 705,
+    "speciesId": 705,
     "name": "Sliggoo",
     "height": 8,
     "weight": 175,
@@ -39423,6 +40128,7 @@
   },
   {
     "id": 706,
+    "speciesId": 706,
     "name": "Goodra",
     "height": 20,
     "weight": 1505,
@@ -39477,6 +40183,7 @@
   },
   {
     "id": 707,
+    "speciesId": 707,
     "name": "Klefki",
     "height": 2,
     "weight": 30,
@@ -39535,6 +40242,7 @@
   },
   {
     "id": 708,
+    "speciesId": 708,
     "name": "Phantump",
     "height": 4,
     "weight": 70,
@@ -39593,6 +40301,7 @@
   },
   {
     "id": 709,
+    "speciesId": 709,
     "name": "Trevenant",
     "height": 15,
     "weight": 710,
@@ -39651,6 +40360,7 @@
   },
   {
     "id": 710,
+    "speciesId": 710,
     "name": "Pumpkaboo-average",
     "height": 4,
     "weight": 50,
@@ -39709,6 +40419,7 @@
   },
   {
     "id": 711,
+    "speciesId": 711,
     "name": "Gourgeist-average",
     "height": 9,
     "weight": 125,
@@ -39767,6 +40478,7 @@
   },
   {
     "id": 712,
+    "speciesId": 712,
     "name": "Bergmite",
     "height": 10,
     "weight": 995,
@@ -39821,6 +40533,7 @@
   },
   {
     "id": 713,
+    "speciesId": 713,
     "name": "Avalugg",
     "height": 20,
     "weight": 5050,
@@ -39875,6 +40588,7 @@
   },
   {
     "id": 714,
+    "speciesId": 714,
     "name": "Noibat",
     "height": 5,
     "weight": 80,
@@ -39933,6 +40647,7 @@
   },
   {
     "id": 715,
+    "speciesId": 715,
     "name": "Noivern",
     "height": 15,
     "weight": 850,
@@ -39991,6 +40706,7 @@
   },
   {
     "id": 716,
+    "speciesId": 716,
     "name": "Xerneas",
     "height": 30,
     "weight": 2150,
@@ -40045,6 +40761,7 @@
   },
   {
     "id": 717,
+    "speciesId": 717,
     "name": "Yveltal",
     "height": 58,
     "weight": 2030,
@@ -40103,6 +40820,7 @@
   },
   {
     "id": 718,
+    "speciesId": 718,
     "name": "Zygarde-50",
     "height": 50,
     "weight": 3050,
@@ -40161,6 +40879,7 @@
   },
   {
     "id": 719,
+    "speciesId": 719,
     "name": "Diancie",
     "height": 7,
     "weight": 88,
@@ -40219,6 +40938,7 @@
   },
   {
     "id": 720,
+    "speciesId": 720,
     "name": "Hoopa",
     "height": 5,
     "weight": 90,
@@ -40277,6 +40997,7 @@
   },
   {
     "id": 721,
+    "speciesId": 721,
     "name": "Volcanion",
     "height": 17,
     "weight": 1950,
@@ -40335,6 +41056,7 @@
   },
   {
     "id": 722,
+    "speciesId": 722,
     "name": "Rowlet",
     "height": 3,
     "weight": 15,
@@ -40393,6 +41115,7 @@
   },
   {
     "id": 723,
+    "speciesId": 723,
     "name": "Dartrix",
     "height": 7,
     "weight": 160,
@@ -40451,6 +41174,7 @@
   },
   {
     "id": 724,
+    "speciesId": 724,
     "name": "Decidueye",
     "height": 16,
     "weight": 366,
@@ -40509,6 +41233,7 @@
   },
   {
     "id": 725,
+    "speciesId": 725,
     "name": "Litten",
     "height": 4,
     "weight": 43,
@@ -40563,6 +41288,7 @@
   },
   {
     "id": 726,
+    "speciesId": 726,
     "name": "Torracat",
     "height": 7,
     "weight": 250,
@@ -40617,6 +41343,7 @@
   },
   {
     "id": 727,
+    "speciesId": 727,
     "name": "Incineroar",
     "height": 18,
     "weight": 830,
@@ -40675,6 +41402,7 @@
   },
   {
     "id": 728,
+    "speciesId": 728,
     "name": "Popplio",
     "height": 4,
     "weight": 75,
@@ -40729,6 +41457,7 @@
   },
   {
     "id": 729,
+    "speciesId": 729,
     "name": "Brionne",
     "height": 6,
     "weight": 175,
@@ -40783,6 +41512,7 @@
   },
   {
     "id": 730,
+    "speciesId": 730,
     "name": "Primarina",
     "height": 18,
     "weight": 440,
@@ -40841,6 +41571,7 @@
   },
   {
     "id": 731,
+    "speciesId": 731,
     "name": "Pikipek",
     "height": 3,
     "weight": 12,
@@ -40899,6 +41630,7 @@
   },
   {
     "id": 732,
+    "speciesId": 732,
     "name": "Trumbeak",
     "height": 6,
     "weight": 148,
@@ -40957,6 +41689,7 @@
   },
   {
     "id": 733,
+    "speciesId": 733,
     "name": "Toucannon",
     "height": 11,
     "weight": 260,
@@ -41015,6 +41748,7 @@
   },
   {
     "id": 734,
+    "speciesId": 734,
     "name": "Yungoos",
     "height": 4,
     "weight": 60,
@@ -41069,6 +41803,7 @@
   },
   {
     "id": 735,
+    "speciesId": 735,
     "name": "Gumshoos",
     "height": 7,
     "weight": 142,
@@ -41123,6 +41858,7 @@
   },
   {
     "id": 736,
+    "speciesId": 736,
     "name": "Grubbin",
     "height": 4,
     "weight": 44,
@@ -41177,6 +41913,7 @@
   },
   {
     "id": 737,
+    "speciesId": 737,
     "name": "Charjabug",
     "height": 5,
     "weight": 105,
@@ -41235,6 +41972,7 @@
   },
   {
     "id": 738,
+    "speciesId": 738,
     "name": "Vikavolt",
     "height": 15,
     "weight": 450,
@@ -41293,6 +42031,7 @@
   },
   {
     "id": 739,
+    "speciesId": 739,
     "name": "Crabrawler",
     "height": 6,
     "weight": 70,
@@ -41347,6 +42086,7 @@
   },
   {
     "id": 740,
+    "speciesId": 740,
     "name": "Crabominable",
     "height": 17,
     "weight": 1800,
@@ -41405,6 +42145,7 @@
   },
   {
     "id": 741,
+    "speciesId": 741,
     "name": "Oricorio-baile",
     "height": 6,
     "weight": 34,
@@ -41463,6 +42204,7 @@
   },
   {
     "id": 742,
+    "speciesId": 742,
     "name": "Cutiefly",
     "height": 1,
     "weight": 2,
@@ -41521,6 +42263,7 @@
   },
   {
     "id": 743,
+    "speciesId": 743,
     "name": "Ribombee",
     "height": 2,
     "weight": 5,
@@ -41579,6 +42322,7 @@
   },
   {
     "id": 744,
+    "speciesId": 744,
     "name": "Rockruff",
     "height": 5,
     "weight": 92,
@@ -41633,6 +42377,7 @@
   },
   {
     "id": 745,
+    "speciesId": 745,
     "name": "Lycanroc-midday",
     "height": 8,
     "weight": 250,
@@ -41687,6 +42432,7 @@
   },
   {
     "id": 746,
+    "speciesId": 746,
     "name": "Wishiwashi-solo",
     "height": 2,
     "weight": 3,
@@ -41741,6 +42487,7 @@
   },
   {
     "id": 747,
+    "speciesId": 747,
     "name": "Mareanie",
     "height": 4,
     "weight": 80,
@@ -41799,6 +42546,7 @@
   },
   {
     "id": 748,
+    "speciesId": 748,
     "name": "Toxapex",
     "height": 7,
     "weight": 145,
@@ -41857,6 +42605,7 @@
   },
   {
     "id": 749,
+    "speciesId": 749,
     "name": "Mudbray",
     "height": 10,
     "weight": 1100,
@@ -41911,6 +42660,7 @@
   },
   {
     "id": 750,
+    "speciesId": 750,
     "name": "Mudsdale",
     "height": 25,
     "weight": 9200,
@@ -41965,6 +42715,7 @@
   },
   {
     "id": 751,
+    "speciesId": 751,
     "name": "Dewpider",
     "height": 3,
     "weight": 40,
@@ -42023,6 +42774,7 @@
   },
   {
     "id": 752,
+    "speciesId": 752,
     "name": "Araquanid",
     "height": 18,
     "weight": 820,
@@ -42081,6 +42833,7 @@
   },
   {
     "id": 753,
+    "speciesId": 753,
     "name": "Fomantis",
     "height": 3,
     "weight": 15,
@@ -42135,6 +42888,7 @@
   },
   {
     "id": 754,
+    "speciesId": 754,
     "name": "Lurantis",
     "height": 9,
     "weight": 185,
@@ -42189,6 +42943,7 @@
   },
   {
     "id": 755,
+    "speciesId": 755,
     "name": "Morelull",
     "height": 2,
     "weight": 15,
@@ -42247,6 +43002,7 @@
   },
   {
     "id": 756,
+    "speciesId": 756,
     "name": "Shiinotic",
     "height": 10,
     "weight": 115,
@@ -42305,6 +43061,7 @@
   },
   {
     "id": 757,
+    "speciesId": 757,
     "name": "Salandit",
     "height": 6,
     "weight": 48,
@@ -42363,6 +43120,7 @@
   },
   {
     "id": 758,
+    "speciesId": 758,
     "name": "Salazzle",
     "height": 12,
     "weight": 222,
@@ -42421,6 +43179,7 @@
   },
   {
     "id": 759,
+    "speciesId": 759,
     "name": "Stufful",
     "height": 5,
     "weight": 68,
@@ -42479,6 +43238,7 @@
   },
   {
     "id": 760,
+    "speciesId": 760,
     "name": "Bewear",
     "height": 21,
     "weight": 1350,
@@ -42537,6 +43297,7 @@
   },
   {
     "id": 761,
+    "speciesId": 761,
     "name": "Bounsweet",
     "height": 3,
     "weight": 32,
@@ -42591,6 +43352,7 @@
   },
   {
     "id": 762,
+    "speciesId": 762,
     "name": "Steenee",
     "height": 7,
     "weight": 82,
@@ -42645,6 +43407,7 @@
   },
   {
     "id": 763,
+    "speciesId": 763,
     "name": "Tsareena",
     "height": 12,
     "weight": 214,
@@ -42699,6 +43462,7 @@
   },
   {
     "id": 764,
+    "speciesId": 764,
     "name": "Comfey",
     "height": 1,
     "weight": 3,
@@ -42753,6 +43517,7 @@
   },
   {
     "id": 765,
+    "speciesId": 765,
     "name": "Oranguru",
     "height": 15,
     "weight": 760,
@@ -42811,6 +43576,7 @@
   },
   {
     "id": 766,
+    "speciesId": 766,
     "name": "Passimian",
     "height": 20,
     "weight": 828,
@@ -42865,6 +43631,7 @@
   },
   {
     "id": 767,
+    "speciesId": 767,
     "name": "Wimpod",
     "height": 5,
     "weight": 120,
@@ -42923,6 +43690,7 @@
   },
   {
     "id": 768,
+    "speciesId": 768,
     "name": "Golisopod",
     "height": 20,
     "weight": 1080,
@@ -42981,6 +43749,7 @@
   },
   {
     "id": 769,
+    "speciesId": 769,
     "name": "Sandygast",
     "height": 5,
     "weight": 700,
@@ -43039,6 +43808,7 @@
   },
   {
     "id": 770,
+    "speciesId": 770,
     "name": "Palossand",
     "height": 13,
     "weight": 2500,
@@ -43097,6 +43867,7 @@
   },
   {
     "id": 771,
+    "speciesId": 771,
     "name": "Pyukumuku",
     "height": 3,
     "weight": 12,
@@ -43151,6 +43922,7 @@
   },
   {
     "id": 772,
+    "speciesId": 772,
     "name": "Type-null",
     "height": 19,
     "weight": 1205,
@@ -43205,6 +43977,7 @@
   },
   {
     "id": 773,
+    "speciesId": 773,
     "name": "Silvally",
     "height": 23,
     "weight": 1005,
@@ -43259,6 +44032,7 @@
   },
   {
     "id": 774,
+    "speciesId": 774,
     "name": "Minior-red-meteor",
     "height": 3,
     "weight": 400,
@@ -43317,6 +44091,7 @@
   },
   {
     "id": 775,
+    "speciesId": 775,
     "name": "Komala",
     "height": 4,
     "weight": 199,
@@ -43371,6 +44146,7 @@
   },
   {
     "id": 776,
+    "speciesId": 776,
     "name": "Turtonator",
     "height": 20,
     "weight": 2120,
@@ -43429,6 +44205,7 @@
   },
   {
     "id": 777,
+    "speciesId": 777,
     "name": "Togedemaru",
     "height": 3,
     "weight": 33,
@@ -43487,6 +44264,7 @@
   },
   {
     "id": 778,
+    "speciesId": 778,
     "name": "Mimikyu-disguised",
     "height": 2,
     "weight": 7,
@@ -43545,6 +44323,7 @@
   },
   {
     "id": 779,
+    "speciesId": 779,
     "name": "Bruxish",
     "height": 9,
     "weight": 190,
@@ -43603,6 +44382,7 @@
   },
   {
     "id": 780,
+    "speciesId": 780,
     "name": "Drampa",
     "height": 30,
     "weight": 1850,
@@ -43661,6 +44441,7 @@
   },
   {
     "id": 781,
+    "speciesId": 781,
     "name": "Dhelmise",
     "height": 39,
     "weight": 2100,
@@ -43719,6 +44500,7 @@
   },
   {
     "id": 782,
+    "speciesId": 782,
     "name": "Jangmo-o",
     "height": 6,
     "weight": 297,
@@ -43773,6 +44555,7 @@
   },
   {
     "id": 783,
+    "speciesId": 783,
     "name": "Hakamo-o",
     "height": 12,
     "weight": 470,
@@ -43831,6 +44614,7 @@
   },
   {
     "id": 784,
+    "speciesId": 784,
     "name": "Kommo-o",
     "height": 16,
     "weight": 782,
@@ -43889,6 +44673,7 @@
   },
   {
     "id": 785,
+    "speciesId": 785,
     "name": "Tapu-koko",
     "height": 18,
     "weight": 205,
@@ -43947,6 +44732,7 @@
   },
   {
     "id": 786,
+    "speciesId": 786,
     "name": "Tapu-lele",
     "height": 12,
     "weight": 186,
@@ -44005,6 +44791,7 @@
   },
   {
     "id": 787,
+    "speciesId": 787,
     "name": "Tapu-bulu",
     "height": 19,
     "weight": 455,
@@ -44063,6 +44850,7 @@
   },
   {
     "id": 788,
+    "speciesId": 788,
     "name": "Tapu-fini",
     "height": 13,
     "weight": 212,
@@ -44121,6 +44909,7 @@
   },
   {
     "id": 789,
+    "speciesId": 789,
     "name": "Cosmog",
     "height": 2,
     "weight": 1,
@@ -44175,6 +44964,7 @@
   },
   {
     "id": 790,
+    "speciesId": 790,
     "name": "Cosmoem",
     "height": 1,
     "weight": 9999,
@@ -44229,6 +45019,7 @@
   },
   {
     "id": 791,
+    "speciesId": 791,
     "name": "Solgaleo",
     "height": 34,
     "weight": 2300,
@@ -44287,6 +45078,7 @@
   },
   {
     "id": 792,
+    "speciesId": 792,
     "name": "Lunala",
     "height": 40,
     "weight": 1200,
@@ -44345,6 +45137,7 @@
   },
   {
     "id": 793,
+    "speciesId": 793,
     "name": "Nihilego",
     "height": 12,
     "weight": 555,
@@ -44403,6 +45196,7 @@
   },
   {
     "id": 794,
+    "speciesId": 794,
     "name": "Buzzwole",
     "height": 24,
     "weight": 3336,
@@ -44461,6 +45255,7 @@
   },
   {
     "id": 795,
+    "speciesId": 795,
     "name": "Pheromosa",
     "height": 18,
     "weight": 250,
@@ -44519,6 +45314,7 @@
   },
   {
     "id": 796,
+    "speciesId": 796,
     "name": "Xurkitree",
     "height": 38,
     "weight": 1000,
@@ -44573,6 +45369,7 @@
   },
   {
     "id": 797,
+    "speciesId": 797,
     "name": "Celesteela",
     "height": 92,
     "weight": 9999,
@@ -44631,6 +45428,7 @@
   },
   {
     "id": 798,
+    "speciesId": 798,
     "name": "Kartana",
     "height": 3,
     "weight": 1,
@@ -44689,6 +45487,7 @@
   },
   {
     "id": 799,
+    "speciesId": 799,
     "name": "Guzzlord",
     "height": 55,
     "weight": 8880,
@@ -44747,6 +45546,7 @@
   },
   {
     "id": 800,
+    "speciesId": 800,
     "name": "Necrozma",
     "height": 24,
     "weight": 2300,
@@ -44801,6 +45601,7 @@
   },
   {
     "id": 801,
+    "speciesId": 801,
     "name": "Magearna",
     "height": 10,
     "weight": 805,
@@ -44859,6 +45660,7 @@
   },
   {
     "id": 802,
+    "speciesId": 802,
     "name": "Marshadow",
     "height": 7,
     "weight": 222,
@@ -44917,6 +45719,7 @@
   },
   {
     "id": 803,
+    "speciesId": 803,
     "name": "Poipole",
     "height": 6,
     "weight": 18,
@@ -44971,6 +45774,7 @@
   },
   {
     "id": 804,
+    "speciesId": 804,
     "name": "Naganadel",
     "height": 36,
     "weight": 1500,
@@ -45029,6 +45833,7 @@
   },
   {
     "id": 805,
+    "speciesId": 805,
     "name": "Stakataka",
     "height": 55,
     "weight": 8200,
@@ -45087,6 +45892,7 @@
   },
   {
     "id": 806,
+    "speciesId": 806,
     "name": "Blacephalon",
     "height": 18,
     "weight": 130,
@@ -45145,6 +45951,7 @@
   },
   {
     "id": 807,
+    "speciesId": 807,
     "name": "Zeraora",
     "height": 15,
     "weight": 445,
@@ -45199,6 +46006,7 @@
   },
   {
     "id": 808,
+    "speciesId": 808,
     "name": "Meltan",
     "height": 2,
     "weight": 80,
@@ -45253,6 +46061,7 @@
   },
   {
     "id": 809,
+    "speciesId": 809,
     "name": "Melmetal",
     "height": 25,
     "weight": 8000,
@@ -45307,6 +46116,7 @@
   },
   {
     "id": 810,
+    "speciesId": 810,
     "name": "Grookey",
     "height": 3,
     "weight": 50,
@@ -45361,6 +46171,7 @@
   },
   {
     "id": 811,
+    "speciesId": 811,
     "name": "Thwackey",
     "height": 7,
     "weight": 140,
@@ -45415,6 +46226,7 @@
   },
   {
     "id": 812,
+    "speciesId": 812,
     "name": "Rillaboom",
     "height": 21,
     "weight": 900,
@@ -45469,6 +46281,7 @@
   },
   {
     "id": 813,
+    "speciesId": 813,
     "name": "Scorbunny",
     "height": 3,
     "weight": 45,
@@ -45523,6 +46336,7 @@
   },
   {
     "id": 814,
+    "speciesId": 814,
     "name": "Raboot",
     "height": 6,
     "weight": 90,
@@ -45577,6 +46391,7 @@
   },
   {
     "id": 815,
+    "speciesId": 815,
     "name": "Cinderace",
     "height": 14,
     "weight": 330,
@@ -45631,6 +46446,7 @@
   },
   {
     "id": 816,
+    "speciesId": 816,
     "name": "Sobble",
     "height": 3,
     "weight": 40,
@@ -45685,6 +46501,7 @@
   },
   {
     "id": 817,
+    "speciesId": 817,
     "name": "Drizzile",
     "height": 7,
     "weight": 115,
@@ -45739,6 +46556,7 @@
   },
   {
     "id": 818,
+    "speciesId": 818,
     "name": "Inteleon",
     "height": 19,
     "weight": 452,
@@ -45793,6 +46611,7 @@
   },
   {
     "id": 819,
+    "speciesId": 819,
     "name": "Skwovet",
     "height": 3,
     "weight": 25,
@@ -45847,6 +46666,7 @@
   },
   {
     "id": 820,
+    "speciesId": 820,
     "name": "Greedent",
     "height": 6,
     "weight": 60,
@@ -45901,6 +46721,7 @@
   },
   {
     "id": 821,
+    "speciesId": 821,
     "name": "Rookidee",
     "height": 2,
     "weight": 18,
@@ -45955,6 +46776,7 @@
   },
   {
     "id": 822,
+    "speciesId": 822,
     "name": "Corvisquire",
     "height": 8,
     "weight": 160,
@@ -46009,6 +46831,7 @@
   },
   {
     "id": 823,
+    "speciesId": 823,
     "name": "Corviknight",
     "height": 22,
     "weight": 750,
@@ -46067,6 +46890,7 @@
   },
   {
     "id": 824,
+    "speciesId": 824,
     "name": "Blipbug",
     "height": 4,
     "weight": 80,
@@ -46121,6 +46945,7 @@
   },
   {
     "id": 825,
+    "speciesId": 825,
     "name": "Dottler",
     "height": 4,
     "weight": 195,
@@ -46179,6 +47004,7 @@
   },
   {
     "id": 826,
+    "speciesId": 826,
     "name": "Orbeetle",
     "height": 4,
     "weight": 408,
@@ -46237,6 +47063,7 @@
   },
   {
     "id": 827,
+    "speciesId": 827,
     "name": "Nickit",
     "height": 6,
     "weight": 89,
@@ -46291,6 +47118,7 @@
   },
   {
     "id": 828,
+    "speciesId": 828,
     "name": "Thievul",
     "height": 12,
     "weight": 199,
@@ -46345,6 +47173,7 @@
   },
   {
     "id": 829,
+    "speciesId": 829,
     "name": "Gossifleur",
     "height": 4,
     "weight": 22,
@@ -46399,6 +47228,7 @@
   },
   {
     "id": 830,
+    "speciesId": 830,
     "name": "Eldegoss",
     "height": 5,
     "weight": 25,
@@ -46453,6 +47283,7 @@
   },
   {
     "id": 831,
+    "speciesId": 831,
     "name": "Wooloo",
     "height": 6,
     "weight": 60,
@@ -46507,6 +47338,7 @@
   },
   {
     "id": 832,
+    "speciesId": 832,
     "name": "Dubwool",
     "height": 13,
     "weight": 430,
@@ -46561,6 +47393,7 @@
   },
   {
     "id": 833,
+    "speciesId": 833,
     "name": "Chewtle",
     "height": 3,
     "weight": 85,
@@ -46615,6 +47448,7 @@
   },
   {
     "id": 834,
+    "speciesId": 834,
     "name": "Drednaw",
     "height": 10,
     "weight": 1155,
@@ -46673,6 +47507,7 @@
   },
   {
     "id": 835,
+    "speciesId": 835,
     "name": "Yamper",
     "height": 3,
     "weight": 135,
@@ -46727,6 +47562,7 @@
   },
   {
     "id": 836,
+    "speciesId": 836,
     "name": "Boltund",
     "height": 10,
     "weight": 340,
@@ -46781,6 +47617,7 @@
   },
   {
     "id": 837,
+    "speciesId": 837,
     "name": "Rolycoly",
     "height": 3,
     "weight": 120,
@@ -46835,6 +47672,7 @@
   },
   {
     "id": 838,
+    "speciesId": 838,
     "name": "Carkol",
     "height": 11,
     "weight": 780,
@@ -46893,6 +47731,7 @@
   },
   {
     "id": 839,
+    "speciesId": 839,
     "name": "Coalossal",
     "height": 28,
     "weight": 3105,
@@ -46951,6 +47790,7 @@
   },
   {
     "id": 840,
+    "speciesId": 840,
     "name": "Applin",
     "height": 2,
     "weight": 5,
@@ -47009,6 +47849,7 @@
   },
   {
     "id": 841,
+    "speciesId": 841,
     "name": "Flapple",
     "height": 3,
     "weight": 10,
@@ -47067,6 +47908,7 @@
   },
   {
     "id": 842,
+    "speciesId": 842,
     "name": "Appletun",
     "height": 4,
     "weight": 130,
@@ -47125,6 +47967,7 @@
   },
   {
     "id": 843,
+    "speciesId": 843,
     "name": "Silicobra",
     "height": 22,
     "weight": 76,
@@ -47179,6 +48022,7 @@
   },
   {
     "id": 844,
+    "speciesId": 844,
     "name": "Sandaconda",
     "height": 38,
     "weight": 655,
@@ -47233,6 +48077,7 @@
   },
   {
     "id": 845,
+    "speciesId": 845,
     "name": "Cramorant",
     "height": 8,
     "weight": 180,
@@ -47291,6 +48136,7 @@
   },
   {
     "id": 846,
+    "speciesId": 846,
     "name": "Arrokuda",
     "height": 5,
     "weight": 10,
@@ -47345,6 +48191,7 @@
   },
   {
     "id": 847,
+    "speciesId": 847,
     "name": "Barraskewda",
     "height": 13,
     "weight": 300,
@@ -47399,6 +48246,7 @@
   },
   {
     "id": 848,
+    "speciesId": 848,
     "name": "Toxel",
     "height": 4,
     "weight": 110,
@@ -47457,6 +48305,7 @@
   },
   {
     "id": 849,
+    "speciesId": 849,
     "name": "Toxtricity-amped",
     "height": 16,
     "weight": 400,
@@ -47515,6 +48364,7 @@
   },
   {
     "id": 850,
+    "speciesId": 850,
     "name": "Sizzlipede",
     "height": 7,
     "weight": 10,
@@ -47573,6 +48423,7 @@
   },
   {
     "id": 851,
+    "speciesId": 851,
     "name": "Centiskorch",
     "height": 30,
     "weight": 1200,
@@ -47631,6 +48482,7 @@
   },
   {
     "id": 852,
+    "speciesId": 852,
     "name": "Clobbopus",
     "height": 6,
     "weight": 40,
@@ -47685,6 +48537,7 @@
   },
   {
     "id": 853,
+    "speciesId": 853,
     "name": "Grapploct",
     "height": 16,
     "weight": 390,
@@ -47739,6 +48592,7 @@
   },
   {
     "id": 854,
+    "speciesId": 854,
     "name": "Sinistea",
     "height": 1,
     "weight": 2,
@@ -47793,6 +48647,7 @@
   },
   {
     "id": 855,
+    "speciesId": 855,
     "name": "Polteageist",
     "height": 2,
     "weight": 4,
@@ -47847,6 +48702,7 @@
   },
   {
     "id": 856,
+    "speciesId": 856,
     "name": "Hatenna",
     "height": 4,
     "weight": 34,
@@ -47901,6 +48757,7 @@
   },
   {
     "id": 857,
+    "speciesId": 857,
     "name": "Hattrem",
     "height": 6,
     "weight": 48,
@@ -47955,6 +48812,7 @@
   },
   {
     "id": 858,
+    "speciesId": 858,
     "name": "Hatterene",
     "height": 21,
     "weight": 51,
@@ -48013,6 +48871,7 @@
   },
   {
     "id": 859,
+    "speciesId": 859,
     "name": "Impidimp",
     "height": 4,
     "weight": 55,
@@ -48071,6 +48930,7 @@
   },
   {
     "id": 860,
+    "speciesId": 860,
     "name": "Morgrem",
     "height": 8,
     "weight": 125,
@@ -48129,6 +48989,7 @@
   },
   {
     "id": 861,
+    "speciesId": 861,
     "name": "Grimmsnarl",
     "height": 15,
     "weight": 610,
@@ -48187,6 +49048,7 @@
   },
   {
     "id": 862,
+    "speciesId": 862,
     "name": "Obstagoon",
     "height": 16,
     "weight": 460,
@@ -48245,6 +49107,7 @@
   },
   {
     "id": 863,
+    "speciesId": 863,
     "name": "Perrserker",
     "height": 8,
     "weight": 280,
@@ -48299,6 +49162,7 @@
   },
   {
     "id": 864,
+    "speciesId": 864,
     "name": "Cursola",
     "height": 10,
     "weight": 4,
@@ -48353,6 +49217,7 @@
   },
   {
     "id": 865,
+    "speciesId": 865,
     "name": "Sirfetchd",
     "height": 8,
     "weight": 1170,
@@ -48407,6 +49272,7 @@
   },
   {
     "id": 866,
+    "speciesId": 866,
     "name": "Mr-rime",
     "height": 15,
     "weight": 582,
@@ -48465,6 +49331,7 @@
   },
   {
     "id": 867,
+    "speciesId": 867,
     "name": "Runerigus",
     "height": 16,
     "weight": 666,
@@ -48523,6 +49390,7 @@
   },
   {
     "id": 868,
+    "speciesId": 868,
     "name": "Milcery",
     "height": 2,
     "weight": 3,
@@ -48577,6 +49445,7 @@
   },
   {
     "id": 869,
+    "speciesId": 869,
     "name": "Alcremie",
     "height": 3,
     "weight": 5,
@@ -48631,6 +49500,7 @@
   },
   {
     "id": 870,
+    "speciesId": 870,
     "name": "Falinks",
     "height": 30,
     "weight": 620,
@@ -48685,6 +49555,7 @@
   },
   {
     "id": 871,
+    "speciesId": 871,
     "name": "Pincurchin",
     "height": 3,
     "weight": 10,
@@ -48739,6 +49610,7 @@
   },
   {
     "id": 872,
+    "speciesId": 872,
     "name": "Snom",
     "height": 3,
     "weight": 38,
@@ -48797,6 +49669,7 @@
   },
   {
     "id": 873,
+    "speciesId": 873,
     "name": "Frosmoth",
     "height": 13,
     "weight": 420,
@@ -48855,6 +49728,7 @@
   },
   {
     "id": 874,
+    "speciesId": 874,
     "name": "Stonjourner",
     "height": 25,
     "weight": 5200,
@@ -48909,6 +49783,7 @@
   },
   {
     "id": 875,
+    "speciesId": 875,
     "name": "Eiscue-ice",
     "height": 14,
     "weight": 890,
@@ -48963,6 +49838,7 @@
   },
   {
     "id": 876,
+    "speciesId": 876,
     "name": "Indeedee-male",
     "height": 9,
     "weight": 280,
@@ -49021,6 +49897,7 @@
   },
   {
     "id": 877,
+    "speciesId": 877,
     "name": "Morpeko-full-belly",
     "height": 3,
     "weight": 30,
@@ -49079,6 +49956,7 @@
   },
   {
     "id": 878,
+    "speciesId": 878,
     "name": "Cufant",
     "height": 12,
     "weight": 1000,
@@ -49133,6 +50011,7 @@
   },
   {
     "id": 879,
+    "speciesId": 879,
     "name": "Copperajah",
     "height": 30,
     "weight": 6500,
@@ -49187,6 +50066,7 @@
   },
   {
     "id": 880,
+    "speciesId": 880,
     "name": "Dracozolt",
     "height": 18,
     "weight": 1900,
@@ -49245,6 +50125,7 @@
   },
   {
     "id": 881,
+    "speciesId": 881,
     "name": "Arctozolt",
     "height": 23,
     "weight": 1500,
@@ -49303,6 +50184,7 @@
   },
   {
     "id": 882,
+    "speciesId": 882,
     "name": "Dracovish",
     "height": 23,
     "weight": 2150,
@@ -49361,6 +50243,7 @@
   },
   {
     "id": 883,
+    "speciesId": 883,
     "name": "Arctovish",
     "height": 20,
     "weight": 1750,
@@ -49419,6 +50302,7 @@
   },
   {
     "id": 884,
+    "speciesId": 884,
     "name": "Duraludon",
     "height": 18,
     "weight": 400,
@@ -49477,6 +50361,7 @@
   },
   {
     "id": 885,
+    "speciesId": 885,
     "name": "Dreepy",
     "height": 5,
     "weight": 20,
@@ -49535,6 +50420,7 @@
   },
   {
     "id": 886,
+    "speciesId": 886,
     "name": "Drakloak",
     "height": 14,
     "weight": 110,
@@ -49593,6 +50479,7 @@
   },
   {
     "id": 887,
+    "speciesId": 887,
     "name": "Dragapult",
     "height": 30,
     "weight": 500,
@@ -49651,6 +50538,7 @@
   },
   {
     "id": 888,
+    "speciesId": 888,
     "name": "Zacian",
     "height": 28,
     "weight": 1100,
@@ -49705,6 +50593,7 @@
   },
   {
     "id": 889,
+    "speciesId": 889,
     "name": "Zamazenta",
     "height": 29,
     "weight": 2100,
@@ -49759,6 +50648,7 @@
   },
   {
     "id": 890,
+    "speciesId": 890,
     "name": "Eternatus",
     "height": 200,
     "weight": 9500,
@@ -49817,6 +50707,7 @@
   },
   {
     "id": 891,
+    "speciesId": 891,
     "name": "Kubfu",
     "height": 6,
     "weight": 120,
@@ -49871,6 +50762,7 @@
   },
   {
     "id": 892,
+    "speciesId": 892,
     "name": "Urshifu-single-strike",
     "height": 19,
     "weight": 1050,
@@ -49929,6 +50821,7 @@
   },
   {
     "id": 893,
+    "speciesId": 893,
     "name": "Zarude",
     "height": 18,
     "weight": 700,
@@ -49987,6 +50880,7 @@
   },
   {
     "id": 894,
+    "speciesId": 894,
     "name": "Regieleki",
     "height": 12,
     "weight": 1450,
@@ -50041,6 +50935,7 @@
   },
   {
     "id": 895,
+    "speciesId": 895,
     "name": "Regidrago",
     "height": 21,
     "weight": 2000,
@@ -50095,6 +50990,7 @@
   },
   {
     "id": 896,
+    "speciesId": 896,
     "name": "Glastrier",
     "height": 22,
     "weight": 8000,
@@ -50149,6 +51045,7 @@
   },
   {
     "id": 897,
+    "speciesId": 897,
     "name": "Spectrier",
     "height": 20,
     "weight": 445,
@@ -50203,6 +51100,7 @@
   },
   {
     "id": 898,
+    "speciesId": 898,
     "name": "Calyrex",
     "height": 11,
     "weight": 77,
@@ -50261,6 +51159,7 @@
   },
   {
     "id": 899,
+    "speciesId": 899,
     "name": "Wyrdeer",
     "height": 18,
     "weight": 951,
@@ -50319,6 +51218,7 @@
   },
   {
     "id": 900,
+    "speciesId": 900,
     "name": "Kleavor",
     "height": 18,
     "weight": 890,
@@ -50377,6 +51277,7 @@
   },
   {
     "id": 901,
+    "speciesId": 901,
     "name": "Ursaluna",
     "height": 24,
     "weight": 2900,
@@ -50435,6 +51336,7 @@
   },
   {
     "id": 902,
+    "speciesId": 902,
     "name": "Basculegion-male",
     "height": 30,
     "weight": 1100,
@@ -50493,6 +51395,7 @@
   },
   {
     "id": 903,
+    "speciesId": 903,
     "name": "Sneasler",
     "height": 13,
     "weight": 430,
@@ -50551,6 +51454,7 @@
   },
   {
     "id": 904,
+    "speciesId": 904,
     "name": "Overqwil",
     "height": 25,
     "weight": 605,
@@ -50609,6 +51513,7 @@
   },
   {
     "id": 905,
+    "speciesId": 905,
     "name": "Enamorus-incarnate",
     "height": 16,
     "weight": 480,
@@ -50667,6 +51572,7 @@
   },
   {
     "id": 906,
+    "speciesId": 906,
     "name": "Sprigatito",
     "height": 4,
     "weight": 41,
@@ -50721,6 +51627,7 @@
   },
   {
     "id": 907,
+    "speciesId": 907,
     "name": "Floragato",
     "height": 9,
     "weight": 122,
@@ -50775,6 +51682,7 @@
   },
   {
     "id": 908,
+    "speciesId": 908,
     "name": "Meowscarada",
     "height": 15,
     "weight": 312,
@@ -50833,6 +51741,7 @@
   },
   {
     "id": 909,
+    "speciesId": 909,
     "name": "Fuecoco",
     "height": 4,
     "weight": 98,
@@ -50887,6 +51796,7 @@
   },
   {
     "id": 910,
+    "speciesId": 910,
     "name": "Crocalor",
     "height": 10,
     "weight": 307,
@@ -50941,6 +51851,7 @@
   },
   {
     "id": 911,
+    "speciesId": 911,
     "name": "Skeledirge",
     "height": 16,
     "weight": 3265,
@@ -50999,6 +51910,7 @@
   },
   {
     "id": 912,
+    "speciesId": 912,
     "name": "Quaxly",
     "height": 5,
     "weight": 61,
@@ -51053,6 +51965,7 @@
   },
   {
     "id": 913,
+    "speciesId": 913,
     "name": "Quaxwell",
     "height": 12,
     "weight": 215,
@@ -51107,6 +52020,7 @@
   },
   {
     "id": 914,
+    "speciesId": 914,
     "name": "Quaquaval",
     "height": 18,
     "weight": 619,
@@ -51165,6 +52079,7 @@
   },
   {
     "id": 915,
+    "speciesId": 915,
     "name": "Lechonk",
     "height": 5,
     "weight": 102,
@@ -51219,6 +52134,7 @@
   },
   {
     "id": 916,
+    "speciesId": 916,
     "name": "Oinkologne-male",
     "height": 10,
     "weight": 1200,
@@ -51273,6 +52189,7 @@
   },
   {
     "id": 917,
+    "speciesId": 917,
     "name": "Tarountula",
     "height": 3,
     "weight": 40,
@@ -51327,6 +52244,7 @@
   },
   {
     "id": 918,
+    "speciesId": 918,
     "name": "Spidops",
     "height": 10,
     "weight": 165,
@@ -51381,6 +52299,7 @@
   },
   {
     "id": 919,
+    "speciesId": 919,
     "name": "Nymble",
     "height": 2,
     "weight": 10,
@@ -51435,6 +52354,7 @@
   },
   {
     "id": 920,
+    "speciesId": 920,
     "name": "Lokix",
     "height": 10,
     "weight": 175,
@@ -51493,6 +52413,7 @@
   },
   {
     "id": 921,
+    "speciesId": 921,
     "name": "Pawmi",
     "height": 3,
     "weight": 25,
@@ -51547,6 +52468,7 @@
   },
   {
     "id": 922,
+    "speciesId": 922,
     "name": "Pawmo",
     "height": 4,
     "weight": 65,
@@ -51605,6 +52527,7 @@
   },
   {
     "id": 923,
+    "speciesId": 923,
     "name": "Pawmot",
     "height": 9,
     "weight": 410,
@@ -51663,6 +52586,7 @@
   },
   {
     "id": 924,
+    "speciesId": 924,
     "name": "Tandemaus",
     "height": 3,
     "weight": 18,
@@ -51717,6 +52641,7 @@
   },
   {
     "id": 925,
+    "speciesId": 925,
     "name": "Maushold-family-of-four",
     "height": 3,
     "weight": 28,
@@ -51771,6 +52696,7 @@
   },
   {
     "id": 926,
+    "speciesId": 926,
     "name": "Fidough",
     "height": 3,
     "weight": 109,
@@ -51825,6 +52751,7 @@
   },
   {
     "id": 927,
+    "speciesId": 927,
     "name": "Dachsbun",
     "height": 5,
     "weight": 149,
@@ -51879,6 +52806,7 @@
   },
   {
     "id": 928,
+    "speciesId": 928,
     "name": "Smoliv",
     "height": 3,
     "weight": 65,
@@ -51937,6 +52865,7 @@
   },
   {
     "id": 929,
+    "speciesId": 929,
     "name": "Dolliv",
     "height": 6,
     "weight": 119,
@@ -51995,6 +52924,7 @@
   },
   {
     "id": 930,
+    "speciesId": 930,
     "name": "Arboliva",
     "height": 14,
     "weight": 482,
@@ -52053,6 +52983,7 @@
   },
   {
     "id": 931,
+    "speciesId": 931,
     "name": "Squawkabilly-green-plumage",
     "height": 6,
     "weight": 24,
@@ -52111,6 +53042,7 @@
   },
   {
     "id": 932,
+    "speciesId": 932,
     "name": "Nacli",
     "height": 4,
     "weight": 160,
@@ -52165,6 +53097,7 @@
   },
   {
     "id": 933,
+    "speciesId": 933,
     "name": "Naclstack",
     "height": 6,
     "weight": 1050,
@@ -52219,6 +53152,7 @@
   },
   {
     "id": 934,
+    "speciesId": 934,
     "name": "Garganacl",
     "height": 23,
     "weight": 2400,
@@ -52273,6 +53207,7 @@
   },
   {
     "id": 935,
+    "speciesId": 935,
     "name": "Charcadet",
     "height": 6,
     "weight": 105,
@@ -52327,6 +53262,7 @@
   },
   {
     "id": 936,
+    "speciesId": 936,
     "name": "Armarouge",
     "height": 15,
     "weight": 850,
@@ -52385,6 +53321,7 @@
   },
   {
     "id": 937,
+    "speciesId": 937,
     "name": "Ceruledge",
     "height": 16,
     "weight": 620,
@@ -52443,6 +53380,7 @@
   },
   {
     "id": 938,
+    "speciesId": 938,
     "name": "Tadbulb",
     "height": 3,
     "weight": 4,
@@ -52497,6 +53435,7 @@
   },
   {
     "id": 939,
+    "speciesId": 939,
     "name": "Bellibolt",
     "height": 12,
     "weight": 1130,
@@ -52551,6 +53490,7 @@
   },
   {
     "id": 940,
+    "speciesId": 940,
     "name": "Wattrel",
     "height": 4,
     "weight": 36,
@@ -52609,6 +53549,7 @@
   },
   {
     "id": 941,
+    "speciesId": 941,
     "name": "Kilowattrel",
     "height": 14,
     "weight": 386,
@@ -52667,6 +53608,7 @@
   },
   {
     "id": 942,
+    "speciesId": 942,
     "name": "Maschiff",
     "height": 5,
     "weight": 160,
@@ -52721,6 +53663,7 @@
   },
   {
     "id": 943,
+    "speciesId": 943,
     "name": "Mabosstiff",
     "height": 11,
     "weight": 610,
@@ -52775,6 +53718,7 @@
   },
   {
     "id": 944,
+    "speciesId": 944,
     "name": "Shroodle",
     "height": 2,
     "weight": 7,
@@ -52833,6 +53777,7 @@
   },
   {
     "id": 945,
+    "speciesId": 945,
     "name": "Grafaiai",
     "height": 7,
     "weight": 272,
@@ -52891,6 +53836,7 @@
   },
   {
     "id": 946,
+    "speciesId": 946,
     "name": "Bramblin",
     "height": 6,
     "weight": 6,
@@ -52949,6 +53895,7 @@
   },
   {
     "id": 947,
+    "speciesId": 947,
     "name": "Brambleghast",
     "height": 12,
     "weight": 60,
@@ -53007,6 +53954,7 @@
   },
   {
     "id": 948,
+    "speciesId": 948,
     "name": "Toedscool",
     "height": 9,
     "weight": 330,
@@ -53065,6 +54013,7 @@
   },
   {
     "id": 949,
+    "speciesId": 949,
     "name": "Toedscruel",
     "height": 19,
     "weight": 580,
@@ -53123,6 +54072,7 @@
   },
   {
     "id": 950,
+    "speciesId": 950,
     "name": "Klawf",
     "height": 13,
     "weight": 790,
@@ -53177,6 +54127,7 @@
   },
   {
     "id": 951,
+    "speciesId": 951,
     "name": "Capsakid",
     "height": 3,
     "weight": 30,
@@ -53231,6 +54182,7 @@
   },
   {
     "id": 952,
+    "speciesId": 952,
     "name": "Scovillain",
     "height": 9,
     "weight": 150,
@@ -53289,6 +54241,7 @@
   },
   {
     "id": 953,
+    "speciesId": 953,
     "name": "Rellor",
     "height": 2,
     "weight": 10,
@@ -53343,6 +54296,7 @@
   },
   {
     "id": 954,
+    "speciesId": 954,
     "name": "Rabsca",
     "height": 3,
     "weight": 35,
@@ -53401,6 +54355,7 @@
   },
   {
     "id": 955,
+    "speciesId": 955,
     "name": "Flittle",
     "height": 2,
     "weight": 15,
@@ -53455,6 +54410,7 @@
   },
   {
     "id": 956,
+    "speciesId": 956,
     "name": "Espathra",
     "height": 19,
     "weight": 900,
@@ -53509,6 +54465,7 @@
   },
   {
     "id": 957,
+    "speciesId": 957,
     "name": "Tinkatink",
     "height": 4,
     "weight": 89,
@@ -53567,6 +54524,7 @@
   },
   {
     "id": 958,
+    "speciesId": 958,
     "name": "Tinkatuff",
     "height": 7,
     "weight": 591,
@@ -53625,6 +54583,7 @@
   },
   {
     "id": 959,
+    "speciesId": 959,
     "name": "Tinkaton",
     "height": 7,
     "weight": 1128,
@@ -53683,6 +54642,7 @@
   },
   {
     "id": 960,
+    "speciesId": 960,
     "name": "Wiglett",
     "height": 12,
     "weight": 18,
@@ -53737,6 +54697,7 @@
   },
   {
     "id": 961,
+    "speciesId": 961,
     "name": "Wugtrio",
     "height": 12,
     "weight": 54,
@@ -53791,6 +54752,7 @@
   },
   {
     "id": 962,
+    "speciesId": 962,
     "name": "Bombirdier",
     "height": 15,
     "weight": 429,
@@ -53849,6 +54811,7 @@
   },
   {
     "id": 963,
+    "speciesId": 963,
     "name": "Finizen",
     "height": 13,
     "weight": 602,
@@ -53903,6 +54866,7 @@
   },
   {
     "id": 964,
+    "speciesId": 964,
     "name": "Palafin-zero",
     "height": 13,
     "weight": 602,
@@ -53957,6 +54921,7 @@
   },
   {
     "id": 965,
+    "speciesId": 965,
     "name": "Varoom",
     "height": 10,
     "weight": 350,
@@ -54015,6 +54980,7 @@
   },
   {
     "id": 966,
+    "speciesId": 966,
     "name": "Revavroom",
     "height": 18,
     "weight": 1200,
@@ -54073,6 +55039,7 @@
   },
   {
     "id": 967,
+    "speciesId": 967,
     "name": "Cyclizar",
     "height": 16,
     "weight": 630,
@@ -54131,6 +55098,7 @@
   },
   {
     "id": 968,
+    "speciesId": 968,
     "name": "Orthworm",
     "height": 25,
     "weight": 3100,
@@ -54185,6 +55153,7 @@
   },
   {
     "id": 969,
+    "speciesId": 969,
     "name": "Glimmet",
     "height": 7,
     "weight": 80,
@@ -54243,6 +55212,7 @@
   },
   {
     "id": 970,
+    "speciesId": 970,
     "name": "Glimmora",
     "height": 15,
     "weight": 450,
@@ -54301,6 +55271,7 @@
   },
   {
     "id": 971,
+    "speciesId": 971,
     "name": "Greavard",
     "height": 6,
     "weight": 350,
@@ -54355,6 +55326,7 @@
   },
   {
     "id": 972,
+    "speciesId": 972,
     "name": "Houndstone",
     "height": 20,
     "weight": 150,
@@ -54409,6 +55381,7 @@
   },
   {
     "id": 973,
+    "speciesId": 973,
     "name": "Flamigo",
     "height": 16,
     "weight": 370,
@@ -54467,6 +55440,7 @@
   },
   {
     "id": 974,
+    "speciesId": 974,
     "name": "Cetoddle",
     "height": 12,
     "weight": 450,
@@ -54521,6 +55495,7 @@
   },
   {
     "id": 975,
+    "speciesId": 975,
     "name": "Cetitan",
     "height": 45,
     "weight": 7000,
@@ -54575,6 +55550,7 @@
   },
   {
     "id": 976,
+    "speciesId": 976,
     "name": "Veluza",
     "height": 25,
     "weight": 900,
@@ -54633,6 +55609,7 @@
   },
   {
     "id": 977,
+    "speciesId": 977,
     "name": "Dondozo",
     "height": 120,
     "weight": 2200,
@@ -54687,6 +55664,7 @@
   },
   {
     "id": 978,
+    "speciesId": 978,
     "name": "Tatsugiri-curly",
     "height": 3,
     "weight": 80,
@@ -54745,6 +55723,7 @@
   },
   {
     "id": 979,
+    "speciesId": 979,
     "name": "Annihilape",
     "height": 12,
     "weight": 560,
@@ -54803,6 +55782,7 @@
   },
   {
     "id": 980,
+    "speciesId": 980,
     "name": "Clodsire",
     "height": 18,
     "weight": 2230,
@@ -54861,6 +55841,7 @@
   },
   {
     "id": 981,
+    "speciesId": 981,
     "name": "Farigiraf",
     "height": 32,
     "weight": 1600,
@@ -54919,6 +55900,7 @@
   },
   {
     "id": 982,
+    "speciesId": 982,
     "name": "Dudunsparce-two-segment",
     "height": 36,
     "weight": 392,
@@ -54973,6 +55955,7 @@
   },
   {
     "id": 983,
+    "speciesId": 983,
     "name": "Kingambit",
     "height": 20,
     "weight": 1200,
@@ -55031,6 +56014,7 @@
   },
   {
     "id": 984,
+    "speciesId": 984,
     "name": "Great-tusk",
     "height": 22,
     "weight": 3200,
@@ -55089,6 +56073,7 @@
   },
   {
     "id": 985,
+    "speciesId": 985,
     "name": "Scream-tail",
     "height": 12,
     "weight": 80,
@@ -55147,6 +56132,7 @@
   },
   {
     "id": 986,
+    "speciesId": 986,
     "name": "Brute-bonnet",
     "height": 12,
     "weight": 210,
@@ -55205,6 +56191,7 @@
   },
   {
     "id": 987,
+    "speciesId": 987,
     "name": "Flutter-mane",
     "height": 14,
     "weight": 40,
@@ -55263,6 +56250,7 @@
   },
   {
     "id": 988,
+    "speciesId": 988,
     "name": "Slither-wing",
     "height": 32,
     "weight": 920,
@@ -55321,6 +56309,7 @@
   },
   {
     "id": 989,
+    "speciesId": 989,
     "name": "Sandy-shocks",
     "height": 23,
     "weight": 600,
@@ -55379,6 +56368,7 @@
   },
   {
     "id": 990,
+    "speciesId": 990,
     "name": "Iron-treads",
     "height": 9,
     "weight": 2400,
@@ -55437,6 +56427,7 @@
   },
   {
     "id": 991,
+    "speciesId": 991,
     "name": "Iron-bundle",
     "height": 6,
     "weight": 110,
@@ -55495,6 +56486,7 @@
   },
   {
     "id": 992,
+    "speciesId": 992,
     "name": "Iron-hands",
     "height": 18,
     "weight": 3807,
@@ -55553,6 +56545,7 @@
   },
   {
     "id": 993,
+    "speciesId": 993,
     "name": "Iron-jugulis",
     "height": 13,
     "weight": 1110,
@@ -55611,6 +56604,7 @@
   },
   {
     "id": 994,
+    "speciesId": 994,
     "name": "Iron-moth",
     "height": 12,
     "weight": 360,
@@ -55669,6 +56663,7 @@
   },
   {
     "id": 995,
+    "speciesId": 995,
     "name": "Iron-thorns",
     "height": 16,
     "weight": 3030,
@@ -55727,6 +56722,7 @@
   },
   {
     "id": 996,
+    "speciesId": 996,
     "name": "Frigibax",
     "height": 5,
     "weight": 170,
@@ -55785,6 +56781,7 @@
   },
   {
     "id": 997,
+    "speciesId": 997,
     "name": "Arctibax",
     "height": 8,
     "weight": 300,
@@ -55843,6 +56840,7 @@
   },
   {
     "id": 998,
+    "speciesId": 998,
     "name": "Baxcalibur",
     "height": 21,
     "weight": 2100,
@@ -55901,6 +56899,7 @@
   },
   {
     "id": 999,
+    "speciesId": 999,
     "name": "Gimmighoul",
     "height": 3,
     "weight": 50,
@@ -55955,6 +56954,7 @@
   },
   {
     "id": 1000,
+    "speciesId": 1000,
     "name": "Gholdengo",
     "height": 12,
     "weight": 300,
@@ -56013,6 +57013,7 @@
   },
   {
     "id": 1001,
+    "speciesId": 1001,
     "name": "Wo-chien",
     "height": 15,
     "weight": 742,
@@ -56071,6 +57072,7 @@
   },
   {
     "id": 1002,
+    "speciesId": 1002,
     "name": "Chien-pao",
     "height": 19,
     "weight": 1522,
@@ -56129,6 +57131,7 @@
   },
   {
     "id": 1003,
+    "speciesId": 1003,
     "name": "Ting-lu",
     "height": 27,
     "weight": 6997,
@@ -56187,6 +57190,7 @@
   },
   {
     "id": 1004,
+    "speciesId": 1004,
     "name": "Chi-yu",
     "height": 4,
     "weight": 49,
@@ -56245,6 +57249,7 @@
   },
   {
     "id": 1005,
+    "speciesId": 1005,
     "name": "Roaring-moon",
     "height": 20,
     "weight": 3800,
@@ -56303,6 +57308,7 @@
   },
   {
     "id": 1006,
+    "speciesId": 1006,
     "name": "Iron-valiant",
     "height": 14,
     "weight": 350,
@@ -56361,6 +57367,7 @@
   },
   {
     "id": 1007,
+    "speciesId": 1007,
     "name": "Koraidon",
     "height": 25,
     "weight": 3030,
@@ -56419,6 +57426,7 @@
   },
   {
     "id": 1008,
+    "speciesId": 1008,
     "name": "Miraidon",
     "height": 35,
     "weight": 2400,
@@ -56477,6 +57485,7 @@
   },
   {
     "id": 1009,
+    "speciesId": 1009,
     "name": "Walking-wake",
     "height": 35,
     "weight": 2800,
@@ -56535,6 +57544,7 @@
   },
   {
     "id": 1010,
+    "speciesId": 1010,
     "name": "Iron-leaves",
     "height": 15,
     "weight": 1250,
@@ -56593,6 +57603,7 @@
   },
   {
     "id": 1011,
+    "speciesId": 1011,
     "name": "Dipplin",
     "height": 4,
     "weight": 97,
@@ -56651,6 +57662,7 @@
   },
   {
     "id": 1012,
+    "speciesId": 1012,
     "name": "Poltchageist",
     "height": 1,
     "weight": 11,
@@ -56709,6 +57721,7 @@
   },
   {
     "id": 1013,
+    "speciesId": 1013,
     "name": "Sinistcha",
     "height": 2,
     "weight": 22,
@@ -56767,6 +57780,7 @@
   },
   {
     "id": 1014,
+    "speciesId": 1014,
     "name": "Okidogi",
     "height": 18,
     "weight": 922,
@@ -56825,6 +57839,7 @@
   },
   {
     "id": 1015,
+    "speciesId": 1015,
     "name": "Munkidori",
     "height": 10,
     "weight": 122,
@@ -56883,6 +57898,7 @@
   },
   {
     "id": 1016,
+    "speciesId": 1016,
     "name": "Fezandipiti",
     "height": 14,
     "weight": 301,
@@ -56941,6 +57957,7 @@
   },
   {
     "id": 1017,
+    "speciesId": 1017,
     "name": "Ogerpon",
     "height": 12,
     "weight": 398,
@@ -56995,6 +58012,7 @@
   },
   {
     "id": 1018,
+    "speciesId": 1018,
     "name": "Archaludon",
     "height": 20,
     "weight": 600,
@@ -57053,6 +58071,7 @@
   },
   {
     "id": 1019,
+    "speciesId": 1019,
     "name": "Hydrapple",
     "height": 18,
     "weight": 930,
@@ -57111,6 +58130,7 @@
   },
   {
     "id": 1020,
+    "speciesId": 1020,
     "name": "Gouging-fire",
     "height": 35,
     "weight": 5900,
@@ -57169,6 +58189,7 @@
   },
   {
     "id": 1021,
+    "speciesId": 1021,
     "name": "Raging-bolt",
     "height": 52,
     "weight": 4800,
@@ -57227,6 +58248,7 @@
   },
   {
     "id": 1022,
+    "speciesId": 1022,
     "name": "Iron-boulder",
     "height": 15,
     "weight": 1625,
@@ -57285,6 +58307,7 @@
   },
   {
     "id": 1023,
+    "speciesId": 1023,
     "name": "Iron-crown",
     "height": 16,
     "weight": 1560,
@@ -57343,6 +58366,7 @@
   },
   {
     "id": 1024,
+    "speciesId": 1024,
     "name": "Terapagos",
     "height": 2,
     "weight": 65,
@@ -57397,6 +58421,7 @@
   },
   {
     "id": 1025,
+    "speciesId": 1025,
     "name": "Pecharunt",
     "height": 3,
     "weight": 3,
@@ -57455,6 +58480,7 @@
   },
   {
     "id": 10001,
+    "speciesId": 386,
     "name": "Deoxys-attack",
     "height": 17,
     "weight": 608,
@@ -57509,6 +58535,7 @@
   },
   {
     "id": 10002,
+    "speciesId": 386,
     "name": "Deoxys-defense",
     "height": 17,
     "weight": 608,
@@ -57563,6 +58590,7 @@
   },
   {
     "id": 10003,
+    "speciesId": 386,
     "name": "Deoxys-speed",
     "height": 17,
     "weight": 608,
@@ -57617,6 +58645,7 @@
   },
   {
     "id": 10004,
+    "speciesId": 413,
     "name": "Wormadam-sandy",
     "height": 5,
     "weight": 65,
@@ -57675,6 +58704,7 @@
   },
   {
     "id": 10005,
+    "speciesId": 413,
     "name": "Wormadam-trash",
     "height": 5,
     "weight": 65,
@@ -57733,6 +58763,7 @@
   },
   {
     "id": 10006,
+    "speciesId": 492,
     "name": "Shaymin-sky",
     "height": 4,
     "weight": 52,
@@ -57791,6 +58822,7 @@
   },
   {
     "id": 10007,
+    "speciesId": 487,
     "name": "Giratina-origin",
     "height": 69,
     "weight": 6500,
@@ -57849,6 +58881,7 @@
   },
   {
     "id": 10008,
+    "speciesId": 479,
     "name": "Rotom-heat",
     "height": 3,
     "weight": 3,
@@ -57907,6 +58940,7 @@
   },
   {
     "id": 10009,
+    "speciesId": 479,
     "name": "Rotom-wash",
     "height": 3,
     "weight": 3,
@@ -57965,6 +58999,7 @@
   },
   {
     "id": 10010,
+    "speciesId": 479,
     "name": "Rotom-frost",
     "height": 3,
     "weight": 3,
@@ -58023,6 +59058,7 @@
   },
   {
     "id": 10011,
+    "speciesId": 479,
     "name": "Rotom-fan",
     "height": 3,
     "weight": 3,
@@ -58081,6 +59117,7 @@
   },
   {
     "id": 10012,
+    "speciesId": 479,
     "name": "Rotom-mow",
     "height": 3,
     "weight": 3,
@@ -58139,6 +59176,7 @@
   },
   {
     "id": 10013,
+    "speciesId": 351,
     "name": "Castform-sunny",
     "height": 3,
     "weight": 8,
@@ -58193,6 +59231,7 @@
   },
   {
     "id": 10014,
+    "speciesId": 351,
     "name": "Castform-rainy",
     "height": 3,
     "weight": 8,
@@ -58247,6 +59286,7 @@
   },
   {
     "id": 10015,
+    "speciesId": 351,
     "name": "Castform-snowy",
     "height": 3,
     "weight": 8,
@@ -58301,6 +59341,7 @@
   },
   {
     "id": 10016,
+    "speciesId": 550,
     "name": "Basculin-blue-striped",
     "height": 10,
     "weight": 180,
@@ -58355,6 +59396,7 @@
   },
   {
     "id": 10017,
+    "speciesId": 555,
     "name": "Darmanitan-zen",
     "height": 13,
     "weight": 929,
@@ -58413,6 +59455,7 @@
   },
   {
     "id": 10018,
+    "speciesId": 648,
     "name": "Meloetta-pirouette",
     "height": 6,
     "weight": 65,
@@ -58471,6 +59514,7 @@
   },
   {
     "id": 10019,
+    "speciesId": 641,
     "name": "Tornadus-therian",
     "height": 14,
     "weight": 630,
@@ -58525,6 +59569,7 @@
   },
   {
     "id": 10020,
+    "speciesId": 642,
     "name": "Thundurus-therian",
     "height": 30,
     "weight": 610,
@@ -58583,6 +59628,7 @@
   },
   {
     "id": 10021,
+    "speciesId": 645,
     "name": "Landorus-therian",
     "height": 13,
     "weight": 680,
@@ -58641,6 +59687,7 @@
   },
   {
     "id": 10022,
+    "speciesId": 646,
     "name": "Kyurem-black",
     "height": 33,
     "weight": 3250,
@@ -58699,6 +59746,7 @@
   },
   {
     "id": 10023,
+    "speciesId": 646,
     "name": "Kyurem-white",
     "height": 36,
     "weight": 3250,
@@ -58757,6 +59805,7 @@
   },
   {
     "id": 10024,
+    "speciesId": 647,
     "name": "Keldeo-resolute",
     "height": 14,
     "weight": 485,
@@ -58815,6 +59864,7 @@
   },
   {
     "id": 10025,
+    "speciesId": 678,
     "name": "Meowstic-female",
     "height": 6,
     "weight": 85,
@@ -58869,6 +59919,7 @@
   },
   {
     "id": 10026,
+    "speciesId": 681,
     "name": "Aegislash-blade",
     "height": 17,
     "weight": 530,
@@ -58927,6 +59978,7 @@
   },
   {
     "id": 10027,
+    "speciesId": 710,
     "name": "Pumpkaboo-small",
     "height": 3,
     "weight": 35,
@@ -58985,6 +60037,7 @@
   },
   {
     "id": 10028,
+    "speciesId": 710,
     "name": "Pumpkaboo-large",
     "height": 5,
     "weight": 75,
@@ -59043,6 +60096,7 @@
   },
   {
     "id": 10029,
+    "speciesId": 710,
     "name": "Pumpkaboo-super",
     "height": 8,
     "weight": 150,
@@ -59101,6 +60155,7 @@
   },
   {
     "id": 10030,
+    "speciesId": 711,
     "name": "Gourgeist-small",
     "height": 7,
     "weight": 95,
@@ -59159,6 +60214,7 @@
   },
   {
     "id": 10031,
+    "speciesId": 711,
     "name": "Gourgeist-large",
     "height": 11,
     "weight": 140,
@@ -59217,6 +60273,7 @@
   },
   {
     "id": 10032,
+    "speciesId": 711,
     "name": "Gourgeist-super",
     "height": 17,
     "weight": 390,
@@ -59275,6 +60332,7 @@
   },
   {
     "id": 10033,
+    "speciesId": 3,
     "name": "Venusaur-mega",
     "height": 24,
     "weight": 1555,
@@ -59333,6 +60391,7 @@
   },
   {
     "id": 10034,
+    "speciesId": 6,
     "name": "Charizard-mega-x",
     "height": 17,
     "weight": 1105,
@@ -59391,6 +60450,7 @@
   },
   {
     "id": 10035,
+    "speciesId": 6,
     "name": "Charizard-mega-y",
     "height": 17,
     "weight": 1005,
@@ -59449,6 +60509,7 @@
   },
   {
     "id": 10036,
+    "speciesId": 9,
     "name": "Blastoise-mega",
     "height": 16,
     "weight": 1011,
@@ -59503,6 +60564,7 @@
   },
   {
     "id": 10037,
+    "speciesId": 65,
     "name": "Alakazam-mega",
     "height": 12,
     "weight": 480,
@@ -59557,6 +60619,7 @@
   },
   {
     "id": 10038,
+    "speciesId": 94,
     "name": "Gengar-mega",
     "height": 14,
     "weight": 405,
@@ -59615,6 +60678,7 @@
   },
   {
     "id": 10039,
+    "speciesId": 115,
     "name": "Kangaskhan-mega",
     "height": 22,
     "weight": 1000,
@@ -59669,6 +60733,7 @@
   },
   {
     "id": 10040,
+    "speciesId": 127,
     "name": "Pinsir-mega",
     "height": 17,
     "weight": 590,
@@ -59727,6 +60792,7 @@
   },
   {
     "id": 10041,
+    "speciesId": 130,
     "name": "Gyarados-mega",
     "height": 65,
     "weight": 3050,
@@ -59785,6 +60851,7 @@
   },
   {
     "id": 10042,
+    "speciesId": 142,
     "name": "Aerodactyl-mega",
     "height": 21,
     "weight": 790,
@@ -59843,6 +60910,7 @@
   },
   {
     "id": 10043,
+    "speciesId": 150,
     "name": "Mewtwo-mega-x",
     "height": 23,
     "weight": 1270,
@@ -59901,6 +60969,7 @@
   },
   {
     "id": 10044,
+    "speciesId": 150,
     "name": "Mewtwo-mega-y",
     "height": 15,
     "weight": 330,
@@ -59955,6 +61024,7 @@
   },
   {
     "id": 10045,
+    "speciesId": 181,
     "name": "Ampharos-mega",
     "height": 14,
     "weight": 615,
@@ -60013,6 +61083,7 @@
   },
   {
     "id": 10046,
+    "speciesId": 212,
     "name": "Scizor-mega",
     "height": 20,
     "weight": 1250,
@@ -60071,6 +61142,7 @@
   },
   {
     "id": 10047,
+    "speciesId": 214,
     "name": "Heracross-mega",
     "height": 17,
     "weight": 625,
@@ -60129,6 +61201,7 @@
   },
   {
     "id": 10048,
+    "speciesId": 229,
     "name": "Houndoom-mega",
     "height": 19,
     "weight": 495,
@@ -60187,6 +61260,7 @@
   },
   {
     "id": 10049,
+    "speciesId": 248,
     "name": "Tyranitar-mega",
     "height": 25,
     "weight": 2550,
@@ -60245,6 +61319,7 @@
   },
   {
     "id": 10050,
+    "speciesId": 257,
     "name": "Blaziken-mega",
     "height": 19,
     "weight": 520,
@@ -60303,6 +61378,7 @@
   },
   {
     "id": 10051,
+    "speciesId": 282,
     "name": "Gardevoir-mega",
     "height": 16,
     "weight": 484,
@@ -60361,6 +61437,7 @@
   },
   {
     "id": 10052,
+    "speciesId": 303,
     "name": "Mawile-mega",
     "height": 10,
     "weight": 235,
@@ -60419,6 +61496,7 @@
   },
   {
     "id": 10053,
+    "speciesId": 306,
     "name": "Aggron-mega",
     "height": 22,
     "weight": 3950,
@@ -60473,6 +61551,7 @@
   },
   {
     "id": 10054,
+    "speciesId": 308,
     "name": "Medicham-mega",
     "height": 13,
     "weight": 315,
@@ -60531,6 +61610,7 @@
   },
   {
     "id": 10055,
+    "speciesId": 310,
     "name": "Manectric-mega",
     "height": 18,
     "weight": 440,
@@ -60585,6 +61665,7 @@
   },
   {
     "id": 10056,
+    "speciesId": 354,
     "name": "Banette-mega",
     "height": 12,
     "weight": 130,
@@ -60639,6 +61720,7 @@
   },
   {
     "id": 10057,
+    "speciesId": 359,
     "name": "Absol-mega",
     "height": 12,
     "weight": 490,
@@ -60693,6 +61775,7 @@
   },
   {
     "id": 10058,
+    "speciesId": 445,
     "name": "Garchomp-mega",
     "height": 19,
     "weight": 950,
@@ -60751,6 +61834,7 @@
   },
   {
     "id": 10059,
+    "speciesId": 448,
     "name": "Lucario-mega",
     "height": 13,
     "weight": 575,
@@ -60809,6 +61893,7 @@
   },
   {
     "id": 10060,
+    "speciesId": 460,
     "name": "Abomasnow-mega",
     "height": 27,
     "weight": 1850,
@@ -60867,6 +61952,7 @@
   },
   {
     "id": 10061,
+    "speciesId": 670,
     "name": "Floette-eternal",
     "height": 2,
     "weight": 9,
@@ -60921,6 +62007,7 @@
   },
   {
     "id": 10062,
+    "speciesId": 380,
     "name": "Latias-mega",
     "height": 18,
     "weight": 520,
@@ -60979,6 +62066,7 @@
   },
   {
     "id": 10063,
+    "speciesId": 381,
     "name": "Latios-mega",
     "height": 23,
     "weight": 700,
@@ -61037,6 +62125,7 @@
   },
   {
     "id": 10064,
+    "speciesId": 260,
     "name": "Swampert-mega",
     "height": 19,
     "weight": 1020,
@@ -61095,6 +62184,7 @@
   },
   {
     "id": 10065,
+    "speciesId": 254,
     "name": "Sceptile-mega",
     "height": 19,
     "weight": 552,
@@ -61153,6 +62243,7 @@
   },
   {
     "id": 10066,
+    "speciesId": 302,
     "name": "Sableye-mega",
     "height": 5,
     "weight": 1610,
@@ -61211,6 +62302,7 @@
   },
   {
     "id": 10067,
+    "speciesId": 334,
     "name": "Altaria-mega",
     "height": 15,
     "weight": 206,
@@ -61269,6 +62361,7 @@
   },
   {
     "id": 10068,
+    "speciesId": 475,
     "name": "Gallade-mega",
     "height": 16,
     "weight": 564,
@@ -61327,6 +62420,7 @@
   },
   {
     "id": 10069,
+    "speciesId": 531,
     "name": "Audino-mega",
     "height": 15,
     "weight": 320,
@@ -61385,6 +62479,7 @@
   },
   {
     "id": 10070,
+    "speciesId": 319,
     "name": "Sharpedo-mega",
     "height": 25,
     "weight": 1303,
@@ -61443,6 +62538,7 @@
   },
   {
     "id": 10071,
+    "speciesId": 80,
     "name": "Slowbro-mega",
     "height": 20,
     "weight": 1200,
@@ -61501,6 +62597,7 @@
   },
   {
     "id": 10072,
+    "speciesId": 208,
     "name": "Steelix-mega",
     "height": 105,
     "weight": 7400,
@@ -61559,6 +62656,7 @@
   },
   {
     "id": 10073,
+    "speciesId": 18,
     "name": "Pidgeot-mega",
     "height": 22,
     "weight": 505,
@@ -61617,6 +62715,7 @@
   },
   {
     "id": 10074,
+    "speciesId": 362,
     "name": "Glalie-mega",
     "height": 21,
     "weight": 3502,
@@ -61671,6 +62770,7 @@
   },
   {
     "id": 10075,
+    "speciesId": 719,
     "name": "Diancie-mega",
     "height": 11,
     "weight": 278,
@@ -61729,6 +62829,7 @@
   },
   {
     "id": 10076,
+    "speciesId": 376,
     "name": "Metagross-mega",
     "height": 25,
     "weight": 9429,
@@ -61787,6 +62888,7 @@
   },
   {
     "id": 10077,
+    "speciesId": 382,
     "name": "Kyogre-primal",
     "height": 98,
     "weight": 4300,
@@ -61841,6 +62943,7 @@
   },
   {
     "id": 10078,
+    "speciesId": 383,
     "name": "Groudon-primal",
     "height": 50,
     "weight": 9997,
@@ -61899,6 +63002,7 @@
   },
   {
     "id": 10079,
+    "speciesId": 384,
     "name": "Rayquaza-mega",
     "height": 108,
     "weight": 3920,
@@ -61957,6 +63061,7 @@
   },
   {
     "id": 10080,
+    "speciesId": 25,
     "name": "Pikachu-rock-star",
     "height": 4,
     "weight": 60,
@@ -62011,6 +63116,7 @@
   },
   {
     "id": 10081,
+    "speciesId": 25,
     "name": "Pikachu-belle",
     "height": 4,
     "weight": 60,
@@ -62065,6 +63171,7 @@
   },
   {
     "id": 10082,
+    "speciesId": 25,
     "name": "Pikachu-pop-star",
     "height": 4,
     "weight": 60,
@@ -62119,6 +63226,7 @@
   },
   {
     "id": 10083,
+    "speciesId": 25,
     "name": "Pikachu-phd",
     "height": 4,
     "weight": 60,
@@ -62173,6 +63281,7 @@
   },
   {
     "id": 10084,
+    "speciesId": 25,
     "name": "Pikachu-libre",
     "height": 4,
     "weight": 60,
@@ -62227,6 +63336,7 @@
   },
   {
     "id": 10085,
+    "speciesId": 25,
     "name": "Pikachu-cosplay",
     "height": 4,
     "weight": 60,
@@ -62281,6 +63391,7 @@
   },
   {
     "id": 10086,
+    "speciesId": 720,
     "name": "Hoopa-unbound",
     "height": 65,
     "weight": 4900,
@@ -62339,6 +63450,7 @@
   },
   {
     "id": 10087,
+    "speciesId": 323,
     "name": "Camerupt-mega",
     "height": 25,
     "weight": 3205,
@@ -62397,6 +63509,7 @@
   },
   {
     "id": 10088,
+    "speciesId": 428,
     "name": "Lopunny-mega",
     "height": 13,
     "weight": 283,
@@ -62455,6 +63568,7 @@
   },
   {
     "id": 10089,
+    "speciesId": 373,
     "name": "Salamence-mega",
     "height": 18,
     "weight": 1126,
@@ -62513,6 +63627,7 @@
   },
   {
     "id": 10090,
+    "speciesId": 15,
     "name": "Beedrill-mega",
     "height": 14,
     "weight": 405,
@@ -62571,6 +63686,7 @@
   },
   {
     "id": 10091,
+    "speciesId": 19,
     "name": "Rattata-alola",
     "height": 3,
     "weight": 38,
@@ -62629,6 +63745,7 @@
   },
   {
     "id": 10092,
+    "speciesId": 20,
     "name": "Raticate-alola",
     "height": 7,
     "weight": 255,
@@ -62687,6 +63804,7 @@
   },
   {
     "id": 10093,
+    "speciesId": 20,
     "name": "Raticate-totem-alola",
     "height": 14,
     "weight": 1050,
@@ -62745,6 +63863,7 @@
   },
   {
     "id": 10094,
+    "speciesId": 25,
     "name": "Pikachu-original-cap",
     "height": 4,
     "weight": 60,
@@ -62799,6 +63918,7 @@
   },
   {
     "id": 10095,
+    "speciesId": 25,
     "name": "Pikachu-hoenn-cap",
     "height": 4,
     "weight": 60,
@@ -62853,6 +63973,7 @@
   },
   {
     "id": 10096,
+    "speciesId": 25,
     "name": "Pikachu-sinnoh-cap",
     "height": 4,
     "weight": 60,
@@ -62907,6 +64028,7 @@
   },
   {
     "id": 10097,
+    "speciesId": 25,
     "name": "Pikachu-unova-cap",
     "height": 4,
     "weight": 60,
@@ -62961,6 +64083,7 @@
   },
   {
     "id": 10098,
+    "speciesId": 25,
     "name": "Pikachu-kalos-cap",
     "height": 4,
     "weight": 60,
@@ -63015,6 +64138,7 @@
   },
   {
     "id": 10099,
+    "speciesId": 25,
     "name": "Pikachu-alola-cap",
     "height": 4,
     "weight": 60,
@@ -63069,6 +64193,7 @@
   },
   {
     "id": 10100,
+    "speciesId": 26,
     "name": "Raichu-alola",
     "height": 7,
     "weight": 210,
@@ -63127,6 +64252,7 @@
   },
   {
     "id": 10101,
+    "speciesId": 27,
     "name": "Sandshrew-alola",
     "height": 7,
     "weight": 400,
@@ -63185,6 +64311,7 @@
   },
   {
     "id": 10102,
+    "speciesId": 28,
     "name": "Sandslash-alola",
     "height": 12,
     "weight": 550,
@@ -63243,6 +64370,7 @@
   },
   {
     "id": 10103,
+    "speciesId": 37,
     "name": "Vulpix-alola",
     "height": 6,
     "weight": 99,
@@ -63297,6 +64425,7 @@
   },
   {
     "id": 10104,
+    "speciesId": 38,
     "name": "Ninetales-alola",
     "height": 11,
     "weight": 199,
@@ -63355,6 +64484,7 @@
   },
   {
     "id": 10105,
+    "speciesId": 50,
     "name": "Diglett-alola",
     "height": 2,
     "weight": 10,
@@ -63413,6 +64543,7 @@
   },
   {
     "id": 10106,
+    "speciesId": 51,
     "name": "Dugtrio-alola",
     "height": 7,
     "weight": 666,
@@ -63471,6 +64602,7 @@
   },
   {
     "id": 10107,
+    "speciesId": 52,
     "name": "Meowth-alola",
     "height": 4,
     "weight": 42,
@@ -63525,6 +64657,7 @@
   },
   {
     "id": 10108,
+    "speciesId": 53,
     "name": "Persian-alola",
     "height": 11,
     "weight": 330,
@@ -63579,6 +64712,7 @@
   },
   {
     "id": 10109,
+    "speciesId": 74,
     "name": "Geodude-alola",
     "height": 4,
     "weight": 203,
@@ -63637,6 +64771,7 @@
   },
   {
     "id": 10110,
+    "speciesId": 75,
     "name": "Graveler-alola",
     "height": 10,
     "weight": 1100,
@@ -63695,6 +64830,7 @@
   },
   {
     "id": 10111,
+    "speciesId": 76,
     "name": "Golem-alola",
     "height": 17,
     "weight": 3160,
@@ -63753,6 +64889,7 @@
   },
   {
     "id": 10112,
+    "speciesId": 88,
     "name": "Grimer-alola",
     "height": 7,
     "weight": 420,
@@ -63811,6 +64948,7 @@
   },
   {
     "id": 10113,
+    "speciesId": 89,
     "name": "Muk-alola",
     "height": 10,
     "weight": 520,
@@ -63869,6 +65007,7 @@
   },
   {
     "id": 10114,
+    "speciesId": 103,
     "name": "Exeggutor-alola",
     "height": 109,
     "weight": 4156,
@@ -63927,6 +65066,7 @@
   },
   {
     "id": 10115,
+    "speciesId": 105,
     "name": "Marowak-alola",
     "height": 10,
     "weight": 340,
@@ -63985,6 +65125,7 @@
   },
   {
     "id": 10116,
+    "speciesId": 658,
     "name": "Greninja-battle-bond",
     "height": 15,
     "weight": 400,
@@ -64043,6 +65184,7 @@
   },
   {
     "id": 10117,
+    "speciesId": 658,
     "name": "Greninja-ash",
     "height": 15,
     "weight": 400,
@@ -64101,6 +65243,7 @@
   },
   {
     "id": 10118,
+    "speciesId": 718,
     "name": "Zygarde-10-power-construct",
     "height": 12,
     "weight": 335,
@@ -64159,6 +65302,7 @@
   },
   {
     "id": 10119,
+    "speciesId": 718,
     "name": "Zygarde-50-power-construct",
     "height": 50,
     "weight": 3050,
@@ -64217,6 +65361,7 @@
   },
   {
     "id": 10120,
+    "speciesId": 718,
     "name": "Zygarde-complete",
     "height": 45,
     "weight": 6100,
@@ -64275,6 +65420,7 @@
   },
   {
     "id": 10121,
+    "speciesId": 735,
     "name": "Gumshoos-totem",
     "height": 14,
     "weight": 600,
@@ -64329,6 +65475,7 @@
   },
   {
     "id": 10122,
+    "speciesId": 738,
     "name": "Vikavolt-totem",
     "height": 26,
     "weight": 1475,
@@ -64387,6 +65534,7 @@
   },
   {
     "id": 10123,
+    "speciesId": 741,
     "name": "Oricorio-pom-pom",
     "height": 6,
     "weight": 34,
@@ -64445,6 +65593,7 @@
   },
   {
     "id": 10124,
+    "speciesId": 741,
     "name": "Oricorio-pau",
     "height": 6,
     "weight": 34,
@@ -64503,6 +65652,7 @@
   },
   {
     "id": 10125,
+    "speciesId": 741,
     "name": "Oricorio-sensu",
     "height": 6,
     "weight": 34,
@@ -64561,6 +65711,7 @@
   },
   {
     "id": 10126,
+    "speciesId": 745,
     "name": "Lycanroc-midnight",
     "height": 11,
     "weight": 250,
@@ -64615,6 +65766,7 @@
   },
   {
     "id": 10127,
+    "speciesId": 746,
     "name": "Wishiwashi-school",
     "height": 82,
     "weight": 786,
@@ -64669,6 +65821,7 @@
   },
   {
     "id": 10128,
+    "speciesId": 754,
     "name": "Lurantis-totem",
     "height": 15,
     "weight": 580,
@@ -64723,6 +65876,7 @@
   },
   {
     "id": 10129,
+    "speciesId": 758,
     "name": "Salazzle-totem",
     "height": 21,
     "weight": 810,
@@ -64781,6 +65935,7 @@
   },
   {
     "id": 10130,
+    "speciesId": 774,
     "name": "Minior-orange-meteor",
     "height": 3,
     "weight": 400,
@@ -64839,6 +65994,7 @@
   },
   {
     "id": 10131,
+    "speciesId": 774,
     "name": "Minior-yellow-meteor",
     "height": 3,
     "weight": 400,
@@ -64897,6 +66053,7 @@
   },
   {
     "id": 10132,
+    "speciesId": 774,
     "name": "Minior-green-meteor",
     "height": 3,
     "weight": 400,
@@ -64955,6 +66112,7 @@
   },
   {
     "id": 10133,
+    "speciesId": 774,
     "name": "Minior-blue-meteor",
     "height": 3,
     "weight": 400,
@@ -65013,6 +66171,7 @@
   },
   {
     "id": 10134,
+    "speciesId": 774,
     "name": "Minior-indigo-meteor",
     "height": 3,
     "weight": 400,
@@ -65071,6 +66230,7 @@
   },
   {
     "id": 10135,
+    "speciesId": 774,
     "name": "Minior-violet-meteor",
     "height": 3,
     "weight": 400,
@@ -65129,6 +66289,7 @@
   },
   {
     "id": 10136,
+    "speciesId": 774,
     "name": "Minior-red",
     "height": 3,
     "weight": 3,
@@ -65187,6 +66348,7 @@
   },
   {
     "id": 10137,
+    "speciesId": 774,
     "name": "Minior-orange",
     "height": 3,
     "weight": 3,
@@ -65245,6 +66407,7 @@
   },
   {
     "id": 10138,
+    "speciesId": 774,
     "name": "Minior-yellow",
     "height": 3,
     "weight": 3,
@@ -65303,6 +66466,7 @@
   },
   {
     "id": 10139,
+    "speciesId": 774,
     "name": "Minior-green",
     "height": 3,
     "weight": 3,
@@ -65361,6 +66525,7 @@
   },
   {
     "id": 10140,
+    "speciesId": 774,
     "name": "Minior-blue",
     "height": 3,
     "weight": 3,
@@ -65419,6 +66584,7 @@
   },
   {
     "id": 10141,
+    "speciesId": 774,
     "name": "Minior-indigo",
     "height": 3,
     "weight": 3,
@@ -65477,6 +66643,7 @@
   },
   {
     "id": 10142,
+    "speciesId": 774,
     "name": "Minior-violet",
     "height": 3,
     "weight": 3,
@@ -65535,6 +66702,7 @@
   },
   {
     "id": 10143,
+    "speciesId": 778,
     "name": "Mimikyu-busted",
     "height": 2,
     "weight": 7,
@@ -65593,6 +66761,7 @@
   },
   {
     "id": 10144,
+    "speciesId": 778,
     "name": "Mimikyu-totem-disguised",
     "height": 4,
     "weight": 28,
@@ -65651,6 +66820,7 @@
   },
   {
     "id": 10145,
+    "speciesId": 778,
     "name": "Mimikyu-totem-busted",
     "height": 4,
     "weight": 28,
@@ -65709,6 +66879,7 @@
   },
   {
     "id": 10146,
+    "speciesId": 784,
     "name": "Kommo-o-totem",
     "height": 24,
     "weight": 2075,
@@ -65767,6 +66938,7 @@
   },
   {
     "id": 10147,
+    "speciesId": 801,
     "name": "Magearna-original",
     "height": 10,
     "weight": 805,
@@ -65825,6 +66997,7 @@
   },
   {
     "id": 10148,
+    "speciesId": 25,
     "name": "Pikachu-partner-cap",
     "height": 4,
     "weight": 60,
@@ -65879,6 +67052,7 @@
   },
   {
     "id": 10149,
+    "speciesId": 105,
     "name": "Marowak-totem",
     "height": 17,
     "weight": 980,
@@ -65937,6 +67111,7 @@
   },
   {
     "id": 10150,
+    "speciesId": 743,
     "name": "Ribombee-totem",
     "height": 4,
     "weight": 20,
@@ -65995,6 +67170,7 @@
   },
   {
     "id": 10151,
+    "speciesId": 744,
     "name": "Rockruff-own-tempo",
     "height": 5,
     "weight": 92,
@@ -66049,6 +67225,7 @@
   },
   {
     "id": 10152,
+    "speciesId": 745,
     "name": "Lycanroc-dusk",
     "height": 8,
     "weight": 250,
@@ -66103,6 +67280,7 @@
   },
   {
     "id": 10153,
+    "speciesId": 752,
     "name": "Araquanid-totem",
     "height": 31,
     "weight": 2175,
@@ -66161,6 +67339,7 @@
   },
   {
     "id": 10154,
+    "speciesId": 777,
     "name": "Togedemaru-totem",
     "height": 6,
     "weight": 130,
@@ -66219,6 +67398,7 @@
   },
   {
     "id": 10155,
+    "speciesId": 800,
     "name": "Necrozma-dusk",
     "height": 38,
     "weight": 4600,
@@ -66277,6 +67457,7 @@
   },
   {
     "id": 10156,
+    "speciesId": 800,
     "name": "Necrozma-dawn",
     "height": 42,
     "weight": 3500,
@@ -66335,6 +67516,7 @@
   },
   {
     "id": 10157,
+    "speciesId": 800,
     "name": "Necrozma-ultra",
     "height": 75,
     "weight": 2300,
@@ -66393,6 +67575,7 @@
   },
   {
     "id": 10158,
+    "speciesId": 25,
     "name": "Pikachu-starter",
     "height": 4,
     "weight": 60,
@@ -66447,6 +67630,7 @@
   },
   {
     "id": 10159,
+    "speciesId": 133,
     "name": "Eevee-starter",
     "height": 3,
     "weight": 65,
@@ -66501,6 +67685,7 @@
   },
   {
     "id": 10160,
+    "speciesId": 25,
     "name": "Pikachu-world-cap",
     "height": 4,
     "weight": 60,
@@ -66555,6 +67740,7 @@
   },
   {
     "id": 10161,
+    "speciesId": 52,
     "name": "Meowth-galar",
     "height": 4,
     "weight": 75,
@@ -66609,6 +67795,7 @@
   },
   {
     "id": 10162,
+    "speciesId": 77,
     "name": "Ponyta-galar",
     "height": 8,
     "weight": 240,
@@ -66663,6 +67850,7 @@
   },
   {
     "id": 10163,
+    "speciesId": 78,
     "name": "Rapidash-galar",
     "height": 17,
     "weight": 800,
@@ -66721,6 +67909,7 @@
   },
   {
     "id": 10164,
+    "speciesId": 79,
     "name": "Slowpoke-galar",
     "height": 12,
     "weight": 360,
@@ -66775,6 +67964,7 @@
   },
   {
     "id": 10165,
+    "speciesId": 80,
     "name": "Slowbro-galar",
     "height": 16,
     "weight": 705,
@@ -66833,6 +68023,7 @@
   },
   {
     "id": 10166,
+    "speciesId": 83,
     "name": "Farfetchd-galar",
     "height": 8,
     "weight": 420,
@@ -66887,6 +68078,7 @@
   },
   {
     "id": 10167,
+    "speciesId": 110,
     "name": "Weezing-galar",
     "height": 30,
     "weight": 160,
@@ -66945,6 +68137,7 @@
   },
   {
     "id": 10168,
+    "speciesId": 122,
     "name": "Mr-mime-galar",
     "height": 14,
     "weight": 568,
@@ -67003,6 +68196,7 @@
   },
   {
     "id": 10169,
+    "speciesId": 144,
     "name": "Articuno-galar",
     "height": 17,
     "weight": 509,
@@ -67061,6 +68255,7 @@
   },
   {
     "id": 10170,
+    "speciesId": 145,
     "name": "Zapdos-galar",
     "height": 16,
     "weight": 582,
@@ -67119,6 +68314,7 @@
   },
   {
     "id": 10171,
+    "speciesId": 146,
     "name": "Moltres-galar",
     "height": 20,
     "weight": 660,
@@ -67177,6 +68373,7 @@
   },
   {
     "id": 10172,
+    "speciesId": 199,
     "name": "Slowking-galar",
     "height": 18,
     "weight": 795,
@@ -67235,6 +68432,7 @@
   },
   {
     "id": 10173,
+    "speciesId": 222,
     "name": "Corsola-galar",
     "height": 6,
     "weight": 5,
@@ -67289,6 +68487,7 @@
   },
   {
     "id": 10174,
+    "speciesId": 263,
     "name": "Zigzagoon-galar",
     "height": 4,
     "weight": 175,
@@ -67347,6 +68546,7 @@
   },
   {
     "id": 10175,
+    "speciesId": 264,
     "name": "Linoone-galar",
     "height": 5,
     "weight": 325,
@@ -67405,6 +68605,7 @@
   },
   {
     "id": 10176,
+    "speciesId": 554,
     "name": "Darumaka-galar",
     "height": 7,
     "weight": 400,
@@ -67459,6 +68660,7 @@
   },
   {
     "id": 10177,
+    "speciesId": 555,
     "name": "Darmanitan-galar-standard",
     "height": 17,
     "weight": 1200,
@@ -67513,6 +68715,7 @@
   },
   {
     "id": 10178,
+    "speciesId": 555,
     "name": "Darmanitan-galar-zen",
     "height": 17,
     "weight": 1200,
@@ -67571,6 +68774,7 @@
   },
   {
     "id": 10179,
+    "speciesId": 562,
     "name": "Yamask-galar",
     "height": 5,
     "weight": 15,
@@ -67629,6 +68833,7 @@
   },
   {
     "id": 10180,
+    "speciesId": 618,
     "name": "Stunfisk-galar",
     "height": 7,
     "weight": 205,
@@ -67687,6 +68892,7 @@
   },
   {
     "id": 10181,
+    "speciesId": 718,
     "name": "Zygarde-10",
     "height": 12,
     "weight": 335,
@@ -67745,6 +68951,7 @@
   },
   {
     "id": 10182,
+    "speciesId": 845,
     "name": "Cramorant-gulping",
     "height": 8,
     "weight": 180,
@@ -67803,6 +69010,7 @@
   },
   {
     "id": 10183,
+    "speciesId": 845,
     "name": "Cramorant-gorging",
     "height": 8,
     "weight": 180,
@@ -67861,6 +69069,7 @@
   },
   {
     "id": 10184,
+    "speciesId": 849,
     "name": "Toxtricity-low-key",
     "height": 16,
     "weight": 400,
@@ -67919,6 +69128,7 @@
   },
   {
     "id": 10185,
+    "speciesId": 875,
     "name": "Eiscue-noice",
     "height": 14,
     "weight": 890,
@@ -67973,6 +69183,7 @@
   },
   {
     "id": 10186,
+    "speciesId": 876,
     "name": "Indeedee-female",
     "height": 9,
     "weight": 280,
@@ -68031,6 +69242,7 @@
   },
   {
     "id": 10187,
+    "speciesId": 877,
     "name": "Morpeko-hangry",
     "height": 3,
     "weight": 30,
@@ -68089,6 +69301,7 @@
   },
   {
     "id": 10188,
+    "speciesId": 888,
     "name": "Zacian-crowned",
     "height": 28,
     "weight": 3550,
@@ -68147,6 +69360,7 @@
   },
   {
     "id": 10189,
+    "speciesId": 889,
     "name": "Zamazenta-crowned",
     "height": 29,
     "weight": 7850,
@@ -68205,6 +69419,7 @@
   },
   {
     "id": 10190,
+    "speciesId": 890,
     "name": "Eternatus-eternamax",
     "height": 1000,
     "weight": 0,
@@ -68263,6 +69478,7 @@
   },
   {
     "id": 10191,
+    "speciesId": 892,
     "name": "Urshifu-rapid-strike",
     "height": 19,
     "weight": 1050,
@@ -68321,6 +69537,7 @@
   },
   {
     "id": 10192,
+    "speciesId": 893,
     "name": "Zarude-dada",
     "height": 18,
     "weight": 700,
@@ -68379,6 +69596,7 @@
   },
   {
     "id": 10193,
+    "speciesId": 898,
     "name": "Calyrex-ice",
     "height": 24,
     "weight": 8091,
@@ -68437,6 +69655,7 @@
   },
   {
     "id": 10194,
+    "speciesId": 898,
     "name": "Calyrex-shadow",
     "height": 24,
     "weight": 536,
@@ -68495,6 +69714,7 @@
   },
   {
     "id": 10195,
+    "speciesId": 3,
     "name": "Venusaur-gmax",
     "height": 240,
     "weight": 10000,
@@ -68553,6 +69773,7 @@
   },
   {
     "id": 10196,
+    "speciesId": 6,
     "name": "Charizard-gmax",
     "height": 280,
     "weight": 10000,
@@ -68611,6 +69832,7 @@
   },
   {
     "id": 10197,
+    "speciesId": 9,
     "name": "Blastoise-gmax",
     "height": 250,
     "weight": 10000,
@@ -68665,6 +69887,7 @@
   },
   {
     "id": 10198,
+    "speciesId": 12,
     "name": "Butterfree-gmax",
     "height": 170,
     "weight": 10000,
@@ -68723,6 +69946,7 @@
   },
   {
     "id": 10199,
+    "speciesId": 25,
     "name": "Pikachu-gmax",
     "height": 210,
     "weight": 10000,
@@ -68777,6 +70001,7 @@
   },
   {
     "id": 10200,
+    "speciesId": 52,
     "name": "Meowth-gmax",
     "height": 330,
     "weight": 10000,
@@ -68831,6 +70056,7 @@
   },
   {
     "id": 10201,
+    "speciesId": 68,
     "name": "Machamp-gmax",
     "height": 250,
     "weight": 10000,
@@ -68885,6 +70111,7 @@
   },
   {
     "id": 10202,
+    "speciesId": 94,
     "name": "Gengar-gmax",
     "height": 200,
     "weight": 10000,
@@ -68943,6 +70170,7 @@
   },
   {
     "id": 10203,
+    "speciesId": 99,
     "name": "Kingler-gmax",
     "height": 190,
     "weight": 10000,
@@ -68997,6 +70225,7 @@
   },
   {
     "id": 10204,
+    "speciesId": 131,
     "name": "Lapras-gmax",
     "height": 240,
     "weight": 10000,
@@ -69055,6 +70284,7 @@
   },
   {
     "id": 10205,
+    "speciesId": 133,
     "name": "Eevee-gmax",
     "height": 180,
     "weight": 10000,
@@ -69109,6 +70339,7 @@
   },
   {
     "id": 10206,
+    "speciesId": 143,
     "name": "Snorlax-gmax",
     "height": 350,
     "weight": 10000,
@@ -69163,6 +70394,7 @@
   },
   {
     "id": 10207,
+    "speciesId": 569,
     "name": "Garbodor-gmax",
     "height": 210,
     "weight": 10000,
@@ -69217,6 +70449,7 @@
   },
   {
     "id": 10208,
+    "speciesId": 809,
     "name": "Melmetal-gmax",
     "height": 250,
     "weight": 10000,
@@ -69271,6 +70504,7 @@
   },
   {
     "id": 10209,
+    "speciesId": 812,
     "name": "Rillaboom-gmax",
     "height": 280,
     "weight": 10000,
@@ -69325,6 +70559,7 @@
   },
   {
     "id": 10210,
+    "speciesId": 815,
     "name": "Cinderace-gmax",
     "height": 270,
     "weight": 10000,
@@ -69379,6 +70614,7 @@
   },
   {
     "id": 10211,
+    "speciesId": 818,
     "name": "Inteleon-gmax",
     "height": 400,
     "weight": 10000,
@@ -69433,6 +70669,7 @@
   },
   {
     "id": 10212,
+    "speciesId": 823,
     "name": "Corviknight-gmax",
     "height": 140,
     "weight": 10000,
@@ -69491,6 +70728,7 @@
   },
   {
     "id": 10213,
+    "speciesId": 826,
     "name": "Orbeetle-gmax",
     "height": 140,
     "weight": 10000,
@@ -69549,6 +70787,7 @@
   },
   {
     "id": 10214,
+    "speciesId": 834,
     "name": "Drednaw-gmax",
     "height": 240,
     "weight": 10000,
@@ -69607,6 +70846,7 @@
   },
   {
     "id": 10215,
+    "speciesId": 839,
     "name": "Coalossal-gmax",
     "height": 420,
     "weight": 10000,
@@ -69665,6 +70905,7 @@
   },
   {
     "id": 10216,
+    "speciesId": 841,
     "name": "Flapple-gmax",
     "height": 240,
     "weight": 10000,
@@ -69723,6 +70964,7 @@
   },
   {
     "id": 10217,
+    "speciesId": 842,
     "name": "Appletun-gmax",
     "height": 240,
     "weight": 10000,
@@ -69781,6 +71023,7 @@
   },
   {
     "id": 10218,
+    "speciesId": 844,
     "name": "Sandaconda-gmax",
     "height": 220,
     "weight": 10000,
@@ -69835,6 +71078,7 @@
   },
   {
     "id": 10219,
+    "speciesId": 849,
     "name": "Toxtricity-amped-gmax",
     "height": 240,
     "weight": 10000,
@@ -69893,6 +71137,7 @@
   },
   {
     "id": 10220,
+    "speciesId": 851,
     "name": "Centiskorch-gmax",
     "height": 750,
     "weight": 10000,
@@ -69951,6 +71196,7 @@
   },
   {
     "id": 10221,
+    "speciesId": 858,
     "name": "Hatterene-gmax",
     "height": 260,
     "weight": 10000,
@@ -70009,6 +71255,7 @@
   },
   {
     "id": 10222,
+    "speciesId": 861,
     "name": "Grimmsnarl-gmax",
     "height": 320,
     "weight": 10000,
@@ -70067,6 +71314,7 @@
   },
   {
     "id": 10223,
+    "speciesId": 869,
     "name": "Alcremie-gmax",
     "height": 300,
     "weight": 10000,
@@ -70121,6 +71369,7 @@
   },
   {
     "id": 10224,
+    "speciesId": 879,
     "name": "Copperajah-gmax",
     "height": 230,
     "weight": 10000,
@@ -70175,6 +71424,7 @@
   },
   {
     "id": 10225,
+    "speciesId": 884,
     "name": "Duraludon-gmax",
     "height": 430,
     "weight": 10000,
@@ -70233,6 +71483,7 @@
   },
   {
     "id": 10226,
+    "speciesId": 892,
     "name": "Urshifu-single-strike-gmax",
     "height": 290,
     "weight": 10000,
@@ -70291,6 +71542,7 @@
   },
   {
     "id": 10227,
+    "speciesId": 892,
     "name": "Urshifu-rapid-strike-gmax",
     "height": 260,
     "weight": 10000,
@@ -70349,6 +71601,7 @@
   },
   {
     "id": 10228,
+    "speciesId": 849,
     "name": "Toxtricity-low-key-gmax",
     "height": 240,
     "weight": 10000,
@@ -70407,6 +71660,7 @@
   },
   {
     "id": 10229,
+    "speciesId": 58,
     "name": "Growlithe-hisui",
     "height": 8,
     "weight": 227,
@@ -70465,6 +71719,7 @@
   },
   {
     "id": 10230,
+    "speciesId": 59,
     "name": "Arcanine-hisui",
     "height": 20,
     "weight": 1680,
@@ -70523,6 +71778,7 @@
   },
   {
     "id": 10231,
+    "speciesId": 100,
     "name": "Voltorb-hisui",
     "height": 5,
     "weight": 130,
@@ -70581,6 +71837,7 @@
   },
   {
     "id": 10232,
+    "speciesId": 101,
     "name": "Electrode-hisui",
     "height": 12,
     "weight": 710,
@@ -70639,6 +71896,7 @@
   },
   {
     "id": 10233,
+    "speciesId": 157,
     "name": "Typhlosion-hisui",
     "height": 16,
     "weight": 698,
@@ -70697,6 +71955,7 @@
   },
   {
     "id": 10234,
+    "speciesId": 211,
     "name": "Qwilfish-hisui",
     "height": 5,
     "weight": 39,
@@ -70755,6 +72014,7 @@
   },
   {
     "id": 10235,
+    "speciesId": 215,
     "name": "Sneasel-hisui",
     "height": 9,
     "weight": 270,
@@ -70813,6 +72073,7 @@
   },
   {
     "id": 10236,
+    "speciesId": 503,
     "name": "Samurott-hisui",
     "height": 15,
     "weight": 582,
@@ -70871,6 +72132,7 @@
   },
   {
     "id": 10237,
+    "speciesId": 549,
     "name": "Lilligant-hisui",
     "height": 12,
     "weight": 192,
@@ -70929,6 +72191,7 @@
   },
   {
     "id": 10238,
+    "speciesId": 570,
     "name": "Zorua-hisui",
     "height": 7,
     "weight": 125,
@@ -70987,6 +72250,7 @@
   },
   {
     "id": 10239,
+    "speciesId": 571,
     "name": "Zoroark-hisui",
     "height": 16,
     "weight": 730,
@@ -71045,6 +72309,7 @@
   },
   {
     "id": 10240,
+    "speciesId": 628,
     "name": "Braviary-hisui",
     "height": 17,
     "weight": 434,
@@ -71103,6 +72368,7 @@
   },
   {
     "id": 10241,
+    "speciesId": 705,
     "name": "Sliggoo-hisui",
     "height": 7,
     "weight": 685,
@@ -71161,6 +72427,7 @@
   },
   {
     "id": 10242,
+    "speciesId": 706,
     "name": "Goodra-hisui",
     "height": 17,
     "weight": 3341,
@@ -71219,6 +72486,7 @@
   },
   {
     "id": 10243,
+    "speciesId": 713,
     "name": "Avalugg-hisui",
     "height": 14,
     "weight": 2624,
@@ -71277,6 +72545,7 @@
   },
   {
     "id": 10244,
+    "speciesId": 724,
     "name": "Decidueye-hisui",
     "height": 16,
     "weight": 370,
@@ -71335,6 +72604,7 @@
   },
   {
     "id": 10245,
+    "speciesId": 483,
     "name": "Dialga-origin",
     "height": 70,
     "weight": 8487,
@@ -71393,6 +72663,7 @@
   },
   {
     "id": 10246,
+    "speciesId": 484,
     "name": "Palkia-origin",
     "height": 63,
     "weight": 6590,
@@ -71451,6 +72722,7 @@
   },
   {
     "id": 10247,
+    "speciesId": 550,
     "name": "Basculin-white-striped",
     "height": 10,
     "weight": 180,
@@ -71505,6 +72777,7 @@
   },
   {
     "id": 10248,
+    "speciesId": 902,
     "name": "Basculegion-female",
     "height": 30,
     "weight": 1100,
@@ -71563,6 +72836,7 @@
   },
   {
     "id": 10249,
+    "speciesId": 905,
     "name": "Enamorus-therian",
     "height": 16,
     "weight": 480,
@@ -71621,6 +72895,7 @@
   },
   {
     "id": 10250,
+    "speciesId": 128,
     "name": "Tauros-paldea-combat-breed",
     "height": 14,
     "weight": 1150,
@@ -71675,6 +72950,7 @@
   },
   {
     "id": 10251,
+    "speciesId": 128,
     "name": "Tauros-paldea-blaze-breed",
     "height": 14,
     "weight": 850,
@@ -71733,6 +73009,7 @@
   },
   {
     "id": 10252,
+    "speciesId": 128,
     "name": "Tauros-paldea-aqua-breed",
     "height": 14,
     "weight": 1100,
@@ -71791,6 +73068,7 @@
   },
   {
     "id": 10253,
+    "speciesId": 194,
     "name": "Wooper-paldea",
     "height": 4,
     "weight": 110,
@@ -71849,6 +73127,7 @@
   },
   {
     "id": 10254,
+    "speciesId": 916,
     "name": "Oinkologne-female",
     "height": 10,
     "weight": 1200,
@@ -71903,6 +73182,7 @@
   },
   {
     "id": 10255,
+    "speciesId": 982,
     "name": "Dudunsparce-three-segment",
     "height": 45,
     "weight": 474,
@@ -71957,6 +73237,7 @@
   },
   {
     "id": 10256,
+    "speciesId": 964,
     "name": "Palafin-hero",
     "height": 18,
     "weight": 974,
@@ -72011,6 +73292,7 @@
   },
   {
     "id": 10257,
+    "speciesId": 925,
     "name": "Maushold-family-of-three",
     "height": 3,
     "weight": 23,
@@ -72065,6 +73347,7 @@
   },
   {
     "id": 10258,
+    "speciesId": 978,
     "name": "Tatsugiri-droopy",
     "height": 3,
     "weight": 80,
@@ -72123,6 +73406,7 @@
   },
   {
     "id": 10259,
+    "speciesId": 978,
     "name": "Tatsugiri-stretchy",
     "height": 3,
     "weight": 80,
@@ -72181,6 +73465,7 @@
   },
   {
     "id": 10260,
+    "speciesId": 931,
     "name": "Squawkabilly-blue-plumage",
     "height": 6,
     "weight": 24,
@@ -72239,6 +73524,7 @@
   },
   {
     "id": 10261,
+    "speciesId": 931,
     "name": "Squawkabilly-yellow-plumage",
     "height": 6,
     "weight": 24,
@@ -72297,6 +73583,7 @@
   },
   {
     "id": 10262,
+    "speciesId": 931,
     "name": "Squawkabilly-white-plumage",
     "height": 6,
     "weight": 24,
@@ -72355,6 +73642,7 @@
   },
   {
     "id": 10263,
+    "speciesId": 999,
     "name": "Gimmighoul-roaming",
     "height": 1,
     "weight": 10,
@@ -72409,6 +73697,7 @@
   },
   {
     "id": 10264,
+    "speciesId": 1007,
     "name": "Koraidon-limited-build",
     "height": 35,
     "weight": 3030,
@@ -72467,6 +73756,7 @@
   },
   {
     "id": 10265,
+    "speciesId": 1007,
     "name": "Koraidon-sprinting-build",
     "height": 35,
     "weight": 3030,
@@ -72525,6 +73815,7 @@
   },
   {
     "id": 10266,
+    "speciesId": 1007,
     "name": "Koraidon-swimming-build",
     "height": 35,
     "weight": 3030,
@@ -72583,6 +73874,7 @@
   },
   {
     "id": 10267,
+    "speciesId": 1007,
     "name": "Koraidon-gliding-build",
     "height": 35,
     "weight": 3030,
@@ -72641,6 +73933,7 @@
   },
   {
     "id": 10268,
+    "speciesId": 1008,
     "name": "Miraidon-low-power-mode",
     "height": 28,
     "weight": 2400,
@@ -72699,6 +73992,7 @@
   },
   {
     "id": 10269,
+    "speciesId": 1008,
     "name": "Miraidon-drive-mode",
     "height": 28,
     "weight": 2400,
@@ -72757,6 +74051,7 @@
   },
   {
     "id": 10270,
+    "speciesId": 1008,
     "name": "Miraidon-aquatic-mode",
     "height": 28,
     "weight": 2400,
@@ -72815,6 +74110,7 @@
   },
   {
     "id": 10271,
+    "speciesId": 1008,
     "name": "Miraidon-glide-mode",
     "height": 28,
     "weight": 2400,
@@ -72873,6 +74169,7 @@
   },
   {
     "id": 10272,
+    "speciesId": 901,
     "name": "Ursaluna-bloodmoon",
     "height": 24,
     "weight": 2900,
@@ -72931,6 +74228,7 @@
   },
   {
     "id": 10273,
+    "speciesId": 1017,
     "name": "Ogerpon-wellspring-mask",
     "height": 12,
     "weight": 398,
@@ -72989,6 +74287,7 @@
   },
   {
     "id": 10274,
+    "speciesId": 1017,
     "name": "Ogerpon-hearthflame-mask",
     "height": 12,
     "weight": 398,
@@ -73047,6 +74346,7 @@
   },
   {
     "id": 10275,
+    "speciesId": 1017,
     "name": "Ogerpon-cornerstone-mask",
     "height": 12,
     "weight": 398,
@@ -73105,6 +74405,7 @@
   },
   {
     "id": 10276,
+    "speciesId": 1024,
     "name": "Terapagos-terastal",
     "height": 3,
     "weight": 160,
@@ -73159,6 +74460,7 @@
   },
   {
     "id": 10277,
+    "speciesId": 1024,
     "name": "Terapagos-stellar",
     "height": 17,
     "weight": 770,
@@ -73213,6 +74515,7 @@
   },
   {
     "id": 10278,
+    "speciesId": 36,
     "name": "Clefable-mega",
     "height": 17,
     "weight": 423,
@@ -73271,6 +74574,7 @@
   },
   {
     "id": 10279,
+    "speciesId": 71,
     "name": "Victreebel-mega",
     "height": 45,
     "weight": 1255,
@@ -73329,6 +74633,7 @@
   },
   {
     "id": 10280,
+    "speciesId": 121,
     "name": "Starmie-mega",
     "height": 23,
     "weight": 800,
@@ -73387,6 +74692,7 @@
   },
   {
     "id": 10281,
+    "speciesId": 149,
     "name": "Dragonite-mega",
     "height": 22,
     "weight": 2900,
@@ -73445,6 +74751,7 @@
   },
   {
     "id": 10282,
+    "speciesId": 154,
     "name": "Meganium-mega",
     "height": 24,
     "weight": 2010,
@@ -73503,6 +74810,7 @@
   },
   {
     "id": 10283,
+    "speciesId": 160,
     "name": "Feraligatr-mega",
     "height": 23,
     "weight": 1088,
@@ -73561,6 +74869,7 @@
   },
   {
     "id": 10284,
+    "speciesId": 227,
     "name": "Skarmory-mega",
     "height": 17,
     "weight": 404,
@@ -73619,6 +74928,7 @@
   },
   {
     "id": 10285,
+    "speciesId": 478,
     "name": "Froslass-mega",
     "height": 26,
     "weight": 296,
@@ -73677,6 +74987,7 @@
   },
   {
     "id": 10286,
+    "speciesId": 500,
     "name": "Emboar-mega",
     "height": 18,
     "weight": 1803,
@@ -73735,6 +75046,7 @@
   },
   {
     "id": 10287,
+    "speciesId": 530,
     "name": "Excadrill-mega",
     "height": 9,
     "weight": 600,
@@ -73793,6 +75105,7 @@
   },
   {
     "id": 10288,
+    "speciesId": 545,
     "name": "Scolipede-mega",
     "height": 32,
     "weight": 2305,
@@ -73851,6 +75164,7 @@
   },
   {
     "id": 10289,
+    "speciesId": 560,
     "name": "Scrafty-mega",
     "height": 11,
     "weight": 310,
@@ -73909,6 +75223,7 @@
   },
   {
     "id": 10290,
+    "speciesId": 604,
     "name": "Eelektross-mega",
     "height": 30,
     "weight": 1800,
@@ -73963,6 +75278,7 @@
   },
   {
     "id": 10291,
+    "speciesId": 609,
     "name": "Chandelure-mega",
     "height": 25,
     "weight": 696,
@@ -74021,6 +75337,7 @@
   },
   {
     "id": 10292,
+    "speciesId": 652,
     "name": "Chesnaught-mega",
     "height": 16,
     "weight": 900,
@@ -74079,6 +75396,7 @@
   },
   {
     "id": 10293,
+    "speciesId": 655,
     "name": "Delphox-mega",
     "height": 15,
     "weight": 390,
@@ -74137,6 +75455,7 @@
   },
   {
     "id": 10294,
+    "speciesId": 658,
     "name": "Greninja-mega",
     "height": 15,
     "weight": 400,
@@ -74195,6 +75514,7 @@
   },
   {
     "id": 10295,
+    "speciesId": 668,
     "name": "Pyroar-mega",
     "height": 15,
     "weight": 933,
@@ -74253,6 +75573,7 @@
   },
   {
     "id": 10296,
+    "speciesId": 670,
     "name": "Floette-mega",
     "height": 2,
     "weight": 1008,
@@ -74307,6 +75628,7 @@
   },
   {
     "id": 10297,
+    "speciesId": 687,
     "name": "Malamar-mega",
     "height": 29,
     "weight": 698,
@@ -74365,6 +75687,7 @@
   },
   {
     "id": 10298,
+    "speciesId": 689,
     "name": "Barbaracle-mega",
     "height": 22,
     "weight": 1000,
@@ -74423,6 +75746,7 @@
   },
   {
     "id": 10299,
+    "speciesId": 691,
     "name": "Dragalge-mega",
     "height": 21,
     "weight": 1003,
@@ -74481,6 +75805,7 @@
   },
   {
     "id": 10300,
+    "speciesId": 701,
     "name": "Hawlucha-mega",
     "height": 10,
     "weight": 250,
@@ -74539,6 +75864,7 @@
   },
   {
     "id": 10301,
+    "speciesId": 718,
     "name": "Zygarde-mega",
     "height": 77,
     "weight": 6100,
@@ -74597,6 +75923,7 @@
   },
   {
     "id": 10302,
+    "speciesId": 780,
     "name": "Drampa-mega",
     "height": 30,
     "weight": 2405,
@@ -74655,6 +75982,7 @@
   },
   {
     "id": 10303,
+    "speciesId": 870,
     "name": "Falinks-mega",
     "height": 16,
     "weight": 990,
@@ -74709,6 +76037,7 @@
   },
   {
     "id": 10304,
+    "speciesId": 26,
     "name": "Raichu-mega-x",
     "height": 12,
     "weight": 380,
@@ -74763,6 +76092,7 @@
   },
   {
     "id": 10305,
+    "speciesId": 26,
     "name": "Raichu-mega-y",
     "height": 10,
     "weight": 260,
@@ -74817,6 +76147,7 @@
   },
   {
     "id": 10306,
+    "speciesId": 358,
     "name": "Chimecho-mega",
     "height": 12,
     "weight": 80,
@@ -74875,6 +76206,7 @@
   },
   {
     "id": 10307,
+    "speciesId": 359,
     "name": "Absol-mega-z",
     "height": 12,
     "weight": 490,
@@ -74933,6 +76265,7 @@
   },
   {
     "id": 10308,
+    "speciesId": 398,
     "name": "Staraptor-mega",
     "height": 19,
     "weight": 500,
@@ -74991,6 +76324,7 @@
   },
   {
     "id": 10309,
+    "speciesId": 445,
     "name": "Garchomp-mega-z",
     "height": 19,
     "weight": 990,
@@ -75045,6 +76379,7 @@
   },
   {
     "id": 10310,
+    "speciesId": 448,
     "name": "Lucario-mega-z",
     "height": 13,
     "weight": 494,
@@ -75103,6 +76438,7 @@
   },
   {
     "id": 10311,
+    "speciesId": 485,
     "name": "Heatran-mega",
     "height": 28,
     "weight": 5700,
@@ -75161,6 +76497,7 @@
   },
   {
     "id": 10312,
+    "speciesId": 491,
     "name": "Darkrai-mega",
     "height": 30,
     "weight": 2400,
@@ -75215,6 +76552,7 @@
   },
   {
     "id": 10313,
+    "speciesId": 623,
     "name": "Golurk-mega",
     "height": 40,
     "weight": 3300,
@@ -75273,6 +76611,7 @@
   },
   {
     "id": 10314,
+    "speciesId": 678,
     "name": "Meowstic-male-mega",
     "height": 8,
     "weight": 101,
@@ -75327,6 +76666,7 @@
   },
   {
     "id": 10315,
+    "speciesId": 740,
     "name": "Crabominable-mega",
     "height": 26,
     "weight": 2528,
@@ -75385,6 +76725,7 @@
   },
   {
     "id": 10316,
+    "speciesId": 768,
     "name": "Golisopod-mega",
     "height": 23,
     "weight": 1480,
@@ -75443,6 +76784,7 @@
   },
   {
     "id": 10317,
+    "speciesId": 801,
     "name": "Magearna-mega",
     "height": 13,
     "weight": 2481,
@@ -75501,6 +76843,7 @@
   },
   {
     "id": 10318,
+    "speciesId": 801,
     "name": "Magearna-original-mega",
     "height": 13,
     "weight": 2481,
@@ -75559,6 +76902,7 @@
   },
   {
     "id": 10319,
+    "speciesId": 807,
     "name": "Zeraora-mega",
     "height": 15,
     "weight": 445,
@@ -75613,6 +76957,7 @@
   },
   {
     "id": 10320,
+    "speciesId": 952,
     "name": "Scovillain-mega",
     "height": 12,
     "weight": 220,
@@ -75671,6 +77016,7 @@
   },
   {
     "id": 10321,
+    "speciesId": 970,
     "name": "Glimmora-mega",
     "height": 28,
     "weight": 770,
@@ -75729,6 +77075,7 @@
   },
   {
     "id": 10322,
+    "speciesId": 978,
     "name": "Tatsugiri-curly-mega",
     "height": 6,
     "weight": 240,
@@ -75787,6 +77134,7 @@
   },
   {
     "id": 10323,
+    "speciesId": 978,
     "name": "Tatsugiri-droopy-mega",
     "height": 6,
     "weight": 240,
@@ -75845,6 +77193,7 @@
   },
   {
     "id": 10324,
+    "speciesId": 978,
     "name": "Tatsugiri-stretchy-mega",
     "height": 6,
     "weight": 240,
@@ -75903,6 +77252,7 @@
   },
   {
     "id": 10325,
+    "speciesId": 998,
     "name": "Baxcalibur-mega",
     "height": 21,
     "weight": 3150,
@@ -75961,6 +77311,7 @@
   },
   {
     "id": 10326,
+    "speciesId": 678,
     "name": "Meowstic-female-mega",
     "height": 8,
     "weight": 101,

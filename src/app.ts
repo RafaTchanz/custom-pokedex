@@ -17,12 +17,22 @@ interface PokemonMedia {
 
 interface PokemonCardData {
   id: number;
+  speciesId: number;
   name: string;
   height: number;
   weight: number;
   stats: PokemonStat[];
   types: PokemonType[];
   media: PokemonMedia;
+  isDefault: boolean;
+}
+
+interface PokemonSpeciesGroup {
+  speciesId: number;
+  name: string;
+  defaultPokemon: PokemonCardData;
+  varieties: PokemonCardData[];
+  selectedPokemon: PokemonCardData;
 }
 
 const TYPE_COLORS: Record<string, string> = {
@@ -48,6 +58,7 @@ const TYPE_COLORS: Record<string, string> = {
 
 class PokedexApp {
   private allPokemon: PokemonCardData[] = [];
+  private speciesGroups: PokemonSpeciesGroup[] = [];
   private currentAudio: HTMLAudioElement | null = null;
   private currentPlayingBtn: HTMLButtonElement | null = null;
 
@@ -132,6 +143,7 @@ class PokedexApp {
         throw new Error(`Failed to load dataset: ${response.statusText}`);
       }
       this.allPokemon = await response.json();
+      this.buildSpeciesGroups();
       this.render();
     } catch (err) {
       console.error('Error loading Pokédex dataset:', err);
@@ -139,23 +151,71 @@ class PokedexApp {
     }
   }
 
-  private filterPokemon(): PokemonCardData[] {
+  private buildSpeciesGroups(): void {
+    const groupsMap = new Map<number, PokemonCardData[]>();
+
+    for (const p of this.allPokemon) {
+      const specId = p.speciesId || p.id;
+      if (!groupsMap.has(specId)) {
+        groupsMap.set(specId, []);
+      }
+      groupsMap.get(specId)!.push(p);
+    }
+
+    this.speciesGroups = Array.from(groupsMap.entries()).map(([speciesId, list]) => {
+      // Find base/default form or first item
+      const defaultPokemon = list.find(x => x.isDefault || x.id === speciesId) || list[0];
+      return {
+        speciesId,
+        name: defaultPokemon.name,
+        defaultPokemon,
+        varieties: list,
+        selectedPokemon: defaultPokemon,
+      };
+    });
+  }
+
+  private getFormDisplayName(p: PokemonCardData, group: PokemonSpeciesGroup): string {
+    if (p.isDefault || p.id === group.speciesId) {
+      return 'Normal';
+    }
+    const baseName = group.defaultPokemon.name.toLowerCase();
+    const currentName = p.name.toLowerCase();
+    if (currentName.startsWith(baseName + '-')) {
+      return p.name.slice(group.defaultPokemon.name.length + 1);
+    }
+    return p.name;
+  }
+
+  private filterGroups(): PokemonSpeciesGroup[] {
     const search = this.searchInput.value.trim().toLowerCase();
     const typeFilter = this.typeSelect.value.trim().toLowerCase();
 
-    return this.allPokemon.filter(p => {
-      // Type Filter
-      if (typeFilter && !p.types.some(t => t.name.toLowerCase() === typeFilter)) {
+    return this.speciesGroups.filter(group => {
+      // Match varieties
+      const matchingVarieties = group.varieties.filter(p => {
+        // Type filter check
+        if (typeFilter && !p.types.some(t => t.name.toLowerCase() === typeFilter)) {
+          return false;
+        }
+        // Search check
+        if (search) {
+          const matchesName = p.name.toLowerCase().includes(search) || group.name.toLowerCase().includes(search);
+          const matchesId = p.id.toString() === search || group.speciesId.toString() === search || `#${group.speciesId}` === search;
+          if (!matchesName && !matchesId) {
+            return false;
+          }
+        }
+        return true;
+      });
+
+      if (matchingVarieties.length === 0) {
         return false;
       }
 
-      // Search by Name or ID
-      if (search) {
-        const matchesName = p.name.toLowerCase().includes(search);
-        const matchesId = p.id.toString() === search || `#${p.id}` === search;
-        if (!matchesName && !matchesId) {
-          return false;
-        }
+      // Automatically select the variety that matched the search/filter if default didn't match
+      if (matchingVarieties.length > 0 && !matchingVarieties.includes(group.selectedPokemon)) {
+        group.selectedPokemon = matchingVarieties[0];
       }
 
       return true;
@@ -163,9 +223,10 @@ class PokedexApp {
   }
 
   private render(): void {
-    const filtered = this.filterPokemon();
+    const filtered = this.filterGroups();
 
-    this.totalCountText.textContent = `${filtered.length} Pokémons Exibidos (Total: ${this.allPokemon.length})`;
+    const totalVarietiesCount = filtered.reduce((sum, g) => sum + g.varieties.length, 0);
+    this.totalCountText.textContent = `${filtered.length} Espécies (${totalVarietiesCount} Formas/Variantes)`;
 
     if (filtered.length === 0) {
       this.gridContainer.innerHTML = '';
@@ -174,33 +235,86 @@ class PokedexApp {
     }
 
     this.emptyState.classList.add('hidden');
+    this.gridContainer.innerHTML = filtered.map(g => this.createCardHTML(g)).join('');
 
-    // Render cards
-    this.gridContainer.innerHTML = filtered.map(p => this.createCardHTML(p)).join('');
-
-    // Attach event handlers for cards and cry buttons
-    filtered.forEach(p => {
-      const cardEl = document.getElementById(`pokemon-card-${p.id}`);
+    // Attach card event listeners
+    filtered.forEach(group => {
+      const cardEl = document.getElementById(`species-card-${group.speciesId}`);
       if (cardEl) {
         cardEl.addEventListener('click', (e) => {
           const target = e.target as HTMLElement;
-          if (target.closest('.cry-btn')) return; // Ignore modal click if cry button pressed
-          this.openModal(p);
+          if (target.closest('.cry-btn') || target.closest('.form-pill')) return;
+          this.openModal(group);
         });
       }
 
-      const cryBtn = document.getElementById(`cry-btn-${p.id}`) as HTMLButtonElement;
+      // Attach form pill clicks on Card
+      group.varieties.forEach(p => {
+        const pillBtn = document.getElementById(`pill-${group.speciesId}-${p.id}`);
+        if (pillBtn) {
+          pillBtn.addEventListener('click', (e) => {
+            e.stopPropagation();
+            group.selectedPokemon = p;
+            this.updateCardUI(group);
+          });
+        }
+      });
+
+      // Attach cry button on Card
+      const cryBtn = document.getElementById(`cry-btn-species-${group.speciesId}`) as HTMLButtonElement;
       if (cryBtn) {
         cryBtn.addEventListener('click', (e) => {
           e.stopPropagation();
-          this.playCry(p.media.cryUrl, cryBtn);
+          this.playCry(group.selectedPokemon.media.cryUrl, cryBtn);
         });
       }
     });
   }
 
-  private createCardHTML(p: PokemonCardData): string {
-    const formattedId = `#${p.id.toString().padStart(4, '0')}`;
+  private updateCardUI(group: PokemonSpeciesGroup): void {
+    const p = group.selectedPokemon;
+    const cardEl = document.getElementById(`species-card-${group.speciesId}`);
+    if (!cardEl) return;
+
+    // Update title
+    const titleEl = cardEl.querySelector('.card-title');
+    if (titleEl) titleEl.textContent = p.name;
+
+    // Update Artwork
+    const imgEl = cardEl.querySelector('.card-artwork') as HTMLImageElement;
+    if (imgEl) {
+      imgEl.src = p.media.officialArtworkUrl || p.media.spriteUrl;
+      imgEl.alt = p.name;
+    }
+
+    // Update Type Badges
+    const badgesContainer = cardEl.querySelector('.type-badges');
+    if (badgesContainer) {
+      badgesContainer.innerHTML = p.types
+        .map(t => {
+          const color = TYPE_COLORS[t.name.toLowerCase()] || '#a8a77a';
+          return `<span class="type-badge" style="background-color: ${color};">${t.name}</span>`;
+        })
+        .join('');
+    }
+
+    // Update Form Pill active class
+    group.varieties.forEach(v => {
+      const pill = document.getElementById(`pill-${group.speciesId}-${v.id}`);
+      if (pill) {
+        if (v.id === p.id) {
+          pill.classList.add('active');
+        } else {
+          pill.classList.remove('active');
+        }
+      }
+    });
+  }
+
+  private createCardHTML(group: PokemonSpeciesGroup): string {
+    const p = group.selectedPokemon;
+    const formattedId = `#${group.speciesId.toString().padStart(4, '0')}`;
+    
     const typeBadges = p.types
       .map(t => {
         const color = TYPE_COLORS[t.name.toLowerCase()] || '#a8a77a';
@@ -208,10 +322,22 @@ class PokedexApp {
       })
       .join('');
 
+    const formPills = group.varieties.length > 1
+      ? `<div class="form-selector">` +
+        group.varieties
+          .map(v => {
+            const formLabel = this.getFormDisplayName(v, group);
+            const isActive = v.id === p.id ? 'active' : '';
+            return `<button id="pill-${group.speciesId}-${v.id}" class="form-pill ${isActive}">${formLabel}</button>`;
+          })
+          .join('') +
+        `</div>`
+      : '';
+
     const imgUrl = p.media.officialArtworkUrl || p.media.spriteUrl;
 
     return `
-      <div id="pokemon-card-${p.id}" class="pokemon-card">
+      <div id="species-card-${group.speciesId}" class="pokemon-card">
         <span class="card-number">${formattedId}</span>
         <div class="card-img-container">
           <img class="card-artwork" src="${imgUrl}" alt="${p.name}" loading="lazy" onerror="this.src='${p.media.spriteUrl}'">
@@ -220,7 +346,8 @@ class PokedexApp {
         <div class="type-badges">
           ${typeBadges}
         </div>
-        <button id="cry-btn-${p.id}" class="cry-btn" title="Ouvir som do cry">
+        ${formPills}
+        <button id="cry-btn-species-${group.speciesId}" class="cry-btn" title="Ouvir som do cry">
           🔊 Play Cry
         </button>
       </div>
@@ -260,14 +387,34 @@ class PokedexApp {
     };
   }
 
-  private openModal(p: PokemonCardData): string {
-    const formattedId = `#${p.id.toString().padStart(4, '0')}`;
+  private openModal(group: PokemonSpeciesGroup): void {
+    this.renderModalContent(group);
+    this.modalBackdrop.classList.remove('hidden');
+  }
+
+  private renderModalContent(group: PokemonSpeciesGroup): void {
+    const p = group.selectedPokemon;
+    const formattedId = `#${group.speciesId.toString().padStart(4, '0')}`;
     const typeBadges = p.types
       .map(t => {
         const color = TYPE_COLORS[t.name.toLowerCase()] || '#a8a77a';
         return `<span class="type-badge" style="background-color: ${color}; padding: 0.35rem 1rem; font-size: 0.85rem;">${t.name}</span>`;
       })
       .join('');
+
+    const formPillsModal = group.varieties.length > 1
+      ? `<div style="margin-bottom: 1.25rem;">
+           <div style="font-size: 0.8rem; font-weight: 700; color: #94a3b8; text-transform: uppercase; margin-bottom: 0.5rem; text-align: center;">Formas / Variantes Disponíveis</div>
+           <div class="form-selector">` +
+          group.varieties
+            .map(v => {
+              const formLabel = this.getFormDisplayName(v, group);
+              const isActive = v.id === p.id ? 'active' : '';
+              return `<button id="modal-pill-${group.speciesId}-${v.id}" class="form-pill ${isActive}">${formLabel}</button>`;
+            })
+            .join('') +
+          `</div></div>`
+      : '';
 
     const statsHTML = p.stats
       .map(s => {
@@ -299,9 +446,11 @@ class PokedexApp {
         <span style="font-size: 0.9rem; font-weight: 800; color: #94a3b8;">${formattedId}</span>
         <h2 style="font-size: 2rem; font-weight: 800; text-transform: capitalize; margin: 0.2rem 0 0.8rem 0;">${p.name}</h2>
         
-        <div style="display: flex; justify-content: center; gap: 0.5rem; margin-bottom: 1.5rem;">
+        <div style="display: flex; justify-content: center; gap: 0.5rem; margin-bottom: 1.25rem;">
           ${typeBadges}
         </div>
+
+        ${formPillsModal}
 
         <div style="width: 180px; height: 180px; margin: 0 auto 1.5rem auto;">
           <img src="${p.media.officialArtworkUrl || p.media.spriteUrl}" alt="${p.name}" style="width: 100%; height: 100%; object-fit: contain; filter: drop-shadow(0 12px 20px rgba(0,0,0,0.5));">
@@ -323,7 +472,17 @@ class PokedexApp {
       </div>
     `;
 
-    this.modalBackdrop.classList.remove('hidden');
+    // Modal Form Pills Click Listeners
+    group.varieties.forEach(v => {
+      const modalPill = document.getElementById(`modal-pill-${group.speciesId}-${v.id}`);
+      if (modalPill) {
+        modalPill.addEventListener('click', () => {
+          group.selectedPokemon = v;
+          this.updateCardUI(group);
+          this.renderModalContent(group);
+        });
+      }
+    });
 
     const modalCryBtn = document.getElementById('modal-cry-btn') as HTMLButtonElement;
     if (modalCryBtn) {
@@ -331,8 +490,6 @@ class PokedexApp {
         this.playCry(p.media.cryUrl, modalCryBtn);
       });
     }
-
-    return formattedId;
   }
 
   private closeModal(): void {

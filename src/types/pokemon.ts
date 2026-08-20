@@ -11,6 +11,7 @@ export interface PokemonType {
 
 export interface Pokemon {
   id: number;
+  speciesId: number;
   name: string;
   height: number;
   weight: number;
