@@ -52,6 +52,7 @@ interface PokemonCardData {
   weight: number;
   stats: PokemonStat[];
   types: PokemonType[];
+  abilities?: { name: string }[];
   media: PokemonMedia;
   isDefault: boolean;
   moves?: PokemonMove[];
@@ -102,22 +103,34 @@ class PokedexApp {
   private is3DModelActive: boolean = false;
   private isGlobalShinyActive: boolean = false;
   private isGlobal3DActive: boolean = false;
+  private isFiltersCollapsed: boolean = false;
   private cardShinyState: Map<number, boolean> = new Map();
   private movesMethodFilter: 'level-up' | 'egg' | 'machine' = 'level-up';
 
+  private currentFilteredGroups: PokemonSpeciesGroup[] = [];
+  private currentModalIndex: number = -1;
+
   private searchInput!: HTMLInputElement;
+  private genSelect!: HTMLSelectElement;
   private typeSelect!: HTMLSelectElement;
+  private sortSelect!: HTMLSelectElement;
   private clearSearchBtn!: HTMLButtonElement;
   private resetAllBtn!: HTMLButtonElement;
   private emptyResetBtn!: HTMLButtonElement;
   private globalShinyBtn!: HTMLButtonElement;
   private global3DBtn!: HTMLButtonElement;
+  private toggleFiltersBtn!: HTMLButtonElement;
+  private toggleFiltersText!: HTMLSpanElement;
+  private filterBar!: HTMLDivElement;
+  private backToTopBtn!: HTMLButtonElement;
   private gridContainer!: HTMLDivElement;
   private emptyState!: HTMLDivElement;
   private totalCountText!: HTMLSpanElement;
   private modalBackdrop!: HTMLDivElement;
   private modalContent!: HTMLDivElement;
   private closeModalBtn!: HTMLButtonElement;
+  private modalPrevBtn!: HTMLButtonElement;
+  private modalNextBtn!: HTMLButtonElement;
 
   constructor() {
     this.initDOMReferences();
@@ -127,18 +140,26 @@ class PokedexApp {
 
   private initDOMReferences(): void {
     this.searchInput = document.getElementById('search-input') as HTMLInputElement;
+    this.genSelect = document.getElementById('gen-select') as HTMLSelectElement;
     this.typeSelect = document.getElementById('type-select') as HTMLSelectElement;
+    this.sortSelect = document.getElementById('sort-select') as HTMLSelectElement;
     this.clearSearchBtn = document.getElementById('clear-search-btn') as HTMLButtonElement;
     this.resetAllBtn = document.getElementById('reset-all-btn') as HTMLButtonElement;
     this.emptyResetBtn = document.getElementById('empty-reset-btn') as HTMLButtonElement;
     this.globalShinyBtn = document.getElementById('global-shiny-btn') as HTMLButtonElement;
     this.global3DBtn = document.getElementById('global-3d-btn') as HTMLButtonElement;
+    this.toggleFiltersBtn = document.getElementById('toggle-filters-btn') as HTMLButtonElement;
+    this.toggleFiltersText = document.getElementById('toggle-filters-text') as HTMLSpanElement;
+    this.filterBar = document.getElementById('filter-bar') as HTMLDivElement;
+    this.backToTopBtn = document.getElementById('back-to-top-btn') as HTMLButtonElement;
     this.gridContainer = document.getElementById('pokemon-grid') as HTMLDivElement;
     this.emptyState = document.getElementById('empty-state') as HTMLDivElement;
     this.totalCountText = document.getElementById('total-count-text') as HTMLSpanElement;
     this.modalBackdrop = document.getElementById('pokemon-modal') as HTMLDivElement;
     this.modalContent = document.getElementById('modal-content') as HTMLDivElement;
     this.closeModalBtn = document.getElementById('close-modal-btn') as HTMLButtonElement;
+    this.modalPrevBtn = document.getElementById('modal-prev-btn') as HTMLButtonElement;
+    this.modalNextBtn = document.getElementById('modal-next-btn') as HTMLButtonElement;
   }
 
   private attachEventListeners(): void {
@@ -147,13 +168,37 @@ class PokedexApp {
       this.render();
     });
 
-    this.typeSelect.addEventListener('change', () => this.render());
+    if (this.genSelect) this.genSelect.addEventListener('change', () => this.render());
+    if (this.typeSelect) this.typeSelect.addEventListener('change', () => this.render());
+    if (this.sortSelect) this.sortSelect.addEventListener('change', () => this.render());
 
     this.clearSearchBtn.addEventListener('click', () => {
       this.searchInput.value = '';
       this.toggleClearSearchBtn();
       this.render();
     });
+
+    if (this.toggleFiltersBtn) {
+      this.toggleFiltersBtn.addEventListener('click', () => {
+        this.isFiltersCollapsed = !this.isFiltersCollapsed;
+        this.filterBar.classList.toggle('collapsed', this.isFiltersCollapsed);
+        this.toggleFiltersText.textContent = this.isFiltersCollapsed ? 'Mostrar Filtros' : 'Ocultar Filtros';
+      });
+    }
+
+    if (this.backToTopBtn) {
+      window.addEventListener('scroll', () => {
+        if (window.scrollY > 300) {
+          this.backToTopBtn.classList.remove('hidden');
+        } else {
+          this.backToTopBtn.classList.add('hidden');
+        }
+      });
+
+      this.backToTopBtn.addEventListener('click', () => {
+        window.scrollTo({ top: 0, behavior: 'smooth' });
+      });
+    }
 
     if (this.globalShinyBtn) {
       this.globalShinyBtn.addEventListener('click', () => {
@@ -181,8 +226,26 @@ class PokedexApp {
       if (e.target === this.modalBackdrop) this.closeModal();
     });
 
+    if (this.modalPrevBtn) {
+      this.modalPrevBtn.addEventListener('click', (e) => {
+        e.stopPropagation();
+        this.navigateModal(-1);
+      });
+    }
+
+    if (this.modalNextBtn) {
+      this.modalNextBtn.addEventListener('click', (e) => {
+        e.stopPropagation();
+        this.navigateModal(1);
+      });
+    }
+
     document.addEventListener('keydown', (e) => {
+      if (this.modalBackdrop.classList.contains('hidden')) return;
+
       if (e.key === 'Escape') this.closeModal();
+      if (e.key === 'ArrowLeft') this.navigateModal(-1);
+      if (e.key === 'ArrowRight') this.navigateModal(1);
     });
   }
 
@@ -196,7 +259,9 @@ class PokedexApp {
 
   private resetFilters(): void {
     this.searchInput.value = '';
-    this.typeSelect.value = '';
+    if (this.genSelect) this.genSelect.value = '';
+    if (this.typeSelect) this.typeSelect.value = '';
+    if (this.sortSelect) this.sortSelect.value = 'id-asc';
     this.isGlobalShinyActive = false;
     this.isGlobal3DActive = false;
     this.cardShinyState.clear();
@@ -264,9 +329,25 @@ class PokedexApp {
 
   private filterGroups(): PokemonSpeciesGroup[] {
     const search = this.searchInput.value.trim().toLowerCase();
-    const typeFilter = this.typeSelect.value.trim().toLowerCase();
+    const genFilter = this.genSelect ? this.genSelect.value : '';
+    const typeFilter = this.typeSelect ? this.typeSelect.value.trim().toLowerCase() : '';
+    const sortVal = this.sortSelect ? this.sortSelect.value : 'id-asc';
 
-    return this.speciesGroups.filter(group => {
+    let filtered = this.speciesGroups.filter(group => {
+      // Generation Filter
+      if (genFilter) {
+        const id = group.speciesId;
+        if (genFilter === 'gen1' && (id < 1 || id > 151)) return false;
+        if (genFilter === 'gen2' && (id < 152 || id > 251)) return false;
+        if (genFilter === 'gen3' && (id < 252 || id > 386)) return false;
+        if (genFilter === 'gen4' && (id < 387 || id > 493)) return false;
+        if (genFilter === 'gen5' && (id < 494 || id > 649)) return false;
+        if (genFilter === 'gen6' && (id < 650 || id > 721)) return false;
+        if (genFilter === 'gen7' && (id < 722 || id > 809)) return false;
+        if (genFilter === 'gen8' && (id < 810 || id > 905)) return false;
+        if (genFilter === 'gen9' && id < 906) return false;
+      }
+
       const matchingVarieties = group.varieties.filter(p => {
         if (typeFilter && !p.types.some(t => t.name.toLowerCase() === typeFilter)) {
           return false;
@@ -274,7 +355,10 @@ class PokedexApp {
         if (search) {
           const matchesName = p.name.toLowerCase().includes(search) || group.name.toLowerCase().includes(search);
           const matchesId = p.id.toString() === search || group.speciesId.toString() === search || `#${group.speciesId}` === search;
-          if (!matchesName && !matchesId) {
+          const matchesMove = (p.moves || []).some(m => m.name.toLowerCase().includes(search));
+          const matchesAbility = (p.abilities || []).some(a => a.name.toLowerCase().includes(search));
+
+          if (!matchesName && !matchesId && !matchesMove && !matchesAbility) {
             return false;
           }
         }
@@ -291,6 +375,26 @@ class PokedexApp {
 
       return true;
     });
+
+    // Sorting
+    filtered.sort((a, b) => {
+      const pA = a.selectedPokemon;
+      const pB = b.selectedPokemon;
+
+      if (sortVal === 'id-asc') return a.speciesId - b.speciesId;
+      if (sortVal === 'id-desc') return b.speciesId - a.speciesId;
+      if (sortVal === 'name-asc') return a.name.localeCompare(b.name);
+      if (sortVal === 'name-desc') return b.name.localeCompare(a.name);
+
+      const bstA = (pA.stats || []).reduce((sum, s) => sum + s.baseStat, 0);
+      const bstB = (pB.stats || []).reduce((sum, s) => sum + s.baseStat, 0);
+      if (sortVal === 'bst-desc') return bstB - bstA;
+      if (sortVal === 'bst-asc') return bstA - bstB;
+
+      return a.speciesId - b.speciesId;
+    });
+
+    return filtered;
   }
 
   private isCardShinyActive(speciesId: number): boolean {
@@ -312,6 +416,7 @@ class PokedexApp {
 
   private render(): void {
     const filtered = this.filterGroups();
+    this.currentFilteredGroups = filtered;
 
     const totalVarietiesCount = filtered.reduce((sum, g) => sum + g.varieties.length, 0);
     this.totalCountText.textContent = `${filtered.length} Espécies (${totalVarietiesCount} Formas/Variantes)`;
@@ -494,12 +599,31 @@ class PokedexApp {
   }
 
   private openModal(group: PokemonSpeciesGroup): void {
+    this.currentModalIndex = this.currentFilteredGroups.findIndex(g => g.speciesId === group.speciesId);
     this.activeModalTab = 'general';
     this.isShinyActive = this.isCardShinyActive(group.speciesId);
     this.is3DModelActive = this.isGlobal3DActive;
     this.movesMethodFilter = 'level-up';
     this.renderModalContent(group);
     this.modalBackdrop.classList.remove('hidden');
+  }
+
+  private navigateModal(direction: number): void {
+    if (this.currentFilteredGroups.length === 0 || this.currentModalIndex === -1) return;
+
+    let newIndex = this.currentModalIndex + direction;
+    if (newIndex < 0) {
+      newIndex = this.currentFilteredGroups.length - 1;
+    } else if (newIndex >= this.currentFilteredGroups.length) {
+      newIndex = 0;
+    }
+
+    this.currentModalIndex = newIndex;
+    const targetGroup = this.currentFilteredGroups[newIndex];
+    if (targetGroup) {
+      this.isShinyActive = this.isCardShinyActive(targetGroup.speciesId);
+      this.renderModalContent(targetGroup);
+    }
   }
 
   private async renderModalContent(group: PokemonSpeciesGroup): Promise<void> {
@@ -859,6 +983,7 @@ class PokedexApp {
 
   private closeModal(): void {
     this.modalBackdrop.classList.add('hidden');
+    this.currentModalIndex = -1;
     if (this.currentAudio) {
       this.currentAudio.pause();
       this.currentAudio = null;

@@ -27,21 +27,42 @@
           </div>
         </div>
 
-        <div class="stats-badge">
-          <span class="pulse-dot"></span>
-          <span id="total-count-text">Carregando TchanzDex...</span>
+        <div class="header-actions">
+          <button id="toggle-filters-btn" class="toggle-filters-btn" title="Esconder ou mostrar barra de filtros">
+            🎛️ <span id="toggle-filters-text">Ocultar Filtros</span>
+          </button>
+
+          <div class="stats-badge">
+            <span class="pulse-dot"></span>
+            <span id="total-count-text">Carregando TchanzDex...</span>
+          </div>
         </div>
       </div>
 
       <!-- Controls & Filter Bar -->
-      <div class="filter-bar">
+      <div id="filter-bar" class="filter-bar">
         <div class="search-box">
           <svg class="search-icon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
             <circle cx="11" cy="11" r="8"></circle>
             <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
           </svg>
-          <input type="text" id="search-input" placeholder="Buscar por Nome ou Número (ex: Pikachu, 25, #150)..." autocomplete="off">
+          <input type="text" id="search-input" placeholder="Buscar por Nome, Número ou Golpe (ex: Pikachu, 25, Thunderbolt)..." autocomplete="off">
           <button id="clear-search-btn" class="icon-btn hidden" title="Limpar busca">&times;</button>
+        </div>
+
+        <div class="type-filter-group">
+          <select id="gen-select" class="type-dropdown">
+            <option value="">Todas as Gerações</option>
+            <option value="gen1">Gen 1: Kanto (#001 - #151)</option>
+            <option value="gen2">Gen 2: Johto (#152 - #251)</option>
+            <option value="gen3">Gen 3: Hoenn (#252 - #386)</option>
+            <option value="gen4">Gen 4: Sinnoh (#387 - #493)</option>
+            <option value="gen5">Gen 5: Unova (#494 - #649)</option>
+            <option value="gen6">Gen 6: Kalos (#650 - #721)</option>
+            <option value="gen7">Gen 7: Alola (#722 - #809)</option>
+            <option value="gen8">Gen 8: Galar / Hisui (#810 - #905)</option>
+            <option value="gen9">Gen 9: Paldea (#906+)</option>
+          </select>
         </div>
 
         <div class="type-filter-group">
@@ -65,6 +86,17 @@
             <option value="dark">Dark 🌙</option>
             <option value="steel">Steel 🛡️</option>
             <option value="fairy">Fairy ✨</option>
+          </select>
+        </div>
+
+        <div class="type-filter-group">
+          <select id="sort-select" class="type-dropdown">
+            <option value="id-asc">Número (# Menor ➔ Maior)</option>
+            <option value="id-desc">Número (# Maior ➔ Menor)</option>
+            <option value="name-asc">Nome (A ➔ Z)</option>
+            <option value="name-desc">Nome (Z ➔ A)</option>
+            <option value="bst-desc">Total Base Stats (Fortes ➔ Fracos)</option>
+            <option value="bst-asc">Total Base Stats (Fracos ➔ Fortes)</option>
           </select>
         </div>
 
@@ -95,19 +127,32 @@
       <div id="empty-state" class="empty-state hidden">
         <div class="empty-icon">🔍</div>
         <h3>Nenhum Pokémon encontrado</h3>
-        <p>Tente ajustar os termos da sua pesquisa ou selecione outro tipo elemento.</p>
+        <p>Tente ajustar os termos da sua pesquisa ou selecione outra geração/tipo elementar.</p>
         <button id="empty-reset-btn" class="reset-btn primary">Resetar Busca</button>
       </div>
     </main>
 
-    <!-- Detailed Modal -->
+    <!-- Floating Back to Top Button -->
+    <button id="back-to-top-btn" class="back-to-top-btn hidden" title="Voltar ao Topo">
+      ⬆️
+    </button>
+
+    <!-- Detailed Modal with Prev/Next Navigation -->
     <div id="pokemon-modal" class="modal-backdrop hidden" role="dialog" aria-modal="true">
+      <button id="modal-prev-btn" class="modal-nav-btn prev" title="Pokémon Anterior (Seta Esquerda ◀)">
+        ◀
+      </button>
+
       <div class="modal-card">
         <button id="close-modal-btn" class="modal-close" aria-label="Fechar modal">&times;</button>
         <div id="modal-content">
           <!-- Modal content rendered dynamically -->
         </div>
       </div>
+
+      <button id="modal-next-btn" class="modal-nav-btn next" title="Próximo Pokémon (Seta Direita ▶)">
+        ▶
+      </button>
     </div>
   </div>
 
