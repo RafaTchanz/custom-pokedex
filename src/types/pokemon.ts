@@ -9,6 +9,12 @@ export interface PokemonType {
   slot: number;
 }
 
+export interface PokemonAbility {
+  name: string;
+  isHidden: boolean;
+  slot: number;
+}
+
 export interface Pokemon {
   id: number;
   speciesId: number;
@@ -20,6 +26,7 @@ export interface Pokemon {
   isDefault: boolean;
   types: PokemonType[];
   stats: PokemonStat[];
+  abilities: PokemonAbility[];
   spriteUrl?: string;
   cryUrl?: string;
 }

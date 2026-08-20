@@ -85,9 +85,13 @@ export class LocalDataEngine {
         isDefault,
         types: [],
         stats: [],
+        abilities: [],
       });
       this.nameIndex.set(identifier.toLowerCase(), id);
     }
+
+    // Load abilities dictionary if available
+    const abilityDict = this.loadAbilityDictionary(path.join(csvDir, 'abilities.csv'));
 
     // Load pokemon_types.csv
     const typeRows = this.parseCsvFile(path.join(csvDir, 'pokemon_types.csv'));
@@ -121,6 +125,25 @@ export class LocalDataEngine {
         const statName = statDict[statId] || STAT_NAMES[statId] || `stat-${statId}`;
         pokemon.stats.push({ name: statName, baseStat, effort });
       }
+    }
+
+    // Load pokemon_abilities.csv
+    const abilityRows = this.parseCsvFile(path.join(csvDir, 'pokemon_abilities.csv'));
+    for (const row of abilityRows) {
+      const pokemonId = parseInt(row['pokemon_id'], 10);
+      const abilityId = parseInt(row['ability_id'], 10);
+      const isHidden = row['is_hidden'] === '1';
+      const slot = parseInt(row['slot'] || '1', 10);
+
+      const pokemon = this.pokemonMap.get(pokemonId);
+      if (pokemon) {
+        const abilityName = abilityDict[abilityId] || `ability-${abilityId}`;
+        pokemon.abilities.push({ name: abilityName, isHidden, slot });
+      }
+    }
+
+    for (const pokemon of this.pokemonMap.values()) {
+      pokemon.abilities.sort((a, b) => a.slot - b.slot);
     }
 
     this.initialized = true;
@@ -226,8 +249,10 @@ export class LocalDataEngine {
     const rows = this.parseCsvFile(filePath);
     for (const row of rows) {
       const id = parseInt(row['id'], 10);
-      const name = row['identifier'];
-      if (id && name) dict[id] = name;
+      const identifier = row['identifier'];
+      if (id && identifier) {
+        dict[id] = identifier;
+      }
     }
     return dict;
   }
@@ -237,8 +262,23 @@ export class LocalDataEngine {
     const rows = this.parseCsvFile(filePath);
     for (const row of rows) {
       const id = parseInt(row['id'], 10);
-      const name = row['identifier'];
-      if (id && name) dict[id] = name;
+      const identifier = row['identifier'];
+      if (id && identifier) {
+        dict[id] = identifier;
+      }
+    }
+    return dict;
+  }
+
+  private loadAbilityDictionary(filePath: string): Record<number, string> {
+    const dict: Record<number, string> = {};
+    const rows = this.parseCsvFile(filePath);
+    for (const row of rows) {
+      const id = parseInt(row['id'], 10);
+      const identifier = row['identifier'];
+      if (id && identifier) {
+        dict[id] = identifier.split('-').map(w => w.charAt(0).toUpperCase() + w.slice(1)).join(' ');
+      }
     }
     return dict;
   }
