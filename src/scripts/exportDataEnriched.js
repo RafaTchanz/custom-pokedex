@@ -182,14 +182,10 @@ const enrichedPokemon = pokemonList.map(pRow => {
     .sort((a, b) => parseInt(a.slot, 10) - parseInt(b.slot, 10))
     .map(a => ({ name: abilitiesDict[a.ability_id] || `Ability ${a.ability_id}`, isHidden: a.is_hidden === '1', slot: parseInt(a.slot, 10) }));
 
-  // Media URLs including 3D Animated Models (Showdown 3D GIFs)
+  // Media URLs - Minimal storage (full URLs dynamically constructed in app.ts for maximum JSON compression)
   const media = {
     officialArtworkUrl: `https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/${id}.png`,
     spriteUrl: `https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/${id}.png`,
-    shinyOfficialArtworkUrl: `https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/shiny/${id}.png`,
-    shinySpriteUrl: `https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/shiny/${id}.png`,
-    shinyArtwork: `https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/shiny/${id}.png`,
-    shinySpriteFront: `https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/shiny/${id}.png`,
     animated3dUrl: `https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/showdown/${id}.gif`,
     shinyAnimated3dUrl: `https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/showdown/shiny/${id}.gif`,
     cryUrl: `https://raw.githubusercontent.com/PokeAPI/cries/main/cries/pokemon/latest/${id}.ogg`,
@@ -355,8 +351,6 @@ const enrichedPokemon = pokemonList.map(pRow => {
     name,
     height: parseInt(pRow.height || '0', 10),
     weight: parseInt(pRow.weight || '0', 10),
-    baseExperience: parseInt(pRow.base_experience || '0', 10),
-    order: parseInt(pRow.order || '0', 10),
     isDefault: pRow.is_default === '1',
     types,
     stats,
@@ -371,7 +365,7 @@ const enrichedPokemon = pokemonList.map(pRow => {
 
 const outPath = path.join(process.cwd(), 'public', 'data', 'pokemon.json');
 fs.mkdirSync(path.dirname(outPath), { recursive: true });
-fs.writeFileSync(outPath, JSON.stringify(enrichedPokemon, null, 2), 'utf-8');
+fs.writeFileSync(outPath, JSON.stringify(enrichedPokemon), 'utf-8');
 
 const stats = fs.statSync(outPath);
 console.log(`✅ Sucesso! Pokédex enriquecida exportada para ${outPath}`);

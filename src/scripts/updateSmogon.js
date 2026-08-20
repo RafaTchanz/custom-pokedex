@@ -62,7 +62,7 @@ Promise.all([
 
   const outPath = path.join(process.cwd(), 'public', 'data', 'smogon_builds.json');
   fs.mkdirSync(path.dirname(outPath), { recursive: true });
-  fs.writeFileSync(outPath, JSON.stringify(finalDataset, null, 2), 'utf-8');
+  fs.writeFileSync(outPath, JSON.stringify(finalDataset), 'utf-8');
 
   const stats = fs.statSync(outPath);
   console.log(`✅ Banco Smogon atualizado com sucesso! (${Object.keys(finalDataset).length} Pokémon, ${(stats.size / 1024).toFixed(1)} KB)`);
