@@ -59,8 +59,7 @@ export class SmogonService {
           if (!entry || !entry.sets || Object.keys(entry.sets).length === 0) {
             const keys = Object.keys(localDataset);
             // Match base species prefix (e.g. 'charizard' from 'charizardmegax', 'venusaur' from 'venusaurmega')
-            const baseKey = keys.find(k => formattedName.startsWith(k) && localDataset[k]?.sets && Object.keys(localDataset[k].sets).length > 0)
-              || keys.find(k => formattedName.includes(k) && localDataset[k]?.sets && Object.keys(localDataset[k].sets).length > 0);
+            const baseKey = keys.find(k => formattedName.startsWith(k) && localDataset[k]?.sets && Object.keys(localDataset[k].sets).length > 0);
 
             if (baseKey && localDataset[baseKey]) {
               const baseEntry = localDataset[baseKey];
@@ -95,17 +94,17 @@ export class SmogonService {
 
         if (!this.smogonSetsPromise) {
           const files = [
-            { id: 'gen9nationaldex', name: 'Champions / NatDex' },
             { id: 'gen9vgc2024', name: 'Gen 9 VGC 2024 (Scarlet & Violet)' },
             { id: 'gen9ou', name: 'Gen 9 OU (Scarlet & Violet)' },
             { id: 'gen9ubers', name: 'Gen 9 Ubers (Scarlet & Violet)' },
-            { id: 'gen9uu', name: 'Gen 9 UU' },
+            { id: 'gen9uu', name: 'Gen 9 UU (Scarlet & Violet)' },
             { id: 'gen9ru', name: 'Gen 9 RU' },
             { id: 'gen9nu', name: 'Gen 9 NU' },
             { id: 'gen9pu', name: 'Gen 9 PU' },
             { id: 'gen9lc', name: 'Gen 9 Little Cup' },
             { id: 'gen9doublesou', name: 'Gen 9 Doubles' },
-            { id: 'gen9monotype', name: 'Gen 9 Monotype' }
+            { id: 'gen9monotype', name: 'Gen 9 Monotype' },
+            { id: 'gen9nationaldex', name: 'Champions / NatDex' }
           ];
 
           this.smogonSetsPromise = Promise.all(
@@ -143,8 +142,7 @@ export class SmogonService {
         if (setsData) {
           const keys = Object.keys(setsData);
           const matchedKey = keys.find(k => k.toLowerCase().replace(/[^a-z0-9]/g, '') === formattedName)
-            || keys.find(k => formattedName.startsWith(k.toLowerCase().replace(/[^a-z0-9]/g, '')))
-            || keys.find(k => k.toLowerCase().replace(/[^a-z0-9]/g, '').includes(formattedName));
+            || keys.find(k => formattedName.startsWith(k.toLowerCase().replace(/[^a-z0-9]/g, '')));
           if (matchedKey) setEntry = setsData[matchedKey];
         }
 

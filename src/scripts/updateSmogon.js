@@ -2,21 +2,22 @@ import fs from 'fs';
 import path from 'path';
 
 // Detailed list of competitive formats with their exact game/format origin
+// Priority: Official Gen 9 Scarlet & Violet competitive formats FIRST, NatDex/Champions LAST
 const files = [
-  { id: 'gen9nationaldex', name: 'Champions / NatDex' },
   { id: 'gen9vgc2024', name: 'Gen 9 VGC 2024 (Scarlet & Violet)' },
   { id: 'gen9ou', name: 'Gen 9 OU (Scarlet & Violet)' },
   { id: 'gen9ubers', name: 'Gen 9 Ubers (Scarlet & Violet)' },
   { id: 'gen9uu', name: 'Gen 9 UU (Scarlet & Violet)' },
-  { id: 'gen9ru', name: 'Gen 9 RU' },
-  { id: 'gen9nu', name: 'Gen 9 NU' },
-  { id: 'gen9pu', name: 'Gen 9 PU' },
+  { id: 'gen9ru', name: 'Gen 9 RU (Scarlet & Violet)' },
+  { id: 'gen9nu', name: 'Gen 9 NU (Scarlet & Violet)' },
+  { id: 'gen9pu', name: 'Gen 9 PU (Scarlet & Violet)' },
   { id: 'gen9lc', name: 'Gen 9 Little Cup' },
   { id: 'gen9doublesou', name: 'Gen 9 Doubles' },
-  { id: 'gen9monotype', name: 'Gen 9 Monotype' }
+  { id: 'gen9monotype', name: 'Gen 9 Monotype' },
+  { id: 'gen9nationaldex', name: 'Champions / NatDex' }
 ];
 
-console.log('🔄 Atualizando banco de dados competitivo da Smogon com tags de formato exatas...');
+console.log('🔄 Atualizando banco de dados competitivo da Smogon com prioridade para Scarlet & Violet...');
 
 Promise.all([
   fetch('https://play.pokemonshowdown.com/data/pokedex.json').then(r => r.json()),
