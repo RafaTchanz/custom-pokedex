@@ -242,11 +242,17 @@ class PokedexApp {
         const sortType = th.getAttribute('data-sort');
         if (!sortType) return;
 
-        if (sortType === 'id') this.sortSelect.value = this.sortSelect.value === 'id-asc' ? 'id-desc' : 'id-asc';
-        if (sortType === 'name') this.sortSelect.value = this.sortSelect.value === 'name-asc' ? 'name-desc' : 'name-asc';
-        if (sortType === 'bst') this.sortSelect.value = this.sortSelect.value === 'bst-desc' ? 'bst-asc' : 'bst-desc';
-        if (['hp', 'attack', 'defense', 'special-attack', 'special-defense', 'speed'].includes(sortType)) {
-          this.sortSelect.value = 'bst-desc';
+        const cur = this.sortSelect ? this.sortSelect.value : '';
+        if (sortType === 'id') {
+          this.sortSelect.value = cur === 'id-asc' ? 'id-desc' : 'id-asc';
+        } else if (sortType === 'name') {
+          this.sortSelect.value = cur === 'name-asc' ? 'name-desc' : 'name-asc';
+        } else if (sortType === 'bst') {
+          this.sortSelect.value = cur === 'bst-desc' ? 'bst-asc' : 'bst-desc';
+        } else if (['hp', 'attack', 'defense', 'special-attack', 'special-defense', 'speed'].includes(sortType)) {
+          const descKey = `${sortType}-desc`;
+          const ascKey = `${sortType}-asc`;
+          this.sortSelect.value = cur === descKey ? ascKey : descKey;
         }
 
         this.render();
@@ -418,13 +424,30 @@ class PokedexApp {
 
       if (sortVal === 'id-asc') return a.speciesId - b.speciesId;
       if (sortVal === 'id-desc') return b.speciesId - a.speciesId;
-      if (sortVal === 'name-asc') return a.name.localeCompare(b.name);
-      if (sortVal === 'name-desc') return b.name.localeCompare(a.name);
+      if (sortVal === 'name-asc') return pA.name.localeCompare(pB.name);
+      if (sortVal === 'name-desc') return pB.name.localeCompare(pA.name);
 
-      const bstA = (pA.stats || []).reduce((sum, s) => sum + s.baseStat, 0);
-      const bstB = (pB.stats || []).reduce((sum, s) => sum + s.baseStat, 0);
-      if (sortVal === 'bst-desc') return bstB - bstA;
-      if (sortVal === 'bst-asc') return bstA - bstB;
+      const getStat = (p: PokemonCardData, statName: string): number => {
+        const found = (p.stats || []).find(s => s.name === statName);
+        return found ? found.baseStat : 0;
+      };
+
+      const getBst = (p: PokemonCardData): number => {
+        return (p.stats || []).reduce((sum, s) => sum + (s.baseStat || 0), 0);
+      };
+
+      if (sortVal === 'bst-desc') return getBst(pB) - getBst(pA);
+      if (sortVal === 'bst-asc') return getBst(pA) - getBst(pB);
+
+      const statKeys = ['hp', 'attack', 'defense', 'special-attack', 'special-defense', 'speed'];
+      for (const key of statKeys) {
+        if (sortVal === `${key}-desc`) {
+          return getStat(pB, key) - getStat(pA, key);
+        }
+        if (sortVal === `${key}-asc`) {
+          return getStat(pA, key) - getStat(pB, key);
+        }
+      }
 
       return a.speciesId - b.speciesId;
     });
