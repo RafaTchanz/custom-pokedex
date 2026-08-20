@@ -1,0 +1,27 @@
+{
+  "id": "DEC-004",
+  "gate_id": "GATE-04",
+  "action": "GATE_APPROVAL",
+  "status": "APPROVED",
+  "actor_role": "project_owner",
+  "impacted_ids": [
+    "ST-001"
+  ],
+  "artifact_revision_ids": [
+    "EVD-007",
+    "EVD-008",
+    "EVD-009",
+    "EVD-010",
+    "EVD-011",
+    "EVD-012",
+    "REV-001",
+    "VRT-001"
+  ],
+  "authorization_source": {
+    "kind": "human_attestation",
+    "reference": "user-explicit-intake-submission"
+  },
+  "created_at": "2026-08-20T12:02:30Z",
+  "reason": "User approved Gate-04 completion for story ST-001 (Data Engine CSV Snapshot).",
+  "artifact_contract_version": "2.0.0"
+}

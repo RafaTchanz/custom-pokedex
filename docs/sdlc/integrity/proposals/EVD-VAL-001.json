@@ -1,0 +1,12 @@
+{
+  "id": "EVD-012",
+  "evidence_class": "validator",
+  "story_id": "ST-001",
+  "ac_ids": ["AC-ST-001-01", "AC-ST-001-02"],
+  "input_revisions": [{"id": "ST-001", "revision": 1, "content_sha256": "97a3e4e0e5a66dae5ff194d0f4dfe1a1d62e0f45d3451bcc825a732537cdd04d"}],
+  "code_revision_id": "REV-001",
+  "producer_role": "orchestrator",
+  "created_at": "2026-08-20T12:00:50Z",
+  "commands": [{"argv": ["python", "-m", "tools.sdlc_integrity", "validate"], "exit_code": 0}],
+  "result": "PASS"
+}

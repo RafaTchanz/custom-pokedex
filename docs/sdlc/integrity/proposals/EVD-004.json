@@ -1,0 +1,14 @@
+{
+  "id": "REV-001",
+  "evidence_class": "precommit_revision",
+  "story_id": "ST-001",
+  "ac_ids": ["AC-ST-001-01", "AC-ST-001-02"],
+  "input_revisions": [{"id": "ST-001", "revision": 1, "content_sha256": "97a3e4e0e5a66dae5ff194d0f4dfe1a1d62e0f45d3451bcc825a732537cdd04d"}],
+  "producer_role": "sdlc-coder-backend",
+  "created_at": "2026-08-20T11:51:45Z",
+  "revision_type": "precommit",
+  "base_sha": "91e4a5af77982d77a5012b69bd4d11967ec45db2",
+  "working_tree_sha256": "37517e5f3dc66819f61f5a7bb8ace1921282415f10551d2defa5c3eb0985b570",
+  "changed_paths": [],
+  "result": "PASS"
+}

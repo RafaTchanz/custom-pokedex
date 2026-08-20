@@ -1,0 +1,20 @@
+{
+  "id": "EVD-006",
+  "evidence_class": "tdd_green",
+  "story_id": "ST-001",
+  "ac_ids": ["AC-ST-001-01", "AC-ST-001-02"],
+  "input_revisions": [{"id": "ST-001", "revision": 1, "content_sha256": "97a3e4e0e5a66dae5ff194d0f4dfe1a1d62e0f45d3451bcc825a732537cdd04d"}],
+  "code_revision_id": "REV-001",
+  "producer_role": "sdlc-coder-backend",
+  "created_at": "2026-08-20T11:51:50Z",
+  "tests": [
+    {
+      "test_id": "TST-001",
+      "ac_ids": ["AC-ST-001-01", "AC-ST-001-02"],
+      "argv": ["npx.cmd", "vitest", "run"],
+      "exit_code": 0,
+      "test_definition_sha256": "d5e81f346d80e50ebd130583d44e4febf3d7d94402ba5afae31fcb1279b18722"
+    }
+  ],
+  "result": "PASS"
+}
