@@ -1,0 +1,26 @@
+{
+  "id": "DEC-005",
+  "gate_id": "GATE-04",
+  "action": "GATE_APPROVAL",
+  "status": "APPROVED",
+  "actor_role": "project_owner",
+  "impacted_ids": ["ST-002"],
+  "artifact_revision_ids": [
+    "EVD-015",
+    "EVD-016",
+    "EVD-017",
+    "EVD-019",
+    "EVD-023",
+    "EVD-024",
+    "REV-003",
+    "VRT-002"
+  ],
+  "supersedes_decision_id": "DEC-004",
+  "authorization_source": {
+    "kind": "human_attestation",
+    "reference": "user-explicit-intake-submission"
+  },
+  "created_at": "2026-08-20T12:44:20Z",
+  "reason": "User approved Gate-04 completion for story ST-002 (Provedor de Mídias).",
+  "artifact_contract_version": "2.0.0"
+}

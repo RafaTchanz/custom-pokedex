@@ -1,0 +1,8 @@
+{
+  "actor_role": "orchestrator",
+  "gate4_decision_id": "DEC-004",
+  "precommit_revision_id": "REV-001",
+  "final_revision_id": "REV-002",
+  "reason": "Gate 4 decision approved and final revision committed.",
+  "validator_report_hash": "e96e6252383727425c08017e87a6e99166f23c8dbfca8a3f196d56bf559b8e0b"
+}

@@ -1,13 +1,1 @@
-{
-  "id": "REV-002",
-  "evidence_class": "final_revision",
-  "story_id": "ST-001",
-  "ac_ids": ["AC-ST-001-01", "AC-ST-001-02"],
-  "input_revisions": [{"id": "ST-001", "revision": 1, "content_sha256": "97a3e4e0e5a66dae5ff194d0f4dfe1a1d62e0f45d3451bcc825a732537cdd04d"}],
-  "producer_role": "sdlc-coder-backend",
-  "created_at": "2026-08-20T12:02:35Z",
-  "revision_type": "git_commit",
-  "commit_sha": "91e4a5af77982d77a5012b69bd4d11967ec45db2",
-  "precommit_revision_id": "REV-001",
-  "result": "PASS"
-}
+{"ac_ids":["AC-ST-001-01","AC-ST-001-02"],"commit_sha":"30acc379842bd1417a857b775b0ec265f4484603","content_sha256":"de8cb863eab1f0ef0e574d1f7591992193fd0035215586daf8db8313123e122e","created_at":"2026-08-20T12:02:35Z","evidence_class":"final_revision","id":"REV-002","input_revisions":[{"content_sha256":"97a3e4e0e5a66dae5ff194d0f4dfe1a1d62e0f45d3451bcc825a732537cdd04d","id":"ST-001","revision":1}],"precommit_revision_id":"REV-001","producer_role":"sdlc-coder-backend","result":"PASS","revision_type":"git_commit","story_id":"ST-001","tree_sha":"c91a6bb54d0a472a521f9ed8877eed22f7a4c0c3"}

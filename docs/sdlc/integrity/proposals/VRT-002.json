@@ -1,0 +1,34 @@
+{
+  "id": "VRT-002",
+  "evidence_class": "verdict",
+  "story_id": "ST-002",
+  "ac_ids": ["AC-ST-002-01", "AC-ST-002-02"],
+  "input_revisions": [{"id": "ST-002", "revision": 1, "content_sha256": "944f0baf8cc1094c58c9668b86f692b2ab9d4163a4f8a5a5ef1634f31f07012f"}],
+  "code_revision_id": "REV-003",
+  "producer_role": "sdlc-verdict",
+  "created_at": "2026-08-20T12:09:10Z",
+  "input_evidence_ids": ["EVD-015", "EVD-016", "EVD-017", "EVD-019"],
+  "input_evidence_revisions": [
+    {
+      "id": "EVD-015",
+      "revision": 1,
+      "content_sha256": "8e1ff68715dedbd139b0bc6bedab3ce6253fdf481a8098c064ce009e69487f22"
+    },
+    {
+      "id": "EVD-016",
+      "revision": 1,
+      "content_sha256": "c3cca6bfb98808ce07daf43480c463b118535843c425470a130bd708ab0adbd8"
+    },
+    {
+      "id": "EVD-017",
+      "revision": 1,
+      "content_sha256": "c398900bf72fcfe763fe1f5460e25dcfa7cf1b6b0de09415bdd7a0069c6d6a00"
+    },
+    {
+      "id": "EVD-019",
+      "revision": 2,
+      "content_sha256": "c03acd0b2ded807cde6eed5278af46d2d38a4dfd8e19d91a7b4cc2d047a7c626"
+    }
+  ],
+  "result": "READY"
+}
