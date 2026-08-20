@@ -16,12 +16,12 @@ export class MediaProvider {
     this.snapshotPath = snapshotPath;
   }
 
-  public getMediaForPokemon(id: number): PokemonMedia {
-    if (id <= 0 || id > 1025) {
+  public getMediaForPokemon(id: number, speciesId?: number): PokemonMedia {
+    if (id <= 0 || id > 20000) {
       return {
         pokemonId: id,
-        spriteUrl: '/placeholder-pokemon.svg',
-        officialArtworkUrl: '/placeholder-pokemon.svg',
+        spriteUrl: 'https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/0.png',
+        officialArtworkUrl: 'https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/0.png',
         cryUrl: null,
         hasCry: false,
       };

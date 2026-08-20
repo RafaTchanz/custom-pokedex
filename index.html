@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Pokédex Customizável - Casual & Competitiva</title>
+  <meta name="description" content="Pokédex customizável de alta performance baseada em snapshot local com sprites, artes em HD e áudios de cries.">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800&family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="/src/style.css">
+</head>
+<body class="dark-theme">
+  <div id="app">
+    <!-- Header -->
+    <header class="app-header">
+      <div class="header-container">
+        <div class="logo-group">
+          <div class="pokeball-icon">
+            <div class="pokeball-top"></div>
+            <div class="pokeball-center"></div>
+            <div class="pokeball-bottom"></div>
+          </div>
+          <div>
+            <h1 class="app-title">Poké<span class="highlight">dex</span></h1>
+            <p class="app-subtitle">Snapshot Local Engine • Casual & Competitiva</p>
+          </div>
+        </div>
+
+        <div class="stats-badge">
+          <span class="pulse-dot"></span>
+          <span id="total-count-text">Carregando Pokédex...</span>
+        </div>
+      </div>
+
+      <!-- Controls & Filter Bar -->
+      <div class="filter-bar">
+        <div class="search-box">
+          <svg class="search-icon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <circle cx="11" cy="11" r="8"></circle>
+            <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
+          </svg>
+          <input type="text" id="search-input" placeholder="Buscar por Nome ou Número (ex: Pikachu, 25, #150)..." autocomplete="off">
+          <button id="clear-search-btn" class="icon-btn hidden" title="Limpar busca">&times;</button>
+        </div>
+
+        <div class="type-filter-group">
+          <select id="type-select" class="type-dropdown">
+            <option value="">Todos os Tipos</option>
+            <option value="normal">Normal</option>
+            <option value="fire">Fire 🔥</option>
+            <option value="water">Water 💧</option>
+            <option value="grass">Grass 🌿</option>
+            <option value="electric">Electric ⚡</option>
+            <option value="ice">Ice ❄️</option>
+            <option value="fighting">Fighting 🥊</option>
+            <option value="poison">Poison ☠️</option>
+            <option value="ground">Ground ⛰️</option>
+            <option value="flying">Flying 🕊️</option>
+            <option value="psychic">Psychic 🔮</option>
+            <option value="bug">Bug 🐛</option>
+            <option value="rock">Rock 🪨</option>
+            <option value="ghost">Ghost 👻</option>
+            <option value="dragon">Dragon 🐉</option>
+            <option value="dark">Dark 🌙</option>
+            <option value="steel">Steel 🛡️</option>
+            <option value="fairy">Fairy ✨</option>
+          </select>
+        </div>
+
+        <button id="reset-all-btn" class="reset-btn">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M23 4v6h-6"></path>
+            <path d="M20.49 15a9 9 0 1 1-2.12-9.36L23 10"></path>
+          </svg>
+          Limpar Filtros
+        </button>
+      </div>
+    </header>
+
+    <!-- Main Content Grid -->
+    <main class="main-content">
+      <div id="pokemon-grid" class="pokemon-grid">
+        <!-- Pokémon cards rendered dynamically -->
+      </div>
+
+      <div id="empty-state" class="empty-state hidden">
+        <div class="empty-icon">🔍</div>
+        <h3>Nenhum Pokémon encontrado</h3>
+        <p>Tente ajustar os termos da sua pesquisa ou selecione outro tipo elemento.</p>
+        <button id="empty-reset-btn" class="reset-btn primary">Resetar Busca</button>
+      </div>
+    </main>
+
+    <!-- Detailed Modal (ST-004 Preview) -->
+    <div id="pokemon-modal" class="modal-backdrop hidden" role="dialog" aria-modal="true">
+      <div class="modal-card">
+        <button id="close-modal-btn" class="modal-close" aria-label="Fechar modal">&times;</button>
+        <div id="modal-content">
+          <!-- Modal content rendered dynamically -->
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script type="module" src="/src/app.ts"></script>
+</body>
+</html>
