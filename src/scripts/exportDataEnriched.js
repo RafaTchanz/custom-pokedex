@@ -49,66 +49,9 @@ parseCsv('moves.csv').forEach(row => {
       name: row.identifier.split('-').map(w => w.charAt(0).toUpperCase() + w.slice(1)).join(' '),
       type: typeNames[row.type_id] || 'normal',
       power: row.power ? parseInt(row.power, 10) : undefined,
-      damageClass: row.damage_class_id === '2' ? 'Physical' : (row.damage_class_id === '3' ? 'Special' : 'Status')
+      damageClass: row.damage_class_id === '2' ? 'Physical' : row.damage_class_id === '3' ? 'Special' : 'Status'
     };
   }
-});
-
-const speciesList = parseCsv('pokemon_species.csv');
-const speciesMap = {};
-speciesList.forEach(row => {
-  if (row.id && row.identifier) {
-    speciesMap[row.id] = {
-      id: parseInt(row.id, 10),
-      name: row.identifier.charAt(0).toUpperCase() + row.identifier.slice(1),
-      chainId: row.evolution_chain_id,
-      evolvesFromSpeciesId: row.evolves_from_species_id,
-      isLegendary: row.is_legendary === '1',
-      isMythical: row.is_mythical === '1',
-      isBaby: row.is_baby === '1'
-    };
-  }
-});
-
-const evolutions = parseCsv('pokemon_evolution.csv');
-const evoTriggers = {
-  '1': 'Level-up',
-  '2': 'Trade',
-  '3': 'Use Item',
-  '4': 'Shed',
-  '5': 'Spin',
-  '6': 'Tower of Darkness',
-  '7': 'Tower of Waters'
-};
-
-const evoMinLevels = {};
-evolutions.forEach(e => {
-  const spId = e.evolved_species_id;
-  const lvl = e.minimum_level ? parseInt(e.minimum_level, 10) : 0;
-  if (lvl > 0 && (!evoMinLevels[spId] || lvl > evoMinLevels[spId])) {
-    evoMinLevels[spId] = lvl;
-  }
-});
-
-function getTriggerDetails(evoRow) {
-  if (!evoRow) return 'Forma Base';
-  const parts = [];
-  if (evoRow.minimum_level) parts.push(`Nível ${evoRow.minimum_level}`);
-  if (evoRow.trigger_item_id && items[evoRow.trigger_item_id]) parts.push(`Usar ${items[evoRow.trigger_item_id]}`);
-  if (evoRow.held_item_id && items[evoRow.held_item_id]) parts.push(`Segurando ${items[evoRow.held_item_id]}`);
-  if (evoRow.minimum_happiness) parts.push(`Alta Amizade (${evoRow.minimum_happiness})`);
-  if (evoRow.time_of_day) parts.push(evoRow.time_of_day === 'day' ? 'Durante o Dia' : 'Durante a Noite');
-  if (evoRow.known_move_id && moves[evoRow.known_move_id]) parts.push(`Conhecendo ${moves[evoRow.known_move_id].name}`);
-  
-  if (parts.length > 0) return parts.join(' + ');
-  return evoTriggers[evoRow.evolution_trigger_id] || 'Condição Especial';
-}
-
-const chainMap = {};
-Object.values(speciesMap).forEach(sp => {
-  if (!sp.chainId) return;
-  if (!chainMap[sp.chainId]) chainMap[sp.chainId] = [];
-  chainMap[sp.chainId].push(sp);
 });
 
 const pokemonList = parseCsv('pokemon.csv');
@@ -116,6 +59,78 @@ const pokemonTypes = parseCsv('pokemon_types.csv');
 const pokemonStats = parseCsv('pokemon_stats.csv');
 const pokemonAbilities = parseCsv('pokemon_abilities.csv');
 const pokemonMovesList = parseCsv('pokemon_moves.csv');
+const pokemonSpecies = parseCsv('pokemon_species.csv');
+const evolutions = parseCsv('pokemon_evolution.csv');
+const evolutionTriggers = parseCsv('evolution_triggers.csv');
+
+const triggerNames = {};
+evolutionTriggers.forEach(row => {
+  if (row.id && row.identifier) {
+    triggerNames[row.id] = row.identifier;
+  }
+});
+
+const speciesMap = {};
+pokemonSpecies.forEach(sp => {
+  speciesMap[sp.id] = {
+    id: parseInt(sp.id, 10),
+    name: sp.identifier.charAt(0).toUpperCase() + sp.identifier.slice(1),
+    chainId: sp.evolution_chain_id,
+    evolvesFromSpeciesId: sp.evolves_from_species_id ? parseInt(sp.evolves_from_species_id, 10) : null,
+    isLegendary: sp.is_legendary === '1',
+    isMythical: sp.is_mythical === '1'
+  };
+});
+
+const chainMap = {};
+pokemonSpecies.forEach(sp => {
+  const cId = sp.evolution_chain_id;
+  if (!cId) return;
+  if (!chainMap[cId]) chainMap[cId] = [];
+  chainMap[cId].push({
+    id: parseInt(sp.id, 10),
+    name: sp.identifier.charAt(0).toUpperCase() + sp.identifier.slice(1)
+  });
+});
+
+const evoMinLevels = {};
+evolutions.forEach(evo => {
+  if (evo.evolved_species_id && evo.minimum_level) {
+    const lvl = parseInt(evo.minimum_level, 10);
+    if (!evoMinLevels[evo.evolved_species_id] || lvl < evoMinLevels[evo.evolved_species_id]) {
+      evoMinLevels[evo.evolved_species_id] = lvl;
+    }
+  }
+});
+
+function getTriggerDetails(evo) {
+  if (!evo) return 'Nível ou Condição Especial';
+  const triggerType = triggerNames[evo.evolution_trigger_id] || 'level-up';
+  if (triggerType === 'use-item' && evo.trigger_item_id) {
+    const itemName = items[evo.trigger_item_id] || 'Item Especial';
+    return `Usar ${itemName}`;
+  }
+  if (triggerType === 'trade') {
+    if (evo.held_item_id) {
+      const heldName = items[evo.held_item_id] || 'Item Seguro';
+      return `Troca segurando ${heldName}`;
+    }
+    return 'Troca entre treinadores';
+  }
+  if (evo.minimum_level) {
+    let extra = '';
+    if (evo.location_id) extra += ' em Local Específico';
+    if (evo.time_of_day) extra += ` durante a ${evo.time_of_day === 'day' ? 'Manhã/Dia' : 'Noite'}`;
+    if (evo.minimum_happiness) extra += ' com Amizade Alta';
+    return `Nível ${evo.minimum_level}${extra}`;
+  }
+  if (evo.minimum_happiness) {
+    const timeStr = evo.time_of_day ? ` (${evo.time_of_day === 'day' ? 'Dia' : 'Noite'})` : '';
+    return `Felicidade / Amizade Alta${timeStr}`;
+  }
+  return 'Condição Especial de Evolução';
+}
+
 const abilitiesDict = {};
 parseCsv('abilities.csv').forEach(row => {
   if (row.id && row.identifier) {
@@ -130,7 +145,10 @@ const versionNames = {
   'black': 'Black', 'white': 'White', 'black-2': 'Black 2', 'white-2': 'White 2', 'x': 'Pokémon X', 'y': 'Pokémon Y',
   'omega-ruby': 'Omega Ruby', 'alpha-sapphire': 'Alpha Sapphire', 'sun': 'Sun', 'moon': 'Moon', 'ultra-sun': 'Ultra Sun',
   'ultra-moon': 'Ultra Moon', 'lets-go-pikachu': "Let's Go Pikachu", 'lets-go-eevee': "Let's Go Eevee",
-  'sword': 'Sword', 'shield': 'Shield', 'scarlet': 'Scarlet', 'violet': 'Violet'
+  'sword': 'Sword', 'shield': 'Shield', 'scarlet': 'Scarlet', 'violet': 'Violet', 'legends-arceus': 'Legends: Arceus',
+  'the-isle-of-armor': 'The Isle of Armor (DLC)', 'the-crown-tundra': 'The Crown Tundra (DLC)',
+  'brilliant-diamond': 'Brilliant Diamond', 'shining-pearl': 'Shining Pearl',
+  'the-teal-mask': 'The Teal Mask (DLC)', 'the-indigo-disk': 'The Indigo Disk (DLC)'
 };
 
 const versions = {};
@@ -157,6 +175,87 @@ parseCsv('location_areas.csv').forEach(row => {
 const encountersList = parseCsv('encounters.csv');
 const starterIds = [1,4,7,152,155,158,252,255,258,387,390,393,495,498,501,650,653,656,722,725,728,810,813,816,906,909,912];
 
+function getRecentEncounters(speciesId, name, pRow) {
+  const encs = [];
+  const lowerName = name.toLowerCase();
+  const ident = pRow.identifier.toLowerCase();
+
+  // Hisui / Legends: Arceus (#899 - #905 or form -hisui)
+  if ((speciesId >= 899 && speciesId <= 905) || ident.includes('-hisui')) {
+    encs.push({
+      game: 'Legends: Arceus',
+      location: 'Hisui (Obsidian Fieldlands, Crimson Mirelands, Cobalt Coastlands, Coronet Highlands)',
+      minLevel: 15,
+      maxLevel: 70
+    });
+  }
+
+  // Gen 9 Paldea / Kitakami / Blueberry (#906 - #1025)
+  if (speciesId >= 906) {
+    const isScarletParadox = ['great-tusk', 'scream-tail', 'brute-bonnet', 'flutter-mane', 'slither-wing', 'sandy-shocks', 'roaring-moon', 'koraidon', 'gouging-fire', 'raging-bolt'].some(k => ident.includes(k));
+    const isVioletParadox = ['iron-treads', 'iron-bundle', 'iron-hands', 'iron-jugulis', 'iron-moth', 'iron-thorns', 'iron-valiant', 'miraidon', 'iron-boulder', 'iron-crown'].some(k => ident.includes(k));
+
+    const isTealMask = speciesId >= 1011 && speciesId <= 1017;
+    const isIndigoDisk = speciesId >= 1018 && speciesId <= 1025;
+
+    if (isTealMask) {
+      encs.push({
+        game: 'The Teal Mask (DLC)',
+        location: 'Kitakami (Monte Ogro, Lago de Cristal, Bosque dos Macacos, Pomar de Maçãs)',
+        minLevel: 20,
+        maxLevel: 75
+      });
+    } else if (isIndigoDisk) {
+      encs.push({
+        game: 'The Indigo Disk (DLC)',
+        location: 'Terarium da Academia Blueberry (Biomas Savana, Polar, Cânion e Costeiro)',
+        minLevel: 60,
+        maxLevel: 85
+      });
+    } else if (isScarletParadox) {
+      encs.push({
+        game: 'Pokémon Scarlet',
+        location: 'Paldea (Área Zero - Estações de Pesquisa 1 a 4 e Abismo Subterrâneo)',
+        minLevel: 55,
+        maxLevel: 75
+      });
+    } else if (isVioletParadox) {
+      encs.push({
+        game: 'Pokémon Violet',
+        location: 'Paldea (Área Zero - Estações de Pesquisa 1 a 4 e Abismo Subterrâneo)',
+        minLevel: 55,
+        maxLevel: 75
+      });
+    } else if ([906, 909, 912].includes(speciesId)) {
+      encs.push({
+        game: 'Scarlet & Violet',
+        location: 'Escolha de Inicial na Cidade de Cabo Poco / Academia Naranja/Uva',
+        minLevel: 5,
+        maxLevel: 5
+      });
+    } else {
+      encs.push({
+        game: 'Scarlet & Violet',
+        location: 'Paldea (Província do Sul, Província do Leste, Trilha de Poco, Serra da Glaseado)',
+        minLevel: 2,
+        maxLevel: 60
+      });
+    }
+  }
+
+  // Brilliant Diamond & Shining Pearl (Sinnoh)
+  if (speciesId >= 387 && speciesId <= 493) {
+    encs.push({
+      game: 'Brilliant Diamond & Shining Pearl',
+      location: 'Sinnoh (Grand Underground, Rotas de Sinnoh & Parque Rosa Rugosa)',
+      minLevel: 10,
+      maxLevel: 65
+    });
+  }
+
+  return encs;
+}
+
 console.log('🔄 Processando Pokémons com suporte a Sprites e Modelos 3D Animados...');
 
 const enrichedPokemon = pokemonList.map(pRow => {
@@ -182,7 +281,7 @@ const enrichedPokemon = pokemonList.map(pRow => {
     .sort((a, b) => parseInt(a.slot, 10) - parseInt(b.slot, 10))
     .map(a => ({ name: abilitiesDict[a.ability_id] || `Ability ${a.ability_id}`, isHidden: a.is_hidden === '1', slot: parseInt(a.slot, 10) }));
 
-  // Media URLs - Minimal storage (full URLs dynamically constructed in app.ts for maximum JSON compression)
+  // Media URLs
   const media = {
     officialArtworkUrl: `https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/${id}.png`,
     spriteUrl: `https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/${id}.png`,
@@ -343,6 +442,14 @@ const enrichedPokemon = pokemonList.map(pRow => {
       minLevel,
       maxLevel
     });
+  });
+
+  // Enrich with recent games (Gen 8 Legends: Arceus / BDSP and Gen 9 Scarlet & Violet / DLCs)
+  const recentEncs = getRecentEncounters(speciesId, name, pRow);
+  recentEncs.forEach(rEnc => {
+    if (!formattedEncounters.some(fe => fe.game === rEnc.game)) {
+      formattedEncounters.push(rEnc);
+    }
   });
 
   return {
