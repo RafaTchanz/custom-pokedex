@@ -97,6 +97,8 @@ class PokedexApp {
   private smogonService: SmogonService = new SmogonService();
   private activeModalTab: 'general' | 'moves' | 'evolution' | 'encounters' | 'competitive' = 'general';
   private isShinyActive: boolean = false;
+  private isGlobalShinyActive: boolean = false;
+  private cardShinyState: Map<number, boolean> = new Map();
   private movesMethodFilter: 'level-up' | 'egg' | 'machine' = 'level-up';
 
   private searchInput!: HTMLInputElement;
@@ -104,6 +106,7 @@ class PokedexApp {
   private clearSearchBtn!: HTMLButtonElement;
   private resetAllBtn!: HTMLButtonElement;
   private emptyResetBtn!: HTMLButtonElement;
+  private globalShinyBtn!: HTMLButtonElement;
   private gridContainer!: HTMLDivElement;
   private emptyState!: HTMLDivElement;
   private totalCountText!: HTMLSpanElement;
@@ -123,6 +126,7 @@ class PokedexApp {
     this.clearSearchBtn = document.getElementById('clear-search-btn') as HTMLButtonElement;
     this.resetAllBtn = document.getElementById('reset-all-btn') as HTMLButtonElement;
     this.emptyResetBtn = document.getElementById('empty-reset-btn') as HTMLButtonElement;
+    this.globalShinyBtn = document.getElementById('global-shiny-btn') as HTMLButtonElement;
     this.gridContainer = document.getElementById('pokemon-grid') as HTMLDivElement;
     this.emptyState = document.getElementById('empty-state') as HTMLDivElement;
     this.totalCountText = document.getElementById('total-count-text') as HTMLSpanElement;
@@ -144,6 +148,15 @@ class PokedexApp {
       this.toggleClearSearchBtn();
       this.render();
     });
+
+    if (this.globalShinyBtn) {
+      this.globalShinyBtn.addEventListener('click', () => {
+        this.isGlobalShinyActive = !this.isGlobalShinyActive;
+        this.globalShinyBtn.textContent = this.isGlobalShinyActive ? '✨ Shiny: ON' : '✨ Shiny: OFF';
+        this.globalShinyBtn.classList.toggle('active', this.isGlobalShinyActive);
+        this.render();
+      });
+    }
 
     this.resetAllBtn.addEventListener('click', () => this.resetFilters());
     this.emptyResetBtn.addEventListener('click', () => this.resetFilters());
@@ -169,6 +182,12 @@ class PokedexApp {
   private resetFilters(): void {
     this.searchInput.value = '';
     this.typeSelect.value = '';
+    this.isGlobalShinyActive = false;
+    this.cardShinyState.clear();
+    if (this.globalShinyBtn) {
+      this.globalShinyBtn.textContent = '✨ Shiny: OFF';
+      this.globalShinyBtn.classList.remove('active');
+    }
     this.toggleClearSearchBtn();
     this.render();
   }
@@ -254,6 +273,11 @@ class PokedexApp {
     });
   }
 
+  private isCardShinyActive(speciesId: number): boolean {
+    if (this.isGlobalShinyActive) return true;
+    return !!this.cardShinyState.get(speciesId);
+  }
+
   private render(): void {
     const filtered = this.filterGroups();
 
@@ -274,8 +298,18 @@ class PokedexApp {
       if (cardEl) {
         cardEl.addEventListener('click', (e) => {
           const target = e.target as HTMLElement;
-          if (target.closest('.cry-btn') || target.closest('.form-pill')) return;
+          if (target.closest('.cry-btn') || target.closest('.form-pill') || target.closest('.card-shiny-btn')) return;
           this.openModal(group);
+        });
+      }
+
+      const cardShinyBtn = document.getElementById(`card-shiny-btn-${group.speciesId}`);
+      if (cardShinyBtn) {
+        cardShinyBtn.addEventListener('click', (e) => {
+          e.stopPropagation();
+          const currentState = this.isCardShinyActive(group.speciesId);
+          this.cardShinyState.set(group.speciesId, !currentState);
+          this.updateCardUI(group);
         });
       }
 
@@ -305,13 +339,22 @@ class PokedexApp {
     const cardEl = document.getElementById(`species-card-${group.speciesId}`);
     if (!cardEl) return;
 
+    const isShiny = this.isCardShinyActive(group.speciesId);
+
     const titleEl = cardEl.querySelector('.card-title');
     if (titleEl) titleEl.textContent = p.name;
 
     const imgEl = cardEl.querySelector('.card-artwork') as HTMLImageElement;
     if (imgEl) {
-      imgEl.src = p.media.officialArtworkUrl || p.media.spriteUrl;
+      imgEl.src = isShiny
+        ? (p.media.shinyArtwork || p.media.shinyOfficialArtworkUrl || p.media.shinySpriteFront || p.media.officialArtworkUrl)
+        : (p.media.officialArtworkUrl || p.media.spriteUrl);
       imgEl.alt = p.name;
+    }
+
+    const shinyBtn = document.getElementById(`card-shiny-btn-${group.speciesId}`);
+    if (shinyBtn) {
+      shinyBtn.classList.toggle('active', isShiny);
     }
 
     const badgesContainer = cardEl.querySelector('.type-badges');
@@ -339,7 +382,8 @@ class PokedexApp {
   private createCardHTML(group: PokemonSpeciesGroup): string {
     const p = group.selectedPokemon;
     const formattedId = `#${group.speciesId.toString().padStart(4, '0')}`;
-    
+    const isShiny = this.isCardShinyActive(group.speciesId);
+
     const typeBadges = p.types
       .map(t => {
         const color = TYPE_COLORS[t.name.toLowerCase()] || '#a8a77a';
@@ -359,10 +403,13 @@ class PokedexApp {
         `</div>`
       : '';
 
-    const imgUrl = p.media.officialArtworkUrl || p.media.spriteUrl;
+    const imgUrl = isShiny
+      ? (p.media.shinyArtwork || p.media.shinyOfficialArtworkUrl || p.media.shinySpriteFront || p.media.officialArtworkUrl)
+      : (p.media.officialArtworkUrl || p.media.spriteUrl);
 
     return `
       <div id="species-card-${group.speciesId}" class="pokemon-card">
+        <button id="card-shiny-btn-${group.speciesId}" class="card-shiny-btn ${isShiny ? 'active' : ''}" title="Alternar forma Shiny">✨ Shiny</button>
         <span class="card-number">${formattedId}</span>
         <div class="card-img-container">
           <img class="card-artwork" src="${imgUrl}" alt="${p.name}" loading="lazy" onerror="this.src='${p.media.spriteUrl}'">
@@ -414,7 +461,7 @@ class PokedexApp {
 
   private openModal(group: PokemonSpeciesGroup): void {
     this.activeModalTab = 'general';
-    this.isShinyActive = false;
+    this.isShinyActive = this.isCardShinyActive(group.speciesId);
     this.movesMethodFilter = 'level-up';
     this.renderModalContent(group);
     this.modalBackdrop.classList.remove('hidden');
@@ -465,7 +512,7 @@ class PokedexApp {
     `;
 
     const imgDisplayUrl = this.isShinyActive
-      ? (p.media.shinyArtwork || p.media.shinySpriteFront || p.media.officialArtworkUrl)
+      ? (p.media.shinyArtwork || p.media.shinyOfficialArtworkUrl || p.media.shinySpriteFront || p.media.officialArtworkUrl)
       : (p.media.officialArtworkUrl || p.media.spriteUrl);
 
     // Render TAB Content
@@ -624,7 +671,6 @@ class PokedexApp {
         </div>
       `;
     } else {
-      // Competitive tab with exact format badges per build
       const compData = await this.smogonService.getCompetitiveData(p.name);
       
       const warningBanner = compData.isOfflineFallback
@@ -701,6 +747,8 @@ class PokedexApp {
     if (shinyToggleBtn) {
       shinyToggleBtn.addEventListener('click', () => {
         this.isShinyActive = !this.isShinyActive;
+        this.cardShinyState.set(group.speciesId, this.isShinyActive);
+        this.updateCardUI(group);
         this.renderModalContent(group);
       });
     }

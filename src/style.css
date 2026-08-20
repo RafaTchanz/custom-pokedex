@@ -165,7 +165,7 @@ body {
   max-width: 1280px;
   margin: 0 auto;
   display: grid;
-  grid-template-columns: 1fr auto auto;
+  grid-template-columns: 1fr auto auto auto;
   gap: 1rem;
   align-items: center;
 }
@@ -251,6 +251,53 @@ body {
   background: var(--accent-blue);
   color: white;
   border: none;
+}
+
+.shiny-main-btn {
+  background: rgba(245, 158, 11, 0.15);
+  border: 1px solid rgba(245, 158, 11, 0.4);
+  color: #fbbf24;
+  font-weight: 800;
+}
+
+.shiny-main-btn:hover {
+  background: rgba(245, 158, 11, 0.35);
+  color: white;
+}
+
+.shiny-main-btn.active {
+  background: linear-gradient(135deg, #f59e0b, #ef4444);
+  color: white;
+  border-color: #f59e0b;
+  box-shadow: 0 0 12px rgba(245, 158, 11, 0.4);
+}
+
+.card-shiny-btn {
+  position: absolute;
+  top: 1rem;
+  left: 1rem;
+  background: rgba(255, 255, 255, 0.08);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  border-radius: 9999px;
+  padding: 0.2rem 0.55rem;
+  font-size: 0.725rem;
+  font-weight: 800;
+  color: #fbbf24;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  z-index: 10;
+}
+
+.card-shiny-btn:hover {
+  background: rgba(245, 158, 11, 0.3);
+  color: white;
+}
+
+.card-shiny-btn.active {
+  background: linear-gradient(135deg, #f59e0b, #ef4444);
+  color: white;
+  border-color: #f59e0b;
+  box-shadow: 0 0 8px rgba(245, 158, 11, 0.5);
 }
 
 /* Main Grid */
