@@ -157,7 +157,7 @@ parseCsv('location_areas.csv').forEach(row => {
 const encountersList = parseCsv('encounters.csv');
 const starterIds = [1,4,7,152,155,158,252,255,258,387,390,393,495,498,501,650,653,656,722,725,728,810,813,816,906,909,912];
 
-console.log('🔄 Processando Pokémons e gerando dataset enriquecido com suporte total a variantes...');
+console.log('🔄 Processando Pokémons com suporte a Sprites e Modelos 3D Animados...');
 
 const enrichedPokemon = pokemonList.map(pRow => {
   const id = parseInt(pRow.id, 10);
@@ -182,7 +182,7 @@ const enrichedPokemon = pokemonList.map(pRow => {
     .sort((a, b) => parseInt(a.slot, 10) - parseInt(b.slot, 10))
     .map(a => ({ name: abilitiesDict[a.ability_id] || `Ability ${a.ability_id}`, isHidden: a.is_hidden === '1', slot: parseInt(a.slot, 10) }));
 
-  // Media URLs
+  // Media URLs including 3D Animated Models (Showdown 3D GIFs)
   const media = {
     officialArtworkUrl: `https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/${id}.png`,
     spriteUrl: `https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/${id}.png`,
@@ -190,6 +190,8 @@ const enrichedPokemon = pokemonList.map(pRow => {
     shinySpriteUrl: `https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/shiny/${id}.png`,
     shinyArtwork: `https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/shiny/${id}.png`,
     shinySpriteFront: `https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/shiny/${id}.png`,
+    animated3dUrl: `https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/showdown/${id}.gif`,
+    shinyAnimated3dUrl: `https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/showdown/shiny/${id}.gif`,
     cryUrl: `https://raw.githubusercontent.com/PokeAPI/cries/main/cries/pokemon/latest/${id}.ogg`,
     hasCry: true
   };
@@ -226,7 +228,7 @@ const enrichedPokemon = pokemonList.map(pRow => {
     }
   }
 
-  // Moves Parsing: Robust variant movepool fallback to base species if direct moves is empty
+  // Moves Parsing
   let pMoves = pokemonMovesList.filter(m => m.pokemon_id === pRow.id);
   if (pMoves.length === 0 && speciesId) {
     pMoves = pokemonMovesList.filter(m => m.pokemon_id === speciesId.toString());

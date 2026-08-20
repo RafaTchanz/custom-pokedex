@@ -45,6 +45,8 @@ export interface PokemonMedia {
   shinySpriteFront?: string;
   shinyOfficialArtworkUrl?: string;
   shinySpriteUrl?: string;
+  animated3dUrl?: string;
+  shinyAnimated3dUrl?: string;
   cryUrl: string | null;
   hasCry?: boolean;
 }

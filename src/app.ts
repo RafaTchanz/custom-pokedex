@@ -38,6 +38,8 @@ interface PokemonMedia {
   shinySpriteFront?: string;
   shinyOfficialArtworkUrl?: string;
   shinySpriteUrl?: string;
+  animated3dUrl?: string;
+  shinyAnimated3dUrl?: string;
   cryUrl: string;
   hasCry: boolean;
 }
@@ -97,6 +99,7 @@ class PokedexApp {
   private smogonService: SmogonService = new SmogonService();
   private activeModalTab: 'general' | 'moves' | 'evolution' | 'encounters' | 'competitive' = 'general';
   private isShinyActive: boolean = false;
+  private is3DModelActive: boolean = false;
   private isGlobalShinyActive: boolean = false;
   private cardShinyState: Map<number, boolean> = new Map();
   private movesMethodFilter: 'level-up' | 'egg' | 'machine' = 'level-up';
@@ -462,6 +465,7 @@ class PokedexApp {
   private openModal(group: PokemonSpeciesGroup): void {
     this.activeModalTab = 'general';
     this.isShinyActive = this.isCardShinyActive(group.speciesId);
+    this.is3DModelActive = false;
     this.movesMethodFilter = 'level-up';
     this.renderModalContent(group);
     this.modalBackdrop.classList.remove('hidden');
@@ -502,18 +506,28 @@ class PokedexApp {
       </div>
     `;
 
-    // Shiny Toggle Header
-    const shinyToggleHTML = `
-      <div style="display: flex; justify-content: center; align-items: center; gap: 0.75rem; margin-bottom: 1rem;">
+    // Shiny & 3D Model Toggles Header
+    const togglesHTML = `
+      <div style="display: flex; justify-content: center; align-items: center; gap: 0.75rem; margin-bottom: 1rem; flex-wrap: wrap;">
         <button id="modal-shiny-toggle" class="form-pill ${this.isShinyActive ? 'active' : ''}" style="background: ${this.isShinyActive ? 'linear-gradient(135deg, #f59e0b, #ef4444)' : 'rgba(255,255,255,0.1)'}; color: #ffffff; padding: 0.4rem 1rem; font-weight: 800; border-radius: 9999px; border: 1px solid rgba(255,255,255,0.2); cursor: pointer; transition: all 0.3s ease;">
           ${this.isShinyActive ? '✨ Forma Shiny Ativa!' : '✨ Alternar para Shiny'}
+        </button>
+        <button id="modal-3d-toggle" class="form-pill ${this.is3DModelActive ? 'active' : ''}" style="background: ${this.is3DModelActive ? '#38bdf8' : 'rgba(255,255,255,0.1)'}; color: ${this.is3DModelActive ? '#0f172a' : '#ffffff'}; padding: 0.4rem 1rem; font-weight: 800; border-radius: 9999px; border: 1px solid rgba(255,255,255,0.2); cursor: pointer; transition: all 0.3s ease;">
+          ${this.is3DModelActive ? '👾 Modelo 3D Animado Ativo' : '👾 Ver Modelo 3D Animado'}
         </button>
       </div>
     `;
 
-    const imgDisplayUrl = this.isShinyActive
-      ? (p.media.shinyArtwork || p.media.shinyOfficialArtworkUrl || p.media.shinySpriteFront || p.media.officialArtworkUrl)
-      : (p.media.officialArtworkUrl || p.media.spriteUrl);
+    let imgDisplayUrl = '';
+    if (this.is3DModelActive) {
+      imgDisplayUrl = this.isShinyActive
+        ? (p.media.shinyAnimated3dUrl || p.media.animated3dUrl || p.media.shinyArtwork || p.media.officialArtworkUrl)
+        : (p.media.animated3dUrl || p.media.officialArtworkUrl || p.media.spriteUrl);
+    } else {
+      imgDisplayUrl = this.isShinyActive
+        ? (p.media.shinyArtwork || p.media.shinyOfficialArtworkUrl || p.media.shinySpriteFront || p.media.officialArtworkUrl)
+        : (p.media.officialArtworkUrl || p.media.spriteUrl);
+    }
 
     // Render TAB Content
     let tabBodyHTML = '';
@@ -545,8 +559,8 @@ class PokedexApp {
         .join('');
 
       tabBodyHTML = `
-        <div style="width: 180px; height: 180px; margin: 0 auto 1.25rem auto;">
-          <img src="${imgDisplayUrl}" alt="${p.name}" style="width: 100%; height: 100%; object-fit: contain; filter: drop-shadow(0 12px 20px rgba(0,0,0,0.5)); transition: transform 0.3s ease;">
+        <div style="width: 180px; height: 180px; margin: 0 auto 1.25rem auto; display: flex; align-items: center; justify-content: center;">
+          <img src="${imgDisplayUrl}" alt="${p.name}" style="max-width: 100%; max-height: 100%; object-fit: contain; filter: drop-shadow(0 12px 20px rgba(0,0,0,0.5)); transition: transform 0.3s ease;" onerror="this.src='${p.media.officialArtworkUrl || p.media.spriteUrl}'">
         </div>
 
         <div style="display: flex; justify-content: center; gap: 2rem; background: rgba(15,23,42,0.6); padding: 0.75rem 1.5rem; border-radius: 16px; margin-bottom: 1.25rem; font-size: 0.9rem;">
@@ -722,7 +736,7 @@ class PokedexApp {
           ${typeBadges}
         </div>
 
-        ${shinyToggleHTML}
+        ${togglesHTML}
         ${tabsHTML}
         ${formPillsModal}
 
@@ -737,6 +751,7 @@ class PokedexApp {
     const tabEncBtn = document.getElementById('modal-tab-encounters');
     const tabCompBtn = document.getElementById('modal-tab-competitive');
     const shinyToggleBtn = document.getElementById('modal-shiny-toggle');
+    const model3dToggleBtn = document.getElementById('modal-3d-toggle');
 
     if (tabGenBtn) tabGenBtn.addEventListener('click', () => { this.activeModalTab = 'general'; this.renderModalContent(group); });
     if (tabEvoBtn) tabEvoBtn.addEventListener('click', () => { this.activeModalTab = 'evolution'; this.renderModalContent(group); });
@@ -749,6 +764,13 @@ class PokedexApp {
         this.isShinyActive = !this.isShinyActive;
         this.cardShinyState.set(group.speciesId, this.isShinyActive);
         this.updateCardUI(group);
+        this.renderModalContent(group);
+      });
+    }
+
+    if (model3dToggleBtn) {
+      model3dToggleBtn.addEventListener('click', () => {
+        this.is3DModelActive = !this.is3DModelActive;
         this.renderModalContent(group);
       });
     }
