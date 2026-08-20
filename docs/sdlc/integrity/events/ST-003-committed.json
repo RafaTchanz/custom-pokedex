@@ -1,0 +1,8 @@
+{
+  "actor_role": "project_owner",
+  "reason": "Gate-04 decision DEC-006 approved for ST-003.",
+  "validator_report_hash": "c6abc74be1783ea7ef6e98c33f1c5edc2cff1d72c04688278b5b2781c3a71b01",
+  "gate4_decision_id": "DEC-006",
+  "final_revision_id": "REV-006",
+  "precommit_revision_id": "REV-005"
+}
