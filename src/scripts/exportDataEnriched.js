@@ -81,6 +81,15 @@ const evoTriggers = {
   '7': 'Tower of Waters'
 };
 
+const evoMinLevels = {};
+evolutions.forEach(e => {
+  const spId = e.evolved_species_id;
+  const lvl = e.minimum_level ? parseInt(e.minimum_level, 10) : 0;
+  if (lvl > 0 && (!evoMinLevels[spId] || lvl > evoMinLevels[spId])) {
+    evoMinLevels[spId] = lvl;
+  }
+});
+
 function getTriggerDetails(evoRow) {
   if (!evoRow) return 'Forma Base';
   const parts = [];
@@ -146,8 +155,6 @@ parseCsv('location_areas.csv').forEach(row => {
 });
 
 const encountersList = parseCsv('encounters.csv');
-
-// List of Starter species IDs
 const starterIds = [1,4,7,152,155,158,252,255,258,387,390,393,495,498,501,650,653,656,722,725,728,810,813,816,906,909,912];
 
 console.log('🔄 Processando Pokémons e gerando dataset enriquecido...');
@@ -204,7 +211,7 @@ const enrichedPokemon = pokemonList.map(pRow => {
   }
 
   // Obtain Method Classification
-  let obtainMethod = 'Encontro Selvagem Nulo / Especial';
+  let obtainMethod = 'Encontro Selvagem / Especial';
   if (species) {
     if (species.evolvesFromSpeciesId) {
       const parentSpecies = speciesMap[species.evolvesFromSpeciesId];
@@ -219,7 +226,7 @@ const enrichedPokemon = pokemonList.map(pRow => {
     }
   }
 
-  // Moves Parsing: Robust parsing per method across version groups
+  // Moves Parsing
   const pMoves = pokemonMovesList.filter(m => m.pokemon_id === pRow.id);
   const finalMovesMap = new Map();
 
@@ -287,16 +294,25 @@ const enrichedPokemon = pokemonList.map(pRow => {
     return a.name.localeCompare(b.name);
   });
 
-  // Encounters Grouping & Clean Formatting
+  // Encounters Grouping & Level Sanity Validation
   const rawEncounters = encountersList.filter(e => e.pokemon_id === pRow.id);
+  const minEvoLvl = evoMinLevels[speciesId.toString()] || 1;
   const gameEncounterMap = {};
 
   rawEncounters.forEach(e => {
     const game = versions[e.version_id] || `Versão ${e.version_id}`;
     const locId = locationAreas[e.location_area_id];
     const locName = locationNames[locId] || `Área ${e.location_area_id}`;
-    const min = parseInt(e.min_level || '1', 10);
-    const max = parseInt(e.max_level || '1', 10);
+    let min = parseInt(e.min_level || '1', 10);
+    let max = parseInt(e.max_level || '1', 10);
+
+    // Sanity check: An evolved Pokémon cannot be found below its evolution level
+    if (min < minEvoLvl) {
+      min = minEvoLvl;
+    }
+    if (max < min) {
+      max = min;
+    }
 
     if (!gameEncounterMap[game]) {
       gameEncounterMap[game] = [];
@@ -308,12 +324,12 @@ const enrichedPokemon = pokemonList.map(pRow => {
   Object.keys(gameEncounterMap).forEach(game => {
     const locList = gameEncounterMap[game];
     const uniqueLocs = [...new Set(locList.map(l => l.location))];
-    const minLevel = Math.min(...locList.map(l => l.min));
+    const minLevel = Math.max(...locList.map(l => l.min));
     const maxLevel = Math.max(...locList.map(l => l.max));
 
     let locString = uniqueLocs.join(', ');
     if (uniqueLocs.length > 4) {
-      locString = `${uniqueLocs.slice(0, 3).join(', ')} e outras rotas da região (Aparição Rara no Céu / Campo)`;
+      locString = `${uniqueLocs.slice(0, 3).join(', ')} (Aparição Rara no Céu / Campo Pós-Jogo)`;
     }
 
     formattedEncounters.push({
