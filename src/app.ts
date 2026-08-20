@@ -521,7 +521,7 @@ class PokedexApp {
             `</div></div>`
         : '';
 
-      // Main Modal Hero Image / 3D Model Display (Visible on ALL tabs!)
+      // Expanded Hero Image & 3D Model Display (220px Container, High-Res Vector Crisp!)
       let imgDisplayUrl = '';
       if (this.is3DModelActive) {
         imgDisplayUrl = this.isShinyActive
@@ -534,8 +534,8 @@ class PokedexApp {
       }
 
       const mediaHeroHTML = `
-        <div style="width: 170px; height: 170px; margin: 0 auto 1rem auto; display: flex; align-items: center; justify-content: center; position: relative; background: radial-gradient(circle, rgba(56,189,248,0.12) 0%, transparent 70%); border-radius: 50%;">
-          <img src="${imgDisplayUrl}" alt="${p.name}" style="max-width: 100%; max-height: 100%; object-fit: contain; filter: drop-shadow(0 12px 20px rgba(0,0,0,0.5)); transition: all 0.3s ease;" onerror="this.src='${p.media.officialArtworkUrl || p.media.spriteUrl}'">
+        <div style="width: 220px; height: 220px; margin: 0 auto 1.25rem auto; display: flex; align-items: center; justify-content: center; position: relative; background: radial-gradient(circle, rgba(56,189,248,0.16) 0%, transparent 70%); border-radius: 50%;">
+          <img src="${imgDisplayUrl}" alt="${p.name}" style="max-width: 100%; max-height: 100%; object-fit: contain; filter: drop-shadow(0 14px 28px rgba(0,0,0,0.6)); transition: all 0.3s ease;" onerror="this.src='${p.media.officialArtworkUrl || p.media.spriteUrl}'">
         </div>
       `;
 
@@ -759,7 +759,7 @@ class PokedexApp {
       this.modalContent.innerHTML = `
         <div style="text-align: center;">
           <span style="font-size: 0.9rem; font-weight: 800; color: #94a3b8;">${formattedId}</span>
-          <h2 style="font-size: 2rem; font-weight: 800; text-transform: capitalize; margin: 0.2rem 0 0.8rem 0;">${p.name}</h2>
+          <h2 style="font-size: 2.25rem; font-weight: 800; text-transform: capitalize; margin: 0.2rem 0 0.8rem 0; color: #ffffff;">${p.name}</h2>
           
           <div style="display: flex; justify-content: center; gap: 0.5rem; margin-bottom: 1.25rem;">
             ${typeBadges}
