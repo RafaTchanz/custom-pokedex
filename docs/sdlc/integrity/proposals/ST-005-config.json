@@ -1,0 +1,35 @@
+{
+  "story_id": "ST-005",
+  "story_artifact": {
+    "path": "docs/sdlc/stories/ST-005.md",
+    "sha256": "1e4889b77584e4fbbc4c1886d78aa4fa3578e361387c1aaf8851fd5c4a85ac6f"
+  },
+  "depends_on": ["ST-001", "ST-004"],
+  "roles": {
+    "pm": "project_owner",
+    "coder": "sdlc-coder-frontend",
+    "qa": "sdlc-tester",
+    "reviewer": "sdlc-reviewer",
+    "stress": "sdlc-stress",
+    "verdict": "sdlc-verdict"
+  },
+  "readiness": {
+    "status": "PASS",
+    "evidence_id": "EVD-049"
+  },
+  "contract_assessment": {
+    "applicable": false,
+    "rationale": "External Smogon integration provides fallback.",
+    "reviewer_ack": true
+  },
+  "journey_assessment": {
+    "applicable": false,
+    "rationale": "Competitive metagame tab unit tested.",
+    "reviewer_ack": true
+  },
+  "regression_assessment": {
+    "applicable": false,
+    "rationale": "Competitive tab is purely additive.",
+    "reviewer_ack": true
+  }
+}

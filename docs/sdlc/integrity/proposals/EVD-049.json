@@ -1,0 +1,10 @@
+{
+  "id": "EVD-049",
+  "evidence_class": "readiness",
+  "story_id": "ST-005",
+  "ac_ids": ["AC-ST-005-01", "AC-ST-005-02"],
+  "input_revisions": [{"id": "ST-005", "revision": 1, "content_sha256": "9c4637225a0f8bd10a97829c425e33be7c428012e7d5d14697f2f2ff4e49d09e"}],
+  "producer_role": "orchestrator",
+  "created_at": "2026-08-20T17:26:35Z",
+  "result": "PASS"
+}

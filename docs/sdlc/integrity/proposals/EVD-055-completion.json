@@ -1,0 +1,21 @@
+{
+  "reviewer_role": "sdlc-reviewer",
+  "result": "PASS",
+  "reviewer_approval": true,
+  "created_at": "2026-08-20T17:32:20Z",
+  "code_revision_id": "REV-009",
+  "criterion_conclusions": [
+    {
+      "ac_id": "AC-ST-005-01",
+      "conclusion": "COVERED",
+      "evidence_ids": ["EVD-051", "EVD-052"],
+      "gaps": []
+    },
+    {
+      "ac_id": "AC-ST-005-02",
+      "conclusion": "COVERED",
+      "evidence_ids": ["EVD-051", "EVD-052"],
+      "gaps": []
+    }
+  ]
+}

@@ -56,11 +56,15 @@ const TYPE_COLORS: Record<string, string> = {
   fairy: '#ee99ee',
 };
 
+import { SmogonService, CompetitiveData, MovesetOption } from './services/smogonService';
+
 class PokedexApp {
   private allPokemon: PokemonCardData[] = [];
   private speciesGroups: PokemonSpeciesGroup[] = [];
   private currentAudio: HTMLAudioElement | null = null;
   private currentPlayingBtn: HTMLButtonElement | null = null;
+  private smogonService: SmogonService = new SmogonService();
+  private activeModalTab: 'general' | 'competitive' = 'general';
 
   private searchInput!: HTMLInputElement;
   private typeSelect!: HTMLSelectElement;
@@ -192,13 +196,10 @@ class PokedexApp {
     const typeFilter = this.typeSelect.value.trim().toLowerCase();
 
     return this.speciesGroups.filter(group => {
-      // Match varieties
       const matchingVarieties = group.varieties.filter(p => {
-        // Type filter check
         if (typeFilter && !p.types.some(t => t.name.toLowerCase() === typeFilter)) {
           return false;
         }
-        // Search check
         if (search) {
           const matchesName = p.name.toLowerCase().includes(search) || group.name.toLowerCase().includes(search);
           const matchesId = p.id.toString() === search || group.speciesId.toString() === search || `#${group.speciesId}` === search;
@@ -213,7 +214,6 @@ class PokedexApp {
         return false;
       }
 
-      // Automatically select the variety that matched the search/filter if default didn't match
       if (matchingVarieties.length > 0 && !matchingVarieties.includes(group.selectedPokemon)) {
         group.selectedPokemon = matchingVarieties[0];
       }
@@ -237,7 +237,6 @@ class PokedexApp {
     this.emptyState.classList.add('hidden');
     this.gridContainer.innerHTML = filtered.map(g => this.createCardHTML(g)).join('');
 
-    // Attach card event listeners
     filtered.forEach(group => {
       const cardEl = document.getElementById(`species-card-${group.speciesId}`);
       if (cardEl) {
@@ -248,7 +247,6 @@ class PokedexApp {
         });
       }
 
-      // Attach form pill clicks on Card
       group.varieties.forEach(p => {
         const pillBtn = document.getElementById(`pill-${group.speciesId}-${p.id}`);
         if (pillBtn) {
@@ -260,7 +258,6 @@ class PokedexApp {
         }
       });
 
-      // Attach cry button on Card
       const cryBtn = document.getElementById(`cry-btn-species-${group.speciesId}`) as HTMLButtonElement;
       if (cryBtn) {
         cryBtn.addEventListener('click', (e) => {
@@ -276,18 +273,15 @@ class PokedexApp {
     const cardEl = document.getElementById(`species-card-${group.speciesId}`);
     if (!cardEl) return;
 
-    // Update title
     const titleEl = cardEl.querySelector('.card-title');
     if (titleEl) titleEl.textContent = p.name;
 
-    // Update Artwork
     const imgEl = cardEl.querySelector('.card-artwork') as HTMLImageElement;
     if (imgEl) {
       imgEl.src = p.media.officialArtworkUrl || p.media.spriteUrl;
       imgEl.alt = p.name;
     }
 
-    // Update Type Badges
     const badgesContainer = cardEl.querySelector('.type-badges');
     if (badgesContainer) {
       badgesContainer.innerHTML = p.types
@@ -298,7 +292,6 @@ class PokedexApp {
         .join('');
     }
 
-    // Update Form Pill active class
     group.varieties.forEach(v => {
       const pill = document.getElementById(`pill-${group.speciesId}-${v.id}`);
       if (pill) {
@@ -388,11 +381,12 @@ class PokedexApp {
   }
 
   private openModal(group: PokemonSpeciesGroup): void {
+    this.activeModalTab = 'general';
     this.renderModalContent(group);
     this.modalBackdrop.classList.remove('hidden');
   }
 
-  private renderModalContent(group: PokemonSpeciesGroup): void {
+  private async renderModalContent(group: PokemonSpeciesGroup): Promise<void> {
     const p = group.selectedPokemon;
     const formattedId = `#${group.speciesId.toString().padStart(4, '0')}`;
     const typeBadges = p.types
@@ -416,63 +410,114 @@ class PokedexApp {
           `</div></div>`
       : '';
 
-    const statsHTML = p.stats
-      .map(s => {
-        const percentage = Math.min(100, Math.round((s.baseStat / 180) * 100));
-        let barColor = '#38bdf8';
-        if (s.name === 'hp') barColor = '#4ade80';
-        if (s.name === 'attack') barColor = '#f87171';
-        if (s.name === 'defense') barColor = '#fbbf24';
-        if (s.name === 'special-attack') barColor = '#c084fc';
-        if (s.name === 'special-defense') barColor = '#a7f3d0';
-        if (s.name === 'speed') barColor = '#f472b6';
-
-        return `
-          <div style="margin-bottom: 0.6rem;">
-            <div style="display: flex; justify-content: space-between; font-size: 0.85rem; font-weight: 600; margin-bottom: 0.2rem;">
-              <span style="text-transform: uppercase;">${s.name}</span>
-              <span>${s.baseStat}</span>
-            </div>
-            <div style="background: rgba(255,255,255,0.1); height: 8px; border-radius: 9999px; overflow: hidden;">
-              <div style="background: ${barColor}; width: ${percentage}%; height: 100%; border-radius: 9999px; transition: width 0.5s ease;"></div>
-            </div>
-          </div>
-        `;
-      })
-      .join('');
-
-    this.modalContent.innerHTML = `
-      <div style="text-align: center;">
-        <span style="font-size: 0.9rem; font-weight: 800; color: #94a3b8;">${formattedId}</span>
-        <h2 style="font-size: 2rem; font-weight: 800; text-transform: capitalize; margin: 0.2rem 0 0.8rem 0;">${p.name}</h2>
-        
-        <div style="display: flex; justify-content: center; gap: 0.5rem; margin-bottom: 1.25rem;">
-          ${typeBadges}
-        </div>
-
-        ${formPillsModal}
-
-        <div style="width: 180px; height: 180px; margin: 0 auto 1.5rem auto;">
-          <img src="${p.media.officialArtworkUrl || p.media.spriteUrl}" alt="${p.name}" style="width: 100%; height: 100%; object-fit: contain; filter: drop-shadow(0 12px 20px rgba(0,0,0,0.5));">
-        </div>
-
-        <div style="display: flex; justify-content: center; gap: 2rem; background: rgba(15,23,42,0.6); padding: 0.75rem 1.5rem; border-radius: 16px; margin-bottom: 1.5rem; font-size: 0.9rem;">
-          <div><strong>Altura:</strong> ${(p.height / 10).toFixed(1)} m</div>
-          <div><strong>Peso:</strong> ${(p.weight / 10).toFixed(1)} kg</div>
-        </div>
-
-        <div style="text-align: left; background: rgba(15,23,42,0.4); padding: 1.25rem; border-radius: 16px; margin-bottom: 1.5rem;">
-          <h4 style="font-size: 0.95rem; text-transform: uppercase; letter-spacing: 0.05em; color: #94a3b8; margin-bottom: 0.75rem;">Estatísticas Base (Base Stats)</h4>
-          ${statsHTML}
-        </div>
-
-        <button id="modal-cry-btn" class="cry-btn" style="width: 100%; justify-content: center; padding: 0.75rem; font-size: 1rem;">
-          🔊 Play Cry Audio
-        </button>
+    const tabsHTML = `
+      <div style="display: flex; gap: 0.5rem; margin-bottom: 1.25rem; border-bottom: 1px solid rgba(255,255,255,0.1); padding-bottom: 0.5rem;">
+        <button id="modal-tab-general" class="form-pill ${this.activeModalTab === 'general' ? 'active' : ''}" style="flex: 1; padding: 0.6rem; font-weight: 700; border-radius: 12px;">📊 Dados Gerais</button>
+        <button id="modal-tab-competitive" class="form-pill ${this.activeModalTab === 'competitive' ? 'active' : ''}" style="flex: 1; padding: 0.6rem; font-weight: 700; border-radius: 12px;">⚔️ Competitivo</button>
       </div>
     `;
 
-    // Modal Form Pills Click Listeners
+    if (this.activeModalTab === 'general') {
+      const statsHTML = p.stats
+        .map(s => {
+          const percentage = Math.min(100, Math.round((s.baseStat / 180) * 100));
+          let barColor = '#38bdf8';
+          if (s.name === 'hp') barColor = '#4ade80';
+          if (s.name === 'attack') barColor = '#f87171';
+          if (s.name === 'defense') barColor = '#fbbf24';
+          if (s.name === 'special-attack') barColor = '#c084fc';
+          if (s.name === 'special-defense') barColor = '#a7f3d0';
+          if (s.name === 'speed') barColor = '#f472b6';
+
+          return `
+            <div style="margin-bottom: 0.6rem;">
+              <div style="display: flex; justify-content: space-between; font-size: 0.85rem; font-weight: 600; margin-bottom: 0.2rem;">
+                <span style="text-transform: uppercase;">${s.name}</span>
+                <span>${s.baseStat}</span>
+              </div>
+              <div style="background: rgba(255,255,255,0.1); height: 8px; border-radius: 9999px; overflow: hidden;">
+                <div style="background: ${barColor}; width: ${percentage}%; height: 100%; border-radius: 9999px; transition: width 0.5s ease;"></div>
+              </div>
+            </div>
+          `;
+        })
+        .join('');
+
+      this.modalContent.innerHTML = `
+        <div style="text-align: center;">
+          <span style="font-size: 0.9rem; font-weight: 800; color: #94a3b8;">${formattedId}</span>
+          <h2 style="font-size: 2rem; font-weight: 800; text-transform: capitalize; margin: 0.2rem 0 0.8rem 0;">${p.name}</h2>
+          
+          <div style="display: flex; justify-content: center; gap: 0.5rem; margin-bottom: 1.25rem;">
+            ${typeBadges}
+          </div>
+
+          ${tabsHTML}
+          ${formPillsModal}
+
+          <div style="width: 180px; height: 180px; margin: 0 auto 1.5rem auto;">
+            <img src="${p.media.officialArtworkUrl || p.media.spriteUrl}" alt="${p.name}" style="width: 100%; height: 100%; object-fit: contain; filter: drop-shadow(0 12px 20px rgba(0,0,0,0.5));">
+          </div>
+
+          <div style="display: flex; justify-content: center; gap: 2rem; background: rgba(15,23,42,0.6); padding: 0.75rem 1.5rem; border-radius: 16px; margin-bottom: 1.5rem; font-size: 0.9rem;">
+            <div><strong>Altura:</strong> ${(p.height / 10).toFixed(1)} m</div>
+            <div><strong>Peso:</strong> ${(p.weight / 10).toFixed(1)} kg</div>
+          </div>
+
+          <div style="text-align: left; background: rgba(15,23,42,0.4); padding: 1.25rem; border-radius: 16px; margin-bottom: 1.5rem;">
+            <h4 style="font-size: 0.95rem; text-transform: uppercase; letter-spacing: 0.05em; color: #94a3b8; margin-bottom: 0.75rem;">Estatísticas Base (Base Stats)</h4>
+            ${statsHTML}
+          </div>
+
+          <button id="modal-cry-btn" class="cry-btn" style="width: 100%; justify-content: center; padding: 0.75rem; font-size: 1rem;">
+            🔊 Play Cry Audio
+          </button>
+        </div>
+      `;
+    } else {
+      const compData = await this.smogonService.getCompetitiveData(p.name);
+      
+      const warningBanner = compData.isOfflineFallback
+        ? `<div style="background: rgba(245,158,11,0.15); border: 1px solid rgba(245,158,11,0.4); color: #fbbf24; padding: 0.75rem 1rem; border-radius: 12px; font-size: 0.85rem; margin-bottom: 1.25rem; text-align: center;">
+             ⚠️ ${compData.warningMessage}
+           </div>`
+        : '';
+
+      const movesetsHTML = compData.movesets.map((m: MovesetOption) => `
+        <div style="background: rgba(15,23,42,0.6); padding: 1rem; border-radius: 14px; margin-bottom: 1rem; text-align: left;">
+          <div style="font-weight: 700; color: #38bdf8; font-size: 1rem; margin-bottom: 0.5rem;">🎯 Build: ${m.name}</div>
+          <div style="font-size: 0.85rem; color: #cbd5e1; margin-bottom: 0.5rem;">
+            <div><strong>Nature sugerida:</strong> ${m.natures.join(' / ')}</div>
+            <div><strong>Items sugeridos:</strong> ${m.items.join(' / ')}</div>
+          </div>
+          <div style="font-size: 0.85rem; font-weight: 700; color: #94a3b8; margin-top: 0.5rem; margin-bottom: 0.25rem;">Movesets Recomendados:</div>
+          <ul style="margin: 0; padding-left: 1.25rem; font-size: 0.85rem; color: #f8fafc;">
+            ${m.moves.map((slot: string[]) => `<li>${slot.join(' / ')}</li>`).join('')}
+          </ul>
+        </div>
+      `).join('');
+
+      this.modalContent.innerHTML = `
+        <div style="text-align: center;">
+          <span style="font-size: 0.9rem; font-weight: 800; color: #94a3b8;">${formattedId}</span>
+          <h2 style="font-size: 2rem; font-weight: 800; text-transform: capitalize; margin: 0.2rem 0 0.8rem 0;">${p.name}</h2>
+          ${typeBadges}
+          ${tabsHTML}
+          ${warningBanner}
+          <div style="display: flex; justify-content: space-around; background: rgba(30,41,59,0.7); padding: 1rem; border-radius: 16px; margin-bottom: 1.25rem; font-size: 0.9rem;">
+            <div><div style="font-size: 0.75rem; color: #94a3b8; font-weight: 700; text-transform: uppercase;">Tier Smogon</div><div style="font-size: 1.25rem; font-weight: 800; color: #38bdf8;">${compData.tier}</div></div>
+            <div><div style="font-size: 0.75rem; color: #94a3b8; font-weight: 700; text-transform: uppercase;">Recomendação</div><div style="font-size: 0.85rem; font-weight: 600; color: #e2e8f0;">${compData.recommendedEvs}</div></div>
+          </div>
+          ${movesetsHTML}
+        </div>
+      `;
+    }
+
+    const tabGenBtn = document.getElementById('modal-tab-general');
+    const tabCompBtn = document.getElementById('modal-tab-competitive');
+    if (tabGenBtn) tabGenBtn.addEventListener('click', () => { this.activeModalTab = 'general'; this.renderModalContent(group); });
+    if (tabCompBtn) tabCompBtn.addEventListener('click', () => { this.activeModalTab = 'competitive'; this.renderModalContent(group); });
+
     group.varieties.forEach(v => {
       const modalPill = document.getElementById(`modal-pill-${group.speciesId}-${v.id}`);
       if (modalPill) {
