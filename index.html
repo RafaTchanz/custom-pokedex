@@ -2,7 +2,7 @@
 <html lang="pt-BR">
 <head>
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
   <title>TchanzDex - Gameplay - Casual & Competitiva</title>
   <meta name="description" content="TchanzDex - Pokédex de alta performance baseada em snapshot local com modelos 3D, artes em HD, linha evolutiva e builds competitivas.">
   <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -28,13 +28,17 @@
         </div>
 
         <div class="header-actions">
+          <button id="view-mode-btn" class="toggle-filters-btn secondary" title="Alternar entre Grade e Planilha de Stats">
+            📊 <span id="view-mode-text">Modo Planilha</span>
+          </button>
+
           <button id="toggle-filters-btn" class="toggle-filters-btn" title="Esconder ou mostrar barra de filtros">
-            🎛️ <span id="toggle-filters-text">Ocultar Filtros</span>
+            🎛️ <span id="toggle-filters-text">Filtros</span>
           </button>
 
           <div class="stats-badge">
             <span class="pulse-dot"></span>
-            <span id="total-count-text">Carregando TchanzDex...</span>
+            <span id="total-count-text">Carregando...</span>
           </div>
         </div>
       </div>
@@ -42,30 +46,30 @@
       <!-- Controls & Filter Bar -->
       <div id="filter-bar" class="filter-bar">
         <div class="search-box">
-          <svg class="search-icon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <svg class="search-icon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
             <circle cx="11" cy="11" r="8"></circle>
             <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
           </svg>
-          <input type="text" id="search-input" placeholder="Buscar por Nome, Número ou Golpe (ex: Pikachu, 25, Thunderbolt)..." autocomplete="off">
+          <input type="text" id="search-input" placeholder="Buscar Nome, #, Golpe ou Habilidade..." autocomplete="off">
           <button id="clear-search-btn" class="icon-btn hidden" title="Limpar busca">&times;</button>
         </div>
 
-        <div class="type-filter-group">
+        <div class="filter-item">
           <select id="gen-select" class="type-dropdown">
-            <option value="">Todas as Gerações</option>
-            <option value="gen1">Gen 1: Kanto (#001 - #151)</option>
-            <option value="gen2">Gen 2: Johto (#152 - #251)</option>
-            <option value="gen3">Gen 3: Hoenn (#252 - #386)</option>
-            <option value="gen4">Gen 4: Sinnoh (#387 - #493)</option>
-            <option value="gen5">Gen 5: Unova (#494 - #649)</option>
-            <option value="gen6">Gen 6: Kalos (#650 - #721)</option>
-            <option value="gen7">Gen 7: Alola (#722 - #809)</option>
-            <option value="gen8">Gen 8: Galar / Hisui (#810 - #905)</option>
+            <option value="">Todas Gerações</option>
+            <option value="gen1">Gen 1: Kanto (#001-#151)</option>
+            <option value="gen2">Gen 2: Johto (#152-#251)</option>
+            <option value="gen3">Gen 3: Hoenn (#252-#386)</option>
+            <option value="gen4">Gen 4: Sinnoh (#387-#493)</option>
+            <option value="gen5">Gen 5: Unova (#494-#649)</option>
+            <option value="gen6">Gen 6: Kalos (#650-#721)</option>
+            <option value="gen7">Gen 7: Alola (#722-#809)</option>
+            <option value="gen8">Gen 8: Galar/Hisui (#810-#905)</option>
             <option value="gen9">Gen 9: Paldea (#906+)</option>
           </select>
         </div>
 
-        <div class="type-filter-group">
+        <div class="filter-item">
           <select id="type-select" class="type-dropdown">
             <option value="">Todos os Tipos</option>
             <option value="normal">Normal</option>
@@ -89,14 +93,14 @@
           </select>
         </div>
 
-        <div class="type-filter-group">
+        <div class="filter-item">
           <select id="sort-select" class="type-dropdown">
-            <option value="id-asc">Número (# Menor ➔ Maior)</option>
-            <option value="id-desc">Número (# Maior ➔ Menor)</option>
+            <option value="id-asc"># Menor ➔ Maior</option>
+            <option value="id-desc"># Maior ➔ Menor</option>
             <option value="name-asc">Nome (A ➔ Z)</option>
             <option value="name-desc">Nome (Z ➔ A)</option>
-            <option value="bst-desc">Total Base Stats (Fortes ➔ Fracos)</option>
-            <option value="bst-asc">Total Base Stats (Fracos ➔ Fortes)</option>
+            <option value="bst-desc">Stats BST (Fortes ➔ Fracos)</option>
+            <option value="bst-asc">Stats BST (Fracos ➔ Fortes)</option>
           </select>
         </div>
 
@@ -104,24 +108,47 @@
           ✨ Shiny: OFF
         </button>
 
-        <button id="global-3d-btn" class="reset-btn shiny-main-btn" style="border-color: rgba(56, 189, 248, 0.4); color: #38bdf8; background: rgba(56, 189, 248, 0.15);" title="Alternar para modelos 3D animados na grade principal">
-          👾 Modo 3D: OFF
+        <button id="global-3d-btn" class="reset-btn shiny-main-btn btn-3d" title="Alternar para modelos 3D animados na grade principal">
+          👾 3D: OFF
         </button>
 
         <button id="reset-all-btn" class="reset-btn">
-          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-            <path d="M23 4v6h-6"></path>
-            <path d="M20.49 15a9 9 0 1 1-2.12-9.36L23 10"></path>
-          </svg>
-          Limpar Filtros
+          🔄 Limpar
         </button>
       </div>
     </header>
 
-    <!-- Main Content Grid -->
+    <!-- Main Content Container -->
     <main class="main-content">
+      <!-- Grid View -->
       <div id="pokemon-grid" class="pokemon-grid">
         <!-- Pokémon cards rendered dynamically -->
+      </div>
+
+      <!-- Spreadsheet / Table View -->
+      <div id="pokemon-table-container" class="table-container hidden">
+        <div class="table-responsive">
+          <table class="stats-table">
+            <thead>
+              <tr>
+                <th data-sort="id" class="sortable"># <span class="sort-icon">↕</span></th>
+                <th>Arte</th>
+                <th data-sort="name" class="sortable">Nome <span class="sort-icon">↕</span></th>
+                <th>Tipos</th>
+                <th data-sort="hp" class="sortable">HP <span class="sort-icon">↕</span></th>
+                <th data-sort="attack" class="sortable">Atk <span class="sort-icon">↕</span></th>
+                <th data-sort="defense" class="sortable">Def <span class="sort-icon">↕</span></th>
+                <th data-sort="special-attack" class="sortable">SpA <span class="sort-icon">↕</span></th>
+                <th data-sort="special-defense" class="sortable">SpD <span class="sort-icon">↕</span></th>
+                <th data-sort="speed" class="sortable">Spe <span class="sort-icon">↕</span></th>
+                <th data-sort="bst" class="sortable bst-header">BST Total <span class="sort-icon">↕</span></th>
+              </tr>
+            </thead>
+            <tbody id="table-body">
+              <!-- Table rows rendered dynamically -->
+            </tbody>
+          </table>
+        </div>
       </div>
 
       <div id="empty-state" class="empty-state hidden">

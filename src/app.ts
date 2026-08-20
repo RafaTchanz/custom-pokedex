@@ -104,6 +104,7 @@ class PokedexApp {
   private isGlobalShinyActive: boolean = false;
   private isGlobal3DActive: boolean = false;
   private isFiltersCollapsed: boolean = false;
+  private isTableViewMode: boolean = false;
   private cardShinyState: Map<number, boolean> = new Map();
   private movesMethodFilter: 'level-up' | 'egg' | 'machine' = 'level-up';
 
@@ -121,9 +122,13 @@ class PokedexApp {
   private global3DBtn!: HTMLButtonElement;
   private toggleFiltersBtn!: HTMLButtonElement;
   private toggleFiltersText!: HTMLSpanElement;
+  private viewModeBtn!: HTMLButtonElement;
+  private viewModeText!: HTMLSpanElement;
   private filterBar!: HTMLDivElement;
   private backToTopBtn!: HTMLButtonElement;
   private gridContainer!: HTMLDivElement;
+  private tableContainer!: HTMLDivElement;
+  private tableBody!: HTMLTableSectionElement;
   private emptyState!: HTMLDivElement;
   private totalCountText!: HTMLSpanElement;
   private modalBackdrop!: HTMLDivElement;
@@ -150,9 +155,13 @@ class PokedexApp {
     this.global3DBtn = document.getElementById('global-3d-btn') as HTMLButtonElement;
     this.toggleFiltersBtn = document.getElementById('toggle-filters-btn') as HTMLButtonElement;
     this.toggleFiltersText = document.getElementById('toggle-filters-text') as HTMLSpanElement;
+    this.viewModeBtn = document.getElementById('view-mode-btn') as HTMLButtonElement;
+    this.viewModeText = document.getElementById('view-mode-text') as HTMLSpanElement;
     this.filterBar = document.getElementById('filter-bar') as HTMLDivElement;
     this.backToTopBtn = document.getElementById('back-to-top-btn') as HTMLButtonElement;
     this.gridContainer = document.getElementById('pokemon-grid') as HTMLDivElement;
+    this.tableContainer = document.getElementById('pokemon-table-container') as HTMLDivElement;
+    this.tableBody = document.getElementById('table-body') as HTMLTableSectionElement;
     this.emptyState = document.getElementById('empty-state') as HTMLDivElement;
     this.totalCountText = document.getElementById('total-count-text') as HTMLSpanElement;
     this.modalBackdrop = document.getElementById('pokemon-modal') as HTMLDivElement;
@@ -178,11 +187,19 @@ class PokedexApp {
       this.render();
     });
 
+    if (this.viewModeBtn) {
+      this.viewModeBtn.addEventListener('click', () => {
+        this.isTableViewMode = !this.isTableViewMode;
+        this.viewModeText.textContent = this.isTableViewMode ? 'Modo Grade' : 'Modo Planilha';
+        this.render();
+      });
+    }
+
     if (this.toggleFiltersBtn) {
       this.toggleFiltersBtn.addEventListener('click', () => {
         this.isFiltersCollapsed = !this.isFiltersCollapsed;
         this.filterBar.classList.toggle('collapsed', this.isFiltersCollapsed);
-        this.toggleFiltersText.textContent = this.isFiltersCollapsed ? 'Mostrar Filtros' : 'Ocultar Filtros';
+        this.toggleFiltersText.textContent = this.isFiltersCollapsed ? 'Mostrar Filtros' : 'Filtros';
       });
     }
 
@@ -212,11 +229,29 @@ class PokedexApp {
     if (this.global3DBtn) {
       this.global3DBtn.addEventListener('click', () => {
         this.isGlobal3DActive = !this.isGlobal3DActive;
-        this.global3DBtn.textContent = this.isGlobal3DActive ? '👾 Modo 3D: ON' : '👾 Modo 3D: OFF';
+        this.global3DBtn.textContent = this.isGlobal3DActive ? '👾 3D: ON' : '👾 3D: OFF';
         this.global3DBtn.classList.toggle('active', this.isGlobal3DActive);
         this.render();
       });
     }
+
+    // Sortable Table Headers Click
+    const tableHeaders = document.querySelectorAll('.stats-table th.sortable');
+    tableHeaders.forEach(th => {
+      th.addEventListener('click', () => {
+        const sortType = th.getAttribute('data-sort');
+        if (!sortType) return;
+
+        if (sortType === 'id') this.sortSelect.value = this.sortSelect.value === 'id-asc' ? 'id-desc' : 'id-asc';
+        if (sortType === 'name') this.sortSelect.value = this.sortSelect.value === 'name-asc' ? 'name-desc' : 'name-asc';
+        if (sortType === 'bst') this.sortSelect.value = this.sortSelect.value === 'bst-desc' ? 'bst-asc' : 'bst-desc';
+        if (['hp', 'attack', 'defense', 'special-attack', 'special-defense', 'speed'].includes(sortType)) {
+          this.sortSelect.value = 'bst-desc';
+        }
+
+        this.render();
+      });
+    });
 
     this.resetAllBtn.addEventListener('click', () => this.resetFilters());
     this.emptyResetBtn.addEventListener('click', () => this.resetFilters());
@@ -270,7 +305,7 @@ class PokedexApp {
       this.globalShinyBtn.classList.remove('active');
     }
     if (this.global3DBtn) {
-      this.global3DBtn.textContent = '👾 Modo 3D: OFF';
+      this.global3DBtn.textContent = '👾 3D: OFF';
       this.global3DBtn.classList.remove('active');
     }
     this.toggleClearSearchBtn();
@@ -419,15 +454,31 @@ class PokedexApp {
     this.currentFilteredGroups = filtered;
 
     const totalVarietiesCount = filtered.reduce((sum, g) => sum + g.varieties.length, 0);
-    this.totalCountText.textContent = `${filtered.length} Espécies (${totalVarietiesCount} Formas/Variantes)`;
+    this.totalCountText.textContent = `${filtered.length} Espécies (${totalVarietiesCount} Formas)`;
 
     if (filtered.length === 0) {
       this.gridContainer.innerHTML = '';
+      this.tableBody.innerHTML = '';
       this.emptyState.classList.remove('hidden');
+      this.gridContainer.classList.add('hidden');
+      this.tableContainer.classList.add('hidden');
       return;
     }
 
     this.emptyState.classList.add('hidden');
+
+    if (this.isTableViewMode) {
+      this.gridContainer.classList.add('hidden');
+      this.tableContainer.classList.remove('hidden');
+      this.renderTable(filtered);
+    } else {
+      this.tableContainer.classList.add('hidden');
+      this.gridContainer.classList.remove('hidden');
+      this.renderGrid(filtered);
+    }
+  }
+
+  private renderGrid(filtered: PokemonSpeciesGroup[]): void {
     this.gridContainer.innerHTML = filtered.map(g => this.createCardHTML(g)).join('');
 
     filtered.forEach(group => {
@@ -467,6 +518,58 @@ class PokedexApp {
           e.stopPropagation();
           this.playCry(group.selectedPokemon.media.cryUrl, cryBtn);
         });
+      }
+    });
+  }
+
+  private renderTable(filtered: PokemonSpeciesGroup[]): void {
+    this.tableBody.innerHTML = filtered.map(g => {
+      const p = g.selectedPokemon;
+      const formattedId = `#${g.speciesId.toString().padStart(4, '0')}`;
+      const imgUrl = this.getCardImageUrl(p, g.speciesId);
+      const hdClass = this.isGlobal3DActive ? '' : 'hd-art';
+
+      const typeBadges = p.types
+        .map(t => {
+          const color = TYPE_COLORS[t.name.toLowerCase()] || '#a8a77a';
+          return `<span class="type-badge" style="background-color: ${color}; font-size: 0.65rem; padding: 0.15rem 0.45rem;">${t.name}</span>`;
+        })
+        .join(' ');
+
+      const getStat = (name: string) => {
+        const found = p.stats.find(s => s.name === name);
+        return found ? found.baseStat : 0;
+      };
+
+      const hp = getStat('hp');
+      const atk = getStat('attack');
+      const def = getStat('defense');
+      const spa = getStat('special-attack');
+      const spd = getStat('special-defense');
+      const spe = getStat('speed');
+      const bst = hp + atk + def + spa + spd + spe;
+
+      return `
+        <tr id="table-row-${g.speciesId}">
+          <td style="font-weight: 800; color: #94a3b8;">${formattedId}</td>
+          <td><img class="table-img ${hdClass}" src="${imgUrl}" alt="${p.name}" loading="lazy"></td>
+          <td style="font-weight: 700; color: #ffffff; text-transform: capitalize;">${p.name}</td>
+          <td>${typeBadges}</td>
+          <td class="stat-cell" style="color: #4ade80;">${hp}</td>
+          <td class="stat-cell" style="color: #f87171;">${atk}</td>
+          <td class="stat-cell" style="color: #fbbf24;">${def}</td>
+          <td class="stat-cell" style="color: #c084fc;">${spa}</td>
+          <td class="stat-cell" style="color: #a7f3d0;">${spd}</td>
+          <td class="stat-cell" style="color: #f472b6;">${spe}</td>
+          <td><span class="bst-cell">${bst}</span></td>
+        </tr>
+      `;
+    }).join('');
+
+    filtered.forEach(group => {
+      const rowEl = document.getElementById(`table-row-${group.speciesId}`);
+      if (rowEl) {
+        rowEl.addEventListener('click', () => this.openModal(group));
       }
     });
   }
