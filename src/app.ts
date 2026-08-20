@@ -484,16 +484,25 @@ class PokedexApp {
         : '';
 
       const movesetsHTML = compData.movesets.map((m: MovesetOption) => `
-        <div style="background: rgba(15,23,42,0.6); padding: 1rem; border-radius: 14px; margin-bottom: 1rem; text-align: left;">
-          <div style="font-weight: 700; color: #38bdf8; font-size: 1rem; margin-bottom: 0.5rem;">🎯 Build: ${m.name}</div>
-          <div style="font-size: 0.85rem; color: #cbd5e1; margin-bottom: 0.5rem;">
-            <div><strong>Nature sugerida:</strong> ${m.natures.join(' / ')}</div>
-            <div><strong>Items sugeridos:</strong> ${m.items.join(' / ')}</div>
+        <div style="background: rgba(15,23,42,0.6); padding: 1.1rem; border-radius: 14px; margin-bottom: 1rem; text-align: left; border: 1px solid rgba(255,255,255,0.08);">
+          <div style="font-weight: 800; color: #38bdf8; font-size: 1.05rem; margin-bottom: 0.6rem; display: flex; align-items: center; justify-content: space-between;">
+            <span>🎯 Build: ${m.name}</span>
           </div>
-          <div style="font-size: 0.85rem; font-weight: 700; color: #94a3b8; margin-top: 0.5rem; margin-bottom: 0.25rem;">Movesets Recomendados:</div>
-          <ul style="margin: 0; padding-left: 1.25rem; font-size: 0.85rem; color: #f8fafc;">
-            ${m.moves.map((slot: string[]) => `<li>${slot.join(' / ')}</li>`).join('')}
-          </ul>
+          <div style="font-size: 0.85rem; color: #cbd5e1; margin-bottom: 0.75rem; display: grid; grid-template-columns: 1fr 1fr; gap: 0.5rem; background: rgba(0,0,0,0.2); padding: 0.75rem; border-radius: 10px;">
+            <div><strong style="color: #94a3b8;">Habilidade:</strong> <span style="color: #f1f5f9;">${m.abilities.join(' / ')}</span></div>
+            <div><strong style="color: #94a3b8;">Item:</strong> <span style="color: #f1f5f9;">${m.items.join(' / ')}</span></div>
+            <div><strong style="color: #94a3b8;">Nature:</strong> <span style="color: #f1f5f9;">${m.natures.join(' / ')}</span></div>
+            ${m.teraTypes && m.teraTypes.length > 0 ? `<div><strong style="color: #94a3b8;">Tera Type:</strong> <span style="color: #a7f3d0;">${m.teraTypes.join(' / ')}</span></div>` : ''}
+          </div>
+          <div style="font-size: 0.85rem; font-weight: 700; color: #94a3b8; margin-top: 0.5rem; margin-bottom: 0.4rem;">Golpes Recomendados (Moveset):</div>
+          <div style="display: flex; flex-direction: column; gap: 0.35rem;">
+            ${m.moves.map((slot: string[], idx: number) => `
+              <div style="background: rgba(30,41,59,0.7); padding: 0.4rem 0.75rem; border-radius: 8px; font-size: 0.85rem; color: #f8fafc; display: flex; align-items: center; gap: 0.5rem;">
+                <span style="font-size: 0.75rem; font-weight: 800; color: #64748b; min-width: 50px;">SLOT ${idx + 1}:</span>
+                <span style="font-weight: 600; color: #38bdf8;">${slot.join(' <span style="color: #64748b;">/</span> ')}</span>
+              </div>
+            `).join('')}
+          </div>
         </div>
       `).join('');
 
