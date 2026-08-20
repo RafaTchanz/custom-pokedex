@@ -101,6 +101,7 @@ class PokedexApp {
   private isShinyActive: boolean = false;
   private is3DModelActive: boolean = false;
   private isGlobalShinyActive: boolean = false;
+  private isGlobal3DActive: boolean = false;
   private cardShinyState: Map<number, boolean> = new Map();
   private movesMethodFilter: 'level-up' | 'egg' | 'machine' = 'level-up';
 
@@ -110,6 +111,7 @@ class PokedexApp {
   private resetAllBtn!: HTMLButtonElement;
   private emptyResetBtn!: HTMLButtonElement;
   private globalShinyBtn!: HTMLButtonElement;
+  private global3DBtn!: HTMLButtonElement;
   private gridContainer!: HTMLDivElement;
   private emptyState!: HTMLDivElement;
   private totalCountText!: HTMLSpanElement;
@@ -130,6 +132,7 @@ class PokedexApp {
     this.resetAllBtn = document.getElementById('reset-all-btn') as HTMLButtonElement;
     this.emptyResetBtn = document.getElementById('empty-reset-btn') as HTMLButtonElement;
     this.globalShinyBtn = document.getElementById('global-shiny-btn') as HTMLButtonElement;
+    this.global3DBtn = document.getElementById('global-3d-btn') as HTMLButtonElement;
     this.gridContainer = document.getElementById('pokemon-grid') as HTMLDivElement;
     this.emptyState = document.getElementById('empty-state') as HTMLDivElement;
     this.totalCountText = document.getElementById('total-count-text') as HTMLSpanElement;
@@ -161,6 +164,15 @@ class PokedexApp {
       });
     }
 
+    if (this.global3DBtn) {
+      this.global3DBtn.addEventListener('click', () => {
+        this.isGlobal3DActive = !this.isGlobal3DActive;
+        this.global3DBtn.textContent = this.isGlobal3DActive ? '👾 Modo 3D: ON' : '👾 Modo 3D: OFF';
+        this.global3DBtn.classList.toggle('active', this.isGlobal3DActive);
+        this.render();
+      });
+    }
+
     this.resetAllBtn.addEventListener('click', () => this.resetFilters());
     this.emptyResetBtn.addEventListener('click', () => this.resetFilters());
 
@@ -186,10 +198,15 @@ class PokedexApp {
     this.searchInput.value = '';
     this.typeSelect.value = '';
     this.isGlobalShinyActive = false;
+    this.isGlobal3DActive = false;
     this.cardShinyState.clear();
     if (this.globalShinyBtn) {
       this.globalShinyBtn.textContent = '✨ Shiny: OFF';
       this.globalShinyBtn.classList.remove('active');
+    }
+    if (this.global3DBtn) {
+      this.global3DBtn.textContent = '👾 Modo 3D: OFF';
+      this.global3DBtn.classList.remove('active');
     }
     this.toggleClearSearchBtn();
     this.render();
@@ -281,6 +298,18 @@ class PokedexApp {
     return !!this.cardShinyState.get(speciesId);
   }
 
+  private getCardImageUrl(p: PokemonCardData, speciesId: number): string {
+    const isShiny = this.isCardShinyActive(speciesId);
+    if (this.isGlobal3DActive) {
+      return isShiny
+        ? (p.media.shinyAnimated3dUrl || p.media.animated3dUrl || p.media.shinyArtwork || p.media.officialArtworkUrl)
+        : (p.media.animated3dUrl || p.media.officialArtworkUrl || p.media.spriteUrl);
+    }
+    return isShiny
+      ? (p.media.shinyArtwork || p.media.shinyOfficialArtworkUrl || p.media.shinySpriteFront || p.media.officialArtworkUrl)
+      : (p.media.officialArtworkUrl || p.media.spriteUrl);
+  }
+
   private render(): void {
     const filtered = this.filterGroups();
 
@@ -349,9 +378,7 @@ class PokedexApp {
 
     const imgEl = cardEl.querySelector('.card-artwork') as HTMLImageElement;
     if (imgEl) {
-      imgEl.src = isShiny
-        ? (p.media.shinyArtwork || p.media.shinyOfficialArtworkUrl || p.media.shinySpriteFront || p.media.officialArtworkUrl)
-        : (p.media.officialArtworkUrl || p.media.spriteUrl);
+      imgEl.src = this.getCardImageUrl(p, group.speciesId);
       imgEl.alt = p.name;
     }
 
@@ -406,9 +433,7 @@ class PokedexApp {
         `</div>`
       : '';
 
-    const imgUrl = isShiny
-      ? (p.media.shinyArtwork || p.media.shinyOfficialArtworkUrl || p.media.shinySpriteFront || p.media.officialArtworkUrl)
-      : (p.media.officialArtworkUrl || p.media.spriteUrl);
+    const imgUrl = this.getCardImageUrl(p, group.speciesId);
 
     return `
       <div id="species-card-${group.speciesId}" class="pokemon-card">
@@ -465,7 +490,7 @@ class PokedexApp {
   private openModal(group: PokemonSpeciesGroup): void {
     this.activeModalTab = 'general';
     this.isShinyActive = this.isCardShinyActive(group.speciesId);
-    this.is3DModelActive = false;
+    this.is3DModelActive = this.isGlobal3DActive;
     this.movesMethodFilter = 'level-up';
     this.renderModalContent(group);
     this.modalBackdrop.classList.remove('hidden');
