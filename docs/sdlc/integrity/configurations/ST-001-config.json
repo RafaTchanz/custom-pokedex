@@ -1,0 +1,34 @@
+{
+  "story_id": "ST-001",
+  "roles": {
+    "pm": "sdlc-pm",
+    "coder": "sdlc-coder-backend",
+    "qa": "sdlc-qa",
+    "reviewer": "sdlc-reviewer",
+    "stress": "sdlc-stress",
+    "verdict": "sdlc-verdict"
+  },
+  "depends_on": [],
+  "story_artifact": {
+    "path": "docs/sdlc/stories/ST-001.md"
+  },
+  "readiness": {
+    "status": "PASS",
+    "evidence_id": "EVD-003"
+  },
+  "contract_assessment": {
+    "applicable": false,
+    "rationale": "ST-001 is backend data engine; CTR-001 tested during integration",
+    "reviewer_ack": "sdlc-architect"
+  },
+  "journey_assessment": {
+    "applicable": false,
+    "rationale": "ST-001 is a backend data engine story without direct UI journey",
+    "reviewer_ack": "sdlc-architect"
+  },
+  "regression_assessment": {
+    "applicable": false,
+    "rationale": "Initial story implementation in clean repository",
+    "reviewer_ack": "sdlc-architect"
+  }
+}

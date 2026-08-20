@@ -1,0 +1,63 @@
+{
+  "name": "custom-pokedex-quality-profile",
+  "version": "1.0.0",
+  "markers": [
+    "package.json"
+  ],
+  "capabilities": {
+    "format": {
+      "applicability": "REQUIRED",
+      "argv": [
+        "npx.cmd",
+        "tsc",
+        "--version"
+      ],
+      "cwd": "."
+    },
+    "lint_static": {
+      "applicability": "REQUIRED",
+      "argv": [
+        "npx.cmd",
+        "tsc",
+        "--noEmit"
+      ],
+      "cwd": "."
+    },
+    "build_parse": {
+      "applicability": "REQUIRED",
+      "argv": [
+        "npx.cmd",
+        "tsc",
+        "--noEmit"
+      ],
+      "cwd": "."
+    },
+    "tests": {
+      "applicability": "REQUIRED",
+      "argv": [
+        "npx.cmd",
+        "vitest",
+        "run"
+      ],
+      "cwd": "."
+    },
+    "coverage": {
+      "applicability": "NOT_APPLICABLE",
+      "rule": "N/A",
+      "rationale": "Coverage reporting optional for study project",
+      "reviewer_decision_id": "DEC-003"
+    },
+    "race_concurrency": {
+      "applicability": "NOT_APPLICABLE",
+      "rule": "N/A",
+      "rationale": "Single-threaded web application environment",
+      "reviewer_decision_id": "DEC-003"
+    },
+    "vulnerability": {
+      "applicability": "NOT_APPLICABLE",
+      "rule": "N/A",
+      "rationale": "Local development and study environment",
+      "reviewer_decision_id": "DEC-003"
+    }
+  }
+}

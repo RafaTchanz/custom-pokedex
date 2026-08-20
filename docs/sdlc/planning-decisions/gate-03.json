@@ -1,0 +1,25 @@
+{
+  "id": "DEC-003",
+  "gate_id": "GATE-03",
+  "action": "GATE_APPROVAL",
+  "status": "APPROVED",
+  "actor_role": "project_owner",
+  "impacted_ids": [
+    "RUN-001"
+  ],
+  "authorization_source": {
+    "kind": "human_attestation",
+    "reference": "user-explicit-intake-submission"
+  },
+  "created_at": "2026-08-20T11:21:47Z",
+  "reason": "User approved architecture design and .sdlc-quality.json profile.",
+  "gate_source_kinds": ["architecture", "brief", "prd"],
+  "quality_profile_paths": [".sdlc-quality.json"],
+  "approved_quality_profiles": [
+    {
+      "path": ".sdlc-quality.json",
+      "sha256": "fbee11d09f5ee6d8eb4bf8702a76cfdf6921c2f2dec4d3935a41988fd1aa35bc"
+    }
+  ],
+  "artifact_contract_version": "2.0.0"
+}

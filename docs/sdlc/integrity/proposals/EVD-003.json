@@ -1,0 +1,10 @@
+{
+  "id": "EVD-003",
+  "evidence_class": "readiness",
+  "story_id": "ST-001",
+  "ac_ids": ["AC-ST-001-01", "AC-ST-001-02"],
+  "created_at": "2026-08-20T11:40:00Z",
+  "producer_role": "sdlc-scrum-master",
+  "input_revisions": [{"id": "ST-001", "revision": 1, "content_sha256": "97a3e4e0e5a66dae5ff194d0f4dfe1a1d62e0f45d3451bcc825a732537cdd04d"}],
+  "result": "PASS"
+}

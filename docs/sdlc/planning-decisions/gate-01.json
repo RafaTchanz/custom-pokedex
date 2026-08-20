@@ -1,0 +1,16 @@
+{
+  "id": "DEC-001",
+  "action": "GATE_APPROVAL",
+  "gate_id": "GATE-01",
+  "actor_role": "project_owner",
+  "status": "APPROVED",
+  "reason": "User submitted requirements for custom Pokedex with PokeAPI snapshot integration.",
+  "created_at": "2026-08-20T11:21:47Z",
+  "impacted_ids": [
+    "RUN-001"
+  ],
+  "authorization_source": {
+    "kind": "human_attestation",
+    "reference": "user-explicit-intake-submission"
+  }
+}

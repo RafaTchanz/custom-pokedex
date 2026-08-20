@@ -1,0 +1,16 @@
+{
+  "id": "DEC-002",
+  "action": "GATE_APPROVAL",
+  "gate_id": "GATE-02",
+  "actor_role": "project_owner",
+  "status": "APPROVED",
+  "reason": "User approved PRD scope with Epics EPIC-001 through EPIC-003 and stories ST-001 through ST-005.",
+  "created_at": "2026-08-20T11:21:47Z",
+  "impacted_ids": [
+    "RUN-001"
+  ],
+  "authorization_source": {
+    "kind": "human_attestation",
+    "reference": "user-explicit-intake-submission"
+  }
+}
