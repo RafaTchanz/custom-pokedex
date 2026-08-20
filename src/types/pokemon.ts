@@ -15,6 +15,40 @@ export interface PokemonAbility {
   slot: number;
 }
 
+export interface PokemonMove {
+  name: string;
+  type: string;
+  method: 'level-up' | 'egg' | 'machine' | 'tutor';
+  level?: number;
+  power?: number;
+  damageClass?: string;
+}
+
+export interface PokemonEvolutionStep {
+  speciesId: number;
+  name: string;
+  triggerDetails?: string;
+  isCurrent?: boolean;
+}
+
+export interface PokemonEncounter {
+  game: string;
+  location: string;
+  minLevel: number;
+  maxLevel: number;
+}
+
+export interface PokemonMedia {
+  officialArtworkUrl: string;
+  spriteUrl: string;
+  shinyArtwork?: string;
+  shinySpriteFront?: string;
+  shinyOfficialArtworkUrl?: string;
+  shinySpriteUrl?: string;
+  cryUrl: string | null;
+  hasCry?: boolean;
+}
+
 export interface Pokemon {
   id: number;
   speciesId: number;
@@ -29,6 +63,10 @@ export interface Pokemon {
   abilities: PokemonAbility[];
   spriteUrl?: string;
   cryUrl?: string;
+  media?: PokemonMedia;
+  moves?: PokemonMove[];
+  evolutionChain?: PokemonEvolutionStep[];
+  encounters?: PokemonEncounter[];
 }
 
 export interface PokemonQueryParams {

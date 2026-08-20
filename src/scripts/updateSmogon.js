@@ -1,7 +1,8 @@
 import fs from 'fs';
 import path from 'path';
 
-const files = ['gen9ou', 'gen9ubers', 'gen9uu', 'gen9ru', 'gen9nu', 'gen9pu', 'gen9lc', 'gen9doublesou', 'gen9monotype'];
+// Order files with gen9nationaldex (Champions format) first so Mega and Champions builds get top priority!
+const files = ['gen9nationaldex', 'gen9vgc2024', 'gen9ou', 'gen9ubers', 'gen9uu', 'gen9ru', 'gen9nu', 'gen9pu', 'gen9lc', 'gen9doublesou', 'gen9monotype'];
 
 console.log('🔄 Atualizando banco de dados competitivo da Smogon...');
 
@@ -10,18 +11,29 @@ Promise.all([
   ...files.map(f => fetch(`https://pkmn.github.io/smogon/data/sets/${f}.json`).then(r => r.ok ? r.json() : {}).catch(() => ({})))
 ]).then(([showdownDex, ...setResults]) => {
   const combinedSets = {};
-  setResults.forEach(r => Object.assign(combinedSets, r));
+
+  setResults.forEach(r => {
+    if (!r || typeof r !== 'object') return;
+    Object.keys(r).forEach(speciesKey => {
+      const formattedKey = speciesKey.toLowerCase().replace(/[^a-z0-9]/g, '');
+      if (!combinedSets[formattedKey]) {
+        combinedSets[formattedKey] = {};
+      }
+      // Merge builds for this species
+      Object.assign(combinedSets[formattedKey], r[speciesKey]);
+    });
+  });
 
   const finalDataset = {};
   Object.keys(showdownDex).forEach(key => {
     const entry = showdownDex[key];
-    const matchedSetKey = Object.keys(combinedSets).find(k => k.toLowerCase().replace(/[^a-z0-9]/g, '') === key);
+    const sets = combinedSets[key] || null;
 
     finalDataset[key] = {
       tier: entry.tier || 'OU',
       baseStats: entry.baseStats,
       abilities: entry.abilities ? Object.values(entry.abilities) : [],
-      sets: combinedSets[matchedSetKey] || null
+      sets: sets
     };
   });
 

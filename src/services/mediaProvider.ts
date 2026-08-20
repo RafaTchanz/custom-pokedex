@@ -5,6 +5,8 @@ export interface PokemonMedia {
   pokemonId: number;
   spriteUrl: string;
   officialArtworkUrl: string;
+  shinySpriteUrl: string;
+  shinyOfficialArtworkUrl: string;
   cryUrl: string | null;
   hasCry: boolean;
 }
@@ -22,6 +24,8 @@ export class MediaProvider {
         pokemonId: id,
         spriteUrl: 'https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/0.png',
         officialArtworkUrl: 'https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/0.png',
+        shinySpriteUrl: 'https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/shiny/0.png',
+        shinyOfficialArtworkUrl: 'https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/shiny/0.png',
         cryUrl: null,
         hasCry: false,
       };
@@ -29,6 +33,8 @@ export class MediaProvider {
 
     const localSprite = path.join(this.snapshotPath, 'data', 'v2', 'sprites', 'pokemon', `${id}.png`);
     const localArtwork = path.join(this.snapshotPath, 'data', 'v2', 'sprites', 'pokemon', 'other', 'official-artwork', `${id}.png`);
+    const localShinySprite = path.join(this.snapshotPath, 'data', 'v2', 'sprites', 'pokemon', 'shiny', `${id}.png`);
+    const localShinyArtwork = path.join(this.snapshotPath, 'data', 'v2', 'sprites', 'pokemon', 'other', 'official-artwork', 'shiny', `${id}.png`);
     const localCry = path.join(this.snapshotPath, 'data', 'v2', 'cries', 'pokemon', 'latest', `${id}.ogg`);
 
     const spriteUrl = fs.existsSync(localSprite)
@@ -39,6 +45,14 @@ export class MediaProvider {
       ? localArtwork
       : `https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/${id}.png`;
 
+    const shinySpriteUrl = fs.existsSync(localShinySprite)
+      ? localShinySprite
+      : `https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/shiny/${id}.png`;
+
+    const shinyOfficialArtworkUrl = fs.existsSync(localShinyArtwork)
+      ? localShinyArtwork
+      : `https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/shiny/${id}.png`;
+
     const hasLocalCry = fs.existsSync(localCry);
     const cryUrl = hasLocalCry
       ? localCry
@@ -48,6 +62,8 @@ export class MediaProvider {
       pokemonId: id,
       spriteUrl,
       officialArtworkUrl,
+      shinySpriteUrl,
+      shinyOfficialArtworkUrl,
       cryUrl,
       hasCry: true,
     };

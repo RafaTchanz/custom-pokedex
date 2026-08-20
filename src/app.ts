@@ -8,9 +8,34 @@ interface PokemonType {
   name: string;
 }
 
+interface PokemonMove {
+  name: string;
+  type: string;
+  method: 'level-up' | 'egg' | 'machine' | 'tutor';
+  level?: number;
+  power?: number;
+  damageClass?: string;
+}
+
+interface PokemonEvolutionStep {
+  speciesId: number;
+  name: string;
+  triggerDetails?: string;
+  isCurrent?: boolean;
+}
+
+interface PokemonEncounter {
+  game: string;
+  location: string;
+  minLevel: number;
+  maxLevel: number;
+}
+
 interface PokemonMedia {
   officialArtworkUrl: string;
   spriteUrl: string;
+  shinyArtwork?: string;
+  shinySpriteFront?: string;
   cryUrl: string;
   hasCry: boolean;
 }
@@ -25,6 +50,9 @@ interface PokemonCardData {
   types: PokemonType[];
   media: PokemonMedia;
   isDefault: boolean;
+  moves?: PokemonMove[];
+  evolutionChain?: PokemonEvolutionStep[];
+  encounters?: PokemonEncounter[];
 }
 
 interface PokemonSpeciesGroup {
@@ -64,7 +92,9 @@ class PokedexApp {
   private currentAudio: HTMLAudioElement | null = null;
   private currentPlayingBtn: HTMLButtonElement | null = null;
   private smogonService: SmogonService = new SmogonService();
-  private activeModalTab: 'general' | 'competitive' = 'general';
+  private activeModalTab: 'general' | 'moves' | 'evolution' | 'encounters' | 'competitive' = 'general';
+  private isShinyActive: boolean = false;
+  private movesMethodFilter: 'level-up' | 'egg' | 'machine' = 'level-up';
 
   private searchInput!: HTMLInputElement;
   private typeSelect!: HTMLSelectElement;
@@ -167,7 +197,6 @@ class PokedexApp {
     }
 
     this.speciesGroups = Array.from(groupsMap.entries()).map(([speciesId, list]) => {
-      // Find base/default form or first item
       const defaultPokemon = list.find(x => x.isDefault || x.id === speciesId) || list[0];
       return {
         speciesId,
@@ -382,6 +411,8 @@ class PokedexApp {
 
   private openModal(group: PokemonSpeciesGroup): void {
     this.activeModalTab = 'general';
+    this.isShinyActive = false;
+    this.movesMethodFilter = 'level-up';
     this.renderModalContent(group);
     this.modalBackdrop.classList.remove('hidden');
   }
@@ -410,12 +441,32 @@ class PokedexApp {
           `</div></div>`
       : '';
 
+    // Tabs Header
     const tabsHTML = `
-      <div style="display: flex; gap: 0.5rem; margin-bottom: 1.25rem; border-bottom: 1px solid rgba(255,255,255,0.1); padding-bottom: 0.5rem;">
-        <button id="modal-tab-general" class="form-pill ${this.activeModalTab === 'general' ? 'active' : ''}" style="flex: 1; padding: 0.6rem; font-weight: 700; border-radius: 12px;">📊 Dados Gerais</button>
-        <button id="modal-tab-competitive" class="form-pill ${this.activeModalTab === 'competitive' ? 'active' : ''}" style="flex: 1; padding: 0.6rem; font-weight: 700; border-radius: 12px;">⚔️ Competitivo</button>
+      <div style="display: flex; gap: 0.4rem; margin-bottom: 1.25rem; border-bottom: 1px solid rgba(255,255,255,0.1); padding-bottom: 0.5rem; overflow-x: auto;">
+        <button id="modal-tab-general" class="form-pill ${this.activeModalTab === 'general' ? 'active' : ''}" style="padding: 0.5rem 0.8rem; font-weight: 700; border-radius: 12px; font-size: 0.85rem; white-space: nowrap;">📊 Stats</button>
+        <button id="modal-tab-evolution" class="form-pill ${this.activeModalTab === 'evolution' ? 'active' : ''}" style="padding: 0.5rem 0.8rem; font-weight: 700; border-radius: 12px; font-size: 0.85rem; white-space: nowrap;">🧬 Evoluções</button>
+        <button id="modal-tab-moves" class="form-pill ${this.activeModalTab === 'moves' ? 'active' : ''}" style="padding: 0.5rem 0.8rem; font-weight: 700; border-radius: 12px; font-size: 0.85rem; white-space: nowrap;">📜 Golpes</button>
+        <button id="modal-tab-encounters" class="form-pill ${this.activeModalTab === 'encounters' ? 'active' : ''}" style="padding: 0.5rem 0.8rem; font-weight: 700; border-radius: 12px; font-size: 0.85rem; white-space: nowrap;">🗺️ Locais</button>
+        <button id="modal-tab-competitive" class="form-pill ${this.activeModalTab === 'competitive' ? 'active' : ''}" style="padding: 0.5rem 0.8rem; font-weight: 700; border-radius: 12px; font-size: 0.85rem; white-space: nowrap;">⚔️ Competitivo</button>
       </div>
     `;
+
+    // Shiny Toggle Header
+    const shinyToggleHTML = `
+      <div style="display: flex; justify-content: center; align-items: center; gap: 0.75rem; margin-bottom: 1rem;">
+        <button id="modal-shiny-toggle" class="form-pill ${this.isShinyActive ? 'active' : ''}" style="background: ${this.isShinyActive ? 'linear-gradient(135deg, #f59e0b, #ef4444)' : 'rgba(255,255,255,0.1)'}; color: #ffffff; padding: 0.4rem 1rem; font-weight: 800; border-radius: 9999px; border: 1px solid rgba(255,255,255,0.2); cursor: pointer; transition: all 0.3s ease;">
+          ${this.isShinyActive ? '✨ Forma Shiny Ativa!' : '✨ Alternar para Shiny'}
+        </button>
+      </div>
+    `;
+
+    const imgDisplayUrl = this.isShinyActive
+      ? (p.media.shinyArtwork || p.media.shinySpriteFront || p.media.officialArtworkUrl)
+      : (p.media.officialArtworkUrl || p.media.spriteUrl);
+
+    // Render TAB Content
+    let tabBodyHTML = '';
 
     if (this.activeModalTab === 'general') {
       const statsHTML = p.stats
@@ -443,38 +494,126 @@ class PokedexApp {
         })
         .join('');
 
-      this.modalContent.innerHTML = `
-        <div style="text-align: center;">
-          <span style="font-size: 0.9rem; font-weight: 800; color: #94a3b8;">${formattedId}</span>
-          <h2 style="font-size: 2rem; font-weight: 800; text-transform: capitalize; margin: 0.2rem 0 0.8rem 0;">${p.name}</h2>
-          
-          <div style="display: flex; justify-content: center; gap: 0.5rem; margin-bottom: 1.25rem;">
-            ${typeBadges}
+      tabBodyHTML = `
+        <div style="width: 180px; height: 180px; margin: 0 auto 1.25rem auto;">
+          <img src="${imgDisplayUrl}" alt="${p.name}" style="width: 100%; height: 100%; object-fit: contain; filter: drop-shadow(0 12px 20px rgba(0,0,0,0.5)); transition: transform 0.3s ease;">
+        </div>
+
+        <div style="display: flex; justify-content: center; gap: 2rem; background: rgba(15,23,42,0.6); padding: 0.75rem 1.5rem; border-radius: 16px; margin-bottom: 1.25rem; font-size: 0.9rem;">
+          <div><strong>Altura:</strong> ${(p.height / 10).toFixed(1)} m</div>
+          <div><strong>Peso:</strong> ${(p.weight / 10).toFixed(1)} kg</div>
+        </div>
+
+        <div style="text-align: left; background: rgba(15,23,42,0.4); padding: 1.25rem; border-radius: 16px; margin-bottom: 1.25rem;">
+          <h4 style="font-size: 0.95rem; text-transform: uppercase; letter-spacing: 0.05em; color: #94a3b8; margin-bottom: 0.75rem;">Estatísticas Base (Base Stats)</h4>
+          ${statsHTML}
+        </div>
+
+        <button id="modal-cry-btn" class="cry-btn" style="width: 100%; justify-content: center; padding: 0.75rem; font-size: 1rem;">
+          🔊 Play Cry Audio
+        </button>
+      `;
+    } else if (this.activeModalTab === 'evolution') {
+      const chain = p.evolutionChain || [];
+      if (chain.length === 0) {
+        tabBodyHTML = `<div style="padding: 2rem; color: #94a3b8; font-size: 0.9rem;">Nenhuma cadeia evolutiva registrada para este Pokémon.</div>`;
+      } else {
+        const evoCardsHTML = chain.map((step, idx) => {
+          const isCurrent = step.speciesId === group.speciesId || step.speciesId === p.speciesId;
+          const imgUrl = `https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/${step.speciesId}.png`;
+          const arrowHTML = idx < chain.length - 1
+            ? `<div style="display: flex; flex-direction: column; align-items: center; justify-content: center; color: #38bdf8; font-weight: 800; font-size: 1.25rem; margin: 0 0.5rem;">
+                 <span>➔</span>
+                 <span style="font-size: 0.7rem; color: #94a3b8; background: rgba(255,255,255,0.08); padding: 0.2rem 0.5rem; border-radius: 8px; margin-top: 0.25rem; white-space: nowrap;">${chain[idx + 1].triggerDetails || 'Evolui'}</span>
+               </div>`
+            : '';
+
+          return `
+            <div style="display: flex; align-items: center;">
+              <div id="evo-step-${step.speciesId}" class="evo-step-card" style="background: ${isCurrent ? 'rgba(56,189,248,0.2)' : 'rgba(15,23,42,0.6)'}; border: 1px solid ${isCurrent ? '#38bdf8' : 'rgba(255,255,255,0.1)'}; padding: 0.75rem; border-radius: 16px; text-align: center; cursor: pointer; transition: transform 0.2s ease;">
+                <img src="${imgUrl}" alt="${step.name}" style="width: 75px; height: 75px; object-fit: contain; margin-bottom: 0.35rem;">
+                <div style="font-size: 0.85rem; font-weight: 800; text-transform: capitalize; color: ${isCurrent ? '#38bdf8' : '#f8fafc'};">${step.name}</div>
+                <div style="font-size: 0.7rem; color: #94a3b8;">#${step.speciesId.toString().padStart(4, '0')}</div>
+              </div>
+              ${arrowHTML}
+            </div>
+          `;
+        }).join('');
+
+        tabBodyHTML = `
+          <div style="text-align: left; background: rgba(15,23,42,0.4); padding: 1.25rem; border-radius: 16px; margin-bottom: 1.25rem;">
+            <h4 style="font-size: 0.95rem; text-transform: uppercase; letter-spacing: 0.05em; color: #38bdf8; margin-bottom: 1rem; text-align: center;">🧬 Linha Evolutiva & Métodos de Evolução</h4>
+            <div style="display: flex; align-items: center; justify-content: center; flex-wrap: wrap; gap: 0.5rem;">
+              ${evoCardsHTML}
+            </div>
           </div>
+        `;
+      }
+    } else if (this.activeModalTab === 'moves') {
+      const moves = p.moves || [];
+      const filteredMoves = moves.filter(m => m.method === this.movesMethodFilter);
 
-          ${tabsHTML}
-          ${formPillsModal}
-
-          <div style="width: 180px; height: 180px; margin: 0 auto 1.5rem auto;">
-            <img src="${p.media.officialArtworkUrl || p.media.spriteUrl}" alt="${p.name}" style="width: 100%; height: 100%; object-fit: contain; filter: drop-shadow(0 12px 20px rgba(0,0,0,0.5));">
-          </div>
-
-          <div style="display: flex; justify-content: center; gap: 2rem; background: rgba(15,23,42,0.6); padding: 0.75rem 1.5rem; border-radius: 16px; margin-bottom: 1.5rem; font-size: 0.9rem;">
-            <div><strong>Altura:</strong> ${(p.height / 10).toFixed(1)} m</div>
-            <div><strong>Peso:</strong> ${(p.weight / 10).toFixed(1)} kg</div>
-          </div>
-
-          <div style="text-align: left; background: rgba(15,23,42,0.4); padding: 1.25rem; border-radius: 16px; margin-bottom: 1.5rem;">
-            <h4 style="font-size: 0.95rem; text-transform: uppercase; letter-spacing: 0.05em; color: #94a3b8; margin-bottom: 0.75rem;">Estatísticas Base (Base Stats)</h4>
-            ${statsHTML}
-          </div>
-
-          <button id="modal-cry-btn" class="cry-btn" style="width: 100%; justify-content: center; padding: 0.75rem; font-size: 1rem;">
-            🔊 Play Cry Audio
-          </button>
+      const movesSubTabsHTML = `
+        <div style="display: flex; gap: 0.5rem; justify-content: center; margin-bottom: 1rem;">
+          <button id="moves-subtab-level" class="form-pill ${this.movesMethodFilter === 'level-up' ? 'active' : ''}" style="font-size: 0.8rem; padding: 0.35rem 0.75rem;">⬆️ Nível (${moves.filter(m => m.method === 'level-up').length})</button>
+          <button id="moves-subtab-egg" class="form-pill ${this.movesMethodFilter === 'egg' ? 'active' : ''}" style="font-size: 0.8rem; padding: 0.35rem 0.75rem;">🥚 Cruzamento (${moves.filter(m => m.method === 'egg').length})</button>
+          <button id="moves-subtab-machine" class="form-pill ${this.movesMethodFilter === 'machine' ? 'active' : ''}" style="font-size: 0.8rem; padding: 0.35rem 0.75rem;">💿 TMs/HMs (${moves.filter(m => m.method === 'machine').length})</button>
         </div>
       `;
+
+      const movesGridHTML = filteredMoves.length === 0
+        ? `<div style="padding: 1.5rem; color: #94a3b8; font-size: 0.85rem; text-align: center;">Nenhum golpe registrado nesta categoria.</div>`
+        : filteredMoves.map(m => {
+            const typeColor = TYPE_COLORS[m.type.toLowerCase()] || '#a8a77a';
+            return `
+              <div style="background: rgba(15,23,42,0.6); padding: 0.6rem 0.85rem; border-radius: 10px; display: flex; align-items: center; justify-content: space-between; border: 1px solid rgba(255,255,255,0.08);">
+                <div style="display: flex; align-items: center; gap: 0.6rem;">
+                  <span class="type-badge" style="background: ${typeColor}; padding: 0.2rem 0.5rem; font-size: 0.7rem;">${m.type}</span>
+                  <div>
+                    <div style="font-weight: 700; font-size: 0.85rem; color: #f8fafc;">${m.name}</div>
+                    <div style="font-size: 0.7rem; color: #94a3b8;">${m.damageClass || 'Status'} ${m.power ? `• Power ${m.power}` : ''}</div>
+                  </div>
+                </div>
+                ${m.level ? `<span style="font-size: 0.75rem; font-weight: 800; color: #38bdf8; background: rgba(56,189,248,0.1); padding: 0.2rem 0.5rem; border-radius: 6px;">Nv. ${m.level}</span>` : ''}
+              </div>
+            `;
+          }).join('');
+
+      tabBodyHTML = `
+        <div style="text-align: left; background: rgba(15,23,42,0.4); padding: 1.25rem; border-radius: 16px; margin-bottom: 1.25rem;">
+          <h4 style="font-size: 0.95rem; text-transform: uppercase; letter-spacing: 0.05em; color: #38bdf8; margin-bottom: 0.75rem; text-align: center;">📜 Golpes Aprendidos</h4>
+          ${movesSubTabsHTML}
+          <div style="display: grid; grid-template-columns: repeat(auto-fill, minmax(220px, 1fr)); gap: 0.5rem; max-height: 320px; overflow-y: auto; padding-right: 0.25rem;">
+            ${movesGridHTML}
+          </div>
+        </div>
+      `;
+    } else if (this.activeModalTab === 'encounters') {
+      const encounters = p.encounters || [];
+      if (encounters.length === 0) {
+        tabBodyHTML = `<div style="padding: 2rem; color: #94a3b8; font-size: 0.9rem;">Este Pokémon não é encontrado em estado selvagem direto nos jogos mapeados (ex: Inicial, Lendário ou Evolução Exclusiva por Troca).</div>`;
+      } else {
+        const encountersListHTML = encounters.map(e => `
+          <div style="background: rgba(15,23,42,0.6); padding: 0.75rem 1rem; border-radius: 12px; display: flex; align-items: center; justify-content: space-between; margin-bottom: 0.5rem; border: 1px solid rgba(255,255,255,0.08);">
+            <div>
+              <div style="font-weight: 800; font-size: 0.85rem; color: #38bdf8;">🎮 Versão: ${e.game}</div>
+              <div style="font-size: 0.8rem; color: #cbd5e1;">📍 Local: ${e.location}</div>
+            </div>
+            <span style="font-size: 0.75rem; font-weight: 800; color: #4ade80; background: rgba(74,222,128,0.1); padding: 0.25rem 0.6rem; border-radius: 8px;">Níveis ${e.minLevel} - ${e.maxLevel}</span>
+          </div>
+        `).join('');
+
+        tabBodyHTML = `
+          <div style="text-align: left; background: rgba(15,23,42,0.4); padding: 1.25rem; border-radius: 16px; margin-bottom: 1.25rem;">
+            <h4 style="font-size: 0.95rem; text-transform: uppercase; letter-spacing: 0.05em; color: #38bdf8; margin-bottom: 0.75rem; text-align: center;">🗺️ Locais de Encontro nos Jogos</h4>
+            <div style="max-height: 320px; overflow-y: auto; padding-right: 0.25rem;">
+              ${encountersListHTML}
+            </div>
+          </div>
+        `;
+      }
     } else {
+      // Competitive tab with multi-builds prioritizing Champions / Gen 9
       const compData = await this.smogonService.getCompetitiveData(p.name);
       
       const warningBanner = compData.isOfflineFallback
@@ -483,10 +622,10 @@ class PokedexApp {
            </div>`
         : '';
 
-      const movesetsHTML = compData.movesets.map((m: MovesetOption) => `
-        <div style="background: rgba(15,23,42,0.6); padding: 1.1rem; border-radius: 14px; margin-bottom: 1rem; text-align: left; border: 1px solid rgba(255,255,255,0.08);">
+      const movesetsHTML = compData.movesets.map((m: MovesetOption, buildIdx: number) => `
+        <div style="background: rgba(15,23,42,0.6); padding: 1.1rem; border-radius: 14px; margin-bottom: 1rem; text-align: left; border: 1px solid ${buildIdx === 0 ? '#38bdf8' : 'rgba(255,255,255,0.08)'}; box-shadow: ${buildIdx === 0 ? '0 0 15px rgba(56,189,248,0.2)' : 'none'};">
           <div style="font-weight: 800; color: #38bdf8; font-size: 1.05rem; margin-bottom: 0.6rem; display: flex; align-items: center; justify-content: space-between;">
-            <span>🎯 Build: ${m.name}</span>
+            <span>🎯 Build #${buildIdx + 1}: ${m.name} ${buildIdx === 0 ? '<span style="font-size: 0.7rem; background: #38bdf8; color: #0f172a; padding: 0.15rem 0.5rem; border-radius: 6px; font-weight: 800; margin-left: 0.5rem;">META PRINCIPAL / CHAMPIONS</span>' : ''}</span>
           </div>
           <div style="font-size: 0.85rem; color: #cbd5e1; margin-bottom: 0.75rem; display: grid; grid-template-columns: 1fr 1fr; gap: 0.5rem; background: rgba(0,0,0,0.2); padding: 0.75rem; border-radius: 10px;">
             <div><strong style="color: #94a3b8;">Habilidade:</strong> <span style="color: #f1f5f9;">${m.abilities.join(' / ')}</span></div>
@@ -506,26 +645,76 @@ class PokedexApp {
         </div>
       `).join('');
 
-      this.modalContent.innerHTML = `
-        <div style="text-align: center;">
-          <span style="font-size: 0.9rem; font-weight: 800; color: #94a3b8;">${formattedId}</span>
-          <h2 style="font-size: 2rem; font-weight: 800; text-transform: capitalize; margin: 0.2rem 0 0.8rem 0;">${p.name}</h2>
-          ${typeBadges}
-          ${tabsHTML}
-          ${warningBanner}
-          <div style="display: flex; justify-content: space-around; background: rgba(30,41,59,0.7); padding: 1rem; border-radius: 16px; margin-bottom: 1.25rem; font-size: 0.9rem;">
-            <div><div style="font-size: 0.75rem; color: #94a3b8; font-weight: 700; text-transform: uppercase;">Tier Smogon</div><div style="font-size: 1.25rem; font-weight: 800; color: #38bdf8;">${compData.tier}</div></div>
-            <div><div style="font-size: 0.75rem; color: #94a3b8; font-weight: 700; text-transform: uppercase;">Recomendação</div><div style="font-size: 0.85rem; font-weight: 600; color: #e2e8f0;">${compData.recommendedEvs}</div></div>
-          </div>
-          ${movesetsHTML}
+      tabBodyHTML = `
+        ${warningBanner}
+        <div style="display: flex; justify-content: space-around; background: rgba(30,41,59,0.7); padding: 1rem; border-radius: 16px; margin-bottom: 1.25rem; font-size: 0.9rem;">
+          <div><div style="font-size: 0.75rem; color: #94a3b8; font-weight: 700; text-transform: uppercase;">Tier Smogon</div><div style="font-size: 1.25rem; font-weight: 800; color: #38bdf8;">${compData.tier}</div></div>
+          <div><div style="font-size: 0.75rem; color: #94a3b8; font-weight: 700; text-transform: uppercase;">EV Spread Recomendado</div><div style="font-size: 0.85rem; font-weight: 600; color: #e2e8f0;">${compData.recommendedEvs}</div></div>
         </div>
+        ${movesetsHTML}
       `;
     }
 
+    // Combine Full Modal HTML
+    this.modalContent.innerHTML = `
+      <div style="text-align: center;">
+        <span style="font-size: 0.9rem; font-weight: 800; color: #94a3b8;">${formattedId}</span>
+        <h2 style="font-size: 2rem; font-weight: 800; text-transform: capitalize; margin: 0.2rem 0 0.8rem 0;">${p.name}</h2>
+        
+        <div style="display: flex; justify-content: center; gap: 0.5rem; margin-bottom: 1.25rem;">
+          ${typeBadges}
+        </div>
+
+        ${shinyToggleHTML}
+        ${tabsHTML}
+        ${formPillsModal}
+
+        ${tabBodyHTML}
+      </div>
+    `;
+
+    // Attach Tab Event Listeners
     const tabGenBtn = document.getElementById('modal-tab-general');
+    const tabEvoBtn = document.getElementById('modal-tab-evolution');
+    const tabMovesBtn = document.getElementById('modal-tab-moves');
+    const tabEncBtn = document.getElementById('modal-tab-encounters');
     const tabCompBtn = document.getElementById('modal-tab-competitive');
+    const shinyToggleBtn = document.getElementById('modal-shiny-toggle');
+
     if (tabGenBtn) tabGenBtn.addEventListener('click', () => { this.activeModalTab = 'general'; this.renderModalContent(group); });
+    if (tabEvoBtn) tabEvoBtn.addEventListener('click', () => { this.activeModalTab = 'evolution'; this.renderModalContent(group); });
+    if (tabMovesBtn) tabMovesBtn.addEventListener('click', () => { this.activeModalTab = 'moves'; this.renderModalContent(group); });
+    if (tabEncBtn) tabEncBtn.addEventListener('click', () => { this.activeModalTab = 'encounters'; this.renderModalContent(group); });
     if (tabCompBtn) tabCompBtn.addEventListener('click', () => { this.activeModalTab = 'competitive'; this.renderModalContent(group); });
+
+    if (shinyToggleBtn) {
+      shinyToggleBtn.addEventListener('click', () => {
+        this.isShinyActive = !this.isShinyActive;
+        this.renderModalContent(group);
+      });
+    }
+
+    // Attach Sub-tabs Event Listeners for Moves
+    const mLevelBtn = document.getElementById('moves-subtab-level');
+    const mEggBtn = document.getElementById('moves-subtab-egg');
+    const mMachBtn = document.getElementById('moves-subtab-machine');
+
+    if (mLevelBtn) mLevelBtn.addEventListener('click', () => { this.movesMethodFilter = 'level-up'; this.renderModalContent(group); });
+    if (mEggBtn) mEggBtn.addEventListener('click', () => { this.movesMethodFilter = 'egg'; this.renderModalContent(group); });
+    if (mMachBtn) mMachBtn.addEventListener('click', () => { this.movesMethodFilter = 'machine'; this.renderModalContent(group); });
+
+    // Evolution Cards Click Navigation
+    (p.evolutionChain || []).forEach(step => {
+      const evoCard = document.getElementById(`evo-step-${step.speciesId}`);
+      if (evoCard) {
+        evoCard.addEventListener('click', () => {
+          const matchedGroup = this.speciesGroups.find(g => g.speciesId === step.speciesId);
+          if (matchedGroup) {
+            this.openModal(matchedGroup);
+          }
+        });
+      }
+    });
 
     group.varieties.forEach(v => {
       const modalPill = document.getElementById(`modal-pill-${group.speciesId}-${v.id}`);
