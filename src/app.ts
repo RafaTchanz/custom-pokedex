@@ -36,6 +36,8 @@ interface PokemonMedia {
   spriteUrl: string;
   shinyArtwork?: string;
   shinySpriteFront?: string;
+  shinyOfficialArtworkUrl?: string;
+  shinySpriteUrl?: string;
   cryUrl: string;
   hasCry: boolean;
 }
@@ -52,6 +54,7 @@ interface PokemonCardData {
   isDefault: boolean;
   moves?: PokemonMove[];
   evolutionChain?: PokemonEvolutionStep[];
+  obtainMethod?: string;
   encounters?: PokemonEncounter[];
 }
 
@@ -590,28 +593,36 @@ class PokedexApp {
       `;
     } else if (this.activeModalTab === 'encounters') {
       const encounters = p.encounters || [];
-      if (encounters.length === 0) {
-        tabBodyHTML = `<div style="padding: 2rem; color: #94a3b8; font-size: 0.9rem;">Este Pokémon não é encontrado em estado selvagem direto nos jogos mapeados (ex: Inicial, Lendário ou Evolução Exclusiva por Troca).</div>`;
-      } else {
-        const encountersListHTML = encounters.map(e => `
+      const mainMethodHTML = p.obtainMethod
+        ? `<div style="background: rgba(56,189,248,0.15); border: 1px solid rgba(56,189,248,0.4); padding: 0.85rem 1rem; border-radius: 14px; margin-bottom: 1rem; text-align: center;">
+             <div style="font-size: 0.75rem; color: #94a3b8; font-weight: 700; text-transform: uppercase; margin-bottom: 0.2rem;">📌 Método Principal de Obtenção</div>
+             <div style="font-size: 0.95rem; font-weight: 800; color: #38bdf8;">${p.obtainMethod}</div>
+           </div>`
+        : '';
+
+      const encountersListHTML = encounters.length === 0
+        ? `<div style="padding: 1.5rem; color: #94a3b8; font-size: 0.85rem; text-align: center;">
+             Este Pokémon não possui encontros selvagens diretos mapeados em rotas comuns (Obtenção via Evolução, Escolha de Inicial ou Eventos/Raids).
+           </div>`
+        : encounters.map(e => `
           <div style="background: rgba(15,23,42,0.6); padding: 0.75rem 1rem; border-radius: 12px; display: flex; align-items: center; justify-content: space-between; margin-bottom: 0.5rem; border: 1px solid rgba(255,255,255,0.08);">
             <div>
-              <div style="font-weight: 800; font-size: 0.85rem; color: #38bdf8;">🎮 Versão: ${e.game}</div>
+              <div style="font-weight: 800; font-size: 0.85rem; color: #38bdf8;">🎮 Jogo: ${e.game}</div>
               <div style="font-size: 0.8rem; color: #cbd5e1;">📍 Local: ${e.location}</div>
             </div>
             <span style="font-size: 0.75rem; font-weight: 800; color: #4ade80; background: rgba(74,222,128,0.1); padding: 0.25rem 0.6rem; border-radius: 8px;">Níveis ${e.minLevel} - ${e.maxLevel}</span>
           </div>
         `).join('');
 
-        tabBodyHTML = `
-          <div style="text-align: left; background: rgba(15,23,42,0.4); padding: 1.25rem; border-radius: 16px; margin-bottom: 1.25rem;">
-            <h4 style="font-size: 0.95rem; text-transform: uppercase; letter-spacing: 0.05em; color: #38bdf8; margin-bottom: 0.75rem; text-align: center;">🗺️ Locais de Encontro nos Jogos</h4>
-            <div style="max-height: 320px; overflow-y: auto; padding-right: 0.25rem;">
-              ${encountersListHTML}
-            </div>
+      tabBodyHTML = `
+        <div style="text-align: left; background: rgba(15,23,42,0.4); padding: 1.25rem; border-radius: 16px; margin-bottom: 1.25rem;">
+          <h4 style="font-size: 0.95rem; text-transform: uppercase; letter-spacing: 0.05em; color: #38bdf8; margin-bottom: 0.75rem; text-align: center;">🗺️ Onde Encontrar / Como Obter no Jogo</h4>
+          ${mainMethodHTML}
+          <div style="max-height: 320px; overflow-y: auto; padding-right: 0.25rem;">
+            ${encountersListHTML}
           </div>
-        `;
-      }
+        </div>
+      `;
     } else {
       // Competitive tab with multi-builds prioritizing Champions / Gen 9
       const compData = await this.smogonService.getCompetitiveData(p.name);

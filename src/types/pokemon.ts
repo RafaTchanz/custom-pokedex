@@ -66,6 +66,7 @@ export interface Pokemon {
   media?: PokemonMedia;
   moves?: PokemonMove[];
   evolutionChain?: PokemonEvolutionStep[];
+  obtainMethod?: string;
   encounters?: PokemonEncounter[];
 }
 

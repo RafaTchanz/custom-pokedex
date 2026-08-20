@@ -54,13 +54,18 @@ parseCsv('moves.csv').forEach(row => {
   }
 });
 
+const speciesList = parseCsv('pokemon_species.csv');
 const speciesMap = {};
-parseCsv('pokemon_species.csv').forEach(row => {
+speciesList.forEach(row => {
   if (row.id && row.identifier) {
     speciesMap[row.id] = {
       id: parseInt(row.id, 10),
       name: row.identifier.charAt(0).toUpperCase() + row.identifier.slice(1),
-      chainId: row.evolution_chain_id
+      chainId: row.evolution_chain_id,
+      evolvesFromSpeciesId: row.evolves_from_species_id,
+      isLegendary: row.is_legendary === '1',
+      isMythical: row.is_mythical === '1',
+      isBaby: row.is_baby === '1'
     };
   }
 });
@@ -77,17 +82,17 @@ const evoTriggers = {
 };
 
 function getTriggerDetails(evoRow) {
-  if (!evoRow) return 'Base Form';
+  if (!evoRow) return 'Forma Base';
   const parts = [];
-  if (evoRow.minimum_level) parts.push(`Level ${evoRow.minimum_level}`);
-  if (evoRow.trigger_item_id && items[evoRow.trigger_item_id]) parts.push(`Use ${items[evoRow.trigger_item_id]}`);
-  if (evoRow.held_item_id && items[evoRow.held_item_id]) parts.push(`Hold ${items[evoRow.held_item_id]}`);
-  if (evoRow.minimum_happiness) parts.push(`High Friendship (${evoRow.minimum_happiness})`);
-  if (evoRow.time_of_day) parts.push(evoRow.time_of_day === 'day' ? 'Daytime' : 'Nighttime');
-  if (evoRow.known_move_id && moves[evoRow.known_move_id]) parts.push(`Knows ${moves[evoRow.known_move_id].name}`);
+  if (evoRow.minimum_level) parts.push(`Nível ${evoRow.minimum_level}`);
+  if (evoRow.trigger_item_id && items[evoRow.trigger_item_id]) parts.push(`Usar ${items[evoRow.trigger_item_id]}`);
+  if (evoRow.held_item_id && items[evoRow.held_item_id]) parts.push(`Segurando ${items[evoRow.held_item_id]}`);
+  if (evoRow.minimum_happiness) parts.push(`Alta Amizade (${evoRow.minimum_happiness})`);
+  if (evoRow.time_of_day) parts.push(evoRow.time_of_day === 'day' ? 'Durante o Dia' : 'Durante a Noite');
+  if (evoRow.known_move_id && moves[evoRow.known_move_id]) parts.push(`Conhecendo ${moves[evoRow.known_move_id].name}`);
   
   if (parts.length > 0) return parts.join(' + ');
-  return evoTriggers[evoRow.evolution_trigger_id] || 'Special Condition';
+  return evoTriggers[evoRow.evolution_trigger_id] || 'Condição Especial';
 }
 
 const chainMap = {};
@@ -109,10 +114,20 @@ parseCsv('abilities.csv').forEach(row => {
   }
 });
 
+const versionNames = {
+  'red': 'Red', 'blue': 'Blue', 'yellow': 'Yellow', 'gold': 'Gold', 'silver': 'Silver', 'crystal': 'Crystal',
+  'ruby': 'Ruby', 'sapphire': 'Sapphire', 'emerald': 'Emerald', 'firered': 'FireRed', 'leafgreen': 'LeafGreen',
+  'diamond': 'Diamond', 'pearl': 'Pearl', 'platinum': 'Platinum', 'heartgold': 'HeartGold', 'soulsilver': 'SoulSilver',
+  'black': 'Black', 'white': 'White', 'black-2': 'Black 2', 'white-2': 'White 2', 'x': 'Pokémon X', 'y': 'Pokémon Y',
+  'omega-ruby': 'Omega Ruby', 'alpha-sapphire': 'Alpha Sapphire', 'sun': 'Sun', 'moon': 'Moon', 'ultra-sun': 'Ultra Sun',
+  'ultra-moon': 'Ultra Moon', 'lets-go-pikachu': "Let's Go Pikachu", 'lets-go-eevee': "Let's Go Eevee",
+  'sword': 'Sword', 'shield': 'Shield', 'scarlet': 'Scarlet', 'violet': 'Violet'
+};
+
 const versions = {};
 parseCsv('versions.csv').forEach(row => {
   if (row.id && row.identifier) {
-    versions[row.id] = row.identifier.split('-').map(w => w.charAt(0).toUpperCase() + w.slice(1)).join(' ');
+    versions[row.id] = versionNames[row.identifier] || row.identifier.split('-').map(w => w.charAt(0).toUpperCase() + w.slice(1)).join(' ');
   }
 });
 
@@ -131,6 +146,9 @@ parseCsv('location_areas.csv').forEach(row => {
 });
 
 const encountersList = parseCsv('encounters.csv');
+
+// List of Starter species IDs
+const starterIds = [1,4,7,152,155,158,252,255,258,387,390,393,495,498,501,650,653,656,722,725,728,810,813,816,906,909,912];
 
 console.log('🔄 Processando Pokémons e gerando dataset enriquecido...');
 
@@ -157,7 +175,7 @@ const enrichedPokemon = pokemonList.map(pRow => {
     .sort((a, b) => parseInt(a.slot, 10) - parseInt(b.slot, 10))
     .map(a => ({ name: abilitiesDict[a.ability_id] || `Ability ${a.ability_id}`, isHidden: a.is_hidden === '1', slot: parseInt(a.slot, 10) }));
 
-  // Media URLs - EXACT PROPERTY NAMES expected by MediaProvider / app.ts!
+  // Media URLs
   const media = {
     officialArtworkUrl: `https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/${id}.png`,
     spriteUrl: `https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/${id}.png`,
@@ -185,11 +203,26 @@ const enrichedPokemon = pokemonList.map(pRow => {
     });
   }
 
+  // Obtain Method Classification
+  let obtainMethod = 'Encontro Selvagem Nulo / Especial';
+  if (species) {
+    if (species.evolvesFromSpeciesId) {
+      const parentSpecies = speciesMap[species.evolvesFromSpeciesId];
+      const parentName = parentSpecies ? parentSpecies.name : 'Estágio Anterior';
+      const evoRow = evolutions.find(e => e.evolved_species_id === speciesId.toString());
+      const triggerInfo = getTriggerDetails(evoRow);
+      obtainMethod = `Evolução de ${parentName} (${triggerInfo})`;
+    } else if (starterIds.includes(speciesId)) {
+      obtainMethod = `Pokémon Inicial (Escolha de Inicial pelo Professor do jogo / Presente Especial)`;
+    } else if (species.isLegendary || species.isMythical) {
+      obtainMethod = `Pokémon Lendário / Mítico (Encontro Especial de História / Evento)`;
+    }
+  }
+
   // Moves Parsing: Robust parsing per method across version groups
   const pMoves = pokemonMovesList.filter(m => m.pokemon_id === pRow.id);
   const finalMovesMap = new Map();
 
-  // 1. Level-up moves (method === '1')
   const lvlRows = pMoves.filter(m => m.pokemon_move_method_id === '1');
   if (lvlRows.length > 0) {
     const lvlMaxVg = Math.max(...lvlRows.map(m => parseInt(m.version_group_id || '0', 10)));
@@ -209,7 +242,6 @@ const enrichedPokemon = pokemonList.map(pRow => {
     });
   }
 
-  // 2. Egg moves (method === '2')
   const eggRows = pMoves.filter(m => m.pokemon_move_method_id === '2');
   if (eggRows.length > 0) {
     const eggMaxVg = Math.max(...eggRows.map(m => parseInt(m.version_group_id || '0', 10)));
@@ -228,7 +260,6 @@ const enrichedPokemon = pokemonList.map(pRow => {
     });
   }
 
-  // 3. TM/HM / Machine / Tutor moves (method === '4' or '12' or '3')
   const tmRows = pMoves.filter(m => m.pokemon_move_method_id === '4' || m.pokemon_move_method_id === '12' || m.pokemon_move_method_id === '3');
   if (tmRows.length > 0) {
     const tmMaxVg = Math.max(...tmRows.map(m => parseInt(m.version_group_id || '0', 10)));
@@ -256,16 +287,41 @@ const enrichedPokemon = pokemonList.map(pRow => {
     return a.name.localeCompare(b.name);
   });
 
-  // Encounters
-  const pEncounters = encountersList.filter(e => e.pokemon_id === pRow.id).slice(0, 8);
-  const encounters = pEncounters.map(e => {
+  // Encounters Grouping & Clean Formatting
+  const rawEncounters = encountersList.filter(e => e.pokemon_id === pRow.id);
+  const gameEncounterMap = {};
+
+  rawEncounters.forEach(e => {
+    const game = versions[e.version_id] || `Versão ${e.version_id}`;
     const locId = locationAreas[e.location_area_id];
-    return {
-      game: versions[e.version_id] || `Version ${e.version_id}`,
-      location: locationNames[locId] || `Area ${e.location_area_id}`,
-      minLevel: parseInt(e.min_level || '1', 10),
-      maxLevel: parseInt(e.max_level || '1', 10)
-    };
+    const locName = locationNames[locId] || `Área ${e.location_area_id}`;
+    const min = parseInt(e.min_level || '1', 10);
+    const max = parseInt(e.max_level || '1', 10);
+
+    if (!gameEncounterMap[game]) {
+      gameEncounterMap[game] = [];
+    }
+    gameEncounterMap[game].push({ location: locName, min, max });
+  });
+
+  const formattedEncounters = [];
+  Object.keys(gameEncounterMap).forEach(game => {
+    const locList = gameEncounterMap[game];
+    const uniqueLocs = [...new Set(locList.map(l => l.location))];
+    const minLevel = Math.min(...locList.map(l => l.min));
+    const maxLevel = Math.max(...locList.map(l => l.max));
+
+    let locString = uniqueLocs.join(', ');
+    if (uniqueLocs.length > 4) {
+      locString = `${uniqueLocs.slice(0, 3).join(', ')} e outras rotas da região (Aparição Rara no Céu / Campo)`;
+    }
+
+    formattedEncounters.push({
+      game,
+      location: locString,
+      minLevel,
+      maxLevel
+    });
   });
 
   return {
@@ -282,8 +338,9 @@ const enrichedPokemon = pokemonList.map(pRow => {
     abilities,
     media,
     evolutionChain,
+    obtainMethod,
     moves: finalMoves,
-    encounters
+    encounters: formattedEncounters
   };
 });
 
