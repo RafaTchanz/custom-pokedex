@@ -328,6 +328,39 @@ body {
   box-shadow: 0 0 12px rgba(245, 158, 11, 0.4);
 }
 
+/* Card Shiny Button */
+.card-shiny-btn {
+  position: absolute;
+  top: 0.85rem;
+  left: 0.85rem;
+  padding: 0.25rem 0.6rem;
+  background: rgba(245, 158, 11, 0.14);
+  border: 1px solid rgba(245, 158, 11, 0.4);
+  color: #fbbf24;
+  border-radius: 9999px;
+  font-size: 0.725rem;
+  font-weight: 800;
+  cursor: pointer;
+  transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+  backdrop-filter: blur(8px);
+  z-index: 5;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.2);
+}
+
+.card-shiny-btn:hover {
+  background: rgba(245, 158, 11, 0.35);
+  color: white;
+  transform: scale(1.06);
+  box-shadow: 0 4px 12px rgba(245, 158, 11, 0.3);
+}
+
+.card-shiny-btn.active {
+  background: linear-gradient(135deg, #f59e0b, #ef4444);
+  color: white;
+  border-color: #f59e0b;
+  box-shadow: 0 0 12px rgba(245, 158, 11, 0.5);
+}
+
 .btn-3d {
   border-color: rgba(56, 189, 248, 0.4);
   color: #38bdf8;
