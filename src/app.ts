@@ -380,6 +380,11 @@ class PokedexApp {
     if (imgEl) {
       imgEl.src = this.getCardImageUrl(p, group.speciesId);
       imgEl.alt = p.name;
+      if (this.isGlobal3DActive) {
+        imgEl.classList.remove('hd-art');
+      } else {
+        imgEl.classList.add('hd-art');
+      }
     }
 
     const shinyBtn = document.getElementById(`card-shiny-btn-${group.speciesId}`);
@@ -434,13 +439,14 @@ class PokedexApp {
       : '';
 
     const imgUrl = this.getCardImageUrl(p, group.speciesId);
+    const hdClass = this.isGlobal3DActive ? '' : 'hd-art';
 
     return `
       <div id="species-card-${group.speciesId}" class="pokemon-card">
         <button id="card-shiny-btn-${group.speciesId}" class="card-shiny-btn ${isShiny ? 'active' : ''}" title="Alternar forma Shiny">✨ Shiny</button>
         <span class="card-number">${formattedId}</span>
         <div class="card-img-container">
-          <img class="card-artwork" src="${imgUrl}" alt="${p.name}" loading="lazy" onerror="this.src='${p.media.spriteUrl}'">
+          <img class="card-artwork ${hdClass}" src="${imgUrl}" alt="${p.name}" loading="lazy" onerror="this.src='${p.media.spriteUrl}'">
         </div>
         <h3 class="card-title">${p.name}</h3>
         <div class="type-badges">
@@ -521,7 +527,7 @@ class PokedexApp {
             `</div></div>`
         : '';
 
-      // Expanded Hero Image & 3D Model Display (220px Container, High-Res Vector Crisp!)
+      // Natural Proportional Image Display (Preserves character scale proportions!)
       let imgDisplayUrl = '';
       if (this.is3DModelActive) {
         imgDisplayUrl = this.isShinyActive
@@ -533,9 +539,11 @@ class PokedexApp {
           : (p.media.officialArtworkUrl || p.media.spriteUrl);
       }
 
+      const hdClassModal = this.is3DModelActive ? '' : 'hd-art';
+
       const mediaHeroHTML = `
-        <div style="width: 220px; height: 220px; margin: 0 auto 1.25rem auto; display: flex; align-items: center; justify-content: center; position: relative; background: radial-gradient(circle, rgba(56,189,248,0.16) 0%, transparent 70%); border-radius: 50%;">
-          <img src="${imgDisplayUrl}" alt="${p.name}" style="max-width: 100%; max-height: 100%; object-fit: contain; filter: drop-shadow(0 14px 28px rgba(0,0,0,0.6)); transition: all 0.3s ease;" onerror="this.src='${p.media.officialArtworkUrl || p.media.spriteUrl}'">
+        <div class="modal-hero-container">
+          <img class="modal-hero-img ${hdClassModal}" src="${imgDisplayUrl}" alt="${p.name}" onerror="this.src='${p.media.officialArtworkUrl || p.media.spriteUrl}'">
         </div>
       `;
 
