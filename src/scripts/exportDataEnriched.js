@@ -157,7 +157,7 @@ parseCsv('location_areas.csv').forEach(row => {
 const encountersList = parseCsv('encounters.csv');
 const starterIds = [1,4,7,152,155,158,252,255,258,387,390,393,495,498,501,650,653,656,722,725,728,810,813,816,906,909,912];
 
-console.log('🔄 Processando Pokémons e gerando dataset enriquecido...');
+console.log('🔄 Processando Pokémons e gerando dataset enriquecido com suporte total a variantes...');
 
 const enrichedPokemon = pokemonList.map(pRow => {
   const id = parseInt(pRow.id, 10);
@@ -226,8 +226,12 @@ const enrichedPokemon = pokemonList.map(pRow => {
     }
   }
 
-  // Moves Parsing
-  const pMoves = pokemonMovesList.filter(m => m.pokemon_id === pRow.id);
+  // Moves Parsing: Robust variant movepool fallback to base species if direct moves is empty
+  let pMoves = pokemonMovesList.filter(m => m.pokemon_id === pRow.id);
+  if (pMoves.length === 0 && speciesId) {
+    pMoves = pokemonMovesList.filter(m => m.pokemon_id === speciesId.toString());
+  }
+
   const finalMovesMap = new Map();
 
   const lvlRows = pMoves.filter(m => m.pokemon_move_method_id === '1');
@@ -295,7 +299,11 @@ const enrichedPokemon = pokemonList.map(pRow => {
   });
 
   // Encounters Grouping & Level Sanity Validation
-  const rawEncounters = encountersList.filter(e => e.pokemon_id === pRow.id);
+  let rawEncounters = encountersList.filter(e => e.pokemon_id === pRow.id);
+  if (rawEncounters.length === 0 && speciesId) {
+    rawEncounters = encountersList.filter(e => e.pokemon_id === speciesId.toString());
+  }
+
   const minEvoLvl = evoMinLevels[speciesId.toString()] || 1;
   const gameEncounterMap = {};
 
@@ -306,7 +314,6 @@ const enrichedPokemon = pokemonList.map(pRow => {
     let min = parseInt(e.min_level || '1', 10);
     let max = parseInt(e.max_level || '1', 10);
 
-    // Sanity check: An evolved Pokémon cannot be found below its evolution level
     if (min < minEvoLvl) {
       min = minEvoLvl;
     }
