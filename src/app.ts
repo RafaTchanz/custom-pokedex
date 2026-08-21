@@ -1336,6 +1336,55 @@ class PokedexApp {
     return true;
   }
 
+  private getFormatLegalSpeciesGroups(): PokemonSpeciesGroup[] {
+    const mode = this.teamBuilderService.formatMode;
+    return this.speciesGroups.filter(g => {
+      const p = g.selectedPokemon;
+      const getShowdownData = (pCard: PokemonCardData) => {
+        if (!this.showdownFormatsMap || Object.keys(this.showdownFormatsMap).length === 0) return null;
+        let key = pCard.name.toLowerCase().replace(/[^a-z0-9]/g, '');
+        if (this.showdownFormatsMap[key]) return this.showdownFormatsMap[key];
+        const baseName = pCard.name.split('-')[0];
+        key = baseName.toLowerCase().replace(/[^a-z0-9]/g, '');
+        return this.showdownFormatsMap[key] || null;
+      };
+
+      const fd = getShowdownData(p);
+      const pName = p.name.toLowerCase();
+
+      const isIllegal = (data: any) => {
+        if (!data) return false;
+        if (data.tier === 'Illegal') return true;
+        if (data.isNonstandard && ['Past', 'LGPE', 'Future', 'Custom', 'CAP', 'Unobtainable'].includes(data.isNonstandard)) return true;
+        return false;
+      };
+
+      if (mode === 'scarlet-violet') {
+        const isMega = pName.includes('-mega') || pName.includes('primal-');
+        if (isMega) return false;
+        if (isIllegal(fd)) return false;
+      } else if (mode === 'champions') {
+        if (this.bulbapediaChampionsData && this.bulbapediaChampionsData.ndexes.size > 0) {
+          if (!this.bulbapediaChampionsData.ndexes.has(p.id)) return false;
+          const isMega = pName.includes('-mega') || pName.includes('primal-');
+          if (!isMega && pName.includes('-')) {
+            const baseName = pName.split('-')[0];
+            const suffix = pName.substring(baseName.length + 1);
+            if (!this.bulbapediaChampionsData.forms.has(pName) && !this.bulbapediaChampionsData.forms.has(`${baseName}-${suffix.split('-')[0]}`)) {
+              return false;
+            }
+          }
+        }
+      } else if (mode === 'national-dex') {
+        if (fd) {
+          if (fd.tier === 'Illegal' || fd.natDexTier === 'Illegal') return false;
+          if (fd.isNonstandard && ['Custom', 'CAP', 'Unobtainable'].includes(fd.isNonstandard)) return false;
+        }
+      }
+      return true;
+    });
+  }
+
   private getFilteredAndSortedTeamBuilderSpecies(): PokemonSpeciesGroup[] {
     const query = this.tbSearchQuery.toLowerCase().trim();
 
@@ -2294,7 +2343,7 @@ class PokedexApp {
     });
   }
 
-  private assignPokemonToSlot(slotIndex: number, speciesId: number, autoScroll: boolean = true): void {
+  private assignPokemonToSlot(slotIndex: number, speciesId: number, autoScroll: boolean = true, renderImmediately: boolean = true): void {
     const group = this.speciesGroups.find(g => g.speciesId === speciesId);
     if (!group) return;
 
@@ -2369,10 +2418,12 @@ class PokedexApp {
 
     this.activeSlotIndexToPick = slotIndex;
     this.teamBuilderService.saveToLocalStorage();
-    this.renderTeamBuilder();
 
-    if (autoScroll) {
-      this.scrollToActiveSlotEditor();
+    if (renderImmediately) {
+      this.renderTeamBuilder();
+      if (autoScroll) {
+        this.scrollToActiveSlotEditor();
+      }
     }
   }
 
@@ -2526,8 +2577,8 @@ class PokedexApp {
     const randomBtn = document.getElementById('random-team-btn');
     if (randomBtn) {
       randomBtn.addEventListener('click', () => {
-        // Filter species strictly by active format regulation
-        const legalGroups = [...this.getFilteredSpeciesGroups()];
+        // Filter species strictly by active format regulation (independent of search text or table filters)
+        const legalGroups = [...this.getFormatLegalSpeciesGroups()];
         if (legalGroups.length === 0) {
           alert('⚠️ Nenhum Pokémon disponível para o formato selecionado!');
           return;
@@ -2543,8 +2594,9 @@ class PokedexApp {
           if (available.length === 0) break;
           const randIdx = Math.floor(Math.random() * available.length);
           const pickedGroup = available.splice(randIdx, 1)[0];
-          this.assignPokemonToSlot(i, pickedGroup.speciesId, false);
+          this.assignPokemonToSlot(i, pickedGroup.speciesId, false, false);
         }
+
         this.activeSlotIndexToPick = 0;
         this.teamBuilderService.saveToLocalStorage();
         this.renderTeamBuilder();
