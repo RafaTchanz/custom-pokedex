@@ -1914,6 +1914,10 @@ class PokedexApp {
 
     if (this.activeSlotIndexToPick < 5) {
       this.activeSlotIndexToPick++;
+      const nextMember = this.teamBuilderService.members[this.activeSlotIndexToPick];
+      if (!nextMember || !nextMember.name) {
+        this.clearTeamBuilderTableFilters();
+      }
     }
 
     this.renderTeamBuilder();
@@ -1928,7 +1932,14 @@ class PokedexApp {
       card.addEventListener('click', () => {
         const slotIdx = parseInt(card.getAttribute('data-slot') || '0', 10);
         this.activeSlotIndexToPick = slotIdx;
+        const isEmpty = !this.teamBuilderService.members[slotIdx].name;
+        if (isEmpty) {
+          this.clearTeamBuilderTableFilters();
+        }
         this.renderTeamBuilder();
+        if (isEmpty) {
+          this.scrollToSpeciesTable();
+        }
       });
     });
 
@@ -1948,7 +1959,10 @@ class PokedexApp {
       btn.addEventListener('click', () => {
         const slotIdx = parseInt(btn.getAttribute('data-slot') || '0', 10);
         this.teamBuilderService.members[slotIdx] = this.teamBuilderService.createEmptyMember(slotIdx);
+        this.activeSlotIndexToPick = slotIdx;
+        this.clearTeamBuilderTableFilters();
         this.renderTeamBuilder();
+        this.scrollToSpeciesTable();
       });
     });
 
