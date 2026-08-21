@@ -1184,13 +1184,46 @@ class PokedexApp {
 
     const isChampions = this.teamBuilderService.formatMode === 'champions';
 
-    const membersHTML = this.teamBuilderService.members.map((m, slotIdx) => {
+    // SECTION 1: Top 6 Avatar Strip (Inspired by Reference Image 1)
+    const avatarsHTML = this.teamBuilderService.members.map((m, slotIdx) => {
+      const isSelected = this.activeSlotIndexToPick === slotIdx;
       if (!m.name) {
         return `
-          <div class="team-slot-card">
-            <button class="add-member-btn" data-slot="${slotIdx}">
-              <span class="add-plus-icon">+</span>
-              <span>Adicionar Pokémon #${slotIdx + 1}</span>
+          <div class="tb-avatar-card ${isSelected ? 'active-slot' : ''}" data-slot="${slotIdx}">
+            <div class="tb-avatar-circle" style="background: rgba(15,23,42,0.8);">
+              <span style="font-size: 1.5rem; color: var(--accent-blue);">+</span>
+            </div>
+            <div class="tb-avatar-name" style="color: #94a3b8;">Slot #${slotIdx + 1}</div>
+            <div style="font-size: 0.65rem; color: #64748b;">(Vazio)</div>
+          </div>
+        `;
+      }
+
+      const primaryType = (m.types && m.types[0]) ? m.types[0].toLowerCase() : 'normal';
+      const circleColor = TYPE_COLORS[primaryType] || '#a8a77a';
+      const typeBadges = (m.types || []).map(t => {
+        const bg = TYPE_COLORS[t.toLowerCase()] || '#a8a77a';
+        return `<span class="type-badge-pill" style="background: ${bg}; color: #fff; font-size: 0.6rem; padding: 0.1rem 0.35rem; border-radius: 4px; font-weight: 800;">${t}</span>`;
+      }).join(' ');
+
+      return `
+        <div class="tb-avatar-card ${isSelected ? 'active-slot' : ''}" data-slot="${slotIdx}">
+          <div class="tb-avatar-circle" style="background: radial-gradient(circle, ${circleColor}dd 0%, #1e293b 100%);">
+            <img src="${m.officialArtworkUrl || m.spriteUrl}" alt="${m.name}">
+          </div>
+          <div class="tb-avatar-name">${m.name}</div>
+          <div class="tb-avatar-types">${typeBadges}</div>
+        </div>
+      `;
+    }).join('');
+
+    // SECTION 2: 6 Detailed Team Member Cards (Inspired by Reference Image 3)
+    const cardsHTML = this.teamBuilderService.members.map((m, slotIdx) => {
+      if (!m.name) {
+        return `
+          <div class="tb-member-card" style="align-items: center; justify-content: center; min-height: 480px; border-style: dashed;">
+            <button class="tb-btn primary add-member-btn" data-slot="${slotIdx}">
+              <span>+ Adicionar Pokémon #${slotIdx + 1}</span>
             </button>
           </div>
         `;
@@ -1199,147 +1232,226 @@ class PokedexApp {
       const totalPoints = isChampions ? this.teamBuilderService.getChampionsTotalPoints(m) : this.teamBuilderService.getEVsTotalPoints(m);
       const maxTotal = isChampions ? 66 : 510;
       const typeBadges = (m.types || []).map(t => {
-        const color = TYPE_COLORS[t.toLowerCase()] || '#a8a77a';
-        return `<span class="type-badge" style="background: ${color}; font-size: 0.65rem; padding: 0.15rem 0.45rem;">${t}</span>`;
+        const bg = TYPE_COLORS[t.toLowerCase()] || '#a8a77a';
+        return `<span class="type-badge-pill" style="background: ${bg}; color: #fff; font-size: 0.65rem; padding: 0.12rem 0.45rem; border-radius: 6px; font-weight: 800;">${t}</span>`;
       }).join(' ');
 
-      const movesSelectHTML = [0, 1, 2, 3].map(moveIdx => {
-        const selectedMove = m.moves[moveIdx] || '';
-        const optionsHTML = `<option value="">-- Selecionar Golpe #${moveIdx + 1} --</option>` +
-          (m.availableMoves || []).map(mv => `<option value="${mv.name}" ${mv.name.toLowerCase() === selectedMove.toLowerCase() ? 'selected' : ''}>${mv.name} (${mv.type}${mv.power ? ` • ${mv.power} Pow` : ''})</option>`).join('');
+      // Moves Selects
+      const movesHTML = [0, 1, 2, 3].map(mIdx => {
+        const currentMove = m.moves[mIdx] || '';
+        const optionsHTML = `<option value="">-- Golpe #${mIdx + 1} --</option>` +
+          (m.availableMoves || []).map(mv => {
+            return `<option value="${mv.name}" ${mv.name.toLowerCase() === currentMove.toLowerCase() ? 'selected' : ''}>${mv.name} (${mv.type}${mv.power ? ` • ${mv.power} Pow` : ''})</option>`;
+          }).join('');
 
         return `
-          <div style="margin-bottom: 0.35rem;">
-            <select class="member-move-select" data-slot="${slotIdx}" data-move-idx="${moveIdx}" style="width: 100%; padding: 0.4rem; background: rgba(15,23,42,0.8); border: 1px solid var(--border-color); border-radius: 8px; color: #f8fafc; font-size: 0.775rem;">
+          <div class="tb-move-item">
+            <select class="tb-move-select member-move-select" data-slot="${slotIdx}" data-move-idx="${mIdx}">
               ${optionsHTML}
             </select>
           </div>
         `;
       }).join('');
 
-      const statKeys: (keyof StatBlock)[] = ['hp', 'atk', 'def', 'spa', 'spd', 'spe'];
-      const statLabels: Record<keyof StatBlock, string> = { hp: 'HP', atk: 'Atk', def: 'Def', spa: 'SpA', spd: 'SpD', spe: 'Spe' };
+      // Natures & Ability
+      const natureInfo = NATURES[m.nature || 'Hardy'] || NATURES['Hardy'];
+      const natureTagHTML = natureInfo.label !== 'Neutra'
+        ? `<span class="tb-nature-tag">${natureInfo.label}</span>`
+        : `<span class="tb-nature-tag" style="background: rgba(148,163,184,0.15); color: #94a3b8;">Neutra</span>`;
 
-      const statsInputsHTML = statKeys.map(k => {
-        const val = isChampions ? m.championsPoints[k] : m.evs[k];
+      const naturesOptions = Object.keys(NATURES).map(n => `<option value="${n}" ${m.nature === n ? 'selected' : ''}>${n}</option>`).join('');
+      const abilitiesOptions = (m.availableAbilities || ['Standard Ability']).map(ab => `<option value="${ab}" ${m.ability === ab ? 'selected' : ''}>${ab}</option>`).join('');
+      const itemsOptions = POPULAR_ITEMS.map(it => `<option value="${it}" ${m.item === it ? 'selected' : ''}>${it}</option>`).join('');
+      const teraOptions = ALL_TYPES.map(t => `<option value="${t.toUpperCase()}" ${m.teraType === t.toUpperCase() ? 'selected' : ''}>${t.charAt(0).toUpperCase() + t.slice(1)}</option>`).join('');
+
+      // Stats Bars Calculation (Image 3 style)
+      const statKeys: (keyof StatBlock)[] = ['hp', 'atk', 'def', 'spa', 'spd', 'spe'];
+      const statLabels: Record<keyof StatBlock, string> = { hp: 'HP', atk: 'Ataque', def: 'Defesa', spa: 'Atq.Esp', spd: 'Def.Esp', spe: 'Velocidade' };
+      const barClasses: Record<keyof StatBlock, string> = { hp: 'bar-hp', atk: 'bar-atk', def: 'bar-def', spa: 'bar-spa', spd: 'bar-spd', spe: 'bar-spe' };
+
+      let sumBase = 0;
+      let sumFinal = 0;
+
+      const statsRowsHTML = statKeys.map(k => {
+        const base = m.baseStats ? m.baseStats[k] || 80 : 80;
+        const invested = isChampions ? (m.championsPoints[k] || 0) : (m.evs[k] || 0);
+        const iv = m.ivs ? m.ivs[k] : 31;
+        const finalVal = this.teamBuilderService.calculateStat(k, base, invested, iv, m.nature);
+
+        sumBase += base;
+        sumFinal += finalVal;
+
         const maxSingle = isChampions ? 32 : 252;
+        const fillPercent = Math.min(100, Math.max(8, (finalVal / 320) * 100));
+
         return `
-          <div style="display: flex; align-items: center; justify-content: space-between; gap: 0.35rem; margin-bottom: 0.25rem;">
-            <span style="font-size: 0.725rem; font-weight: 700; color: #94a3b8; width: 30px;">${statLabels[k]}</span>
-            <input type="range" class="stat-range-input" data-slot="${slotIdx}" data-stat="${k}" min="0" max="${maxSingle}" value="${val}" style="flex: 1; accent-color: var(--accent-blue);">
-            <input type="number" class="stat-num-input" data-slot="${slotIdx}" data-stat="${k}" min="0" max="${maxSingle}" value="${val}" style="width: 42px; padding: 0.2rem; background: rgba(0,0,0,0.3); border: 1px solid var(--border-color); border-radius: 6px; color: #38bdf8; font-size: 0.75rem; font-weight: 800; text-align: center;">
+          <div class="tb-stat-row">
+            <span class="tb-stat-label">${statLabels[k]}</span>
+            <span class="tb-stat-base">${base}</span>
+            <span class="tb-stat-invested">+${invested}</span>
+            <div class="tb-stat-bar-container">
+              <div class="tb-stat-bar-fill ${barClasses[k]}" style="width: ${fillPercent}%;"></div>
+            </div>
+            <span class="tb-stat-final">${finalVal}</span>
+          </div>
+          <div style="margin-bottom: 0.35rem;">
+            <input type="range" class="stat-range-input" data-slot="${slotIdx}" data-stat="${k}" min="0" max="${maxSingle}" value="${invested}" style="width: 100%; accent-color: var(--accent-blue);">
           </div>
         `;
       }).join('');
 
-      const itemsOptions = POPULAR_ITEMS.map(it => `<option value="${it}" ${m.item === it ? 'selected' : ''}>${it}</option>`).join('');
-      const naturesOptions = Object.keys(NATURES).map(n => `<option value="${n}" ${m.nature === n ? 'selected' : ''}>${n} (${NATURES[n].label})</option>`).join('');
-      const abilitiesOptions = (m.availableAbilities || ['Standard Ability']).map(ab => `<option value="${ab}" ${m.ability === ab ? 'selected' : ''}>${ab}</option>`).join('');
-      const teraOptions = ALL_TYPES.map(t => `<option value="${t.toUpperCase()}" ${m.teraType === t.toUpperCase() ? 'selected' : ''}>${t.charAt(0).toUpperCase() + t.slice(1)}</option>`).join('');
-
       return `
-        <div class="team-slot-card filled">
-          <div style="display: flex; align-items: center; justify-content: space-between; margin-bottom: 0.75rem;">
-            <div style="display: flex; align-items: center; gap: 0.75rem;">
-              <img src="${m.officialArtworkUrl || m.spriteUrl}" alt="${m.name}" style="width: 55px; height: 55px; object-fit: contain;">
-              <div>
-                <h4 style="margin: 0; font-size: 1rem; font-weight: 800; text-transform: capitalize; color: #f8fafc;">${m.name}</h4>
-                <div style="margin-top: 0.25rem;">${typeBadges}</div>
-              </div>
-            </div>
-            <button class="remove-member-btn" data-slot="${slotIdx}" style="background: rgba(239,68,68,0.15); border: 1px solid rgba(239,68,68,0.3); color: #fca5a5; padding: 0.35rem 0.65rem; border-radius: 8px; font-size: 0.75rem; font-weight: 700; cursor: pointer;">&times; Remover</button>
+        <div class="tb-member-card">
+          <div class="tb-card-header">
+            <span class="tb-slot-number">#${slotIdx + 1}</span>
+            <button class="tb-remove-btn remove-member-btn" data-slot="${slotIdx}" title="Remover">&times;</button>
+            <img class="tb-card-img" src="${m.officialArtworkUrl || m.spriteUrl}" alt="${m.name}">
+            <h3 class="tb-card-title">${m.name}</h3>
+            <div style="margin-top: 0.25rem;">${typeBadges}</div>
           </div>
 
-          <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 0.4rem; margin-bottom: 0.6rem;">
-            <div>
-              <label style="font-size: 0.7rem; color: #94a3b8; font-weight: 700;">Habilidade</label>
-              <select class="member-ability-select" data-slot="${slotIdx}" style="width: 100%; padding: 0.35rem; background: rgba(15,23,42,0.8); border: 1px solid var(--border-color); border-radius: 8px; color: #f8fafc; font-size: 0.75rem;">
-                ${abilitiesOptions}
-              </select>
+          <div>
+            <div class="tb-section-label">Movimentos</div>
+            ${movesHTML}
+          </div>
+
+          <div class="tb-subgrid">
+            <div class="tb-field-group">
+              <label>Natureza</label>
+              <select class="tb-select member-nature-select" data-slot="${slotIdx}">${naturesOptions}</select>
+              ${natureTagHTML}
             </div>
-            <div>
-              <label style="font-size: 0.7rem; color: #94a3b8; font-weight: 700;">Item</label>
-              <select class="member-item-select" data-slot="${slotIdx}" style="width: 100%; padding: 0.35rem; background: rgba(15,23,42,0.8); border: 1px solid var(--border-color); border-radius: 8px; color: #f8fafc; font-size: 0.75rem;">
-                ${itemsOptions}
-              </select>
+            <div class="tb-field-group">
+              <label>Habilidade</label>
+              <select class="tb-select member-ability-select" data-slot="${slotIdx}">${abilitiesOptions}</select>
             </div>
-            <div>
-              <label style="font-size: 0.7rem; color: #94a3b8; font-weight: 700;">Nature</label>
-              <select class="member-nature-select" data-slot="${slotIdx}" style="width: 100%; padding: 0.35rem; background: rgba(15,23,42,0.8); border: 1px solid var(--border-color); border-radius: 8px; color: #f8fafc; font-size: 0.75rem;">
-                ${naturesOptions}
-              </select>
+            <div class="tb-field-group">
+              <label>Item</label>
+              <select class="tb-select member-item-select" data-slot="${slotIdx}">${itemsOptions}</select>
             </div>
-            <div>
-              <label style="font-size: 0.7rem; color: #94a3b8; font-weight: 700;">Tera Type</label>
-              <select class="member-tera-select" data-slot="${slotIdx}" style="width: 100%; padding: 0.35rem; background: rgba(15,23,42,0.8); border: 1px solid var(--border-color); border-radius: 8px; color: #f8fafc; font-size: 0.75rem;">
-                ${teraOptions}
-              </select>
+            <div class="tb-field-group">
+              <label>Tera Type</label>
+              <select class="tb-select member-tera-select" data-slot="${slotIdx}">${teraOptions}</select>
             </div>
           </div>
 
-          <div style="font-size: 0.75rem; font-weight: 800; color: #38bdf8; margin-bottom: 0.35rem;">⚔️ Golpes Selecionados (Movepool):</div>
-          ${movesSelectHTML}
-
-          <div style="display: flex; justify-content: space-between; align-items: center; margin-top: 0.6rem; margin-bottom: 0.35rem; font-size: 0.75rem;">
-            <span style="font-weight: 800; color: #f8fafc;">${isChampions ? 'Pontos de Atributo' : 'EVs'}:</span>
-            <span style="font-weight: 800; color: ${totalPoints > maxTotal ? '#ef4444' : '#38bdf8'};">${totalPoints} / ${maxTotal} Pts</span>
+          <div>
+            <div class="tb-section-label">
+              <span>Estatísticas</span>
+              <span style="color: ${totalPoints > maxTotal ? '#ef4444' : '#38bdf8'}; font-weight: 800;">${totalPoints} / ${maxTotal} Pts</span>
+            </div>
+            ${statsRowsHTML}
+            <div style="display: flex; justify-content: space-between; font-size: 0.65rem; color: #94a3b8; border-top: 1px solid rgba(255,255,255,0.08); padding-top: 0.35rem; margin-top: 0.2rem;">
+              <span>Total Base: <strong style="color: #cbd5e1;">${sumBase}</strong></span>
+              <span>Total Final: <strong style="color: #4ade80;">${sumFinal}</strong></span>
+            </div>
           </div>
-          ${statsInputsHTML}
         </div>
       `;
     }).join('');
 
+    // SECTION 3: Team Defense & Coverage Tally Analysis (Inspired by Reference Image 2!)
     const coverageList = this.teamBuilderService.analyzeTeamCoverage();
-    const coverageCardsHTML = coverageList.map(cov => {
-      const typeColor = TYPE_COLORS[cov.type.toLowerCase()] || '#94a3b8';
+    const defenseAnalysisHTML = coverageList.map(cov => {
+      const typeColor = TYPE_COLORS[cov.type.toLowerCase()] || '#a8a77a';
+
+      // Weakness tallies (red)
+      const redTallies = Array.from({ length: Math.min(6, cov.weakCount) }, () => `<span class="tb-tally-bar red"></span>`).join('');
+      // Resistance tallies (blue)
+      const blueTallies = Array.from({ length: Math.min(6, cov.resistCount) }, () => `<span class="tb-tally-bar blue"></span>`).join('');
+      const emptyTallies = Array.from({ length: Math.max(0, 6 - cov.weakCount - cov.resistCount) }, () => `<span class="tb-tally-bar empty"></span>`).join('');
 
       return `
-        <div class="coverage-pill" style="border-left: 4px solid ${typeColor};">
-          <div style="font-weight: 800; text-transform: uppercase; font-size: 0.725rem; color: ${typeColor};">${cov.type}</div>
-          <div style="font-size: 0.7rem; color: #cbd5e1; margin-top: 0.2rem;">
-            <div>🛡️ Fraqueza: <strong style="color: ${cov.weakCount > 2 ? '#ef4444' : '#f8fafc'};">${cov.weakCount}</strong></div>
-            <div>🛡️ Resistência: <strong style="color: #4ade80;">${cov.resistCount}</strong></div>
-            <div>⚔️ Golpe 2x+: <strong style="color: #38bdf8;">${cov.superEffectiveMovesCount}</strong></div>
+        <div class="tb-analysis-chip" style="border-left: 3px solid ${typeColor};">
+          <span style="font-size: 0.725rem; font-weight: 800; text-transform: uppercase; color: ${typeColor}; width: 60px;">${cov.type}</span>
+          <div class="tb-tally-bars">
+            ${redTallies}${blueTallies}${emptyTallies}
           </div>
         </div>
       `;
     }).join('');
+
+    const coverageAnalysisHTML = coverageList.map(cov => {
+      const typeColor = TYPE_COLORS[cov.type.toLowerCase()] || '#a8a77a';
+      const blueTallies = Array.from({ length: Math.min(6, cov.superEffectiveMovesCount) }, () => `<span class="tb-tally-bar blue"></span>`).join('');
+      const emptyTallies = Array.from({ length: Math.max(0, 6 - cov.superEffectiveMovesCount) }, () => `<span class="tb-tally-bar empty"></span>`).join('');
+
+      return `
+        <div class="tb-analysis-chip" style="border-left: 3px solid ${typeColor};">
+          <span style="font-size: 0.725rem; font-weight: 800; text-transform: uppercase; color: ${typeColor}; width: 60px;">${cov.type}</span>
+          <div class="tb-tally-bars">
+            ${blueTallies}${emptyTallies}
+          </div>
+        </div>
+      `;
+    }).join('');
+
+    // SECTION 4: Integrated Options / Picker Panel (Inspired by Reference Image 1)
+    const optionsGridHTML = this.renderPickerOptionsHTML();
 
     this.teamBuilderContainer.innerHTML = `
-      <div class="team-header-bar">
-        <div class="team-title-group">
-          <h2>⚔️ Criador e Construtor de Time</h2>
-          <p>Monte e analise sua equipe de 6 Pokémons com regras personalizadas por formato</p>
+      <!-- Top Bar & Controls -->
+      <div class="tb-top-bar">
+        <div class="tb-title-group">
+          <h2>
+            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="var(--accent-blue)" stroke-width="2.5"><path d="M14.5 17.5L3 6V3h3l11.5 11.5"></path><path d="M13 19l6-6"></path><path d="M16 16l4 4"></path><path d="M19 13l2 2"></path></svg>
+            Criador & Construtor de Time
+          </h2>
+          <p>Monte seu time competitivo, ajuste status points/EVs e analise fraquezas em tempo real</p>
         </div>
 
-        <div style="display: flex; align-items: center; gap: 1rem; flex-wrap: wrap;">
+        <div class="tb-actions-row">
           <div class="format-switcher">
-            <button class="format-btn ${isChampions ? 'active' : ''}" data-format="champions">🏆 Pokémon Champions</button>
-            <button class="format-btn ${!isChampions ? 'sv-active' : ''}" data-format="scarlet-violet">🔴 Scarlet & Violet</button>
+            <button class="format-btn ${isChampions ? 'active' : ''}" data-format="champions">🏆 Champions (66 Pts / 31 IVs)</button>
+            <button class="format-btn ${!isChampions ? 'sv-active' : ''}" data-format="scarlet-violet">🔴 Scarlet & Violet (510 EVs)</button>
           </div>
-          <button id="export-team-btn" style="background: var(--accent-blue); color: #0f172a; border: none; font-weight: 800; font-size: 0.85rem; padding: 0.55rem 1rem; border-radius: 12px; cursor: pointer;">📋 Exportar Time</button>
+          <button id="random-team-btn" class="tb-btn">🎲 Time Aleatório</button>
+          <button id="export-team-btn" class="tb-btn primary">📋 Exportar Showdown</button>
+          <button id="clear-team-btn" class="tb-btn" style="color: #fca5a5;">🗑️ Resetar</button>
         </div>
       </div>
 
-      <div style="background: rgba(15,23,42,0.6); border: 1px solid rgba(56,189,248,0.25); padding: 0.85rem 1.25rem; border-radius: 14px; margin-bottom: 1.5rem; font-size: 0.85rem; color: #94a3b8; display: flex; align-items: center; gap: 0.75rem;">
-        <span style="font-size: 1.25rem;">ℹ️</span>
-        <div>
-          ${isChampions
-            ? `<strong style="color: #fbbf24;">Regras Pokémon Champions:</strong> Todos os IVs são fixados em <strong>31 (6IV)</strong> no nível 50. Distribua até <strong>66 Pontos de Atributo</strong> (máximo de 32 pontos por status individual).`
-            : `<strong style="color: #38bdf8;">Regras Scarlet & Violet:</strong> Distribua até <strong>510 EVs</strong> (máximo de 252 por status) e ajuste os IVs de 0 a 31.`
-          }
+      <!-- 6 Avatar Strip (Reference Image 1) -->
+      <div class="tb-avatars-strip">
+        ${avatarsHTML}
+      </div>
+
+      <!-- 6 Detailed Member Cards Grid (Reference Image 3) -->
+      <div class="tb-cards-grid">
+        ${cardsHTML}
+      </div>
+
+      <!-- Team Defense & Coverage Analysis (Reference Image 2) -->
+      <div class="tb-analysis-panel">
+        <div class="tb-analysis-title">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="var(--accent-blue)" stroke-width="2.2"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"></path></svg>
+          Análise Defensiva do Time (Team Defense)
+        </div>
+        <div class="tb-analysis-grid">
+          ${defenseAnalysisHTML}
+        </div>
+
+        <div class="tb-analysis-title" style="margin-top: 1.25rem;">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#4ade80" stroke-width="2.2"><circle cx="12" cy="12" r="10"></circle><polyline points="12 6 12 12 16 14"></polyline></svg>
+          Cobertura de Golpes Súper Efetivos (Coverage)
+        </div>
+        <div class="tb-analysis-grid">
+          ${coverageAnalysisHTML}
+        </div>
+
+        <div class="tb-footnote">
+          Traços azuis <span style="color: #38bdf8; font-weight: 800;">|||</span> indicam resistências, imunidades ou cobertura de golpes súper efetivos. Traços vermelhos <span style="color: #ef4444; font-weight: 800;">|||</span> indicam fraqueza defensiva do time.
         </div>
       </div>
 
-      <div class="team-slots-grid">
-        ${membersHTML}
-      </div>
-
-      <div class="coverage-dashboard">
-        <h3>📊 Análise de Vantagens e Desvantagens do Time (Matriz Defensiva & Golpes)</h3>
-        <p style="font-size: 0.825rem; color: var(--text-muted); margin: 0;">Análise em tempo real das fraquezas defensivas, resistências e da cobertura de golpes súper efetivos dos 6 membros contra todos os 18 tipos elementares.</p>
-        <div class="coverage-grid">
-          ${coverageCardsHTML}
+      <!-- Integrated Options / Picker Panel (Reference Image 1) -->
+      <div class="tb-options-panel">
+        <div class="tb-options-header">
+          <h3>Sua Coleção de Pokémon (Clique para adicionar ao slot ativo)</h3>
+          <input type="text" id="tb-options-search" class="tb-options-search" placeholder="Buscar por Nome, # ou Tipo..." autocomplete="off">
+        </div>
+        <div id="tb-options-grid" class="tb-options-grid">
+          ${optionsGridHTML}
         </div>
       </div>
     `;
@@ -1347,8 +1459,74 @@ class PokedexApp {
     this.attachTeamBuilderEvents();
   }
 
+  private renderPickerOptionsHTML(): string {
+    const term = (document.getElementById('tb-options-search') as HTMLInputElement)?.value.toLowerCase().trim() || '';
+    const filtered = this.speciesGroups.filter(g => {
+      if (!term) return true;
+      const p = g.selectedPokemon;
+      return p.name.toLowerCase().includes(term) ||
+             p.id.toString().includes(term) ||
+             p.types.some(t => t.name.toLowerCase().includes(term));
+    });
+
+    return filtered.slice(0, 90).map(g => {
+      const p = g.selectedPokemon;
+      return `
+        <div class="tb-option-item" data-species-id="${g.speciesId}">
+          <img src="${p.media.officialArtworkUrl || p.media.spriteUrl}" alt="${p.name}">
+          <div class="tb-option-name">${p.name}</div>
+        </div>
+      `;
+    }).join('');
+  }
+
+  private assignPokemonToSlot(slotIndex: number, speciesId: number): void {
+    const group = this.speciesGroups.find(g => g.speciesId === speciesId);
+    if (!group) return;
+
+    const p = group.selectedPokemon;
+    const member = this.teamBuilderService.members[slotIndex];
+    member.speciesId = group.speciesId;
+    member.pokemonId = p.id;
+    member.name = p.name;
+    member.types = p.types.map(t => t.name);
+    member.spriteUrl = p.media.spriteUrl;
+    member.officialArtworkUrl = p.media.officialArtworkUrl;
+
+    // Extract baseStats
+    const getStat = (sName: string) => p.stats.find(s => s.name.toLowerCase() === sName.toLowerCase() || s.name.toLowerCase() === sName.replace('-', ''))?.baseStat || 80;
+    member.baseStats = {
+      hp: getStat('hp'),
+      atk: getStat('attack'),
+      def: getStat('defense'),
+      spa: getStat('special-attack'),
+      spd: getStat('special-defense'),
+      spe: getStat('speed')
+    };
+
+    member.availableAbilities = (p.abilities || []).map(a => a.name);
+    member.availableMoves = p.moves || [];
+    member.ability = member.availableAbilities[0] || 'Standard Ability';
+    member.item = 'Leftovers';
+    member.nature = 'Jolly';
+    member.teraType = (p.types[0]?.name || 'NORMAL').toUpperCase();
+    member.moves = (p.moves || []).slice(0, 4).map(m => m.name);
+
+    this.renderTeamBuilder();
+  }
+
   private attachTeamBuilderEvents(): void {
     if (!this.teamBuilderContainer) return;
+
+    // Avatar Strip clicks
+    const avatarCards = this.teamBuilderContainer.querySelectorAll('.tb-avatar-card');
+    avatarCards.forEach(card => {
+      card.addEventListener('click', () => {
+        const slotIdx = parseInt(card.getAttribute('data-slot') || '0', 10);
+        this.activeSlotIndexToPick = slotIdx;
+        this.renderTeamBuilder();
+      });
+    });
 
     // Format buttons click
     const formatBtns = this.teamBuilderContainer.querySelectorAll('.format-btn');
@@ -1378,6 +1556,42 @@ class PokedexApp {
         this.renderTeamBuilder();
       });
     });
+
+    // Randomize Team button click
+    const randomBtn = document.getElementById('random-team-btn');
+    if (randomBtn) {
+      randomBtn.addEventListener('click', () => {
+        const available = [...this.speciesGroups];
+        for (let i = 0; i < 6; i++) {
+          if (available.length === 0) break;
+          const randIdx = Math.floor(Math.random() * available.length);
+          const pickedGroup = available.splice(randIdx, 1)[0];
+          this.assignPokemonToSlot(i, pickedGroup.speciesId);
+        }
+      });
+    }
+
+    // Clear Team button click
+    const clearBtn = document.getElementById('clear-team-btn');
+    if (clearBtn) {
+      clearBtn.addEventListener('click', () => {
+        for (let i = 0; i < 6; i++) {
+          this.teamBuilderService.members[i] = this.teamBuilderService.createEmptyMember(i);
+        }
+        this.renderTeamBuilder();
+      });
+    }
+
+    // Options Search Input
+    const optionsSearch = document.getElementById('tb-options-search');
+    if (optionsSearch) {
+      optionsSearch.addEventListener('input', () => {
+        const gridEl = document.getElementById('tb-options-grid');
+        if (gridEl) gridEl.innerHTML = this.renderPickerOptionsHTML();
+        this.attachOptionsItemsEvents();
+      });
+    }
+    this.attachOptionsItemsEvents();
 
     // Move selects change
     const moveSelects = this.teamBuilderContainer.querySelectorAll('.member-move-select');
@@ -1416,6 +1630,7 @@ class PokedexApp {
         const target = e.target as HTMLSelectElement;
         const slotIdx = parseInt(target.getAttribute('data-slot') || '0', 10);
         this.teamBuilderService.members[slotIdx].nature = target.value;
+        this.renderTeamBuilder();
       });
     });
 
@@ -1429,7 +1644,7 @@ class PokedexApp {
     });
 
     // Range & Number inputs for Points/EVs
-    const rangeInputs = this.teamBuilderContainer.querySelectorAll('.stat-range-input, .stat-num-input');
+    const rangeInputs = this.teamBuilderContainer.querySelectorAll('.stat-range-input');
     rangeInputs.forEach(inp => {
       inp.addEventListener('input', (e) => {
         const target = e.target as HTMLInputElement;
@@ -1458,6 +1673,25 @@ class PokedexApp {
         });
       });
     }
+  }
+
+  private attachOptionsItemsEvents(): void {
+    const gridEl = document.getElementById('tb-options-grid');
+    if (!gridEl) return;
+
+    const items = gridEl.querySelectorAll('.tb-option-item');
+    items.forEach(it => {
+      it.addEventListener('click', () => {
+        const sId = parseInt(it.getAttribute('data-species-id') || '0', 10);
+        let targetSlot = this.activeSlotIndexToPick;
+        if (targetSlot === null) {
+          // Find first empty slot
+          const emptyIdx = this.teamBuilderService.members.findIndex(m => !m.name);
+          targetSlot = emptyIdx !== -1 ? emptyIdx : 0;
+        }
+        this.assignPokemonToSlot(targetSlot, sId);
+      });
+    });
   }
 
   private openPokemonPicker(slotIndex: number): void {

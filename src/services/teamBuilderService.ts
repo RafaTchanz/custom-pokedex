@@ -133,6 +133,31 @@ export class TeamBuilderService {
     return stats.every(s => (m.evs[s] || 0) <= 252);
   }
 
+  public calculateStat(
+    statKey: keyof StatBlock,
+    base: number,
+    invested: number,
+    iv: number = 31,
+    natureName: string = 'Hardy'
+  ): number {
+    if (statKey === 'hp') {
+      if (this.formatMode === 'champions') {
+        return Math.floor(((2 * base + iv + Math.floor(invested * 8 / 4)) * 50) / 100) + 60;
+      }
+      return Math.floor(((2 * base + iv + Math.floor(invested / 4)) * 50) / 100) + 60;
+    }
+
+    const evEquivalent = this.formatMode === 'champions' ? Math.floor(invested * 8 / 4) : Math.floor(invested / 4);
+    let val = Math.floor(((2 * base + iv + evEquivalent) * 50) / 100) + 5;
+
+    const natureInfo = NATURES[natureName];
+    if (natureInfo) {
+      if (natureInfo.plus === statKey) val = Math.floor(val * 1.1);
+      else if (natureInfo.minus === statKey) val = Math.floor(val * 0.9);
+    }
+    return val;
+  }
+
   public calculateDefenseEffectiveness(defenderTypes: string[], attackType: string): number {
     if (!defenderTypes || defenderTypes.length === 0) return 1.0;
     let multiplier = 1.0;
