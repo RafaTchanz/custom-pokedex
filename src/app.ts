@@ -1258,8 +1258,14 @@ class PokedexApp {
       }
 
       if (this.tbMoveFilter.trim()) {
-        const moveQuery = this.tbMoveFilter.toLowerCase().trim();
-        const hasMove = (p.moves || []).some(m => m.name.toLowerCase().includes(moveQuery));
+        const rawQuery = this.tbMoveFilter.toLowerCase().trim();
+        const normQuery = rawQuery.replace(/[^a-z0-9]/g, '');
+        const hasMove = (p.moves || []).some(m => {
+          if (!m || !m.name) return false;
+          const mName = m.name.toLowerCase();
+          const mNorm = mName.replace(/[^a-z0-9]/g, '');
+          return mName.includes(rawQuery) || (normQuery.length > 0 && mNorm.includes(normQuery));
+        });
         if (!hasMove) return false;
       }
 
@@ -1316,6 +1322,12 @@ class PokedexApp {
 
   private renderTeamBuilder(): void {
     if (!this.teamBuilderContainer) return;
+
+    // Save active element focus and selection range before HTML re-render
+    const activeEl = document.activeElement as HTMLInputElement | null;
+    const activeId = activeEl && activeEl.id ? activeEl.id : null;
+    const selectionStart = activeEl && 'selectionStart' in activeEl ? activeEl.selectionStart : null;
+    const selectionEnd = activeEl && 'selectionEnd' in activeEl ? activeEl.selectionEnd : null;
 
     const isChampions = this.teamBuilderService.formatMode === 'champions';
     const activeSlotIdx = this.activeSlotIndexToPick ?? 0;
@@ -1557,6 +1569,16 @@ class PokedexApp {
     const sortedAbilities = Array.from(allAbilitiesSet).sort((a, b) => a.localeCompare(b));
     const abilitiesFilterOptions = sortedAbilities.map(ab => `<option value="${ab}" ${this.tbAbilityFilter === ab ? 'selected' : ''}>${ab}</option>`).join('');
 
+    // Compile unique moves for datalist auto-suggestions
+    const allMovesSet = new Set<string>();
+    this.speciesGroups.forEach(g => {
+      (g.selectedPokemon.moves || []).forEach(m => {
+        if (m && m.name) allMovesSet.add(m.name);
+      });
+    });
+    const sortedMoves = Array.from(allMovesSet).sort((a, b) => a.localeCompare(b));
+    const movesDatalistOptions = sortedMoves.map(m => `<option value="${m}">`).join('');
+
     // 4. Table view of species for selecting active slot with base stats sorting!
     const tableSpecies = this.getFilteredAndSortedTeamBuilderSpecies();
     const tableRowsHTML = tableSpecies.map(g => {
@@ -1685,7 +1707,8 @@ class PokedexApp {
               <option value="all" ${this.tbAbilityFilter === 'all' ? 'selected' : ''}>Todas Habilidades</option>
               ${abilitiesFilterOptions}
             </select>
-            <input type="text" id="tb-table-move" class="tb-options-search" placeholder="🗡️ Filtrar Golpe..." value="${this.tbMoveFilter}" style="width: 160px;">
+            <input type="text" id="tb-table-move" class="tb-options-search" list="tb-moves-list" placeholder="🗡️ Filtrar Golpe..." value="${this.tbMoveFilter}" style="width: 160px;">
+            <datalist id="tb-moves-list">${movesDatalistOptions}</datalist>
           </div>
         </div>
 
@@ -1716,6 +1739,21 @@ class PokedexApp {
     `;
 
     this.attachTeamBuilderEvents();
+
+    // Restore focused element and selection range
+    if (activeId) {
+      const restoredEl = document.getElementById(activeId) as HTMLInputElement | null;
+      if (restoredEl) {
+        restoredEl.focus();
+        if (selectionStart !== null && selectionEnd !== null && typeof restoredEl.setSelectionRange === 'function') {
+          try {
+            restoredEl.setSelectionRange(selectionStart, selectionEnd);
+          } catch {
+            // ignore
+          }
+        }
+      }
+    }
   }
 
   private renderPickerOptionsHTML(): string {
