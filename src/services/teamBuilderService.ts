@@ -1,4 +1,4 @@
-export type FormatMode = 'champions' | 'scarlet-violet';
+export type FormatMode = 'champions' | 'scarlet-violet' | 'national-dex';
 
 export interface StatBlock {
   hp: number;
@@ -165,7 +165,7 @@ export class TeamBuilderService {
       if (!raw) return;
       const parsed = JSON.parse(raw);
       if (parsed && Array.isArray(parsed.members) && parsed.members.length === 6) {
-        if (parsed.formatMode === 'champions' || parsed.formatMode === 'scarlet-violet') {
+        if (parsed.formatMode === 'champions' || parsed.formatMode === 'scarlet-violet' || parsed.formatMode === 'national-dex') {
           this.formatMode = parsed.formatMode;
         }
         this.members = parsed.members.map((m: any, idx: number) => {
@@ -360,7 +360,10 @@ export class TeamBuilderService {
     const active = this.members.filter(m => m.name);
     if (active.length === 0) return '# Seu time está vazio no TchanzDex!';
 
-    let output = `# TchanzDex Team Export - Format: ${this.formatMode === 'champions' ? 'Pokémon Champions' : 'Scarlet & Violet'}\n\n`;
+    let formatLabel = 'Pokémon Champions';
+    if (this.formatMode === 'scarlet-violet') formatLabel = 'Scarlet & Violet';
+    if (this.formatMode === 'national-dex') formatLabel = 'National Dex';
+    let output = `# TchanzDex Team Export - Format: ${formatLabel}\n\n`;
 
     active.forEach(m => {
       output += `${m.name} @ ${m.item || 'Leftovers'}\n`;

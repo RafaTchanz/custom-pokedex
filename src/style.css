@@ -1102,6 +1102,13 @@ body {
   box-shadow: 0 0 14px rgba(56, 189, 248, 0.45);
 }
 
+.format-btn.nat-active {
+  background: linear-gradient(135deg, #10b981, #06b6d4);
+  color: #0f172a;
+  font-weight: 800;
+  box-shadow: 0 0 14px rgba(16, 185, 129, 0.45);
+}
+
 .tb-btn {
   display: inline-flex;
   align-items: center;

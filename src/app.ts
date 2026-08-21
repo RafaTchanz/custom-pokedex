@@ -1355,6 +1355,8 @@ class PokedexApp {
     const selectionEnd = activeEl && 'selectionEnd' in activeEl ? activeEl.selectionEnd : null;
 
     const isChampions = this.teamBuilderService.formatMode === 'champions';
+    const isNationalDex = this.teamBuilderService.formatMode === 'national-dex';
+    const isSV = this.teamBuilderService.formatMode === 'scarlet-violet';
     const activeSlotIdx = this.activeSlotIndexToPick ?? 0;
 
     // 1. Top 6 Avatar Strip (Avatares dos 6 Slots)
@@ -1444,7 +1446,7 @@ class PokedexApp {
 
       const naturesOptions = Object.keys(NATURES).map(n => `<option value="${n}" ${activeMember.nature === n ? 'selected' : ''}>${n}</option>`).join('');
       const abilitiesOptions = (activeMember.availableAbilities || ['Standard Ability']).map(ab => `<option value="${ab}" ${activeMember.ability === ab ? 'selected' : ''}>${ab}</option>`).join('');
-      const itemList = isChampions ? [...POPULAR_ITEMS, ...MEGA_STONES] : POPULAR_ITEMS;
+      const itemList = isChampions || isNationalDex ? [...POPULAR_ITEMS, ...MEGA_STONES] : POPULAR_ITEMS;
       const itemsOptions = itemList.map(it => `<option value="${it}" ${activeMember.item === it ? 'selected' : ''}>${it}</option>`).join('');
       const teraOptions = ALL_TYPES.map(t => `<option value="${t.toUpperCase()}" ${activeMember.teraType === t.toUpperCase() ? 'selected' : ''}>${t.charAt(0).toUpperCase() + t.slice(1)}</option>`).join('');
 
@@ -1671,7 +1673,8 @@ class PokedexApp {
         <div class="tb-actions-row">
           <div class="format-switcher">
             <button class="format-btn ${isChampions ? 'active' : ''}" data-format="champions">🏆 Champions (66 Pts)</button>
-            <button class="format-btn ${!isChampions ? 'sv-active' : ''}" data-format="scarlet-violet">🔴 Scarlet & Violet (510 EVs)</button>
+            <button class="format-btn ${isSV ? 'sv-active' : ''}" data-format="scarlet-violet">🔴 Scarlet & Violet (510 EVs)</button>
+            <button class="format-btn ${isNationalDex ? 'nat-active' : ''}" data-format="national-dex">🌐 National Dex (510 EVs)</button>
           </div>
           <button id="random-team-btn" class="tb-btn">🎲 Time Aleatório</button>
           <button id="export-team-btn" class="tb-btn primary">📋 Exportar Showdown</button>
@@ -1713,13 +1716,13 @@ class PokedexApp {
           <div>
             <h3>📊 Seleção de Pokémon em Tabela (Definir Slot #${activeSlotIdx + 1})</h3>
             <p style="font-size: 0.775rem; color: #94a3b8; margin-top: 0.2rem;">
-              Clique em qualquer linha da tabela para adicionar o Pokémon ao Slot #${activeSlotIdx + 1}. Clique no cabeçalho de qualquer estatística para ordenar (HP, Atk, Def, SpA, SpD, Spe, BST).
+              Ordene pelas estatísticas base (HP, Atk, Def, SpA, SpD, Spe, Total), pesquise por nome/golpe/habilidade ou use os filtros por tipo e geração.
             </p>
           </div>
 
           <div class="tb-table-controls-wrapper">
             <select id="tb-table-legality" class="tb-select" style="width: auto; padding: 0.45rem 0.5rem; border-color: rgba(56,189,248,0.4); background: rgba(15,23,42,0.85); color: #38bdf8; font-weight: 700;">
-              <option value="format" ${this.tbFormatLegalityFilter === 'format' ? 'selected' : ''}>🎯 Permitidos (${isChampions ? 'Champions' : 'Scarlet & Violet'})</option>
+              <option value="format" ${this.tbFormatLegalityFilter === 'format' ? 'selected' : ''}>🎯 Permitidos (${isChampions ? 'Champions' : isNationalDex ? 'National Dex' : 'Scarlet & Violet'})</option>
               <option value="all" ${this.tbFormatLegalityFilter === 'all' ? 'selected' : ''}>🌐 Todos Pokémons</option>
             </select>
             <input type="text" id="tb-table-search" class="tb-options-search" placeholder="🔍 Nome, #..." value="${this.tbSearchQuery}" style="width: 140px;">
