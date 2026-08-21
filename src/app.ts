@@ -1488,7 +1488,7 @@ class PokedexApp {
           <div class="tb-card-header" style="flex-direction: row; justify-content: space-between; align-items: center; text-align: left; padding-bottom: 0.75rem;">
             <div style="display: flex; align-items: center; gap: 0.85rem;">
               <span class="tb-slot-number" style="position: static; font-size: 0.8rem; padding: 0.25rem 0.6rem;">Editando Slot #${activeSlotIdx + 1}</span>
-              <img class="tb-card-img" src="${activeMember.officialArtworkUrl || activeMember.spriteUrl}" alt="${activeMember.name}" style="width: 54px; height: 54px; margin: 0;">
+              <img class="tb-card-img" src="${activeMember.officialArtworkUrl || activeMember.spriteUrl}" alt="${activeMember.name}" style="width: 54px; height: 54px; margin: 0;" onerror="this.onerror=null; this.src='https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/${activeMember.speciesId}.png';">
               <div>
                 <h3 class="tb-card-title" style="font-size: 1.15rem;">${activeMember.name}</h3>
                 <div style="margin-top: 0.2rem;">${typeBadges}</div>
@@ -1626,7 +1626,7 @@ class PokedexApp {
       return `
         <tr class="tb-table-row ${isAlreadyInTeam ? 'already-in-team-row' : ''}" data-species-id="${g.speciesId}" style="border-bottom: 1px solid rgba(255,255,255,0.06); font-size: 0.825rem; ${isAlreadyInTeam ? 'opacity: 0.65;' : ''}">
           <td style="padding: 0.6rem; font-weight: 800; color: #94a3b8;">${formattedId}</td>
-          <td style="padding: 0.4rem;"><img src="${imgUrl}" alt="${p.name}" style="width: 38px; height: 38px; object-fit: contain;"></td>
+          <td style="padding: 0.4rem;"><img src="${imgUrl}" alt="${p.name}" style="width: 38px; height: 38px; object-fit: contain;" onerror="this.onerror=null; this.src='https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/${g.speciesId}.png';"></td>
           <td style="padding: 0.6rem; font-weight: 700; color: #ffffff; text-transform: capitalize;">${p.name}</td>
           <td style="padding: 0.6rem;">${typeBadges}</td>
           <td style="padding: 0.6rem; font-weight: 700; color: #4ade80;">${hp}</td>
@@ -1835,7 +1835,7 @@ class PokedexApp {
       return `
         <tr class="tb-table-row ${isAlreadyInTeam ? 'already-in-team-row' : ''}" data-species-id="${g.speciesId}" style="border-bottom: 1px solid rgba(255,255,255,0.06); font-size: 0.825rem; ${isAlreadyInTeam ? 'opacity: 0.65;' : ''}">
           <td style="padding: 0.6rem; font-weight: 800; color: #94a3b8;">${formattedId}</td>
-          <td style="padding: 0.4rem;"><img src="${imgUrl}" alt="${p.name}" style="width: 38px; height: 38px; object-fit: contain;"></td>
+          <td style="padding: 0.4rem;"><img src="${imgUrl}" alt="${p.name}" style="width: 38px; height: 38px; object-fit: contain;" onerror="this.onerror=null; this.src='https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/${g.speciesId}.png';"></td>
           <td style="padding: 0.6rem; font-weight: 700; color: #ffffff; text-transform: capitalize;">${p.name}</td>
           <td style="padding: 0.6rem;">${typeBadges}</td>
           <td style="padding: 0.6rem; font-weight: 700; color: #4ade80;">${hp}</td>
