@@ -1718,9 +1718,9 @@ class PokedexApp {
               🎯 Formato:
             </span>
             <select id="tb-format-select" class="format-dropdown-select">
-              <option value="champions" ${isChampions ? 'selected' : ''}>🏆 Champions (Reg. M-B • 66 Pts)</option>
-              <option value="scarlet-violet" ${isSV ? 'selected' : ''}>🔴 Scarlet & Violet (510 EVs)</option>
-              <option value="national-dex" ${isNationalDex ? 'selected' : ''}>🌐 National Dex (510 EVs)</option>
+              <option value="champions" ${isChampions ? 'selected' : ''}>🏆 Pokémon Champions</option>
+              <option value="scarlet-violet" ${isSV ? 'selected' : ''}>🔴 Scarlet & Violet</option>
+              <option value="national-dex" ${isNationalDex ? 'selected' : ''}>🌐 National Dex</option>
             </select>
           </div>
           <button id="random-team-btn" class="tb-btn">🎲 Time Aleatório</button>
