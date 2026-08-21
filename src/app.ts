@@ -2176,6 +2176,12 @@ class PokedexApp {
 
   private getStickyOffset(): number {
     const headerHeight = this.getHeaderHeight();
+    const isMobile = window.innerWidth <= 768;
+
+    if (isMobile) {
+      return headerHeight;
+    }
+
     const avatarsStrip = this.teamBuilderContainer?.querySelector('.tb-avatars-strip');
     const stripHeight = avatarsStrip ? avatarsStrip.getBoundingClientRect().height : 0;
     return headerHeight + stripHeight;
