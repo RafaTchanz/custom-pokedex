@@ -135,9 +135,66 @@ export const NATURES: Record<string, { plus?: keyof StatBlock; minus?: keyof Sta
   Hardy:   { label: 'Neutra' }
 };
 
+const STORAGE_KEY = 'tchanzdex_team_builder_state_v1';
+
 export class TeamBuilderService {
   public formatMode: FormatMode = 'champions';
   public members: TeamMember[] = Array.from({ length: 6 }, (_, i) => this.createEmptyMember(i));
+
+  constructor() {
+    this.loadFromLocalStorage();
+  }
+
+  public saveToLocalStorage(): void {
+    if (typeof localStorage === 'undefined') return;
+    try {
+      const state = {
+        formatMode: this.formatMode,
+        members: this.members
+      };
+      localStorage.setItem(STORAGE_KEY, JSON.stringify(state));
+    } catch {
+      // ignore
+    }
+  }
+
+  public loadFromLocalStorage(): void {
+    if (typeof localStorage === 'undefined') return;
+    try {
+      const raw = localStorage.getItem(STORAGE_KEY);
+      if (!raw) return;
+      const parsed = JSON.parse(raw);
+      if (parsed && Array.isArray(parsed.members) && parsed.members.length === 6) {
+        if (parsed.formatMode === 'champions' || parsed.formatMode === 'scarlet-violet') {
+          this.formatMode = parsed.formatMode;
+        }
+        this.members = parsed.members.map((m: any, idx: number) => {
+          const empty = this.createEmptyMember(idx);
+          if (!m || typeof m !== 'object') return empty;
+          return {
+            ...empty,
+            ...m,
+            slotIndex: idx,
+            championsPoints: { ...empty.championsPoints, ...(m.championsPoints || {}) },
+            evs: { ...empty.evs, ...(m.evs || {}) },
+            ivs: { ...empty.ivs, ...(m.ivs || {}) },
+            moves: Array.isArray(m.moves) ? m.moves : []
+          };
+        });
+      }
+    } catch {
+      // ignore
+    }
+  }
+
+  public clearStorage(): void {
+    if (typeof localStorage === 'undefined') return;
+    try {
+      localStorage.removeItem(STORAGE_KEY);
+    } catch {
+      // ignore
+    }
+  }
 
   public createEmptyMember(slotIndex: number): TeamMember {
     return {
@@ -158,6 +215,7 @@ export class TeamBuilderService {
         m.ivs = { hp: 31, atk: 31, def: 31, spa: 31, spd: 31, spe: 31 };
       });
     }
+    this.saveToLocalStorage();
   }
 
   public getChampionsTotalPoints(m: TeamMember): number {
@@ -194,6 +252,7 @@ export class TeamBuilderService {
     const allowed = Math.max(0, 66 - otherSum);
     const finalVal = Math.min(clampedSingle, allowed);
     m.championsPoints[stat] = finalVal;
+    this.saveToLocalStorage();
     return finalVal;
   }
 
@@ -206,6 +265,7 @@ export class TeamBuilderService {
     const allowed = Math.max(0, 510 - otherSum);
     const finalVal = Math.min(clampedSingle, allowed);
     m.evs[stat] = finalVal;
+    this.saveToLocalStorage();
     return finalVal;
   }
 

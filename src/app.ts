@@ -1969,6 +1969,7 @@ class PokedexApp {
       }
     }
 
+    this.teamBuilderService.saveToLocalStorage();
     this.renderTeamBuilder();
 
     const currentMember = this.teamBuilderService.members[this.activeSlotIndexToPick];
@@ -2020,6 +2021,7 @@ class PokedexApp {
         this.teamBuilderService.members[slotIdx] = this.teamBuilderService.createEmptyMember(slotIdx);
         this.activeSlotIndexToPick = slotIdx;
         this.clearTeamBuilderTableFilters();
+        this.teamBuilderService.saveToLocalStorage();
         this.renderTeamBuilder();
         this.scrollToSpeciesTable();
       });
@@ -2056,6 +2058,7 @@ class PokedexApp {
             activeMember.ability = activeMember.availableAbilities[0] || 'Standard Ability';
             activeMember.moves = (varPokemon.moves || []).slice(0, 4).map(m => m.name);
 
+            this.teamBuilderService.saveToLocalStorage();
             this.renderTeamBuilder();
           }
         }
@@ -2073,6 +2076,7 @@ class PokedexApp {
           const pickedGroup = available.splice(randIdx, 1)[0];
           this.assignPokemonToSlot(i, pickedGroup.speciesId);
         }
+        this.teamBuilderService.saveToLocalStorage();
       });
     }
 
@@ -2084,6 +2088,7 @@ class PokedexApp {
           this.teamBuilderService.members[i] = this.teamBuilderService.createEmptyMember(i);
         }
         this.activeSlotIndexToPick = 0;
+        this.teamBuilderService.clearStorage();
         this.renderTeamBuilder();
       });
     }
@@ -2165,6 +2170,7 @@ class PokedexApp {
         const slotIdx = parseInt(target.getAttribute('data-slot') || '0', 10);
         const moveIdx = parseInt(target.getAttribute('data-move-idx') || '0', 10);
         this.teamBuilderService.members[slotIdx].moves[moveIdx] = target.value;
+        this.teamBuilderService.saveToLocalStorage();
         this.renderTeamBuilder();
       });
     });
@@ -2176,6 +2182,7 @@ class PokedexApp {
         const target = e.target as HTMLSelectElement;
         const slotIdx = parseInt(target.getAttribute('data-slot') || '0', 10);
         this.teamBuilderService.members[slotIdx].ability = target.value;
+        this.teamBuilderService.saveToLocalStorage();
       });
     });
 
@@ -2185,6 +2192,7 @@ class PokedexApp {
         const target = e.target as HTMLSelectElement;
         const slotIdx = parseInt(target.getAttribute('data-slot') || '0', 10);
         this.teamBuilderService.members[slotIdx].item = target.value;
+        this.teamBuilderService.saveToLocalStorage();
       });
     });
 
@@ -2194,6 +2202,7 @@ class PokedexApp {
         const target = e.target as HTMLSelectElement;
         const slotIdx = parseInt(target.getAttribute('data-slot') || '0', 10);
         this.teamBuilderService.members[slotIdx].nature = target.value;
+        this.teamBuilderService.saveToLocalStorage();
         this.renderTeamBuilder();
       });
     });
@@ -2204,6 +2213,7 @@ class PokedexApp {
         const target = e.target as HTMLSelectElement;
         const slotIdx = parseInt(target.getAttribute('data-slot') || '0', 10);
         this.teamBuilderService.members[slotIdx].teraType = target.value;
+        this.teamBuilderService.saveToLocalStorage();
       });
     });
 
