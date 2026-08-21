@@ -2330,12 +2330,42 @@ class PokedexApp {
     };
 
     member.availableAbilities = (p.abilities || []).map(a => a.name);
-    member.availableMoves = p.moves || [];
+
+    // Filter available moves for active format regulation
+    const isChampions = this.teamBuilderService.formatMode === 'champions';
+    const isNationalDex = this.teamBuilderService.formatMode === 'national-dex';
+    const currentFormatKey = isChampions ? 'champions' : (isNationalDex ? 'national-dex' : 'scarlet-violet');
+    const speciesAlias = p.name.toLowerCase().replace(/[^a-z0-9]/g, '');
+
+    let legalMoves = p.moves || [];
+    if (isChampions && this.championsLearnsetsMap && Object.keys(this.championsLearnsetsMap).length > 0) {
+      const allowedSet = new Set((this.championsLearnsetsMap[speciesAlias] || []).map(m => m.toLowerCase().trim()));
+      if (allowedSet.size > 0) {
+        legalMoves = legalMoves.filter(m => allowedSet.has(m.name.toLowerCase().trim()));
+      }
+    }
+    member.availableMoves = legalMoves;
+
     member.ability = member.availableAbilities[0] || 'Standard Ability';
     member.item = 'Leftovers';
     member.nature = 'Jolly';
     member.teraType = (p.types[0]?.name || 'NORMAL').toUpperCase();
-    member.moves = (p.moves || []).slice(0, 4).map(m => m.name);
+
+    // Assign top recommended competitive moves for active regulation format
+    const formatRecs = (this.recommendedMovesMap[currentFormatKey] && this.recommendedMovesMap[currentFormatKey][speciesAlias]) || [];
+    const recMovesSet = new Set(formatRecs.map(m => m.toLowerCase().trim()));
+
+    const recommendedList = legalMoves.filter(m => recMovesSet.has(m.name.toLowerCase().trim())).map(m => m.name);
+    const otherList = legalMoves.filter(m => !recMovesSet.has(m.name.toLowerCase().trim())).map(m => m.name);
+
+    const assignedMoves: string[] = [];
+    for (const mName of [...recommendedList, ...otherList]) {
+      if (assignedMoves.length >= 4) break;
+      if (!assignedMoves.includes(mName)) {
+        assignedMoves.push(mName);
+      }
+    }
+    member.moves = assignedMoves;
 
     this.activeSlotIndexToPick = slotIndex;
     this.teamBuilderService.saveToLocalStorage();
@@ -2453,9 +2483,37 @@ class PokedexApp {
             };
 
             activeMember.availableAbilities = (varPokemon.abilities || []).map(a => a.name);
-            activeMember.availableMoves = varPokemon.moves || [];
+
+            // Filter available moves for active format regulation
+            const isChampions = this.teamBuilderService.formatMode === 'champions';
+            const isNationalDex = this.teamBuilderService.formatMode === 'national-dex';
+            const currentFormatKey = isChampions ? 'champions' : (isNationalDex ? 'national-dex' : 'scarlet-violet');
+            const speciesAlias = varPokemon.name.toLowerCase().replace(/[^a-z0-9]/g, '');
+
+            let legalMoves = varPokemon.moves || [];
+            if (isChampions && this.championsLearnsetsMap && Object.keys(this.championsLearnsetsMap).length > 0) {
+              const allowedSet = new Set((this.championsLearnsetsMap[speciesAlias] || []).map(m => m.toLowerCase().trim()));
+              if (allowedSet.size > 0) {
+                legalMoves = legalMoves.filter(m => allowedSet.has(m.name.toLowerCase().trim()));
+              }
+            }
+            activeMember.availableMoves = legalMoves;
             activeMember.ability = activeMember.availableAbilities[0] || 'Standard Ability';
-            activeMember.moves = (varPokemon.moves || []).slice(0, 4).map(m => m.name);
+
+            const formatRecs = (this.recommendedMovesMap[currentFormatKey] && this.recommendedMovesMap[currentFormatKey][speciesAlias]) || [];
+            const recMovesSet = new Set(formatRecs.map(m => m.toLowerCase().trim()));
+
+            const recommendedList = legalMoves.filter(m => recMovesSet.has(m.name.toLowerCase().trim())).map(m => m.name);
+            const otherList = legalMoves.filter(m => !recMovesSet.has(m.name.toLowerCase().trim())).map(m => m.name);
+
+            const assignedMoves: string[] = [];
+            for (const mName of [...recommendedList, ...otherList]) {
+              if (assignedMoves.length >= 4) break;
+              if (!assignedMoves.includes(mName)) {
+                assignedMoves.push(mName);
+              }
+            }
+            activeMember.moves = assignedMoves;
 
             this.teamBuilderService.saveToLocalStorage();
             this.renderTeamBuilder();
@@ -2468,7 +2526,19 @@ class PokedexApp {
     const randomBtn = document.getElementById('random-team-btn');
     if (randomBtn) {
       randomBtn.addEventListener('click', () => {
-        const available = [...this.speciesGroups];
+        // Filter species strictly by active format regulation
+        const legalGroups = [...this.getFilteredSpeciesGroups()];
+        if (legalGroups.length === 0) {
+          alert('⚠️ Nenhum Pokémon disponível para o formato selecionado!');
+          return;
+        }
+
+        // Clear team members first before randomizing
+        for (let i = 0; i < 6; i++) {
+          this.teamBuilderService.members[i] = this.teamBuilderService.createEmptyMember(i);
+        }
+
+        const available = [...legalGroups];
         for (let i = 0; i < 6; i++) {
           if (available.length === 0) break;
           const randIdx = Math.floor(Math.random() * available.length);
