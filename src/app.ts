@@ -522,6 +522,32 @@ class PokedexApp {
     return this.getPokemonMediaUrl(p, isShiny, this.isGlobal3DActive);
   }
 
+  private getTypeGradient(types: (string | { name: string })[], isCircle: boolean = false): string {
+    if (!types || types.length === 0) {
+      return 'radial-gradient(circle, rgba(59, 130, 246, 0.25) 0%, rgba(15, 23, 42, 0.8) 100%)';
+    }
+
+    const typeNames = types.map(t => typeof t === 'string' ? t : t.name);
+    const t1 = typeNames[0].toLowerCase();
+    const c1 = TYPE_COLORS[t1] || '#a8a77a';
+
+    if (typeNames.length === 1) {
+      if (isCircle) {
+        return `radial-gradient(circle at 50% 45%, ${c1}ee 0%, ${c1}77 65%, #0f172a 100%)`;
+      }
+      return `radial-gradient(circle at 50% 40%, ${c1}99 0%, ${c1}33 65%, rgba(30, 41, 59, 0.7) 100%)`;
+    }
+
+    const t2 = typeNames[1].toLowerCase();
+    const c2 = TYPE_COLORS[t2] || '#a8a77a';
+
+    if (isCircle) {
+      return `linear-gradient(135deg, ${c1}ee 0%, ${c1}cc 48%, ${c2}cc 52%, ${c2}ee 100%)`;
+    }
+
+    return `linear-gradient(135deg, ${c1}99 0%, ${c1}44 48%, ${c2}44 52%, ${c2}99 100%)`;
+  }
+
   private render(): void {
     const filtered = this.filterGroups();
     this.currentFilteredGroups = filtered;
@@ -677,6 +703,11 @@ class PokedexApp {
     const titleEl = cardEl.querySelector('.card-title');
     if (titleEl) titleEl.textContent = p.name;
 
+    const imgContainer = cardEl.querySelector('.card-img-container') as HTMLElement;
+    if (imgContainer) {
+      imgContainer.style.background = this.getTypeGradient(p.types);
+    }
+
     const imgEl = cardEl.querySelector('.card-artwork') as HTMLImageElement;
     if (imgEl) {
       imgEl.src = this.getCardImageUrl(p, group.speciesId);
@@ -741,12 +772,13 @@ class PokedexApp {
 
     const imgUrl = this.getCardImageUrl(p, group.speciesId);
     const hdClass = this.isGlobal3DActive ? '' : 'hd-art';
+    const bgGradient = this.getTypeGradient(p.types);
 
     return `
       <div id="species-card-${group.speciesId}" class="pokemon-card">
         <button id="card-shiny-btn-${group.speciesId}" class="card-shiny-btn ${isShiny ? 'active' : ''}" title="Alternar forma Shiny">✨ Shiny</button>
         <span class="card-number">${formattedId}</span>
-        <div class="card-img-container">
+        <div class="card-img-container" style="background: ${bgGradient};">
           <img class="card-artwork ${hdClass}" src="${imgUrl}" alt="${p.name}" loading="lazy" onerror="if(this.src.includes('/showdown/shiny/')){this.src='https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/shiny/${p.id}.png';}else if(this.src.includes('/showdown/')){this.src='https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/${p.id}.png';}else if(this.src.includes('/official-artwork/shiny/')){this.src='https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/${p.id}.png';}else{this.src='https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/${p.id}.png';}">
         </div>
         <h3 class="card-title">${p.name}</h3>
@@ -847,12 +879,12 @@ class PokedexApp {
             `</div></div>`
         : '';
 
-      // Natural Proportional Image Display (Preserves character scale proportions!)
       const imgDisplayUrl = this.getPokemonMediaUrl(p, this.isShinyActive, this.is3DModelActive);
       const hdClassModal = this.is3DModelActive ? '' : 'hd-art';
+      const modalBg = this.getTypeGradient(p.types);
 
       const mediaHeroHTML = `
-        <div class="modal-hero-container">
+        <div class="modal-hero-container" style="background: ${modalBg}; border-radius: 20px;">
           <img class="modal-hero-img ${hdClassModal}" src="${imgDisplayUrl}" alt="${p.name}" onerror="if(this.src.includes('/showdown/shiny/')){this.src='https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/shiny/${p.id}.png';}else if(this.src.includes('/showdown/')){this.src='https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/${p.id}.png';}else if(this.src.includes('/official-artwork/shiny/')){this.src='https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/${p.id}.png';}else{this.src='https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/${p.id}.png';}">
         </div>
       `;
@@ -1290,8 +1322,7 @@ class PokedexApp {
         `;
       }
 
-      const primaryType = (m.types && m.types[0]) ? m.types[0].toLowerCase() : 'normal';
-      const circleColor = TYPE_COLORS[primaryType] || '#a8a77a';
+      const circleBg = this.getTypeGradient(m.types, true);
       const typeBadges = (m.types || []).map(t => {
         const bg = TYPE_COLORS[t.toLowerCase()] || '#a8a77a';
         return `<span class="type-badge-pill" style="background: ${bg}; color: #fff; font-size: 0.6rem; padding: 0.1rem 0.35rem; border-radius: 4px; font-weight: 800;">${t}</span>`;
@@ -1299,7 +1330,7 @@ class PokedexApp {
 
       return `
         <div class="tb-avatar-card ${isSelected ? 'active-slot' : ''}" data-slot="${slotIdx}">
-          <div class="tb-avatar-circle" style="background: radial-gradient(circle, ${circleColor}dd 0%, #1e293b 100%);">
+          <div class="tb-avatar-circle" style="background: ${circleBg};">
             <img src="${m.officialArtworkUrl || m.spriteUrl}" alt="${m.name}">
           </div>
           <div class="tb-avatar-name">${m.name}</div>
