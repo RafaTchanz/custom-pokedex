@@ -1874,6 +1874,82 @@ class PokedexApp {
     if (abilitySelect) abilitySelect.value = 'all';
   }
 
+  private openExportModal(exportText: string): void {
+    const oldModal = document.getElementById('export-showdown-modal');
+    if (oldModal) oldModal.remove();
+
+    const modalHTML = `
+      <div id="export-showdown-modal" class="modal-overlay" style="position: fixed; inset: 0; background: rgba(15,23,42,0.85); backdrop-filter: blur(8px); display: flex; align-items: center; justify-content: center; z-index: 1000; padding: 1rem;">
+        <div class="modal-card" style="background: rgba(30,41,59,0.95); border: 1px solid rgba(56,189,248,0.3); border-radius: 16px; padding: 1.5rem; max-width: 580px; width: 100%; box-shadow: 0 20px 40px rgba(0,0,0,0.5); font-family: inherit;">
+          <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 1rem;">
+            <h3 style="font-size: 1.2rem; font-weight: 800; color: #ffffff; margin: 0; display: flex; align-items: center; gap: 0.5rem;">
+              📋 Exportar Time (Pokémon Showdown)
+            </h3>
+            <button id="close-export-modal-x" style="background: none; border: none; color: #94a3b8; font-size: 1.5rem; cursor: pointer; line-height: 1;">&times;</button>
+          </div>
+
+          <p style="font-size: 0.85rem; color: #94a3b8; margin-bottom: 1rem;">
+            Abaixo está o seu time formatado no padrão **Poképaste / Pokémon Showdown**. O texto é copiado automaticamente para a sua área de transferência!
+          </p>
+
+          <textarea id="export-showdown-textarea" readonly style="width: 100%; height: 220px; background: rgba(15,23,42,0.9); border: 1px solid rgba(255,255,255,0.15); border-radius: 10px; color: #38bdf8; font-family: monospace; font-size: 0.825rem; padding: 0.85rem; resize: vertical; outline: none; margin-bottom: 1.25rem;">${exportText}</textarea>
+
+          <div style="display: flex; justify-content: flex-end; gap: 0.75rem; align-items: center;">
+            <span id="copy-feedback-msg" style="font-size: 0.8rem; font-weight: 700; color: #4ade80; display: none;">✓ Copiado para a área de transferência!</span>
+            <button id="close-export-modal-btn" class="tb-btn" style="padding: 0.5rem 1rem;">Fechar</button>
+            <button id="copy-export-modal-btn" class="tb-btn primary" style="padding: 0.5rem 1.2rem; font-weight: 800;">📋 Copiar Texto</button>
+          </div>
+        </div>
+      </div>
+    `;
+
+    document.body.insertAdjacentHTML('beforeend', modalHTML);
+
+    const modalEl = document.getElementById('export-showdown-modal');
+    const copyBtn = document.getElementById('copy-export-modal-btn');
+    const closeBtn = document.getElementById('close-export-modal-btn');
+    const closeX = document.getElementById('close-export-modal-x');
+    const feedbackMsg = document.getElementById('copy-feedback-msg');
+
+    const copyText = () => {
+      if (navigator.clipboard && navigator.clipboard.writeText) {
+        navigator.clipboard.writeText(exportText).then(() => {
+          if (feedbackMsg) feedbackMsg.style.display = 'inline-block';
+        }).catch(() => {
+          const ta = document.getElementById('export-showdown-textarea') as HTMLTextAreaElement;
+          if (ta) {
+            ta.select();
+            document.execCommand('copy');
+            if (feedbackMsg) feedbackMsg.style.display = 'inline-block';
+          }
+        });
+      } else {
+        const ta = document.getElementById('export-showdown-textarea') as HTMLTextAreaElement;
+        if (ta) {
+          ta.select();
+          document.execCommand('copy');
+          if (feedbackMsg) feedbackMsg.style.display = 'inline-block';
+        }
+      }
+    };
+
+    copyText();
+
+    if (copyBtn) copyBtn.addEventListener('click', copyText);
+
+    const closeModal = () => {
+      if (modalEl) modalEl.remove();
+    };
+
+    if (closeBtn) closeBtn.addEventListener('click', closeModal);
+    if (closeX) closeX.addEventListener('click', closeModal);
+    if (modalEl) {
+      modalEl.addEventListener('click', (e) => {
+        if (e.target === modalEl) closeModal();
+      });
+    }
+  }
+
   private smoothScrollToY(targetY: number, duration: number = 650): void {
     const startY = window.pageYOffset || document.documentElement.scrollTop;
     const distance = targetY - startY;
@@ -2099,6 +2175,15 @@ class PokedexApp {
       });
     }
 
+    // Export Showdown Team button click
+    const exportBtn = document.getElementById('export-team-btn');
+    if (exportBtn) {
+      exportBtn.addEventListener('click', () => {
+        const text = this.teamBuilderService.exportShowdownText();
+        this.openExportModal(text);
+      });
+    }
+
     // Clear Team button click
     const clearBtn = document.getElementById('clear-team-btn');
     if (clearBtn) {
@@ -2312,22 +2397,8 @@ class PokedexApp {
         const slotIdx = parseInt(target.getAttribute('data-slot') || '0', 10);
         const statKey = target.getAttribute('data-stat') as keyof StatBlock;
         const val = parseInt(target.value || '0', 10);
-        handleStatChange(slotIdx, statKey, val);
       });
     });
-
-    // Export button click
-    const exportBtn = document.getElementById('export-team-btn');
-    if (exportBtn) {
-      exportBtn.addEventListener('click', () => {
-        const text = this.teamBuilderService.exportShowdownText();
-        navigator.clipboard.writeText(text).then(() => {
-          alert('📋 Time exportado com sucesso para a sua área de transferência!');
-        }).catch(() => {
-          alert(text);
-        });
-      });
-    }
   }
 
   private attachOptionsItemsEvents(): void {
