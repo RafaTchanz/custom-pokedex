@@ -265,13 +265,17 @@ export class TeamBuilderService {
         else if (mult < 1.0) resistCount++;
       });
 
-      // Offensive Move Coverage Analysis
+      // Offensive Move Coverage Analysis (Only Damaging Moves)
       activeMembers.forEach(m => {
         if (!m.availableMoves || !m.moves || m.moves.length === 0) return;
         m.moves.forEach(mName => {
           if (!mName) return;
           const moveData = m.availableMoves?.find(am => am.name.toLowerCase() === mName.toLowerCase());
           if (!moveData || !moveData.type) return;
+
+          // Exclude Status / Non-damaging moves (e.g. Agility, Swords Dance, Recover, Will-O-Wisp)
+          const isStatusMove = moveData.damageClass === 'status' || (!moveData.power && moveData.damageClass !== 'physical' && moveData.damageClass !== 'special');
+          if (isStatusMove) return;
 
           const chart = TYPE_CHART[moveData.type.toLowerCase()];
           if (chart && chart[targetType.toLowerCase()] !== undefined && chart[targetType.toLowerCase()] > 1.0) {
