@@ -114,6 +114,7 @@ class PokedexApp {
   private isGlobalShinyActive: boolean = false;
   private isGlobal3DActive: boolean = false;
   private isFiltersCollapsed: boolean = false;
+  private searchDebounceTimer: any = null;
   private cardShinyState: Map<number, boolean> = new Map();
   private movesMethodFilter: 'level-up' | 'egg' | 'machine' = 'level-up';
 
@@ -1740,7 +1741,7 @@ class PokedexApp {
                 <th style="padding: 0.65rem; text-align: center;">Ação</th>
               </tr>
             </thead>
-            <tbody>
+            <tbody id="tb-table-body">
               ${tableRowsHTML || `<tr><td colspan="12" style="text-align: center; padding: 2rem; color: #94a3b8;">Nenhum Pokémon encontrado com os filtros aplicados.</td></tr>`}
             </tbody>
           </table>
@@ -1785,6 +1786,75 @@ class PokedexApp {
         </div>
       `;
     }).join('');
+  }
+
+  private renderTeamBuilderTableOnly(): void {
+    const tbody = document.getElementById('tb-table-body');
+    if (!tbody) {
+      this.renderTeamBuilder();
+      return;
+    }
+
+    const tableSpecies = this.getFilteredAndSortedTeamBuilderSpecies();
+    const tableRowsHTML = tableSpecies.map(g => {
+      const p = g.selectedPokemon;
+      const formattedId = `#${g.speciesId.toString().padStart(4, '0')}`;
+      const imgUrl = p.media.officialArtworkUrl || p.media.spriteUrl;
+
+      const typeBadges = p.types.map(t => {
+        const bg = TYPE_COLORS[t.name.toLowerCase()] || '#a8a77a';
+        return `<span class="type-badge-pill" style="background: ${bg}; color: #fff; font-size: 0.65rem; padding: 0.12rem 0.45rem; border-radius: 4px; font-weight: 800;">${t.name}</span>`;
+      }).join(' ');
+
+      const getStat = (name: string) => p.stats.find(s => s.name.toLowerCase() === name.toLowerCase() || s.name.toLowerCase() === name.replace('-', ''))?.baseStat || 0;
+      const hp = getStat('hp');
+      const atk = getStat('attack');
+      const def = getStat('defense');
+      const spa = getStat('special-attack');
+      const spd = getStat('special-defense');
+      const spe = getStat('speed');
+      const bst = hp + atk + def + spa + spd + spe;
+
+      const isAlreadyInTeam = this.teamBuilderService.members.some(m => m.speciesId === g.speciesId);
+      const actionButtonHTML = isAlreadyInTeam
+        ? `<span style="font-size: 0.7rem; font-weight: 800; color: #38bdf8; background: rgba(56,189,248,0.15); border: 1px solid rgba(56,189,248,0.3); padding: 0.25rem 0.5rem; border-radius: 6px; display: inline-block;">✓ No Time</span>`
+        : `<button class="tb-btn primary select-species-btn" data-species-id="${g.speciesId}" style="font-size: 0.7rem; padding: 0.25rem 0.6rem;">➕ Selecionar</button>`;
+
+      return `
+        <tr class="tb-table-row ${isAlreadyInTeam ? 'already-in-team-row' : ''}" data-species-id="${g.speciesId}" style="border-bottom: 1px solid rgba(255,255,255,0.06); font-size: 0.825rem; ${isAlreadyInTeam ? 'opacity: 0.65;' : ''}">
+          <td style="padding: 0.6rem; font-weight: 800; color: #94a3b8;">${formattedId}</td>
+          <td style="padding: 0.4rem;"><img src="${imgUrl}" alt="${p.name}" style="width: 38px; height: 38px; object-fit: contain;"></td>
+          <td style="padding: 0.6rem; font-weight: 700; color: #ffffff; text-transform: capitalize;">${p.name}</td>
+          <td style="padding: 0.6rem;">${typeBadges}</td>
+          <td style="padding: 0.6rem; font-weight: 700; color: #4ade80;">${hp}</td>
+          <td style="padding: 0.6rem; font-weight: 700; color: #f87171;">${atk}</td>
+          <td style="padding: 0.6rem; font-weight: 700; color: #fbbf24;">${def}</td>
+          <td style="padding: 0.6rem; font-weight: 700; color: #c084fc;">${spa}</td>
+          <td style="padding: 0.6rem; font-weight: 700; color: #a7f3d0;">${spd}</td>
+          <td style="padding: 0.6rem; font-weight: 700; color: #f472b6;">${spe}</td>
+          <td style="padding: 0.6rem;"><span style="font-weight: 800; color: #38bdf8;">${bst}</span></td>
+          <td style="padding: 0.6rem; text-align: center;">
+            ${actionButtonHTML}
+          </td>
+        </tr>
+      `;
+    }).join('');
+
+    tbody.innerHTML = tableRowsHTML || `<tr><td colspan="12" style="text-align: center; padding: 2rem; color: #94a3b8;">Nenhum Pokémon encontrado com os filtros aplicados.</td></tr>`;
+    this.attachTableRowsEvents();
+  }
+
+  private attachTableRowsEvents(): void {
+    if (!this.teamBuilderContainer) return;
+    const tableRows = this.teamBuilderContainer.querySelectorAll('.tb-table-row');
+    tableRows.forEach(row => {
+      row.addEventListener('click', () => {
+        const sId = parseInt(row.getAttribute('data-species-id') || '0', 10);
+        if (sId) {
+          this.assignPokemonToSlot(this.activeSlotIndexToPick, sId);
+        }
+      });
+    });
   }
 
   private assignPokemonToSlot(slotIndex: number, speciesId: number): void {
@@ -1933,12 +2003,15 @@ class PokedexApp {
       });
     }
 
-    // Table Search Input
+    // Table Search Input (Debounced In-Place DOM Update)
     const tableSearch = document.getElementById('tb-table-search') as HTMLInputElement;
     if (tableSearch) {
       tableSearch.addEventListener('input', () => {
         this.tbSearchQuery = tableSearch.value;
-        this.renderTeamBuilder();
+        clearTimeout(this.searchDebounceTimer);
+        this.searchDebounceTimer = setTimeout(() => {
+          this.renderTeamBuilderTableOnly();
+        }, 120);
       });
     }
 
@@ -1947,7 +2020,7 @@ class PokedexApp {
     if (tableGen) {
       tableGen.addEventListener('change', () => {
         this.tbGenFilter = tableGen.value;
-        this.renderTeamBuilder();
+        this.renderTeamBuilderTableOnly();
       });
     }
 
@@ -1956,7 +2029,7 @@ class PokedexApp {
     if (tableType) {
       tableType.addEventListener('change', () => {
         this.tbTypeFilter = tableType.value;
-        this.renderTeamBuilder();
+        this.renderTeamBuilderTableOnly();
       });
     }
 
@@ -1965,16 +2038,19 @@ class PokedexApp {
     if (tableAbility) {
       tableAbility.addEventListener('change', () => {
         this.tbAbilityFilter = tableAbility.value;
-        this.renderTeamBuilder();
+        this.renderTeamBuilderTableOnly();
       });
     }
 
-    // Table Move Filter
+    // Table Move Filter (Debounced In-Place DOM Update)
     const tableMove = document.getElementById('tb-table-move') as HTMLInputElement;
     if (tableMove) {
       tableMove.addEventListener('input', () => {
         this.tbMoveFilter = tableMove.value;
-        this.renderTeamBuilder();
+        clearTimeout(this.searchDebounceTimer);
+        this.searchDebounceTimer = setTimeout(() => {
+          this.renderTeamBuilderTableOnly();
+        }, 120);
       });
     }
 
@@ -1989,20 +2065,12 @@ class PokedexApp {
           this.tbSortField = sortField;
           this.tbSortOrder = sortField === 'id' || sortField === 'name' ? 'asc' : 'desc';
         }
-        this.renderTeamBuilder();
+        this.renderTeamBuilderTableOnly();
       });
     });
 
-    // Table Row & Select Button Clicks
-    const tableRows = this.teamBuilderContainer.querySelectorAll('.tb-table-row');
-    tableRows.forEach(row => {
-      row.addEventListener('click', () => {
-        const sId = parseInt(row.getAttribute('data-species-id') || '0', 10);
-        if (sId) {
-          this.assignPokemonToSlot(this.activeSlotIndexToPick, sId);
-        }
-      });
-    });
+    // Attach row events initial
+    this.attachTableRowsEvents();
 
     // Move selects change
     const moveSelects = this.teamBuilderContainer.querySelectorAll('.member-move-select');
