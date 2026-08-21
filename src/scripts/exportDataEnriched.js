@@ -517,6 +517,19 @@ const enrichedPokemon = pokemonList.map(pRow => {
     }
   });
 
+  // Guarantee Gen 9 essential TMs (e.g. Body Press for Archaludon)
+  if (id === 1018 || name.toLowerCase() === 'archaludon') {
+    if (!finalMoves.some(m => m.name.toLowerCase() === 'body press')) {
+      finalMoves.push({
+        name: 'Body Press',
+        type: 'fighting',
+        method: 'machine',
+        power: 80,
+        damageClass: 'Physical'
+      });
+    }
+  }
+
   return {
     id,
     speciesId,
