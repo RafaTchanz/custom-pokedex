@@ -1266,11 +1266,21 @@ class PokedexApp {
       if (this.tbMoveFilter.trim()) {
         const rawQuery = this.tbMoveFilter.toLowerCase().trim();
         const normQuery = rawQuery.replace(/[^a-z0-9]/g, '');
+
+        const isExactMoveName = (p.moves || []).some(m => m && m.name && (m.name.toLowerCase() === rawQuery || m.name.toLowerCase().replace(/[^a-z0-9]/g, '') === normQuery));
+
         const hasMove = (p.moves || []).some(m => {
           if (!m || !m.name) return false;
           const mName = m.name.toLowerCase();
           const mNorm = mName.replace(/[^a-z0-9]/g, '');
-          return mName.includes(rawQuery) || (normQuery.length > 0 && mNorm.includes(normQuery));
+
+          if (isExactMoveName || normQuery.length >= 4) {
+            return mName === rawQuery || mNorm === normQuery;
+          }
+
+          const escaped = rawQuery.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+          const regex = new RegExp(`\\b${escaped}`, 'i');
+          return regex.test(mName) || mNorm.startsWith(normQuery);
         });
         if (!hasMove) return false;
       }
@@ -1359,10 +1369,11 @@ class PokedexApp {
         return `<span class="type-badge-pill" style="background: ${bg}; color: #fff; font-size: 0.6rem; padding: 0.1rem 0.35rem; border-radius: 4px; font-weight: 800;">${t}</span>`;
       }).join(' ');
 
+      const fallbackUrl = `https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/${m.speciesId}.png`;
       return `
         <div class="tb-avatar-card ${isSelected ? 'active-slot' : ''}" data-slot="${slotIdx}">
           <div class="tb-avatar-circle" style="background: ${circleBg};">
-            <img src="${m.officialArtworkUrl || m.spriteUrl}" alt="${m.name}">
+            <img src="${m.officialArtworkUrl || m.spriteUrl}" alt="${m.name}" onerror="this.onerror=null; this.src='${fallbackUrl}';">
           </div>
           <div class="tb-avatar-name">${m.name}</div>
           <div class="tb-avatar-types">${typeBadges}</div>
@@ -1398,11 +1409,12 @@ class PokedexApp {
         ? `<select class="tb-select member-variety-select" data-slot="${activeSlotIdx}" style="margin-top: 0.25rem; font-size: 0.75rem;">${varietiesHTML}</select>`
         : '';
 
-      // Moves Selects
+      // Moves Selects (Alphabetically Sorted)
+      const sortedAvailableMoves = [...(activeMember.availableMoves || [])].sort((a, b) => a.name.localeCompare(b.name));
       const movesHTML = [0, 1, 2, 3].map(mIdx => {
         const currentMove = activeMember.moves[mIdx] || '';
         const optionsHTML = `<option value="">-- Golpe #${mIdx + 1} --</option>` +
-          (activeMember.availableMoves || []).map(mv => {
+          sortedAvailableMoves.map(mv => {
             return `<option value="${mv.name}" ${mv.name.toLowerCase() === currentMove.toLowerCase() ? 'selected' : ''}>${mv.name} (${mv.type}${mv.power ? ` • ${mv.power} Pow` : ''})</option>`;
           }).join('');
 
@@ -1953,8 +1965,8 @@ class PokedexApp {
             activeMember.pokemonId = varPokemon.id;
             activeMember.name = varPokemon.name;
             activeMember.types = varPokemon.types.map(t => t.name);
-            activeMember.spriteUrl = varPokemon.media.spriteUrl;
-            activeMember.officialArtworkUrl = varPokemon.media.officialArtworkUrl;
+            activeMember.spriteUrl = varPokemon.media.spriteUrl || group.defaultPokemon.media.spriteUrl;
+            activeMember.officialArtworkUrl = varPokemon.media.officialArtworkUrl || group.defaultPokemon.media.officialArtworkUrl || group.defaultPokemon.media.spriteUrl;
 
             const getStat = (sName: string) => varPokemon.stats.find(s => s.name.toLowerCase() === sName.toLowerCase() || s.name.toLowerCase() === sName.replace('-', ''))?.baseStat || 80;
             activeMember.baseStats = {
