@@ -566,12 +566,17 @@ class PokedexApp {
       this.gridContainer.classList.add('hidden');
       this.tableContainer.classList.add('hidden');
       this.emptyState.classList.add('hidden');
+      if (this.toggleFiltersBtn) this.toggleFiltersBtn.style.display = 'none';
+      if (this.filterBar) this.filterBar.style.display = 'none';
       if (this.teamBuilderContainer) {
         this.teamBuilderContainer.classList.remove('hidden');
         this.renderTeamBuilder();
       }
       return;
     }
+
+    if (this.toggleFiltersBtn) this.toggleFiltersBtn.style.display = '';
+    if (this.filterBar) this.filterBar.style.display = '';
 
     if (this.teamBuilderContainer) {
       this.teamBuilderContainer.classList.add('hidden');
