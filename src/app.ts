@@ -113,6 +113,7 @@ class PokedexApp {
   private showdownChampionsFormatsMap: Record<string, ShowdownFormatData> = {};
   private championsLearnsetsMap: Record<string, string[]> = {};
   private recommendedMovesMap: Record<string, Record<string, string[]>> = {};
+  private activeMoveSlotToFill: number = 0;
   private bulbapediaChampionsData: { ndexes: Set<number>; forms: Set<string> } | null = null;
   private activeModalTab: 'general' | 'moves' | 'evolution' | 'encounters' | 'competitive' = 'general';
   private isShinyActive: boolean = false;
@@ -1567,17 +1568,30 @@ class PokedexApp {
         ? `<select class="tb-select member-variety-select" data-slot="${activeSlotIdx}" style="margin-top: 0.25rem; font-size: 0.75rem;">${varietiesHTML}</select>`
         : '';
 
-      // Moves Selects (Regulation-Aware Competitive Sorting & Highlights)
+      // Moves Selects (Regulation-Aware Competitive Sorting & Highlights & Deduplication)
       const currentFormatKey = isChampions ? 'champions' : (isNationalDex ? 'national-dex' : 'scarlet-violet');
       const speciesAlias = activeMember.name.toLowerCase().replace(/[^a-z0-9]/g, '');
       const formatRecsList = (this.recommendedMovesMap[currentFormatKey] && this.recommendedMovesMap[currentFormatKey][speciesAlias]) || [];
-      const formatRecsSet = new Set(formatRecsList.map(m => m.toLowerCase()));
+      const formatRecsSet = new Set(formatRecsList.map(m => m.toLowerCase().trim()));
 
-      const rawAvailableMoves = activeMember.availableMoves || [];
-      const recMoves = rawAvailableMoves.filter(m => formatRecsSet.has(m.name.toLowerCase())).sort((a, b) => a.name.localeCompare(b.name));
-      const otherMoves = rawAvailableMoves.filter(m => !formatRecsSet.has(m.name.toLowerCase())).sort((a, b) => a.name.localeCompare(b.name));
+      // Deduplicate rawAvailableMoves by move name
+      const uniqueAvailableMoves: PokemonMove[] = [];
+      const seenMoveNames = new Set<string>();
+      for (const m of (activeMember.availableMoves || [])) {
+        const lowerName = (m.name || '').toLowerCase().trim();
+        if (lowerName && !seenMoveNames.has(lowerName)) {
+          seenMoveNames.add(lowerName);
+          uniqueAvailableMoves.push(m);
+        }
+      }
+
+      const recMoves = uniqueAvailableMoves.filter(m => formatRecsSet.has(m.name.toLowerCase().trim())).sort((a, b) => a.name.localeCompare(b.name));
+      const otherMoves = uniqueAvailableMoves.filter(m => !formatRecsSet.has(m.name.toLowerCase().trim())).sort((a, b) => a.name.localeCompare(b.name));
       const sortedAvailableMoves = [...recMoves, ...otherMoves];
-      const selectedMovesSet = new Set(activeMember.moves.filter(m => m && m.trim().length > 0).map(m => m.toLowerCase()));
+      const selectedMovesSet = new Set(activeMember.moves.filter(m => m && m.trim().length > 0).map(m => m.toLowerCase().trim()));
+
+      // Target active move slot indicator
+      const activeSlotRow = this.activeMoveSlotToFill % 4;
 
       // Quick Recommended Meta Moves Pills HTML
       const formatNameLabel = isChampions ? '🏆 Champions' : (isNationalDex ? '🌐 NatDex' : '🔴 Gen 9 SV');
@@ -1585,9 +1599,9 @@ class PokedexApp {
       if (recMoves.length > 0) {
         const pillsHTML = recMoves.map(m => {
           const typeColor = TYPE_COLORS[m.type.toLowerCase()] || '#a8a77a';
-          const isSelected = selectedMovesSet.has(m.name.toLowerCase());
+          const isSelected = selectedMovesSet.has(m.name.toLowerCase().trim());
           return `
-            <button class="tb-rec-move-btn ${isSelected ? 'selected' : ''}" data-move-name="${m.name}" data-slot="${activeSlotIdx}" style="background: rgba(30,41,59,0.85); border: 1px solid ${isSelected ? typeColor : 'rgba(255,255,255,0.15)'}; color: ${isSelected ? '#4ade80' : '#f8fafc'}; font-size: 0.65rem; font-weight: 700; padding: 0.15rem 0.45rem; border-radius: 6px; cursor: pointer; display: inline-flex; align-items: center; gap: 0.25rem;">
+            <button class="tb-rec-move-btn ${isSelected ? 'selected' : ''}" data-move-name="${m.name}" data-slot="${activeSlotIdx}" style="background: ${isSelected ? 'rgba(34,197,94,0.15)' : 'rgba(30,41,59,0.85)'}; border: 1px solid ${isSelected ? '#4ade80' : 'rgba(255,255,255,0.15)'}; color: ${isSelected ? '#4ade80' : '#f8fafc'}; font-size: 0.65rem; font-weight: 700; padding: 0.15rem 0.45rem; border-radius: 6px; cursor: pointer; display: inline-flex; align-items: center; gap: 0.25rem;">
               <span style="color: ${typeColor}; font-weight: 800;">★</span> ${m.name} ${isSelected ? '✓' : '+'}
             </button>
           `;
@@ -1597,7 +1611,7 @@ class PokedexApp {
           <div style="margin-bottom: 0.6rem; background: rgba(56,189,248,0.06); border: 1px solid rgba(56,189,248,0.2); border-radius: 8px; padding: 0.45rem 0.6rem;">
             <div style="font-size: 0.675rem; font-weight: 800; color: #38bdf8; text-transform: uppercase; margin-bottom: 0.35rem; display: flex; align-items: center; justify-content: space-between;">
               <span>⭐ Golpes Mais Usados (${formatNameLabel} Meta)</span>
-              <span style="font-size: 0.6rem; color: #94a3b8; text-transform: none; font-weight: 600;">Clique para adicionar</span>
+              <span style="font-size: 0.6rem; color: #94a3b8; text-transform: none; font-weight: 600;">Clique para preencher a lista</span>
             </div>
             <div style="display: flex; gap: 0.35rem; flex-wrap: wrap;">
               ${pillsHTML}
@@ -1607,14 +1621,15 @@ class PokedexApp {
       }
 
       const movesHTML = [0, 1, 2, 3].map(mIdx => {
-        const currentMoveName = activeMember.moves[mIdx] || '';
-        const currentMoveObj = sortedAvailableMoves.find(mv => mv.name.toLowerCase() === currentMoveName.toLowerCase());
+        const currentMoveName = (activeMember.moves[mIdx] || '').trim();
+        const currentMoveObj = sortedAvailableMoves.find(mv => mv.name.toLowerCase().trim() === currentMoveName.toLowerCase());
 
         const optionsHTML = `<option value="">-- Golpe #${mIdx + 1} --</option>` +
           sortedAvailableMoves.map(mv => {
-            const isCurrent = mv.name.toLowerCase() === currentMoveName.toLowerCase();
-            const isDuplicate = !isCurrent && selectedMovesSet.has(mv.name.toLowerCase());
-            const isMeta = formatRecsSet.has(mv.name.toLowerCase());
+            const mvLower = mv.name.toLowerCase().trim();
+            const isCurrent = mvLower === currentMoveName.toLowerCase();
+            const isDuplicate = !isCurrent && selectedMovesSet.has(mvLower);
+            const isMeta = formatRecsSet.has(mvLower);
             const disabledAttr = isDuplicate ? 'disabled style="color: #64748b; background: rgba(15,23,42,0.8);"' : '';
             const starPrefix = isMeta ? '⭐ ' : '';
             const metaTag = isMeta ? ' (Competitivo)' : '';
@@ -1631,8 +1646,11 @@ class PokedexApp {
           ? `<span class="tb-move-power-pill" style="background: rgba(56,189,248,0.15); color: #38bdf8; border: 1px solid rgba(56,189,248,0.3); font-size: 0.65rem; font-weight: 800; padding: 0.15rem 0.45rem; border-radius: 4px;">${currentMoveObj.power ? `${currentMoveObj.power} POW` : 'STATUS'}</span>`
           : `<span class="tb-move-power-pill" style="background: rgba(148,163,184,0.15); color: #64748b; font-size: 0.65rem; font-weight: 700; padding: 0.15rem 0.45rem; border-radius: 4px;">---</span>`;
 
+        const isRowFocused = mIdx === activeSlotRow;
+        const rowGlow = isRowFocused ? 'border: 1px solid rgba(56,189,248,0.5); box-shadow: 0 0 6px rgba(56,189,248,0.2);' : 'border: 1px solid transparent;';
+
         return `
-          <div class="tb-move-item" style="display: flex; align-items: center; gap: 0.4rem; margin-bottom: 0.4rem;">
+          <div class="tb-move-item" style="display: flex; align-items: center; gap: 0.4rem; margin-bottom: 0.4rem; padding: 0.15rem; border-radius: 6px; ${rowGlow}">
             <select class="tb-move-select member-move-select" data-slot="${activeSlotIdx}" data-move-idx="${mIdx}" style="flex: 1;">
               ${optionsHTML}
             </select>
@@ -2340,13 +2358,24 @@ class PokedexApp {
         const activeMember = this.teamBuilderService.members[this.activeSlotIndexToPick];
         if (!activeMember) return;
 
-        const existingIdx = activeMember.moves.findIndex(m => m && m.toLowerCase() === moveName.toLowerCase());
+        const moveLower = moveName.toLowerCase().trim();
+        const existingIdx = activeMember.moves.findIndex(m => m && m.toLowerCase().trim() === moveLower);
+
         if (existingIdx !== -1) {
+          // If already selected, toggle off / remove
           activeMember.moves[existingIdx] = '';
+          this.activeMoveSlotToFill = existingIdx;
         } else {
-          const emptyIdx = activeMember.moves.findIndex(m => !m || m.trim().length === 0);
-          const targetIdx = emptyIdx !== -1 ? emptyIdx : 0;
+          // Use current active target slot if empty, otherwise find next empty slot
+          let targetIdx = this.activeMoveSlotToFill % 4;
+          if (activeMember.moves[targetIdx] && activeMember.moves[targetIdx].trim().length > 0) {
+            const firstEmpty = activeMember.moves.findIndex(m => !m || m.trim().length === 0);
+            if (firstEmpty !== -1) {
+              targetIdx = firstEmpty;
+            }
+          }
           activeMember.moves[targetIdx] = moveName;
+          this.activeMoveSlotToFill = (targetIdx + 1) % 4;
         }
 
         this.teamBuilderService.saveToLocalStorage();
@@ -2544,14 +2573,32 @@ class PokedexApp {
     // Attach row events initial
     this.attachTableRowsEvents();
 
-    // Move selects change
+    // Move selects change & focus
     const moveSelects = this.teamBuilderContainer.querySelectorAll('.member-move-select');
     moveSelects.forEach(sel => {
+      sel.addEventListener('focus', () => {
+        const moveIdx = parseInt(sel.getAttribute('data-move-idx') || '0', 10);
+        if (this.activeMoveSlotToFill !== moveIdx) {
+          this.activeMoveSlotToFill = moveIdx;
+          const allRows = this.teamBuilderContainer?.querySelectorAll('.tb-move-item');
+          allRows?.forEach((row, rIdx) => {
+            if (rIdx === moveIdx) {
+              (row as HTMLElement).style.border = '1px solid rgba(56,189,248,0.5)';
+              (row as HTMLElement).style.boxShadow = '0 0 6px rgba(56,189,248,0.2)';
+            } else {
+              (row as HTMLElement).style.border = '1px solid transparent';
+              (row as HTMLElement).style.boxShadow = 'none';
+            }
+          });
+        }
+      });
+
       sel.addEventListener('change', (e) => {
         const target = e.target as HTMLSelectElement;
         const slotIdx = parseInt(target.getAttribute('data-slot') || '0', 10);
         const moveIdx = parseInt(target.getAttribute('data-move-idx') || '0', 10);
         this.teamBuilderService.members[slotIdx].moves[moveIdx] = target.value;
+        this.activeMoveSlotToFill = (moveIdx + 1) % 4;
         this.teamBuilderService.saveToLocalStorage();
         this.renderTeamBuilder();
       });
