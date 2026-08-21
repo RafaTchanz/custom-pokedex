@@ -969,43 +969,60 @@ class PokedexApp {
       } else {
         const compData = await this.smogonService.getCompetitiveData(p.name);
         
-        const warningBanner = compData.isOfflineFallback
-          ? `<div style="background: rgba(245,158,11,0.15); border: 1px solid rgba(245,158,11,0.4); color: #fbbf24; padding: 0.75rem 1rem; border-radius: 12px; font-size: 0.85rem; margin-bottom: 1.25rem; text-align: center;">
-               ⚠️ ${compData.warningMessage}
-             </div>`
-          : '';
+        if (!compData.movesets || compData.movesets.length === 0) {
+          tabBodyHTML = `
+            <div style="background: rgba(30,41,59,0.8); border: 1px solid rgba(56,189,248,0.25); padding: 2.25rem 1.5rem; border-radius: 20px; text-align: center; margin: 1rem 0;">
+              <div style="font-size: 2.75rem; margin-bottom: 0.75rem;">📊</div>
+              <h3 style="font-size: 1.15rem; font-weight: 800; color: #f8fafc; margin-bottom: 0.5rem;">
+                Não há dados competitivos relevantes no Smogon para este Pokémon
+              </h3>
+              <p style="font-size: 0.85rem; color: #94a3b8; max-width: 480px; margin: 0 auto 1.25rem auto; line-height: 1.5;">
+                Geralmente ocorre com Pokémons em estágio inicial de evolução (NFE), pré-evoluções ou formas não utilizadas nos formatos competitivos oficiais do Smogon (OU, VGC, Ubers).
+              </p>
+              <div style="display: inline-flex; gap: 1.5rem; background: rgba(15,23,42,0.6); padding: 0.75rem 1.25rem; border-radius: 12px; font-size: 0.85rem; border: 1px solid rgba(255,255,255,0.08);">
+                <div><strong style="color: #94a3b8;">Classificação / Tier:</strong> <span style="color: #38bdf8; font-weight: 800;">${compData.tier || 'Untiered / Casual'}</span></div>
+              </div>
+            </div>
+          `;
+        } else {
+          const warningBanner = compData.isOfflineFallback
+            ? `<div style="background: rgba(245,158,11,0.15); border: 1px solid rgba(245,158,11,0.4); color: #fbbf24; padding: 0.75rem 1rem; border-radius: 12px; font-size: 0.85rem; margin-bottom: 1.25rem; text-align: center;">
+                 ⚠️ ${compData.warningMessage}
+               </div>`
+            : '';
 
-        const movesetsHTML = compData.movesets.map((m: MovesetOption, buildIdx: number) => `
-          <div style="background: rgba(15,23,42,0.6); padding: 1.1rem; border-radius: 14px; margin-bottom: 1rem; text-align: left; border: 1px solid ${buildIdx === 0 ? '#38bdf8' : 'rgba(255,255,255,0.08)'}; box-shadow: ${buildIdx === 0 ? '0 0 15px rgba(56,189,248,0.2)' : 'none'};">
-            <div style="font-weight: 800; color: #38bdf8; font-size: 1.05rem; margin-bottom: 0.6rem; display: flex; align-items: center; justify-content: space-between;">
-              <span>🎯 Build #${buildIdx + 1}: ${m.name} <span style="font-size: 0.7rem; background: ${buildIdx === 0 ? '#38bdf8' : 'rgba(255,255,255,0.15)'}; color: ${buildIdx === 0 ? '#0f172a' : '#f8fafc'}; padding: 0.15rem 0.5rem; border-radius: 6px; font-weight: 800; margin-left: 0.5rem;">${m.format || 'Gen 9 Competitive'}</span></span>
+          const movesetsHTML = compData.movesets.map((m: MovesetOption, buildIdx: number) => `
+            <div style="background: rgba(15,23,42,0.6); padding: 1.1rem; border-radius: 14px; margin-bottom: 1rem; text-align: left; border: 1px solid ${buildIdx === 0 ? '#38bdf8' : 'rgba(255,255,255,0.08)'}; box-shadow: ${buildIdx === 0 ? '0 0 15px rgba(56,189,248,0.2)' : 'none'};">
+              <div style="font-weight: 800; color: #38bdf8; font-size: 1.05rem; margin-bottom: 0.6rem; display: flex; align-items: center; justify-content: space-between;">
+                <span>🎯 Build #${buildIdx + 1}: ${m.name} <span style="font-size: 0.7rem; background: ${buildIdx === 0 ? '#38bdf8' : 'rgba(255,255,255,0.15)'}; color: ${buildIdx === 0 ? '#0f172a' : '#f8fafc'}; padding: 0.15rem 0.5rem; border-radius: 6px; font-weight: 800; margin-left: 0.5rem;">${m.format || 'Gen 9 Competitive'}</span></span>
+              </div>
+              <div style="font-size: 0.85rem; color: #cbd5e1; margin-bottom: 0.75rem; display: grid; grid-template-columns: 1fr 1fr; gap: 0.5rem; background: rgba(0,0,0,0.2); padding: 0.75rem; border-radius: 10px;">
+                <div><strong style="color: #94a3b8;">Habilidade:</strong> <span style="color: #f1f5f9;">${m.abilities.join(' / ')}</span></div>
+                <div><strong style="color: #94a3b8;">Item:</strong> <span style="color: #f1f5f9;">${m.items.join(' / ')}</span></div>
+                <div><strong style="color: #94a3b8;">Nature:</strong> <span style="color: #f1f5f9;">${m.natures.join(' / ')}</span></div>
+                ${m.teraTypes && m.teraTypes.length > 0 ? `<div><strong style="color: #94a3b8;">Tera Type:</strong> <span style="color: #a7f3d0;">${m.teraTypes.join(' / ')}</span></div>` : ''}
+              </div>
+              <div style="font-size: 0.85rem; font-weight: 700; color: #94a3b8; margin-top: 0.5rem; margin-bottom: 0.4rem;">Golpes Recomendados (Moveset):</div>
+              <div style="display: flex; flex-direction: column; gap: 0.35rem;">
+                ${m.moves.map((slot: string[], idx: number) => `
+                  <div style="background: rgba(30,41,59,0.7); padding: 0.4rem 0.75rem; border-radius: 8px; font-size: 0.85rem; color: #f8fafc; display: flex; align-items: center; gap: 0.5rem;">
+                    <span style="font-size: 0.75rem; font-weight: 800; color: #64748b; min-width: 50px;">SLOT ${idx + 1}:</span>
+                    <span style="font-weight: 600; color: #38bdf8;">${slot.join(' <span style="color: #64748b;">/</span> ')}</span>
+                  </div>
+                `).join('')}
+              </div>
             </div>
-            <div style="font-size: 0.85rem; color: #cbd5e1; margin-bottom: 0.75rem; display: grid; grid-template-columns: 1fr 1fr; gap: 0.5rem; background: rgba(0,0,0,0.2); padding: 0.75rem; border-radius: 10px;">
-              <div><strong style="color: #94a3b8;">Habilidade:</strong> <span style="color: #f1f5f9;">${m.abilities.join(' / ')}</span></div>
-              <div><strong style="color: #94a3b8;">Item:</strong> <span style="color: #f1f5f9;">${m.items.join(' / ')}</span></div>
-              <div><strong style="color: #94a3b8;">Nature:</strong> <span style="color: #f1f5f9;">${m.natures.join(' / ')}</span></div>
-              ${m.teraTypes && m.teraTypes.length > 0 ? `<div><strong style="color: #94a3b8;">Tera Type:</strong> <span style="color: #a7f3d0;">${m.teraTypes.join(' / ')}</span></div>` : ''}
-            </div>
-            <div style="font-size: 0.85rem; font-weight: 700; color: #94a3b8; margin-top: 0.5rem; margin-bottom: 0.4rem;">Golpes Recomendados (Moveset):</div>
-            <div style="display: flex; flex-direction: column; gap: 0.35rem;">
-              ${m.moves.map((slot: string[], idx: number) => `
-                <div style="background: rgba(30,41,59,0.7); padding: 0.4rem 0.75rem; border-radius: 8px; font-size: 0.85rem; color: #f8fafc; display: flex; align-items: center; gap: 0.5rem;">
-                  <span style="font-size: 0.75rem; font-weight: 800; color: #64748b; min-width: 50px;">SLOT ${idx + 1}:</span>
-                  <span style="font-weight: 600; color: #38bdf8;">${slot.join(' <span style="color: #64748b;">/</span> ')}</span>
-                </div>
-              `).join('')}
-            </div>
-          </div>
-        `).join('');
+          `).join('');
 
-        tabBodyHTML = `
-          ${warningBanner}
-          <div style="display: flex; justify-content: space-around; background: rgba(30,41,59,0.7); padding: 1rem; border-radius: 16px; margin-bottom: 1.25rem; font-size: 0.9rem;">
-            <div><div style="font-size: 0.75rem; color: #94a3b8; font-weight: 700; text-transform: uppercase;">Tier Smogon</div><div style="font-size: 1.25rem; font-weight: 800; color: #38bdf8;">${compData.tier}</div></div>
-            <div><div style="font-size: 0.75rem; color: #94a3b8; font-weight: 700; text-transform: uppercase;">EV Spread Recomendado</div><div style="font-size: 0.85rem; font-weight: 600; color: #e2e8f0;">${compData.recommendedEvs}</div></div>
-          </div>
-          ${movesetsHTML}
-        `;
+          tabBodyHTML = `
+            ${warningBanner}
+            <div style="display: flex; justify-content: space-around; background: rgba(30,41,59,0.7); padding: 1rem; border-radius: 16px; margin-bottom: 1.25rem; font-size: 0.9rem;">
+              <div><div style="font-size: 0.75rem; color: #94a3b8; font-weight: 700; text-transform: uppercase;">Tier Smogon</div><div style="font-size: 1.25rem; font-weight: 800; color: #38bdf8;">${compData.tier}</div></div>
+              <div><div style="font-size: 0.75rem; color: #94a3b8; font-weight: 700; text-transform: uppercase;">EV Spread Recomendado</div><div style="font-size: 0.85rem; font-weight: 600; color: #e2e8f0;">${compData.recommendedEvs}</div></div>
+            </div>
+            ${movesetsHTML}
+          `;
+        }
       }
 
       // Combine Full Modal HTML

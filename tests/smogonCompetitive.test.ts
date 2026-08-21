@@ -46,8 +46,8 @@ describe('ST-005: SmogonService (Módulo Competitivo & Metagame Integration)', (
     const data: CompetitiveData = await smogonService.getCompetitiveData('non-existent-pokemon-xyz-123');
 
     expect(data.isOfflineFallback).toBe(true);
-    expect(data.warningMessage).toContain('Dados de metagame em tempo real indisponíveis offline');
+    expect(data.warningMessage).toContain('Não há dados competitivos oficiais no Smogon para este Pokémon');
     expect(data.tier).toBe('Untiered / Casual');
-    expect(data.movesets.length).toBeGreaterThanOrEqual(1);
+    expect(data.movesets.length).toBe(0);
   });
 });

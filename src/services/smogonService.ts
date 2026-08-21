@@ -209,35 +209,8 @@ export class SmogonService {
       });
     }
 
-    if (movesets.length === 0) {
-      let evs = '252 Atk / 4 SpD / 252 Spe';
-      let nature = 'Jolly / Adamant';
-      if (stats.spa > stats.atk) {
-        evs = '252 SpA / 4 SpD / 252 Spe';
-        nature = 'Timid / Modest';
-      } else if (stats.hp + stats.def + stats.spd > stats.atk + stats.spa + stats.spe) {
-        evs = '252 HP / 252 Def / 4 SpD';
-        nature = 'Bold / Impish / Calm';
-      }
-
-      movesets.push({
-        name: `${tier} Competitive Build`,
-        format: 'Smogon Standard',
-        abilities: abilities,
-        items: ['Choice Band', 'Choice Specs', 'Life Orb', 'Leftovers', 'Heavy-Duty Boots'],
-        moves: [
-          ['STAB Primary Move'],
-          ['STAB Coverage Move'],
-          ['Utility / Support Move'],
-          ['Pivot / Setup Move'],
-        ],
-        evs: { atk: stats.atk >= stats.spa ? 252 : 0, spa: stats.spa > stats.atk ? 252 : 0, spe: 252 },
-        natures: nature.split(' / '),
-      });
-    }
-
-    const primaryEvs = movesets[0] ? this.formatEvs(movesets[0].evs) : '252 SpA / 4 SpD / 252 Spe';
-    const primaryNature = movesets[0] ? movesets[0].natures.join(' / ') : 'Timid';
+    const primaryEvs = movesets[0] ? this.formatEvs(movesets[0].evs) : 'N/A';
+    const primaryNature = movesets[0] ? movesets[0].natures.join(' / ') : 'N/A';
 
     return {
       pokemonName,
@@ -246,7 +219,8 @@ export class SmogonService {
       recommendedIvs: '31 em todos os Atributos (Perfec 6IV)',
       recommendedNature: primaryNature,
       movesets: movesets,
-      isOfflineFallback: false,
+      isOfflineFallback: movesets.length === 0,
+      warningMessage: movesets.length === 0 ? 'Não há dados competitivos oficiais no Smogon para este Pokémon.' : undefined,
     };
   }
 
@@ -265,17 +239,17 @@ export class SmogonService {
   public generateFallbackData(pokemonName: string): CompetitiveData {
     const isUnknown = pokemonName.includes('nonexistent') || pokemonName.includes('xyz');
     const isLegendaryOrUber = ['mewtwo', 'rayquaza', 'dialga', 'palkia', 'giratina', 'arceus', 'zacian', 'zamazenta', 'koraidon', 'miraidon'].includes(pokemonName);
-    const tier = isUnknown ? 'Untiered / Casual' : (isLegendaryOrUber ? 'Uber' : 'OU (OverUsed)');
+    const tier = isUnknown ? 'Untiered / Casual' : (isLegendaryOrUber ? 'Uber' : 'Untiered / NFE');
 
     return {
       pokemonName,
       tier,
-      recommendedEvs: '252 SpA / 4 SpD / 252 Spe',
+      recommendedEvs: 'N/A',
       recommendedIvs: '31 em todos os Atributos (Perfec 6IV)',
-      recommendedNature: 'Jolly / Timid / Adamant / Modest',
-      movesets: this.getDefaultMovesets(),
+      recommendedNature: 'N/A',
+      movesets: [],
       isOfflineFallback: true,
-      warningMessage: 'Dados de metagame em tempo real indisponíveis offline. Exibindo perfil competitivo base local.',
+      warningMessage: 'Não há dados competitivos oficiais no Smogon para este Pokémon.',
     };
   }
 
