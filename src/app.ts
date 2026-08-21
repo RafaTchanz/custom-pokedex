@@ -108,6 +108,7 @@ class PokedexApp {
   private tbTypeFilter: string = 'all';
   private tbAbilityFilter: string = 'all';
   private tbMoveFilter: string = '';
+  private tbFormatLegalityFilter: 'format' | 'all' = 'format';
   private activeModalTab: 'general' | 'moves' | 'evolution' | 'encounters' | 'competitive' = 'general';
   private isShinyActive: boolean = false;
   private is3DModelActive: boolean = false;
@@ -1248,6 +1249,14 @@ class PokedexApp {
     const filtered = this.speciesGroups.filter(g => {
       const p = g.selectedPokemon;
 
+      if (this.tbFormatLegalityFilter === 'format') {
+        const isSV = this.teamBuilderService.formatMode === 'scarlet-violet';
+        if (isSV) {
+          const pName = p.name.toLowerCase();
+          if (pName.includes('-mega') || pName.includes('primal-')) return false;
+        }
+      }
+
       if (this.tbGenFilter !== 'all') {
         const genNum = parseInt(this.tbGenFilter, 10);
         if (!this.isSpeciesInGen(g.speciesId, genNum)) return false;
@@ -1709,7 +1718,11 @@ class PokedexApp {
           </div>
 
           <div class="tb-table-controls-wrapper">
-            <input type="text" id="tb-table-search" class="tb-options-search" placeholder="🔍 Nome, #..." value="${this.tbSearchQuery}" style="width: 150px;">
+            <select id="tb-table-legality" class="tb-select" style="width: auto; padding: 0.45rem 0.5rem; border-color: rgba(56,189,248,0.4); background: rgba(15,23,42,0.85); color: #38bdf8; font-weight: 700;">
+              <option value="format" ${this.tbFormatLegalityFilter === 'format' ? 'selected' : ''}>🎯 Permitidos (${isChampions ? 'Champions' : 'Scarlet & Violet'})</option>
+              <option value="all" ${this.tbFormatLegalityFilter === 'all' ? 'selected' : ''}>🌐 Todos Pokémons</option>
+            </select>
+            <input type="text" id="tb-table-search" class="tb-options-search" placeholder="🔍 Nome, #..." value="${this.tbSearchQuery}" style="width: 140px;">
             <select id="tb-table-gen" class="tb-select" style="width: auto; padding: 0.45rem 0.5rem;">
               <option value="all" ${this.tbGenFilter === 'all' ? 'selected' : ''}>Todas Gens</option>
               <option value="1" ${this.tbGenFilter === '1' ? 'selected' : ''}>Gen 1 (Kanto)</option>
@@ -2194,6 +2207,15 @@ class PokedexApp {
         this.activeSlotIndexToPick = 0;
         this.teamBuilderService.clearStorage();
         this.renderTeamBuilder();
+      });
+    }
+
+    // Table Legality Filter
+    const tableLegality = document.getElementById('tb-table-legality') as HTMLSelectElement;
+    if (tableLegality) {
+      tableLegality.addEventListener('change', () => {
+        this.tbFormatLegalityFilter = tableLegality.value as any;
+        this.renderTeamBuilderTableOnly();
       });
     }
 
