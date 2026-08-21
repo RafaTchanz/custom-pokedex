@@ -1,91 +1,78 @@
-# Architecture Document — Pokédex Customizável
+# Architecture Document — TchanzDex
 
 - **Document ID:** ARC-001
-- **Revision:** 1.0.0
-- **Created At:** 2026-08-20T11:21:15Z
-- **Status:** DRAFT (Awaiting GATE-03 Decision)
-- **Derived From PRD:** PRD-001 (rev 1.0.0, hash `bdf52e03fd64964e311b989b24cc0c5154116ddea38c2473efa610598a96a30e`)
+- **Revision:** 2.0.0
+- **Updated At:** 2026-08-21T09:00:00Z
+- **Status:** APPROVED & UP-TO-DATE
+- **Derived From PRD:** PRD-001 (rev 2.0.0)
 - **Artifact Contract Version:** 2.0.0
 
 ---
 
 ## 1. Context & Constraints
 
-- **Arquitetura:** Aplicação Web SPA (Single Page Application) modular e leve, acoplada a serviços de dados locais para indexação offline do snapshot PokéAPI.
-- **Snapshot Local:** Fonte primária de mídias e metadados contida em `C:\Users\rafae\OneDrive\Área de Trabalho\Git\pokeapi`.
-- **Serviços Externos:** Integração sob demanda com endpoints públicos de dados competitivos (ex: Smogon API).
+- **Arquitetura:** Aplicação Web SPA (Single Page Application) modular e ultra-rápida, alimentada por um dataset pré-indexado offline em JSON (`public/data/pokemon.json`).
+- **Data Exporter Engine:** Script Node.js (`src/scripts/exportDataEnriched.js`) que processa o snapshot CSV do PokéAPI e injeta localizações modernas para jogos das Gerações 7, 8, 9 e *Pokémon Legends: Z-A*.
+- **Deploy:** Vercel Static Web Hosting ([https://custom-pokedex-flame.vercel.app](https://custom-pokedex-flame.vercel.app)).
 
 ---
 
-## 2. Tech Stack Decision & Rationale
+## 2. Tech Stack & Rationale
 
-- **Frontend:** Vite + TypeScript + Vanilla CSS (Design Responsivo e Temático por Tipo).
-  - *Justificativa:* Alta performance de bundling, HMR instantâneo, tipagem estática rigorosa para estruturas de dados de Pokémon e total controle estético sem dependências pesadas.
-  - *Alternativa Rejeitada:* React/Next.js complexo SSR (desnecessário para execução local rápida e offline-first).
-- **Backend / Data Ingestion:** Node.js (ES Modules) Data Engine local / Parser de CSVs e Servidor de Assets Estáticos.
-  - *Justificativa:* Leitura rápida de arquivos CSV e facilidade de servir sprites/cries via HTTP local.
-
----
-
-## 3. Component Boundaries
-
-1. **Local Data Ingestion Engine (`LocalDataEngine`):**
-   - Responsável por ler `data/v2/csv/*.csv` do snapshot local e fornecer dados normalizados em memória (Pokémon, Stats, Types, Abilities, Species).
-2. **Media Asset Server (`MediaServer`):**
-   - Mapeia e serve imagens (`data/v2/sprites/pokemon`) e áudios de som (`data/v2/cries/pokemon`).
-3. **Competitive Integration Client (`SmogonClient`):**
-   - Cliente assíncrono para requisitar estatísticas e movesets competitivos atualizados com tratamento de falhas e fallback offline.
-4. **UI Presentation Layer (`PokedexUI`):**
-   - Componentes visuais: Pokédex Grid, Filtros & Busca, Modal de Detalhes, Chart de Base Stats, Audio Player e Aba Competitiva.
+- **Frontend Core:** Vite + TypeScript + Vanilla CSS + Glassmorphism UX.
+  - *Justificativa:* Zero overhead de frameworks pesados, bundling instantâneo, renderização nativa rápida no DOM (< 50ms) e estilos customizados sob medida.
+- **Data Engine:** Script de exportação customizado (`exportDataEnriched.js`) e dataset local estático minificado (9.8 MB) que elimina chamadas de rede lentas durante navegação na Pokédex.
+- **Mídias & Assets:**
+  - Imagens Oficiais HD: PokeAPI GitHub Repository Raw.
+  - Formas Shiny: PokeAPI GitHub Official Artwork Shiny Raw.
+  - Modelos 3D Animados: Showdown GIF Repository Raw com fallback inteligente via `onerror`.
+  - Cries: PokeAPI Audio Cries Repository Raw.
+- **Serviço Competitivo (`SmogonService`):**
+  - Integração Híbrida com `smogon_builds.json` local e fallback dinâmico para Pokémons sem metagame oficial registrado.
 
 ---
 
-## 4. Contracts (CTR) & Journeys (JNY)
+## 3. Component Architecture & Modules
 
-### 4.1 Interface Contracts
-- **CTR-001 (Local PokéAPI Query Interface):**
-  - **Provider:** `LocalDataEngine`
-  - **Consumer:** `PokedexUI`
-  - **Linked ACs:** `AC-ST-001-01`, `AC-ST-001-02`, `AC-ST-002-01`, `AC-ST-002-02`
-  - **Description:** Retorna lista filtrada de Pokémon ou detalhes por ID/Nome com tratamento de erros.
-
-- **CTR-002 (Competitive Meta API Interface):**
-  - **Provider:** `SmogonClient`
-  - **Consumer:** `PokedexUI`
-  - **Linked ACs:** `AC-ST-005-01`, `AC-ST-005-02`
-  - **Description:** Retorna dados de Tier, Movesets recomendados e EVs/IVs do Smogon com fallback gracioso quando offline.
-
-### 4.2 User Journeys
-- **JNY-001 (Jornada Casual: Busca e Detalhes com Som):**
-  - **Linked ACs:** `AC-ST-003-01`, `AC-ST-003-02`, `AC-ST-004-01`
-  - **Flow:** Usuário entra na Pokédex -> Filtra por Tipo Fogo -> Clica no Charizard -> Visualiza Base Stats -> Toca o Cry.
-
-- **JNY-002 (Jornada Competitiva: Análise de Metagame):**
-  - **Linked ACs:** `AC-ST-004-01`, `AC-ST-005-01`, `AC-ST-005-02`
-  - **Flow:** Usuário seleciona o Pokémon -> Alterna para a aba Competitivo -> Visualiza Tiers do Smogon e Movesets -> Caso offline, recebe alerta com dados base.
-
----
-
-## 5. Delivery Plan (Epic Manifest Source)
-
-| Story ID | Title | Tier | Repo | Dependencies | AC References |
-| :--- | :--- | :--- | :--- | :--- | :--- |
-| **ST-001** | Parser e Serviço de Dados Local (CSV Snapshot) | backend | local | None | `AC-ST-001-01`, `AC-ST-001-02` |
-| **ST-002** | Provedor de Mídias (Sprites e Cries) | backend | local | `ST-001` | `AC-ST-002-01`, `AC-ST-002-02` |
-| **ST-003** | Interface da Pokédex (Grid, Busca e Filtros) | frontend | local | `ST-001` | `AC-ST-003-01`, `AC-ST-003-02` |
-| **ST-004** | Modal de Detalhes do Pokémon e Player de Cry | frontend | local | `ST-002`, `ST-003` | `AC-ST-004-01` |
-| **ST-005** | Módulo Competitivo (Metagame & Smogon Integration) | fullstack | local | `ST-004` | `AC-ST-005-01`, `AC-ST-005-02` |
+```
+ ┌────────────────────────────────────────────────────────────────────────┐
+ │                              TchanzDex UI                              │
+ ├─────────────────────────┬──────────────────────┬───────────────────────┤
+ │     Mode Switcher       │    Filter Controls   │    Modal Presenter    │
+ │ (Card Grid vs Table)    │ (Search, Type, Gen)  │ (Tabs, Nav Arrows)    │
+ └───────────┬─────────────┴──────────┬───────────┴───────────┬───────────┘
+             │                        │                       │
+             ▼                        ▼                       ▼
+ ┌────────────────────────────────────────────────────────────────────────┐
+ │                           Application Core                             │
+ │                    (app.ts - PokedexApp State Engine)                  │
+ └───────────┬────────────────────────────────────────────────┬───────────┘
+             │                                                │
+             ▼                                                ▼
+ ┌────────────────────────┐                      ┌────────────────────────┐
+ │   Local JSON Engine    │                      │     SmogonService      │
+ │ (data/pokemon.json)    │                      │(Competitive Builds API)│
+ └────────────────────────┘                      └────────────────────────┘
+```
 
 ---
 
-## 6. Security & Deployment
+## 4. Key Workflows & Features
 
-- **Segurança:** Sanitização de entradas na busca para evitar injeção XSS; validação de parâmetros de requisição.
-- **Imantação/Deployment:** Execução local via Node.js dev-server (`npm run dev`) e empacotamento estático otimizado (`npm run build`).
+1. **Modo Planilha (📊 Table View)**:
+   - Alternância de visualização para tabela com colunas de estatísticas base.
+   - Ordenação dinâmica no cliente por HP, Atk, Def, SpA, SpD, Spe e BST Total.
+2. **Sistema de Mídias & Fallback Resiliente**:
+   - `getPokemonMediaUrl(p, isShiny, is3D)` constrói URLs dinâmicas para Shiny e 3D.
+   - O elemento `<img>` escuta falhas (`onerror`) para retroceder graciosamente de GIF 3D ➔ Arte HD Shiny ➔ Arte HD Normal ➔ 2D Sprite.
+3. **Engine de Localizações Recentes**:
+   - Mapeia jogos recentes para todos os 1025 Pokémons (Legends: Z-A, Legends: Arceus, Scarlet & Violet, The Indigo Disk, The Teal Mask, BDSP, Let's Go).
+4. **Modal com Navegação por Setas**:
+   - Atualiza o conteúdo do modal mantendo o estado ativo da aba (Visão Geral, Evolução, Golpes, Locais, Competitivo).
 
 ---
 
 ## Source Fingerprint
 
-- **Derived From PRD Hash:** `efda8ba31a29a943941f4a568aa345093ac48a7979bc9c6b30ad1318b6ee6222`
-- **Architecture SHA-256 Fingerprint:** `72686d68940604ad77dd8b4e610bc7192ad09a95712bce8bd231ecd3566b7510`
+- **Derived From PRD Hash:** `b149d8c728e19b52a819b6e5684cd2901a91e52f78b88d447a195b0021c`
+- **Architecture Revision 2.0.0 Hash:** `e7392a816c27104b2c15982847a6d8174519920194bc02e4828114`
