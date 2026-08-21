@@ -191,9 +191,17 @@ const legendsArceusDexIds = new Set([
   1,2,3, 4,5,6, 7,8,9, 25,26, 35,36, 37,38, 41,42, 43,44,45, 54,55, 58,59, 63,64,65, 66,67,68, 74,75,76, 77,78, 81,82, 92,93,94, 95, 100,101, 108, 111,112, 113, 114, 122, 123, 126, 129,130, 133,134,135,136, 137, 143, 148,149, 155,156,157, 172, 173, 174, 175,176, 190, 196,197, 198, 201, 207, 211, 212, 214, 215, 216,217, 220,221, 223,224, 226, 233, 239, 240, 242, 280,281,282, 315, 339,340, 355,356, 361,362, 363,364,365, 396,397,398, 399,400, 401,402, 403,404,405, 406,407, 408,409, 410,411, 412,413, 417, 418,419, 420,421, 422,423, 424, 425,426, 427,428, 429, 431,432, 433, 434,435, 436,437, 438, 439, 440, 441, 442, 443,444,445, 446, 447,448, 449,450, 451,452, 453,454, 455, 458, 459,460, 461, 462, 463, 464, 465, 466, 467, 468, 469, 470, 471, 472, 473, 474, 475, 476, 477, 478, 479, 480,481,482, 483, 484, 485, 486, 487, 488, 489,490, 491, 492, 493, 501,502,503, 548,549, 570,571, 627,628, 629,630, 641,642,645, 704,705,706, 712,713, 722,723,724, 899,900,901,902,903,904,905
 ]);
 
-// Legends Z-A Dex ID set (Kalos + Starters + Featured Megas & Lumiose species)
-const legendsZADexIds = new Set([
-  1,2,3, 4,5,6, 7,8,9, 25,26, 94, 130, 133,134,135,136,196,197,470,471,700, 149, 150, 152,153,154, 155,156,157, 158,159,160, 212, 214, 248, 252,253,254, 255,256,257, 258,259,260, 282, 302, 303, 359, 373, 376, 384, 387,388,389, 390,391,392, 393,394,395, 445, 448, 475, 495,496,497, 498,499,500, 501,502,503, 650,651,652,653,654,655,656,657,658,659,660,661,662,663,664,665,666,667,668,669,670,671,672,673,674,675,676,677,678,679,680,681,682,683,684,685,686,687,688,689,690,691,692,693,694,695,696,697,698,699,700,701,702,703,704,705,706,707,708,709,710,711,712,713,714,715,716,717,718,719,720,721, 722,723,724,725,726,727,728,729,730, 810,811,812,813,814,815,816,817,818
+// Mega Evolution & Kalos Lumiose Dex ID set for Legends: Z-A
+const megaAndLumioseDexIds = new Set([
+  // Mega Evolution Families (Kanto to Kalos)
+  1,2,3, 4,5,6, 7,8,9, 13,14,15, 16,17,18, 25,26, 63,64,65, 79,80,199, 92,93,94, 95,208, 115, 127, 130,131, 142, 149, 150,
+  179,180,181, 212, 214, 228,229, 246,247,248, 252,253,254, 255,256,257, 258,259,260, 280,281,282,475, 302, 303, 304,305,306,
+  307,308, 309,310, 318,319, 322,323, 333,334, 354,355, 359, 361,362,478, 371,372,373, 374,375,376, 380, 381, 384,
+  427,428, 443,444,445, 447,448, 495,496,497, 498,499,500, 501,502,503, 531, 719,
+  // All Kalos Species (#650 to #721)
+  650,651,652,653,654,655,656,657,658,659,660,661,662,663,664,665,666,667,668,669,670,671,672,673,674,675,676,677,678,679,680,681,682,683,684,685,686,687,688,689,690,691,692,693,694,695,696,697,698,699,700,701,702,703,704,705,706,707,708,709,710,711,712,713,714,715,716,717,718,719,720,721,
+  // All Starters & Staples
+  133,134,135,136,196,197,470,471,700, 152,153,154, 155,156,157, 158,159,160, 387,388,389, 390,391,392, 393,394,395, 722,723,724, 725,726,727, 728,729,730, 810,811,812,813,814,815,816,817,818
 ]);
 
 function getRecentEncounters(speciesId, name, pRow) {
@@ -201,7 +209,27 @@ function getRecentEncounters(speciesId, name, pRow) {
   const lowerName = name.toLowerCase();
   const ident = pRow.identifier.toLowerCase();
 
-  // All Starters Gen 1-8 in Indigo Disk DLC & Scarlet / Violet
+  // 1. Let's Go, Pikachu! & Let's Go, Eevee! (All Gen 1 + Meltan/Melmetal)
+  if ((speciesId >= 1 && speciesId <= 151) || speciesId === 808 || speciesId === 809) {
+    encs.push({
+      game: "Let's Go, Pikachu! & Let's Go, Eevee!",
+      location: 'Kanto (Rotas Rurais, Floresta de Viridian, Caverna de Cerulean & Ilhas Espumantes)',
+      minLevel: 3,
+      maxLevel: 65
+    });
+  }
+
+  // 2. Brilliant Diamond & Shining Pearl (All Gen 1 to Gen 4 #1 - #493)
+  if (speciesId >= 1 && speciesId <= 493) {
+    encs.push({
+      game: 'Brilliant Diamond & Shining Pearl',
+      location: 'Sinnoh (Rotas de Sinnoh, Grand Underground [Biomas Gramado, Caverna e Volcânico] & Parque Rosa Rugosa)',
+      minLevel: 10,
+      maxLevel: 65
+    });
+  }
+
+  // 3. All Starters Gen 1-8 in Indigo Disk DLC & Scarlet / Violet
   if (allStarterFamilyIds.includes(speciesId)) {
     encs.push({
       game: 'The Indigo Disk (DLC)',
@@ -217,17 +245,17 @@ function getRecentEncounters(speciesId, name, pRow) {
     });
   }
 
-  // Legends: Z-A
-  if (legendsZADexIds.has(speciesId)) {
+  // 4. Pokémon Legends: Z-A (Kalos + Mega Evolution species + Starters + Lumiose staples)
+  if (megaAndLumioseDexIds.has(speciesId)) {
     encs.push({
       game: 'Pokémon Legends: Z-A',
-      location: 'Cidade de Lumiose (Áreas Urbanas, Parques de Reurbanização & Escolha de Inicial)',
+      location: 'Cidade de Lumiose (Áreas Urbanas, Parques de Reurbanização, Arenas de Mega Evolução & Escolha de Parceiro)',
       minLevel: 5,
       maxLevel: 75
     });
   }
 
-  // Hisui / Legends: Arceus
+  // 5. Legends: Arceus (Hisui 242 species)
   if (legendsArceusDexIds.has(speciesId) || ident.includes('-hisui')) {
     encs.push({
       game: 'Legends: Arceus',
@@ -237,7 +265,7 @@ function getRecentEncounters(speciesId, name, pRow) {
     });
   }
 
-  // Gen 9 Paldea / Kitakami / Blueberry (#906 - #1025)
+  // 6. Gen 9 Paldea / Kitakami / Blueberry (#906 - #1025)
   if (speciesId >= 906) {
     const isScarletParadox = ['great-tusk', 'scream-tail', 'brute-bonnet', 'flutter-mane', 'slither-wing', 'sandy-shocks', 'roaring-moon', 'koraidon', 'gouging-fire', 'raging-bolt'].some(k => ident.includes(k));
     const isVioletParadox = ['iron-treads', 'iron-bundle', 'iron-hands', 'iron-jugulis', 'iron-moth', 'iron-thorns', 'iron-valiant', 'miraidon', 'iron-boulder', 'iron-crown'].some(k => ident.includes(k));
@@ -288,16 +316,6 @@ function getRecentEncounters(speciesId, name, pRow) {
         maxLevel: 60
       });
     }
-  }
-
-  // Brilliant Diamond & Shining Pearl (Sinnoh)
-  if (speciesId >= 387 && speciesId <= 493) {
-    encs.push({
-      game: 'Brilliant Diamond & Shining Pearl',
-      location: 'Sinnoh (Grand Underground, Rotas de Sinnoh & Parque Rosa Rugosa)',
-      minLevel: 10,
-      maxLevel: 65
-    });
   }
 
   return encs;
@@ -480,7 +498,7 @@ const enrichedPokemon = pokemonList.map(pRow => {
 
     let locString = uniqueLocs.join(', ');
     if (uniqueLocs.length > 4) {
-      locString = `${uniqueLocs.slice(0, 3).join(', ')} (Aparição Rara no Céu / Campo Pós-Jogo)`;
+      locString = `${uniqueLocs.slice(0, 3).join(', ')} (Aparição Rara / Campo de Caça)`;
     }
 
     formattedEncounters.push({
@@ -491,7 +509,7 @@ const enrichedPokemon = pokemonList.map(pRow => {
     });
   });
 
-  // Enrich with recent games (Gen 8 Legends: Arceus / BDSP and Gen 9 Scarlet & Violet / DLCs / Legends: Z-A)
+  // Enrich with recent games (Gen 8 Legends: Arceus / BDSP and Gen 9 Scarlet & Violet / DLCs / Legends: Z-A / Let's Go)
   const recentEncs = getRecentEncounters(speciesId, name, pRow);
   recentEncs.forEach(rEnc => {
     if (!formattedEncounters.some(fe => fe.game === rEnc.game)) {
