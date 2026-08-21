@@ -2508,13 +2508,41 @@ class PokedexApp {
       });
     });
 
-    // Format Select dropdown change
+    // Format Select dropdown change (with reset confirmation for format legality)
     const formatSelect = document.getElementById('tb-format-select') as HTMLSelectElement;
     if (formatSelect) {
       formatSelect.addEventListener('change', () => {
-        const mode = formatSelect.value as FormatMode;
-        this.teamBuilderService.setFormatMode(mode);
-        this.renderTeamBuilder();
+        const newMode = formatSelect.value as FormatMode;
+        const currentMode = this.teamBuilderService.formatMode;
+        if (newMode === currentMode) return;
+
+        const hasMembers = this.teamBuilderService.members.some(m => m && m.name && m.name.trim().length > 0);
+
+        if (hasMembers) {
+          const formatLabels: Record<FormatMode, string> = {
+            'champions': '🏆 Pokémon Champions',
+            'scarlet-violet': '🔴 Scarlet & Violet (Gen 9)',
+            'national-dex': '🌐 National Dex'
+          };
+
+          const confirmed = confirm(`⚠️ Alterar o formato para "${formatLabels[newMode]}" irá reiniciar sua equipe atual para evitar Pokémons ou golpes ilegais no novo formato.\n\nDeseja reiniciar a equipe e alterar o formato?`);
+
+          if (confirmed) {
+            for (let i = 0; i < 6; i++) {
+              this.teamBuilderService.members[i] = this.teamBuilderService.createEmptyMember(i);
+            }
+            this.activeSlotIndexToPick = 0;
+            this.teamBuilderService.setFormatMode(newMode);
+            this.teamBuilderService.saveToLocalStorage();
+            this.renderTeamBuilder();
+          } else {
+            // Revert dropdown selection if cancelled
+            formatSelect.value = currentMode;
+          }
+        } else {
+          this.teamBuilderService.setFormatMode(newMode);
+          this.renderTeamBuilder();
+        }
       });
     }
 
