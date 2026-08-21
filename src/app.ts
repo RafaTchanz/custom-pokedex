@@ -392,57 +392,74 @@ class PokedexApp {
       });
 
       // Dynamically fetch live Pokémon Champions species roster from Bulbapedia official MediaWiki API (Section & NDEX-aware)
+      // + Smogon Champions Dex cross-validation dataset
       const bulbapediaApiUrl = 'https://bulbapedia.bulbagarden.net/w/api.php?action=parse&page=List_of_Pok%C3%A9mon_in_Pok%C3%A9mon_Champions&prop=wikitext&format=json&origin=*';
-      fetch(bulbapediaApiUrl)
-        .then(r => r.ok ? r.json() : null)
-        .then(d => {
-          if (d && d.parse && d.parse.wikitext && d.parse.wikitext['*']) {
-            let text = d.parse.wikitext['*'];
-            const untransferableIdx = text.indexOf('==Untransferable Pokémon==');
-            if (untransferableIdx !== -1) text = text.substring(0, untransferableIdx);
-            const cleanText = text.replace(/<!--[\s\S]*?-->/g, '');
-            const matches = Array.from(cleanText.matchAll(/\{\{gdex\/Champs\|(\d+)\|([^|}]+)(.*?)\}\}/gi));
-            const ndexes = new Set<number>();
-            const forms = new Set<string>();
+      Promise.all([
+        fetch(bulbapediaApiUrl).then(r => r.ok ? r.json() : null).catch(() => null),
+        fetch('/data/smogon_champions_dex.json').then(r => r.ok ? r.json() : null).catch(() => null)
+      ]).then(([dBulba, smogonList]) => {
+        const ndexes = new Set<number>();
+        const forms = new Set<string>();
 
-            matches.forEach(m => {
-              const ndex = parseInt(m[1], 10);
-              const name = m[2].trim();
-              const rest = m[3] || '';
-              if (rest.includes('No') && !rest.includes('Yes')) return;
-              if (rest.includes('Transfer only')) return;
+        // 1. Process Bulbapedia API
+        if (dBulba && dBulba.parse && dBulba.parse.wikitext && dBulba.parse.wikitext['*']) {
+          let text = dBulba.parse.wikitext['*'];
+          const untransferableIdx = text.indexOf('==Untransferable Pokémon==');
+          if (untransferableIdx !== -1) text = text.substring(0, untransferableIdx);
+          const cleanText = text.replace(/<!--[\s\S]*?-->/g, '');
+          const matches = Array.from(cleanText.matchAll(/\{\{gdex\/Champs\|(\d+)\|([^|}]+)(.*?)\}\}/gi));
 
-              ndexes.add(ndex);
-              const base = name.toLowerCase();
-              forms.add(base);
-              const igMatch = rest.match(/ig=-([^|}]+)/i);
-              if (igMatch) {
-                const suffix = igMatch[1].trim().toLowerCase().replace(/\s+/g, '-');
-                forms.add(`${base}-${suffix}`);
-              }
-            });
+          matches.forEach(m => {
+            const ndex = parseInt(m[1], 10);
+            const name = m[2].trim();
+            const rest = m[3] || '';
+            if (rest.includes('No') && !rest.includes('Yes')) return;
+            if (rest.includes('Transfer only')) return;
 
-            if (ndexes.size > 0) {
-              this.bulbapediaChampionsData = { ndexes, forms };
-              if (this.currentViewMode === 'builder') this.renderTeamBuilderTableOnly();
-              return;
+            ndexes.add(ndex);
+            const base = name.toLowerCase();
+            forms.add(base);
+            const igMatch = rest.match(/ig=-([^|}]+)/i);
+            if (igMatch) {
+              const suffix = igMatch[1].trim().toLowerCase().replace(/\s+/g, '-');
+              forms.add(`${base}-${suffix}`);
             }
-          }
-          throw new Error('Fallback to local snapshot');
-        })
-        .catch(() => {
-          fetch('/data/bulbapedia_champions_species.json')
-            .then(r => r.ok ? r.json() : null)
-            .then((localData: any) => {
-              if (localData && localData.ndexes) {
-                this.bulbapediaChampionsData = {
-                  ndexes: new Set<number>(localData.ndexes),
-                  forms: new Set<string>(localData.forms || [])
-                };
-                if (this.currentViewMode === 'builder') this.renderTeamBuilderTableOnly();
+          });
+        }
+
+        // 2. Cross-validate & augment with Smogon Champions Dex official dataset
+        if (smogonList && Array.isArray(smogonList)) {
+          smogonList.forEach((p: any) => {
+            if (p && p.oob && p.oob.dex_number && p.isNonstandard !== 'Custom') {
+              ndexes.add(p.oob.dex_number);
+              if (p.name) {
+                const sName = p.name.toLowerCase().replace(/[\s\.]+/g, '-');
+                forms.add(sName);
               }
-            }).catch(() => {});
-        });
+            }
+          });
+        }
+
+        if (ndexes.size > 0) {
+          this.bulbapediaChampionsData = { ndexes, forms };
+          if (this.currentViewMode === 'builder') this.renderTeamBuilderTableOnly();
+          return;
+        }
+
+        throw new Error('Fallback to local snapshot');
+      }).catch(() => {
+        fetch('/data/bulbapedia_champions_species.json')
+          .then(r => r.ok ? r.json() : null)
+          .then((localData: any) => {
+            if (localData && localData.ndexes) {
+              this.bulbapediaChampionsData = {
+                ndexes: new Set<number>(localData.ndexes),
+                forms: new Set<string>(localData.forms || [])
+              };
+              if (this.currentViewMode === 'builder') this.renderTeamBuilderTableOnly();
+            }
+          }).catch(() => {});
+      });
 
       this.render();
     } catch (err) {
