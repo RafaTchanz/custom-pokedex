@@ -2169,26 +2169,31 @@ class PokedexApp {
     requestAnimationFrame(step);
   }
 
+  private getHeaderHeight(): number {
+    const header = document.querySelector('.app-header');
+    return header ? header.getBoundingClientRect().height : 75;
+  }
+
   private scrollToSpeciesTable(): void {
     setTimeout(() => {
       const tableSection = document.getElementById('tb-species-table-section') || this.teamBuilderContainer?.querySelector('.tb-options-panel');
       if (tableSection) {
-        const isMobile = window.innerWidth <= 768;
-        const yOffset = isMobile ? -135 : -150;
-        const targetY = Math.max(0, tableSection.getBoundingClientRect().top + window.pageYOffset + yOffset);
-        this.smoothScrollToY(targetY, 700);
+        const headerHeight = this.getHeaderHeight();
+        const targetY = Math.max(0, tableSection.getBoundingClientRect().top + window.pageYOffset - headerHeight - 12);
+        this.smoothScrollToY(targetY, 550);
       }
     }, 60);
   }
 
   private scrollToActiveSlotEditor(): void {
     setTimeout(() => {
-      const editorSection = this.teamBuilderContainer?.querySelector('.tb-active-slot-section') || this.teamBuilderContainer?.querySelector('.tb-member-card');
-      if (editorSection) {
-        const isMobile = window.innerWidth <= 768;
-        const yOffset = isMobile ? -30 : -40;
-        const targetY = Math.max(0, editorSection.getBoundingClientRect().top + window.pageYOffset + yOffset);
-        this.smoothScrollToY(targetY, 550);
+      const targetElement = this.teamBuilderContainer?.querySelector('.tb-avatars-strip')
+                         || this.teamBuilderContainer?.querySelector('.tb-active-slot-section')
+                         || this.teamBuilderContainer?.querySelector('.tb-member-card');
+      if (targetElement) {
+        const headerHeight = this.getHeaderHeight();
+        const targetY = Math.max(0, targetElement.getBoundingClientRect().top + window.pageYOffset - headerHeight - 12);
+        this.smoothScrollToY(targetY, 500);
       }
     }, 60);
   }
