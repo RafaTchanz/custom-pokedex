@@ -66,14 +66,49 @@ export const TYPE_CHART: Record<string, Record<string, number>> = {
 };
 
 export const POPULAR_ITEMS = [
+  // --- Core Competitive Essentials ---
   'Leftovers', 'Focus Sash', 'Choice Scarf', 'Choice Band', 'Choice Specs',
   'Life Orb', 'Assault Vest', 'Heavy-Duty Boots', 'Rocky Helmet', 'Eviolite',
-  'Booster Energy', 'Loaded Dice', 'Clear Amulet', 'Covert Cloak', 'Weakness Policy',
-  'Air Balloon', 'Light Clay', 'Flame Orb', 'Toxic Orb', 'Eject Button', 'Red Card',
-  'Expert Belt', 'Sitrus Berry', 'Lum Berry', 'Salac Berry', 'Petaya Berry', 'Liechi Berry',
-  'Occa Berry', 'Passho Berry', 'Wacan Berry', 'Rindo Berry', 'Yache Berry', 'Chople Berry',
-  'Kebia Berry', 'Shuca Berry', 'Tanga Berry', 'Charti Berry', 'Kasib Berry', 'Haban Berry',
-  'Colbur Berry', 'Babiri Berry', 'Roseli Berry'
+  'Booster Energy', 'Loaded Dice', 'Clear Amulet', 'Covert Cloak', 'Mirror Herb',
+  'Weakness Policy', 'Air Balloon', 'Light Clay', 'Flame Orb', 'Toxic Orb',
+  'White Herb', 'Power Herb', 'Mental Herb', 'Eject Button', 'Eject Pack', 'Red Card',
+  'Safety Goggles', 'Utility Umbrella', 'Punching Glove', 'Blunder Policy',
+  'Expert Belt', 'Muscle Band', 'Wise Glasses', 'Scope Lens', 'Razor Claw',
+  'King\'s Rock', 'Metronome', 'Shell Bell', 'Big Root',
+
+  // --- Type-Boosting Items (20% Damage Boost) ---
+  'Charcoal', 'Mystic Water', 'Miracle Seed', 'Magnet', 'Never-Melt Ice',
+  'Sharp Beak', 'Poison Barb', 'Soft Sand', 'Hard Stone', 'Silver Powder',
+  'Spell Tag', 'Dragon Fang', 'Black Glasses', 'Metal Coat', 'Silk Scarf',
+  'Twisted Spoon', 'Black Belt', 'Pixie Plate',
+
+  // --- Arceus Elemental Plates ---
+  'Draco Plate', 'Dread Plate', 'Earth Plate', 'Fist Plate', 'Flame Plate',
+  'Icicle Plate', 'Insect Plate', 'Iron Plate', 'Meadow Plate', 'Mind Plate',
+  'Sky Plate', 'Splash Plate', 'Spooky Plate', 'Stone Plate', 'Toxic Plate', 'Zap Plate',
+
+  // --- Weather & Terrain Extenders ---
+  'Damp Rock', 'Heat Rock', 'Smooth Rock', 'Icy Rock', 'Terrain Extender',
+
+  // --- Species & Form Specific Items ---
+  'Light Ball', 'Thick Club', 'Soul Dew', 'Deep Sea Tooth', 'Deep Sea Scale',
+  'Adamant Orb', 'Lustrous Orb', 'Griseous Orb', 'Rusted Sword', 'Rusted Shield',
+  'Wellspring Mask', 'Hearthflame Mask', 'Cornerstone Mask',
+
+  // --- Competitive Berries (HP & Status) ---
+  'Sitrus Berry', 'Lum Berry', 'Chesto Berry', 'Pecha Berry', 'Rawst Berry',
+  'Aspear Berry', 'Persim Berry', 'Cheri Berry',
+
+  // --- Pinch & Stat Boosting Berries ---
+  'Liechi Berry', 'Ganlon Berry', 'Salac Berry', 'Petaya Berry', 'Apicot Berry',
+  'Lansat Berry', 'Starf Berry', 'Mago Berry', 'Figy Berry', 'Aguav Berry',
+  'Wiki Berry', 'Iapapa Berry', 'Kee Berry', 'Maranga Berry',
+
+  // --- Type-Resist Berries (Damage Reduction) ---
+  'Occa Berry', 'Passho Berry', 'Wacan Berry', 'Rindo Berry', 'Yache Berry',
+  'Chople Berry', 'Kebia Berry', 'Shuca Berry', 'Coba Berry', 'Payapa Berry',
+  'Tanga Berry', 'Charti Berry', 'Kasib Berry', 'Haban Berry', 'Colbur Berry',
+  'Babiri Berry', 'Roseli Berry'
 ];
 
 export const MEGA_STONES = [
