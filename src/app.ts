@@ -1284,9 +1284,15 @@ class PokedexApp {
           }
         } else if (mode === 'champions') {
           if (fd) {
-            const isUber = fd.tier === 'Uber' || fd.tier === 'AG' || fd.natDexTier === 'Uber' || fd.natDexTier === 'AG';
+            const pName = p.name.toLowerCase();
+            const tier = (fd.tier || '').toUpperCase();
+            const natTier = (fd.natDexTier || '').toUpperCase();
+            const isUber = tier === 'UBER' || tier === 'AG' || natTier === 'UBER' || natTier === 'AG';
             const isCustom = fd.isNonstandard === 'Unobtainable' || fd.isNonstandard === 'Custom';
+            const isNFE = tier === 'NFE' || tier === 'LC' || natTier === 'NFE' || natTier === 'LC';
+
             if (isUber || isCustom) return false;
+            if (isNFE && pName !== 'pikachu') return false;
           }
         } else if (mode === 'national-dex') {
           if (fd && fd.natDexTier === 'Illegal') return false;
@@ -1712,9 +1718,9 @@ class PokedexApp {
               🎯 Formato:
             </span>
             <select id="tb-format-select" class="format-dropdown-select">
-              <option value="champions" ${isChampions ? 'selected' : ''}>🏆 Champions (66 Pts • Restrito/Megas)</option>
-              <option value="scarlet-violet" ${isSV ? 'selected' : ''}>🔴 Scarlet & Violet (510 EVs • Terastal)</option>
-              <option value="national-dex" ${isNationalDex ? 'selected' : ''}>🌐 National Dex (510 EVs • Pokédex Geral)</option>
+              <option value="champions" ${isChampions ? 'selected' : ''}>🏆 Champions (66 Pts)</option>
+              <option value="scarlet-violet" ${isSV ? 'selected' : ''}>🔴 Scarlet & Violet (510 EVs)</option>
+              <option value="national-dex" ${isNationalDex ? 'selected' : ''}>🌐 National Dex (510 EVs)</option>
             </select>
           </div>
           <button id="random-team-btn" class="tb-btn">🎲 Time Aleatório</button>

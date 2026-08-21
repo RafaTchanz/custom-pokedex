@@ -1702,16 +1702,17 @@ body {
     gap: 0.4rem !important;
   }
 
-  .format-switcher {
+  .format-switcher-container {
     width: 100% !important;
-    justify-content: center !important;
+    box-sizing: border-box !important;
   }
 
-  .format-btn {
-    flex: 1 !important;
-    text-align: center !important;
+  .format-dropdown-select {
+    width: 100% !important;
     font-size: 0.75rem !important;
-    padding: 0.4rem 0.3rem !important;
+    text-overflow: ellipsis !important;
+    overflow: hidden !important;
+    white-space: nowrap !important;
   }
 
   .tb-options-header {
