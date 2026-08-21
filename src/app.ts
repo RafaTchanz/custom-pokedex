@@ -100,7 +100,12 @@ class PokedexApp {
   private smogonService: SmogonService = new SmogonService();
   private teamBuilderService: TeamBuilderService = new TeamBuilderService();
   private currentViewMode: 'cards' | 'table' | 'builder' = 'cards';
-  private activeSlotIndexToPick: number | null = null;
+  private activeSlotIndexToPick: number = 0;
+  private tbSearchQuery: string = '';
+  private tbSortField: 'id' | 'name' | 'hp' | 'atk' | 'def' | 'spa' | 'spd' | 'spe' | 'bst' = 'id';
+  private tbSortOrder: 'asc' | 'desc' = 'asc';
+  private tbGenFilter: string = 'all';
+  private tbTypeFilter: string = 'all';
   private activeModalTab: 'general' | 'moves' | 'evolution' | 'encounters' | 'competitive' = 'general';
   private isShinyActive: boolean = false;
   private is3DModelActive: boolean = false;
@@ -1179,14 +1184,100 @@ class PokedexApp {
     }
   }
 
+  private getSortIcon(field: string): string {
+    if (this.tbSortField !== field) return '<span style="opacity: 0.35;">↕</span>';
+    return this.tbSortOrder === 'asc' ? '▲' : '▼';
+  }
+
+  private isSpeciesInGen(id: number, gen: number): boolean {
+    if (gen === 1) return id >= 1 && id <= 151;
+    if (gen === 2) return id >= 152 && id <= 251;
+    if (gen === 3) return id >= 252 && id <= 386;
+    if (gen === 4) return id >= 387 && id <= 493;
+    if (gen === 5) return id >= 494 && id <= 649;
+    if (gen === 6) return id >= 650 && id <= 721;
+    if (gen === 7) return id >= 722 && id <= 809;
+    if (gen === 8) return id >= 810 && id <= 905;
+    if (gen === 9) return id >= 906;
+    return true;
+  }
+
+  private getFilteredAndSortedTeamBuilderSpecies(): PokemonSpeciesGroup[] {
+    const query = this.tbSearchQuery.toLowerCase().trim();
+
+    const filtered = this.speciesGroups.filter(g => {
+      const p = g.selectedPokemon;
+
+      if (this.tbGenFilter !== 'all') {
+        const genNum = parseInt(this.tbGenFilter, 10);
+        if (!this.isSpeciesInGen(g.speciesId, genNum)) return false;
+      }
+
+      if (this.tbTypeFilter !== 'all') {
+        const hasType = p.types.some(t => t.name.toLowerCase() === this.tbTypeFilter.toLowerCase());
+        if (!hasType) return false;
+      }
+
+      if (!query) return true;
+
+      const nameMatch = p.name.toLowerCase().includes(query);
+      const idMatch = g.speciesId.toString().includes(query) || p.id.toString().includes(query);
+      const typeMatch = p.types.some(t => t.name.toLowerCase().includes(query));
+      const moveMatch = (p.moves || []).some(m => m.name.toLowerCase().includes(query));
+      const abilityMatch = (p.abilities || []).some(a => a.name.toLowerCase().includes(query));
+
+      return nameMatch || idMatch || typeMatch || moveMatch || abilityMatch;
+    });
+
+    const dir = this.tbSortOrder === 'asc' ? 1 : -1;
+
+    const getStatVal = (p: PokemonCardData, sName: string) => {
+      const found = p.stats.find(s => s.name.toLowerCase() === sName.toLowerCase() || s.name.toLowerCase() === sName.replace('-', ''));
+      return found ? found.baseStat : 0;
+    };
+
+    const getBSTVal = (p: PokemonCardData) => {
+      return p.stats.reduce((acc, s) => acc + s.baseStat, 0);
+    };
+
+    return filtered.sort((a, b) => {
+      const pA = a.selectedPokemon;
+      const pB = b.selectedPokemon;
+
+      switch (this.tbSortField) {
+        case 'id':
+          return (a.speciesId - b.speciesId) * dir;
+        case 'name':
+          return pA.name.localeCompare(pB.name) * dir;
+        case 'hp':
+          return (getStatVal(pA, 'hp') - getStatVal(pB, 'hp')) * dir;
+        case 'atk':
+          return (getStatVal(pA, 'attack') - getStatVal(pB, 'attack')) * dir;
+        case 'def':
+          return (getStatVal(pA, 'defense') - getStatVal(pB, 'defense')) * dir;
+        case 'spa':
+          return (getStatVal(pA, 'special-attack') - getStatVal(pB, 'special-attack')) * dir;
+        case 'spd':
+          return (getStatVal(pA, 'special-defense') - getStatVal(pB, 'special-defense')) * dir;
+        case 'spe':
+          return (getStatVal(pA, 'speed') - getStatVal(pB, 'speed')) * dir;
+        case 'bst':
+          return (getBSTVal(pA) - getBSTVal(pB)) * dir;
+        default:
+          return (a.speciesId - b.speciesId) * dir;
+      }
+    });
+  }
+
   private renderTeamBuilder(): void {
     if (!this.teamBuilderContainer) return;
 
     const isChampions = this.teamBuilderService.formatMode === 'champions';
+    const activeSlotIdx = this.activeSlotIndexToPick ?? 0;
 
-    // SECTION 1: Top 6 Avatar Strip (Inspired by Reference Image 1)
+    // 1. Top 6 Avatar Strip (Avatares dos 6 Slots)
     const avatarsHTML = this.teamBuilderService.members.map((m, slotIdx) => {
-      const isSelected = this.activeSlotIndexToPick === slotIdx;
+      const isSelected = activeSlotIdx === slotIdx;
       if (!m.name) {
         return `
           <div class="tb-avatar-card ${isSelected ? 'active-slot' : ''}" data-slot="${slotIdx}">
@@ -1217,36 +1308,45 @@ class PokedexApp {
       `;
     }).join('');
 
-    // SECTION 2: 6 Detailed Team Member Cards (Inspired by Reference Image 3)
-    const cardsHTML = this.teamBuilderService.members.map((m, slotIdx) => {
-      if (!m.name) {
-        return `
-          <div class="tb-member-card" style="align-items: center; justify-content: center; min-height: 480px; border-style: dashed;">
-            <button class="tb-btn primary add-member-btn" data-slot="${slotIdx}">
-              <span>+ Adicionar Pokémon #${slotIdx + 1}</span>
-            </button>
-          </div>
-        `;
-      }
+    // 2. Editor Detalhado do Slot Ativo (Active Member Card)
+    const activeMember = this.teamBuilderService.members[activeSlotIdx];
+    let activeEditorHTML = '';
 
-      const totalPoints = isChampions ? this.teamBuilderService.getChampionsTotalPoints(m) : this.teamBuilderService.getEVsTotalPoints(m);
+    if (!activeMember.name) {
+      activeEditorHTML = `
+        <div class="tb-member-card" style="align-items: center; justify-content: center; min-height: 180px; border: 2px dashed rgba(56,189,248,0.3); text-align: center;">
+          <div style="font-size: 1.1rem; font-weight: 800; color: #38bdf8; margin-bottom: 0.35rem;">📌 Editando Slot #${activeSlotIdx + 1} (Vazio)</div>
+          <p style="font-size: 0.85rem; color: #94a3b8; max-width: 520px;">Clique em qualquer linha da tabela interativa abaixo ou ordene por estatísticas base para escolher o Pokémon do Slot #${activeSlotIdx + 1}.</p>
+        </div>
+      `;
+    } else {
+      const totalPoints = isChampions ? this.teamBuilderService.getChampionsTotalPoints(activeMember) : this.teamBuilderService.getEVsTotalPoints(activeMember);
       const maxTotal = isChampions ? 66 : 510;
-      const typeBadges = (m.types || []).map(t => {
+      const typeBadges = (activeMember.types || []).map(t => {
         const bg = TYPE_COLORS[t.toLowerCase()] || '#a8a77a';
         return `<span class="type-badge-pill" style="background: ${bg}; color: #fff; font-size: 0.65rem; padding: 0.12rem 0.45rem; border-radius: 6px; font-weight: 800;">${t}</span>`;
       }).join(' ');
 
+      const group = this.speciesGroups.find(g => g.speciesId === activeMember.speciesId);
+      const varietiesHTML = group && group.varieties.length > 1
+        ? group.varieties.map(v => `<option value="${v.id}" ${v.id === activeMember.pokemonId ? 'selected' : ''}>${v.name}</option>`).join('')
+        : '';
+
+      const varietySelector = varietiesHTML
+        ? `<select class="tb-select member-variety-select" data-slot="${activeSlotIdx}" style="margin-top: 0.25rem; font-size: 0.75rem;">${varietiesHTML}</select>`
+        : '';
+
       // Moves Selects
       const movesHTML = [0, 1, 2, 3].map(mIdx => {
-        const currentMove = m.moves[mIdx] || '';
+        const currentMove = activeMember.moves[mIdx] || '';
         const optionsHTML = `<option value="">-- Golpe #${mIdx + 1} --</option>` +
-          (m.availableMoves || []).map(mv => {
+          (activeMember.availableMoves || []).map(mv => {
             return `<option value="${mv.name}" ${mv.name.toLowerCase() === currentMove.toLowerCase() ? 'selected' : ''}>${mv.name} (${mv.type}${mv.power ? ` • ${mv.power} Pow` : ''})</option>`;
           }).join('');
 
         return `
           <div class="tb-move-item">
-            <select class="tb-move-select member-move-select" data-slot="${slotIdx}" data-move-idx="${mIdx}">
+            <select class="tb-move-select member-move-select" data-slot="${activeSlotIdx}" data-move-idx="${mIdx}">
               ${optionsHTML}
             </select>
           </div>
@@ -1254,15 +1354,15 @@ class PokedexApp {
       }).join('');
 
       // Natures & Ability
-      const natureInfo = NATURES[m.nature || 'Hardy'] || NATURES['Hardy'];
+      const natureInfo = NATURES[activeMember.nature || 'Hardy'] || NATURES['Hardy'];
       const natureTagHTML = natureInfo.label !== 'Neutra'
         ? `<span class="tb-nature-tag">${natureInfo.label}</span>`
         : `<span class="tb-nature-tag" style="background: rgba(148,163,184,0.15); color: #94a3b8;">Neutra</span>`;
 
-      const naturesOptions = Object.keys(NATURES).map(n => `<option value="${n}" ${m.nature === n ? 'selected' : ''}>${n}</option>`).join('');
-      const abilitiesOptions = (m.availableAbilities || ['Standard Ability']).map(ab => `<option value="${ab}" ${m.ability === ab ? 'selected' : ''}>${ab}</option>`).join('');
-      const itemsOptions = POPULAR_ITEMS.map(it => `<option value="${it}" ${m.item === it ? 'selected' : ''}>${it}</option>`).join('');
-      const teraOptions = ALL_TYPES.map(t => `<option value="${t.toUpperCase()}" ${m.teraType === t.toUpperCase() ? 'selected' : ''}>${t.charAt(0).toUpperCase() + t.slice(1)}</option>`).join('');
+      const naturesOptions = Object.keys(NATURES).map(n => `<option value="${n}" ${activeMember.nature === n ? 'selected' : ''}>${n}</option>`).join('');
+      const abilitiesOptions = (activeMember.availableAbilities || ['Standard Ability']).map(ab => `<option value="${ab}" ${activeMember.ability === ab ? 'selected' : ''}>${ab}</option>`).join('');
+      const itemsOptions = POPULAR_ITEMS.map(it => `<option value="${it}" ${activeMember.item === it ? 'selected' : ''}>${it}</option>`).join('');
+      const teraOptions = ALL_TYPES.map(t => `<option value="${t.toUpperCase()}" ${activeMember.teraType === t.toUpperCase() ? 'selected' : ''}>${t.charAt(0).toUpperCase() + t.slice(1)}</option>`).join('');
 
       // Stats Bars Calculation (Image 3 style)
       const statKeys: (keyof StatBlock)[] = ['hp', 'atk', 'def', 'spa', 'spd', 'spe'];
@@ -1273,10 +1373,10 @@ class PokedexApp {
       let sumFinal = 0;
 
       const statsRowsHTML = statKeys.map(k => {
-        const base = m.baseStats ? m.baseStats[k] || 80 : 80;
-        const invested = isChampions ? (m.championsPoints[k] || 0) : (m.evs[k] || 0);
-        const iv = m.ivs ? m.ivs[k] : 31;
-        const finalVal = this.teamBuilderService.calculateStat(k, base, invested, iv, m.nature);
+        const base = activeMember.baseStats ? activeMember.baseStats[k] || 80 : 80;
+        const invested = isChampions ? (activeMember.championsPoints[k] || 0) : (activeMember.evs[k] || 0);
+        const iv = activeMember.ivs ? activeMember.ivs[k] : 31;
+        const finalVal = this.teamBuilderService.calculateStat(k, base, invested, iv, activeMember.nature);
 
         sumBase += base;
         sumFinal += finalVal;
@@ -1294,70 +1394,81 @@ class PokedexApp {
             </div>
             <span class="tb-stat-final">${finalVal}</span>
           </div>
-          <div style="margin-bottom: 0.35rem;">
-            <input type="range" class="stat-range-input" data-slot="${slotIdx}" data-stat="${k}" min="0" max="${maxSingle}" value="${invested}" style="width: 100%; accent-color: var(--accent-blue);">
+          <div style="margin-bottom: 0.3rem;">
+            <input type="range" class="stat-range-input" data-slot="${activeSlotIdx}" data-stat="${k}" min="0" max="${maxSingle}" value="${invested}" style="width: 100%; accent-color: var(--accent-blue);">
           </div>
         `;
       }).join('');
 
-      return `
-        <div class="tb-member-card">
-          <div class="tb-card-header">
-            <span class="tb-slot-number">#${slotIdx + 1}</span>
-            <button class="tb-remove-btn remove-member-btn" data-slot="${slotIdx}" title="Remover">&times;</button>
-            <img class="tb-card-img" src="${m.officialArtworkUrl || m.spriteUrl}" alt="${m.name}">
-            <h3 class="tb-card-title">${m.name}</h3>
-            <div style="margin-top: 0.25rem;">${typeBadges}</div>
+      activeEditorHTML = `
+        <div class="tb-member-card" style="max-width: 100%;">
+          <div class="tb-card-header" style="flex-direction: row; justify-content: space-between; align-items: center; text-align: left; padding-bottom: 0.75rem;">
+            <div style="display: flex; align-items: center; gap: 0.85rem;">
+              <span class="tb-slot-number" style="position: static; font-size: 0.8rem; padding: 0.25rem 0.6rem;">Editando Slot #${activeSlotIdx + 1}</span>
+              <img class="tb-card-img" src="${activeMember.officialArtworkUrl || activeMember.spriteUrl}" alt="${activeMember.name}" style="width: 54px; height: 54px; margin: 0;">
+              <div>
+                <h3 class="tb-card-title" style="font-size: 1.15rem;">${activeMember.name}</h3>
+                <div style="margin-top: 0.2rem;">${typeBadges}</div>
+                ${varietySelector}
+              </div>
+            </div>
+
+            <button class="tb-remove-btn remove-member-btn" data-slot="${activeSlotIdx}" title="Remover Slot" style="position: static; width: 28px; height: 28px; font-size: 1rem;">&times;</button>
           </div>
 
-          <div>
-            <div class="tb-section-label">Movimentos</div>
-            ${movesHTML}
-          </div>
+          <div style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 1.25rem; margin-top: 0.75rem;">
+            <!-- Column 1: Moves -->
+            <div>
+              <div class="tb-section-label">Movimentos (Golpes)</div>
+              ${movesHTML}
+            </div>
 
-          <div class="tb-subgrid">
-            <div class="tb-field-group">
-              <label>Natureza</label>
-              <select class="tb-select member-nature-select" data-slot="${slotIdx}">${naturesOptions}</select>
-              ${natureTagHTML}
+            <!-- Column 2: Nature, Ability, Item & Tera -->
+            <div>
+              <div class="tb-section-label">Atributos & Competitivo</div>
+              <div class="tb-subgrid" style="grid-template-columns: 1fr; gap: 0.45rem;">
+                <div class="tb-field-group">
+                  <label>Natureza</label>
+                  <select class="tb-select member-nature-select" data-slot="${activeSlotIdx}">${naturesOptions}</select>
+                  ${natureTagHTML}
+                </div>
+                <div class="tb-field-group">
+                  <label>Habilidade</label>
+                  <select class="tb-select member-ability-select" data-slot="${activeSlotIdx}">${abilitiesOptions}</select>
+                </div>
+                <div class="tb-field-group">
+                  <label>Item</label>
+                  <select class="tb-select member-item-select" data-slot="${activeSlotIdx}">${itemsOptions}</select>
+                </div>
+                <div class="tb-field-group">
+                  <label>Tera Type</label>
+                  <select class="tb-select member-tera-select" data-slot="${activeSlotIdx}">${teraOptions}</select>
+                </div>
+              </div>
             </div>
-            <div class="tb-field-group">
-              <label>Habilidade</label>
-              <select class="tb-select member-ability-select" data-slot="${slotIdx}">${abilitiesOptions}</select>
-            </div>
-            <div class="tb-field-group">
-              <label>Item</label>
-              <select class="tb-select member-item-select" data-slot="${slotIdx}">${itemsOptions}</select>
-            </div>
-            <div class="tb-field-group">
-              <label>Tera Type</label>
-              <select class="tb-select member-tera-select" data-slot="${slotIdx}">${teraOptions}</select>
-            </div>
-          </div>
 
-          <div>
-            <div class="tb-section-label">
-              <span>Estatísticas</span>
-              <span style="color: ${totalPoints > maxTotal ? '#ef4444' : '#38bdf8'}; font-weight: 800;">${totalPoints} / ${maxTotal} Pts</span>
-            </div>
-            ${statsRowsHTML}
-            <div style="display: flex; justify-content: space-between; font-size: 0.65rem; color: #94a3b8; border-top: 1px solid rgba(255,255,255,0.08); padding-top: 0.35rem; margin-top: 0.2rem;">
-              <span>Total Base: <strong style="color: #cbd5e1;">${sumBase}</strong></span>
-              <span>Total Final: <strong style="color: #4ade80;">${sumFinal}</strong></span>
+            <!-- Column 3: Stats & Sliders -->
+            <div>
+              <div class="tb-section-label">
+                <span>Estatísticas Nível 50</span>
+                <span style="color: ${totalPoints > maxTotal ? '#ef4444' : '#38bdf8'}; font-weight: 800;">${totalPoints} / ${maxTotal} Pts</span>
+              </div>
+              ${statsRowsHTML}
+              <div style="display: flex; justify-content: space-between; font-size: 0.65rem; color: #94a3b8; border-top: 1px solid rgba(255,255,255,0.08); padding-top: 0.35rem; margin-top: 0.2rem;">
+                <span>Total Base: <strong style="color: #cbd5e1;">${sumBase}</strong></span>
+                <span>Total Final: <strong style="color: #4ade80;">${sumFinal}</strong></span>
+              </div>
             </div>
           </div>
         </div>
       `;
-    }).join('');
+    }
 
-    // SECTION 3: Team Defense & Coverage Tally Analysis (Inspired by Reference Image 2!)
+    // 3. Team Defense & Coverage Tally Analysis
     const coverageList = this.teamBuilderService.analyzeTeamCoverage();
     const defenseAnalysisHTML = coverageList.map(cov => {
       const typeColor = TYPE_COLORS[cov.type.toLowerCase()] || '#a8a77a';
-
-      // Weakness tallies (red)
       const redTallies = Array.from({ length: Math.min(6, cov.weakCount) }, () => `<span class="tb-tally-bar red"></span>`).join('');
-      // Resistance tallies (blue)
       const blueTallies = Array.from({ length: Math.min(6, cov.resistCount) }, () => `<span class="tb-tally-bar blue"></span>`).join('');
       const emptyTallies = Array.from({ length: Math.max(0, 6 - cov.weakCount - cov.resistCount) }, () => `<span class="tb-tally-bar empty"></span>`).join('');
 
@@ -1386,8 +1497,46 @@ class PokedexApp {
       `;
     }).join('');
 
-    // SECTION 4: Integrated Options / Picker Panel (Inspired by Reference Image 1)
-    const optionsGridHTML = this.renderPickerOptionsHTML();
+    // 4. Table view of species for selecting active slot with base stats sorting!
+    const tableSpecies = this.getFilteredAndSortedTeamBuilderSpecies();
+    const tableRowsHTML = tableSpecies.map(g => {
+      const p = g.selectedPokemon;
+      const formattedId = `#${g.speciesId.toString().padStart(4, '0')}`;
+      const imgUrl = p.media.officialArtworkUrl || p.media.spriteUrl;
+
+      const typeBadges = p.types.map(t => {
+        const bg = TYPE_COLORS[t.name.toLowerCase()] || '#a8a77a';
+        return `<span class="type-badge-pill" style="background: ${bg}; color: #fff; font-size: 0.65rem; padding: 0.12rem 0.45rem; border-radius: 4px; font-weight: 800;">${t.name}</span>`;
+      }).join(' ');
+
+      const getStat = (name: string) => p.stats.find(s => s.name.toLowerCase() === name.toLowerCase() || s.name.toLowerCase() === name.replace('-', ''))?.baseStat || 0;
+      const hp = getStat('hp');
+      const atk = getStat('attack');
+      const def = getStat('defense');
+      const spa = getStat('special-attack');
+      const spd = getStat('special-defense');
+      const spe = getStat('speed');
+      const bst = hp + atk + def + spa + spd + spe;
+
+      return `
+        <tr class="tb-table-row" data-species-id="${g.speciesId}" style="border-bottom: 1px solid rgba(255,255,255,0.06); font-size: 0.825rem;">
+          <td style="padding: 0.6rem; font-weight: 800; color: #94a3b8;">${formattedId}</td>
+          <td style="padding: 0.4rem;"><img src="${imgUrl}" alt="${p.name}" style="width: 38px; height: 38px; object-fit: contain;"></td>
+          <td style="padding: 0.6rem; font-weight: 700; color: #ffffff; text-transform: capitalize;">${p.name}</td>
+          <td style="padding: 0.6rem;">${typeBadges}</td>
+          <td style="padding: 0.6rem; font-weight: 700; color: #4ade80;">${hp}</td>
+          <td style="padding: 0.6rem; font-weight: 700; color: #f87171;">${atk}</td>
+          <td style="padding: 0.6rem; font-weight: 700; color: #fbbf24;">${def}</td>
+          <td style="padding: 0.6rem; font-weight: 700; color: #c084fc;">${spa}</td>
+          <td style="padding: 0.6rem; font-weight: 700; color: #a7f3d0;">${spd}</td>
+          <td style="padding: 0.6rem; font-weight: 700; color: #f472b6;">${spe}</td>
+          <td style="padding: 0.6rem;"><span style="font-weight: 800; color: #38bdf8;">${bst}</span></td>
+          <td style="padding: 0.6rem; text-align: center;">
+            <button class="tb-btn primary select-species-btn" data-species-id="${g.speciesId}" style="font-size: 0.7rem; padding: 0.25rem 0.6rem;">➕ Selecionar</button>
+          </td>
+        </tr>
+      `;
+    }).join('');
 
     this.teamBuilderContainer.innerHTML = `
       <!-- Top Bar & Controls -->
@@ -1397,7 +1546,7 @@ class PokedexApp {
             <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="var(--accent-blue)" stroke-width="2.5"><path d="M14.5 17.5L3 6V3h3l11.5 11.5"></path><path d="M13 19l6-6"></path><path d="M16 16l4 4"></path><path d="M19 13l2 2"></path></svg>
             Criador & Construtor de Time
           </h2>
-          <p>Monte seu time competitivo, ajuste status points/EVs e analise fraquezas em tempo real</p>
+          <p>Monte seu time competitivo, ordene Pokémons por estatísticas base na tabela e ajuste atributos</p>
         </div>
 
         <div class="tb-actions-row">
@@ -1411,17 +1560,17 @@ class PokedexApp {
         </div>
       </div>
 
-      <!-- 6 Avatar Strip (Reference Image 1) -->
+      <!-- 1. Top 6 Avatar Strip (Avatares dos 6 Slots) -->
       <div class="tb-avatars-strip">
         ${avatarsHTML}
       </div>
 
-      <!-- 6 Detailed Member Cards Grid (Reference Image 3) -->
-      <div class="tb-cards-grid">
-        ${cardsHTML}
+      <!-- 2. Active Slot Detailed Editor -->
+      <div class="tb-active-slot-section">
+        ${activeEditorHTML}
       </div>
 
-      <!-- Team Defense & Coverage Analysis (Reference Image 2) -->
+      <!-- 3. Team Defense & Coverage Analysis -->
       <div class="tb-analysis-panel">
         <div class="tb-analysis-title">
           <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="var(--accent-blue)" stroke-width="2.2"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"></path></svg>
@@ -1444,14 +1593,59 @@ class PokedexApp {
         </div>
       </div>
 
-      <!-- Integrated Options / Picker Panel (Reference Image 1) -->
+      <!-- 4. Interactive Spreadsheet Table Picker with Base Stats Sorting -->
       <div class="tb-options-panel">
         <div class="tb-options-header">
-          <h3>Sua Coleção de Pokémon (Clique para adicionar ao slot ativo)</h3>
-          <input type="text" id="tb-options-search" class="tb-options-search" placeholder="Buscar por Nome, # ou Tipo..." autocomplete="off">
+          <div>
+            <h3>📊 Seleção de Pokémon em Tabela (Definir Slot #${activeSlotIdx + 1})</h3>
+            <p style="font-size: 0.775rem; color: #94a3b8; margin-top: 0.2rem;">
+              Clique em qualquer linha da tabela para adicionar o Pokémon ao Slot #${activeSlotIdx + 1}. Clique no cabeçalho de qualquer estatística para ordenar (HP, Atk, Def, SpA, SpD, Spe, BST).
+            </p>
+          </div>
+
+          <div style="display: flex; gap: 0.5rem; flex-wrap: wrap; align-items: center;">
+            <input type="text" id="tb-table-search" class="tb-options-search" placeholder="🔍 Buscar por nome, #, golpe ou habilidade..." value="${this.tbSearchQuery}" style="width: 240px;">
+            <select id="tb-table-gen" class="tb-select" style="width: auto; padding: 0.45rem 0.65rem;">
+              <option value="all" ${this.tbGenFilter === 'all' ? 'selected' : ''}>Todas as Gerações</option>
+              <option value="1" ${this.tbGenFilter === '1' ? 'selected' : ''}>Gen 1 (Kanto)</option>
+              <option value="2" ${this.tbGenFilter === '2' ? 'selected' : ''}>Gen 2 (Johto)</option>
+              <option value="3" ${this.tbGenFilter === '3' ? 'selected' : ''}>Gen 3 (Hoenn)</option>
+              <option value="4" ${this.tbGenFilter === '4' ? 'selected' : ''}>Gen 4 (Sinnoh)</option>
+              <option value="5" ${this.tbGenFilter === '5' ? 'selected' : ''}>Gen 5 (Unova)</option>
+              <option value="6" ${this.tbGenFilter === '6' ? 'selected' : ''}>Gen 6 (Kalos)</option>
+              <option value="7" ${this.tbGenFilter === '7' ? 'selected' : ''}>Gen 7 (Alola)</option>
+              <option value="8" ${this.tbGenFilter === '8' ? 'selected' : ''}>Gen 8 (Galar)</option>
+              <option value="9" ${this.tbGenFilter === '9' ? 'selected' : ''}>Gen 9 (Paldea)</option>
+            </select>
+            <select id="tb-table-type" class="tb-select" style="width: auto; padding: 0.45rem 0.65rem;">
+              <option value="all" ${this.tbTypeFilter === 'all' ? 'selected' : ''}>Todos os Tipos</option>
+              ${ALL_TYPES.map(t => `<option value="${t}" ${this.tbTypeFilter === t ? 'selected' : ''}>${t.charAt(0).toUpperCase() + t.slice(1)}</option>`).join('')}
+            </select>
+          </div>
         </div>
-        <div id="tb-options-grid" class="tb-options-grid">
-          ${optionsGridHTML}
+
+        <div style="overflow-x: auto; max-height: 480px; overflow-y: auto; border-radius: 12px; border: 1px solid rgba(255,255,255,0.1); margin-top: 0.75rem;">
+          <table class="stats-table" style="width: 100%; border-collapse: collapse;">
+            <thead>
+              <tr style="background: rgba(15,23,42,0.9); font-size: 0.775rem; text-transform: uppercase;">
+                <th class="tb-sort-th" data-sort="id" style="cursor: pointer; padding: 0.65rem;"># ${this.getSortIcon('id')}</th>
+                <th style="padding: 0.65rem;">Arte</th>
+                <th class="tb-sort-th" data-sort="name" style="cursor: pointer; padding: 0.65rem;">Nome ${this.getSortIcon('name')}</th>
+                <th style="padding: 0.65rem;">Tipos</th>
+                <th class="tb-sort-th" data-sort="hp" style="cursor: pointer; padding: 0.65rem; color: #4ade80;">HP ${this.getSortIcon('hp')}</th>
+                <th class="tb-sort-th" data-sort="atk" style="cursor: pointer; padding: 0.65rem; color: #f87171;">Atk ${this.getSortIcon('atk')}</th>
+                <th class="tb-sort-th" data-sort="def" style="cursor: pointer; padding: 0.65rem; color: #fbbf24;">Def ${this.getSortIcon('def')}</th>
+                <th class="tb-sort-th" data-sort="spa" style="cursor: pointer; padding: 0.65rem; color: #c084fc;">SpA ${this.getSortIcon('spa')}</th>
+                <th class="tb-sort-th" data-sort="spd" style="cursor: pointer; padding: 0.65rem; color: #a7f3d0;">SpD ${this.getSortIcon('spd')}</th>
+                <th class="tb-sort-th" data-sort="spe" style="cursor: pointer; padding: 0.65rem; color: #f472b6;">Spe ${this.getSortIcon('spe')}</th>
+                <th class="tb-sort-th" data-sort="bst" style="cursor: pointer; padding: 0.65rem; color: #38bdf8;">BST ${this.getSortIcon('bst')}</th>
+                <th style="padding: 0.65rem; text-align: center;">Ação</th>
+              </tr>
+            </thead>
+            <tbody>
+              ${tableRowsHTML || `<tr><td colspan="12" style="text-align: center; padding: 2rem; color: #94a3b8;">Nenhum Pokémon encontrado com os filtros aplicados.</td></tr>`}
+            </tbody>
+          </table>
         </div>
       </div>
     `;
@@ -1512,6 +1706,11 @@ class PokedexApp {
     member.teraType = (p.types[0]?.name || 'NORMAL').toUpperCase();
     member.moves = (p.moves || []).slice(0, 4).map(m => m.name);
 
+    // Auto advance to next slot if available
+    if (this.activeSlotIndexToPick < 5) {
+      this.activeSlotIndexToPick++;
+    }
+
     this.renderTeamBuilder();
   }
 
@@ -1538,15 +1737,6 @@ class PokedexApp {
       });
     });
 
-    // Add member buttons click
-    const addBtns = this.teamBuilderContainer.querySelectorAll('.add-member-btn');
-    addBtns.forEach(btn => {
-      btn.addEventListener('click', () => {
-        const slotIdx = parseInt(btn.getAttribute('data-slot') || '0', 10);
-        this.openPokemonPicker(slotIdx);
-      });
-    });
-
     // Remove member buttons click
     const removeBtns = this.teamBuilderContainer.querySelectorAll('.remove-member-btn');
     removeBtns.forEach(btn => {
@@ -1556,6 +1746,43 @@ class PokedexApp {
         this.renderTeamBuilder();
       });
     });
+
+    // Variety / Form select change
+    const varietySelect = this.teamBuilderContainer.querySelector('.member-variety-select') as HTMLSelectElement;
+    if (varietySelect) {
+      varietySelect.addEventListener('change', () => {
+        const pId = parseInt(varietySelect.value, 10);
+        const activeMember = this.teamBuilderService.members[this.activeSlotIndexToPick];
+        const group = this.speciesGroups.find(g => g.speciesId === activeMember.speciesId);
+        if (group) {
+          const varPokemon = group.varieties.find(v => v.id === pId);
+          if (varPokemon) {
+            activeMember.pokemonId = varPokemon.id;
+            activeMember.name = varPokemon.name;
+            activeMember.types = varPokemon.types.map(t => t.name);
+            activeMember.spriteUrl = varPokemon.media.spriteUrl;
+            activeMember.officialArtworkUrl = varPokemon.media.officialArtworkUrl;
+
+            const getStat = (sName: string) => varPokemon.stats.find(s => s.name.toLowerCase() === sName.toLowerCase() || s.name.toLowerCase() === sName.replace('-', ''))?.baseStat || 80;
+            activeMember.baseStats = {
+              hp: getStat('hp'),
+              atk: getStat('attack'),
+              def: getStat('defense'),
+              spa: getStat('special-attack'),
+              spd: getStat('special-defense'),
+              spe: getStat('speed')
+            };
+
+            activeMember.availableAbilities = (varPokemon.abilities || []).map(a => a.name);
+            activeMember.availableMoves = varPokemon.moves || [];
+            activeMember.ability = activeMember.availableAbilities[0] || 'Standard Ability';
+            activeMember.moves = (varPokemon.moves || []).slice(0, 4).map(m => m.name);
+
+            this.renderTeamBuilder();
+          }
+        }
+      });
+    }
 
     // Randomize Team button click
     const randomBtn = document.getElementById('random-team-btn');
@@ -1578,20 +1805,63 @@ class PokedexApp {
         for (let i = 0; i < 6; i++) {
           this.teamBuilderService.members[i] = this.teamBuilderService.createEmptyMember(i);
         }
+        this.activeSlotIndexToPick = 0;
         this.renderTeamBuilder();
       });
     }
 
-    // Options Search Input
-    const optionsSearch = document.getElementById('tb-options-search');
-    if (optionsSearch) {
-      optionsSearch.addEventListener('input', () => {
-        const gridEl = document.getElementById('tb-options-grid');
-        if (gridEl) gridEl.innerHTML = this.renderPickerOptionsHTML();
-        this.attachOptionsItemsEvents();
+    // Table Search Input
+    const tableSearch = document.getElementById('tb-table-search') as HTMLInputElement;
+    if (tableSearch) {
+      tableSearch.addEventListener('input', () => {
+        this.tbSearchQuery = tableSearch.value;
+        this.renderTeamBuilder();
       });
     }
-    this.attachOptionsItemsEvents();
+
+    // Table Gen Filter
+    const tableGen = document.getElementById('tb-table-gen') as HTMLSelectElement;
+    if (tableGen) {
+      tableGen.addEventListener('change', () => {
+        this.tbGenFilter = tableGen.value;
+        this.renderTeamBuilder();
+      });
+    }
+
+    // Table Type Filter
+    const tableType = document.getElementById('tb-table-type') as HTMLSelectElement;
+    if (tableType) {
+      tableType.addEventListener('change', () => {
+        this.tbTypeFilter = tableType.value;
+        this.renderTeamBuilder();
+      });
+    }
+
+    // Table Column Sort Headers
+    const sortThs = this.teamBuilderContainer.querySelectorAll('.tb-sort-th');
+    sortThs.forEach(th => {
+      th.addEventListener('click', () => {
+        const sortField = th.getAttribute('data-sort') as any;
+        if (this.tbSortField === sortField) {
+          this.tbSortOrder = this.tbSortOrder === 'asc' ? 'desc' : 'asc';
+        } else {
+          this.tbSortField = sortField;
+          this.tbSortOrder = sortField === 'id' || sortField === 'name' ? 'asc' : 'desc';
+        }
+        this.renderTeamBuilder();
+      });
+    });
+
+    // Table Row & Select Button Clicks
+    const tableRows = this.teamBuilderContainer.querySelectorAll('.tb-table-row');
+    tableRows.forEach(row => {
+      row.addEventListener('click', () => {
+        const sId = parseInt(row.getAttribute('data-species-id') || '0', 10);
+        if (sId) {
+          this.assignPokemonToSlot(this.activeSlotIndexToPick, sId);
+        }
+      });
+    });
 
     // Move selects change
     const moveSelects = this.teamBuilderContainer.querySelectorAll('.member-move-select');
@@ -1643,7 +1913,7 @@ class PokedexApp {
       });
     });
 
-    // Range & Number inputs for Points/EVs
+    // Range inputs for Points/EVs
     const rangeInputs = this.teamBuilderContainer.querySelectorAll('.stat-range-input');
     rangeInputs.forEach(inp => {
       inp.addEventListener('input', (e) => {
