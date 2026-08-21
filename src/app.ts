@@ -1874,35 +1874,55 @@ class PokedexApp {
     if (abilitySelect) abilitySelect.value = 'all';
   }
 
-  private scrollToSpeciesTable(): void {
-    requestAnimationFrame(() => {
-      setTimeout(() => {
-        const tableSection = document.getElementById('tb-species-table-section') || this.teamBuilderContainer?.querySelector('.tb-options-panel');
-        if (tableSection) {
-          const yOffset = -110;
-          const y = tableSection.getBoundingClientRect().top + window.pageYOffset + yOffset;
-          window.scrollTo({ top: Math.max(0, y), behavior: 'smooth' });
+  private smoothScrollToY(targetY: number, duration: number = 650): void {
+    const startY = window.pageYOffset || document.documentElement.scrollTop;
+    const distance = targetY - startY;
+    if (Math.abs(distance) < 5) return;
 
-          const searchInput = document.getElementById('tb-table-search') as HTMLInputElement;
-          if (searchInput) {
-            searchInput.focus();
-          }
-        }
-      }, 50);
-    });
+    let startTime: number | null = null;
+
+    const easeInOutCubic = (t: number): number => {
+      return t < 0.5 ? 4 * t * t * t : 1 - Math.pow(-2 * t + 2, 3) / 2;
+    };
+
+    const step = (currentTime: number) => {
+      if (!startTime) startTime = currentTime;
+      const elapsed = currentTime - startTime;
+      const progress = Math.min(elapsed / duration, 1);
+      const ease = easeInOutCubic(progress);
+
+      window.scrollTo(0, startY + distance * ease);
+
+      if (progress < 1) {
+        requestAnimationFrame(step);
+      }
+    };
+
+    requestAnimationFrame(step);
+  }
+
+  private scrollToSpeciesTable(): void {
+    setTimeout(() => {
+      const tableSection = document.getElementById('tb-species-table-section') || this.teamBuilderContainer?.querySelector('.tb-options-panel');
+      if (tableSection) {
+        const isMobile = window.innerWidth <= 768;
+        const yOffset = isMobile ? -135 : -150;
+        const targetY = Math.max(0, tableSection.getBoundingClientRect().top + window.pageYOffset + yOffset);
+        this.smoothScrollToY(targetY, 700);
+      }
+    }, 60);
   }
 
   private scrollToActiveSlotEditor(): void {
-    requestAnimationFrame(() => {
-      setTimeout(() => {
-        const editorSection = this.teamBuilderContainer?.querySelector('.tb-active-slot-section');
-        if (editorSection) {
-          const yOffset = -110;
-          const y = editorSection.getBoundingClientRect().top + window.pageYOffset + yOffset;
-          window.scrollTo({ top: Math.max(0, y), behavior: 'smooth' });
-        }
-      }, 50);
-    });
+    setTimeout(() => {
+      const editorSection = this.teamBuilderContainer?.querySelector('.tb-active-slot-section') || this.teamBuilderContainer?.querySelector('.tb-member-card');
+      if (editorSection) {
+        const isMobile = window.innerWidth <= 768;
+        const yOffset = isMobile ? -135 : -150;
+        const targetY = Math.max(0, editorSection.getBoundingClientRect().top + window.pageYOffset + yOffset);
+        this.smoothScrollToY(targetY, 650);
+      }
+    }, 60);
   }
 
   private attachTableRowsEvents(): void {
@@ -2012,7 +2032,7 @@ class PokedexApp {
       });
     });
 
-    // Remove member buttons click
+    // Remove member buttons click (Stays at the top of the page upon removal)
     const removeBtns = this.teamBuilderContainer.querySelectorAll('.remove-member-btn');
     removeBtns.forEach(btn => {
       btn.addEventListener('click', (e) => {
@@ -2023,7 +2043,6 @@ class PokedexApp {
         this.clearTeamBuilderTableFilters();
         this.teamBuilderService.saveToLocalStorage();
         this.renderTeamBuilder();
-        this.scrollToSpeciesTable();
       });
     });
 
