@@ -2195,12 +2195,17 @@ class PokedexApp {
                          || this.teamBuilderContainer?.querySelector('.tb-active-slot-section')
                          || this.teamBuilderContainer?.querySelector('.tb-member-card');
       if (targetElement) {
-        const headerHeight = this.getHeaderHeight();
+        const header = document.querySelector('.app-header');
+        const headerHeight = header ? header.getBoundingClientRect().height : 75;
         const rect = targetElement.getBoundingClientRect();
-        const targetY = Math.max(0, window.pageYOffset + rect.top - headerHeight - 10);
-        this.smoothScrollToY(targetY, 400);
+        const targetY = Math.max(0, window.pageYOffset + rect.top - headerHeight - 12);
+        
+        window.scrollTo({
+          top: targetY,
+          behavior: 'smooth'
+        });
       }
-    }, 60);
+    }, 80);
   }
 
   private attachTableRowsEvents(): void {
@@ -2259,24 +2264,12 @@ class PokedexApp {
     member.teraType = (p.types[0]?.name || 'NORMAL').toUpperCase();
     member.moves = (p.moves || []).slice(0, 4).map(m => m.name);
 
-    if (this.activeSlotIndexToPick < 5) {
-      this.activeSlotIndexToPick++;
-      const nextMember = this.teamBuilderService.members[this.activeSlotIndexToPick];
-      if (!nextMember || !nextMember.name) {
-        this.clearTeamBuilderTableFilters();
-      }
-    }
-
+    this.activeSlotIndexToPick = slotIndex;
     this.teamBuilderService.saveToLocalStorage();
     this.renderTeamBuilder();
 
     if (autoScroll) {
-      const currentMember = this.teamBuilderService.members[this.activeSlotIndexToPick];
-      if (!currentMember || !currentMember.name) {
-        this.scrollToSpeciesTable();
-      } else {
-        this.scrollToActiveSlotEditor();
-      }
+      this.scrollToActiveSlotEditor();
     }
   }
 
