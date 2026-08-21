@@ -1263,39 +1263,45 @@ class PokedexApp {
     const filtered = this.speciesGroups.filter(g => {
       const p = g.selectedPokemon;
 
-      if (this.tbFormatLegalityFilter === 'format') {
-        const getShowdownData = (pCard: PokemonCardData) => {
-          if (!this.showdownFormatsMap || Object.keys(this.showdownFormatsMap).length === 0) return null;
-          let key = pCard.name.toLowerCase().replace(/[^a-z0-9]/g, '');
-          if (this.showdownFormatsMap[key]) return this.showdownFormatsMap[key];
-          const baseName = pCard.name.split('-')[0];
-          key = baseName.toLowerCase().replace(/[^a-z0-9]/g, '');
-          return this.showdownFormatsMap[key] || null;
-        };
+      const getShowdownData = (pCard: PokemonCardData) => {
+        if (!this.showdownFormatsMap || Object.keys(this.showdownFormatsMap).length === 0) return null;
+        let key = pCard.name.toLowerCase().replace(/[^a-z0-9]/g, '');
+        if (this.showdownFormatsMap[key]) return this.showdownFormatsMap[key];
+        const baseName = pCard.name.split('-')[0];
+        key = baseName.toLowerCase().replace(/[^a-z0-9]/g, '');
+        return this.showdownFormatsMap[key] || null;
+      };
 
-        const fd = getShowdownData(p);
-        const mode = this.teamBuilderService.formatMode;
+      const fd = getShowdownData(p);
+      const mode = this.teamBuilderService.formatMode;
+      const pName = p.name.toLowerCase();
 
-        if (mode === 'scarlet-violet') {
-          const isMega = p.name.toLowerCase().includes('-mega') || p.name.toLowerCase().includes('primal-');
-          if (isMega) return false;
-          if (fd && (fd.isNonstandard === 'Past' || fd.isNonstandard === 'Future' || fd.isNonstandard === 'Unobtainable' || fd.isNonstandard === 'Custom')) {
-            return false;
-          }
-        } else if (mode === 'champions') {
-          if (fd) {
-            const pName = p.name.toLowerCase();
-            const tier = (fd.tier || '').toUpperCase();
-            const natTier = (fd.natDexTier || '').toUpperCase();
-            const isUber = tier === 'UBER' || tier === 'AG' || natTier === 'UBER' || natTier === 'AG';
-            const isCustom = fd.isNonstandard === 'Unobtainable' || fd.isNonstandard === 'Custom';
-            const isNFE = tier === 'NFE' || tier === 'LC' || natTier === 'NFE' || natTier === 'LC';
+      const isIllegal = (data: any) => {
+        if (!data) return false;
+        if (data.tier === 'Illegal') return true;
+        if (data.isNonstandard && ['Past', 'LGPE', 'Future', 'Custom', 'CAP', 'Unobtainable'].includes(data.isNonstandard)) return true;
+        return false;
+      };
 
-            if (isUber || isCustom) return false;
-            if (isNFE && pName !== 'pikachu') return false;
-          }
-        } else if (mode === 'national-dex') {
-          if (fd && fd.natDexTier === 'Illegal') return false;
+      if (mode === 'scarlet-violet') {
+        const isMega = pName.includes('-mega') || pName.includes('primal-');
+        if (isMega) return false;
+        if (isIllegal(fd)) return false;
+      } else if (mode === 'champions') {
+        if (isIllegal(fd)) return false;
+        if (fd) {
+          const tier = (fd.tier || '').toUpperCase();
+          const natTier = (fd.natDexTier || '').toUpperCase();
+          const isUber = tier === 'UBER' || tier === 'AG' || natTier === 'UBER' || natTier === 'AG';
+          const isNFE = tier === 'NFE' || tier === 'LC' || natTier === 'NFE' || natTier === 'LC';
+
+          if (isUber) return false;
+          if (isNFE && pName !== 'pikachu') return false;
+        }
+      } else if (mode === 'national-dex') {
+        if (fd) {
+          if (fd.tier === 'Illegal' || fd.natDexTier === 'Illegal') return false;
+          if (fd.isNonstandard && ['Custom', 'CAP', 'Unobtainable'].includes(fd.isNonstandard)) return false;
         }
       }
 
