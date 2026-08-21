@@ -1519,6 +1519,16 @@ class PokedexApp {
     const activeMember = this.teamBuilderService.members[activeSlotIdx];
     let activeEditorHTML = '';
 
+    if (activeMember && activeMember.speciesId) {
+      const group = this.speciesGroups.find(g => g.speciesId === activeMember.speciesId);
+      if (group && group.selectedPokemon) {
+        const validMoves = group.selectedPokemon.moves || [];
+        activeMember.availableMoves = validMoves;
+        const validMoveNamesSet = new Set(validMoves.map(m => m.name.toLowerCase()));
+        activeMember.moves = activeMember.moves.map(mName => (mName && validMoveNamesSet.has(mName.toLowerCase())) ? mName : '');
+      }
+    }
+
     if (!activeMember.name) {
       activeEditorHTML = `
         <div class="tb-member-card" style="align-items: center; justify-content: center; min-height: 180px; border: 2px dashed rgba(56,189,248,0.3); text-align: center;">
