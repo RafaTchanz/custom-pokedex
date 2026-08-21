@@ -1625,3 +1625,126 @@ body {
   text-overflow: ellipsis;
   margin-top: 0.2rem;
 }
+
+/* Responsive Mobile Styles for Team Builder */
+.tb-editor-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 1.25rem;
+  margin-top: 0.75rem;
+}
+
+.tb-table-controls-wrapper {
+  display: flex;
+  gap: 0.4rem;
+  flex-wrap: wrap;
+  align-items: center;
+}
+
+@media (max-width: 900px) {
+  .tb-editor-grid {
+    grid-template-columns: 1fr;
+    gap: 1rem;
+  }
+
+  .tb-card-header {
+    flex-direction: column !important;
+    align-items: flex-start !important;
+    gap: 0.5rem;
+  }
+
+  .tb-remove-btn {
+    align-self: flex-end;
+  }
+}
+
+@media (max-width: 768px) {
+  .tb-avatars-strip {
+    grid-template-columns: repeat(6, 1fr) !important;
+    gap: 0.25rem !important;
+    padding: 0.35rem 0.2rem !important;
+    margin-bottom: 0.75rem !important;
+  }
+
+  .tb-avatar-card {
+    padding: 0.3rem 0.15rem !important;
+    border-radius: 10px !important;
+  }
+
+  .tb-avatar-circle {
+    width: 38px !important;
+    height: 38px !important;
+    border-width: 2px !important;
+    margin-bottom: 0.15rem !important;
+  }
+
+  .tb-avatar-circle img {
+    width: 32px !important;
+    height: 32px !important;
+  }
+
+  .tb-avatar-name {
+    font-size: 0.6rem !important;
+    line-height: 1.1;
+    max-width: 100%;
+  }
+
+  .tb-avatar-types {
+    display: none !important; /* Hide type badges on sticky mobile slot bar to save vertical space */
+  }
+
+  .tb-top-bar {
+    flex-direction: column !important;
+    align-items: stretch !important;
+    gap: 0.75rem !important;
+  }
+
+  .tb-actions-row {
+    flex-wrap: wrap !important;
+    width: 100% !important;
+    justify-content: center !important;
+    gap: 0.4rem !important;
+  }
+
+  .format-switcher {
+    width: 100% !important;
+    justify-content: center !important;
+  }
+
+  .format-btn {
+    flex: 1 !important;
+    text-align: center !important;
+    font-size: 0.75rem !important;
+    padding: 0.4rem 0.3rem !important;
+  }
+
+  .tb-options-header {
+    flex-direction: column !important;
+    align-items: stretch !important;
+    gap: 0.75rem !important;
+  }
+
+  .tb-table-controls-wrapper {
+    display: grid !important;
+    grid-template-columns: 1fr 1fr !important;
+    gap: 0.4rem !important;
+    width: 100% !important;
+  }
+
+  .tb-table-controls-wrapper input[type="text"] {
+    grid-column: 1 / -1 !important;
+    width: 100% !important;
+  }
+
+  .tb-table-controls-wrapper select {
+    width: 100% !important;
+  }
+
+  .tb-options-panel {
+    padding: 0.85rem 0.75rem !important;
+  }
+
+  .tb-member-card {
+    padding: 0.75rem !important;
+  }
+}

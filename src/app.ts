@@ -1481,7 +1481,7 @@ class PokedexApp {
             <button class="tb-remove-btn remove-member-btn" data-slot="${activeSlotIdx}" title="Remover Slot" style="position: static; width: 28px; height: 28px; font-size: 1rem;">&times;</button>
           </div>
 
-          <div style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 1.25rem; margin-top: 0.75rem;">
+          <div class="tb-editor-grid">
             <!-- Column 1: Moves -->
             <div>
               <div class="tb-section-label">Movimentos (Golpes)</div>
@@ -1685,7 +1685,7 @@ class PokedexApp {
             </p>
           </div>
 
-          <div style="display: flex; gap: 0.4rem; flex-wrap: wrap; align-items: center;">
+          <div class="tb-table-controls-wrapper">
             <input type="text" id="tb-table-search" class="tb-options-search" placeholder="🔍 Nome, #..." value="${this.tbSearchQuery}" style="width: 150px;">
             <select id="tb-table-gen" class="tb-select" style="width: auto; padding: 0.45rem 0.5rem;">
               <option value="all" ${this.tbGenFilter === 'all' ? 'selected' : ''}>Todas Gens</option>
