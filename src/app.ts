@@ -1339,11 +1339,6 @@ class PokedexApp {
         if (fdChamps.isNonstandard || tier === 'ILLEGAL' || tier === 'UBER' || tier === 'AG' || natTier === 'UBER' || natTier === 'AG') {
           return false;
         }
-
-        const isNFE = tier === 'NFE' || tier === 'LC' || natTier === 'NFE' || natTier === 'LC';
-        if (isNFE && pName !== 'pikachu') {
-          return false;
-        }
       } else if (mode === 'national-dex') {
         if (fd) {
           if (fd.tier === 'Illegal' || fd.natDexTier === 'Illegal') return false;
