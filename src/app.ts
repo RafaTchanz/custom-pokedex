@@ -111,6 +111,7 @@ class PokedexApp {
   private tbFormatLegalityFilter: 'format' | 'all' = 'format';
   private showdownFormatsMap: Record<string, any> = {};
   private showdownChampionsFormatsMap: Record<string, any> = {};
+  private bulbapediaChampionsSpeciesSet: Set<string> = new Set();
   private activeModalTab: 'general' | 'moves' | 'evolution' | 'encounters' | 'competitive' = 'general';
   private isShinyActive: boolean = false;
   private is3DModelActive: boolean = false;
@@ -378,13 +379,17 @@ class PokedexApp {
       this.allPokemon = await response.json();
       this.buildSpeciesGroups();
 
-      // Load Showdown formats & Champions mod data in parallel for exact format legality filtering
+      // Load Showdown formats, Champions mod data, and Bulbapedia Champions Roster in parallel
       Promise.all([
         fetch('/data/showdown_formats.json').then(r => r.ok ? r.json() : null).catch(() => null),
-        fetch('/data/showdown_champions_formats.json').then(r => r.ok ? r.json() : null).catch(() => null)
-      ]).then(([gen9Data, champsData]) => {
+        fetch('/data/showdown_champions_formats.json').then(r => r.ok ? r.json() : null).catch(() => null),
+        fetch('/data/bulbapedia_champions_m_b_species.json').then(r => r.ok ? r.json() : null).catch(() => null)
+      ]).then(([gen9Data, champsData, bulbaData]) => {
         if (gen9Data) this.showdownFormatsMap = gen9Data;
         if (champsData) this.showdownChampionsFormatsMap = champsData;
+        if (bulbaData && Array.isArray(bulbaData)) {
+          this.bulbapediaChampionsSpeciesSet = new Set(bulbaData.map((s: string) => s.toLowerCase()));
+        }
         if (this.currentViewMode === 'builder') {
           this.renderTeamBuilderTableOnly();
         }
@@ -1289,20 +1294,25 @@ class PokedexApp {
         if (isMega) return false;
         if (isIllegal(fd)) return false;
       } else if (mode === 'champions') {
+        const baseName = pName.split('-')[0];
+        if (this.bulbapediaChampionsSpeciesSet.size > 0 && !this.bulbapediaChampionsSpeciesSet.has(baseName)) {
+          return false;
+        }
+
         const getChampsData = (pCard: PokemonCardData) => {
           if (!this.showdownChampionsFormatsMap || Object.keys(this.showdownChampionsFormatsMap).length === 0) return null;
           let key = pCard.name.toLowerCase().replace(/[^a-z0-9]/g, '');
           if (this.showdownChampionsFormatsMap[key]) return this.showdownChampionsFormatsMap[key];
-          const baseName = pCard.name.split('-')[0];
-          key = baseName.toLowerCase().replace(/[^a-z0-9]/g, '');
+          const base = pCard.name.split('-')[0];
+          key = base.toLowerCase().replace(/[^a-z0-9]/g, '');
           return this.showdownChampionsFormatsMap[key] || null;
         };
 
         const fdChamps = getChampsData(p);
-        if (!fdChamps) return false;
-
-        if (fdChamps.isNonstandard || fdChamps.tier === 'Illegal' || fdChamps.tier === 'Uber' || fdChamps.tier === 'AG') {
-          return false;
+        if (fdChamps) {
+          if (fdChamps.isNonstandard || fdChamps.tier === 'Illegal' || fdChamps.tier === 'Uber' || fdChamps.tier === 'AG') {
+            return false;
+          }
         }
       } else if (mode === 'national-dex') {
         if (fd) {

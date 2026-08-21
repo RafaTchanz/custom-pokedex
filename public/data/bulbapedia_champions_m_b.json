@@ -1,0 +1,1227 @@
+[
+  {
+    "id": "0003",
+    "name": "Venusaur",
+    "extra": ""
+  },
+  {
+    "id": "0006",
+    "name": "Charizard",
+    "extra": ""
+  },
+  {
+    "id": "0009",
+    "name": "Blastoise",
+    "extra": ""
+  },
+  {
+    "id": "0015",
+    "name": "Beedrill",
+    "extra": ""
+  },
+  {
+    "id": "0018",
+    "name": "Pidgeot",
+    "extra": ""
+  },
+  {
+    "id": "0024",
+    "name": "Arbok",
+    "extra": ""
+  },
+  {
+    "id": "0025",
+    "name": "Pikachu",
+    "extra": ""
+  },
+  {
+    "id": "0026",
+    "name": "Raichu",
+    "extra": ""
+  },
+  {
+    "id": "0026",
+    "name": "Raichu",
+    "extra": "ig=-Alola|name=[[Raichu (Pokémon)|Raichu (Alolan Form)]]"
+  },
+  {
+    "id": "0036",
+    "name": "Clefable",
+    "extra": ""
+  },
+  {
+    "id": "0038",
+    "name": "Ninetales",
+    "extra": ""
+  },
+  {
+    "id": "0038",
+    "name": "Ninetales",
+    "extra": "ig=-Alola|name=[[Ninetales (Pokémon)|Ninetales (Alolan Form)]]"
+  },
+  {
+    "id": "0045",
+    "name": "Vileplume",
+    "extra": ""
+  },
+  {
+    "id": "0059",
+    "name": "Arcanine",
+    "extra": ""
+  },
+  {
+    "id": "0059",
+    "name": "Arcanine",
+    "extra": "ig=-Hisui|name=[[Arcanine (Pokémon)|Arcanine (Hisuian Form)]]"
+  },
+  {
+    "id": "0065",
+    "name": "Alakazam",
+    "extra": ""
+  },
+  {
+    "id": "0068",
+    "name": "Machamp",
+    "extra": ""
+  },
+  {
+    "id": "0071",
+    "name": "Victreebel",
+    "extra": ""
+  },
+  {
+    "id": "0080",
+    "name": "Slowbro",
+    "extra": ""
+  },
+  {
+    "id": "0080",
+    "name": "Slowbro",
+    "extra": "ig=-Galar|name=[[Slowbro (Pokémon)|Slowbro (Galarian Form)]]"
+  },
+  {
+    "id": "0094",
+    "name": "Gengar",
+    "extra": ""
+  },
+  {
+    "id": "0115",
+    "name": "Kangaskhan",
+    "extra": ""
+  },
+  {
+    "id": "0121",
+    "name": "Starmie",
+    "extra": ""
+  },
+  {
+    "id": "0127",
+    "name": "Pinsir",
+    "extra": ""
+  },
+  {
+    "id": "0128",
+    "name": "Tauros",
+    "extra": ""
+  },
+  {
+    "id": "0128",
+    "name": "Tauros",
+    "extra": "ig=-Paldea Combat|name=[[Tauros (Pokémon)|Tauros (Paldean Form (Combat Breed))]]"
+  },
+  {
+    "id": "0128",
+    "name": "Tauros",
+    "extra": "ig=-Paldea Blaze|name=[[Tauros (Pokémon)|Tauros (Paldean Form (Blaze Breed))]]"
+  },
+  {
+    "id": "0128",
+    "name": "Tauros",
+    "extra": "ig=-Paldea Aqua|name=[[Tauros (Pokémon)|Tauros (Paldean Form (Aqua Breed))]]"
+  },
+  {
+    "id": "0130",
+    "name": "Gyarados",
+    "extra": ""
+  },
+  {
+    "id": "0132",
+    "name": "Ditto",
+    "extra": ""
+  },
+  {
+    "id": "0134",
+    "name": "Vaporeon",
+    "extra": ""
+  },
+  {
+    "id": "0135",
+    "name": "Jolteon",
+    "extra": ""
+  },
+  {
+    "id": "0136",
+    "name": "Flareon",
+    "extra": ""
+  },
+  {
+    "id": "0142",
+    "name": "Aerodactyl",
+    "extra": ""
+  },
+  {
+    "id": "0143",
+    "name": "Snorlax",
+    "extra": ""
+  },
+  {
+    "id": "0149",
+    "name": "Dragonite",
+    "extra": ""
+  },
+  {
+    "id": "0154",
+    "name": "Meganium",
+    "extra": ""
+  },
+  {
+    "id": "0157",
+    "name": "Typhlosion",
+    "extra": ""
+  },
+  {
+    "id": "0157",
+    "name": "Typhlosion",
+    "extra": "ig=-Hisui|name=[[Typhlosion (Pokémon)|Typhlosion (Hisuian Form)]]"
+  },
+  {
+    "id": "0160",
+    "name": "Feraligatr",
+    "extra": ""
+  },
+  {
+    "id": "0168",
+    "name": "Ariados",
+    "extra": ""
+  },
+  {
+    "id": "0181",
+    "name": "Ampharos",
+    "extra": ""
+  },
+  {
+    "id": "0184",
+    "name": "Azumarill",
+    "extra": ""
+  },
+  {
+    "id": "0186",
+    "name": "Politoed",
+    "extra": ""
+  },
+  {
+    "id": "0196",
+    "name": "Espeon",
+    "extra": ""
+  },
+  {
+    "id": "0197",
+    "name": "Umbreon",
+    "extra": ""
+  },
+  {
+    "id": "0199",
+    "name": "Slowking",
+    "extra": ""
+  },
+  {
+    "id": "0199",
+    "name": "Slowking",
+    "extra": "ig=-Galar|name=[[Slowking (Pokémon)|Slowking (Galarian Form)]]"
+  },
+  {
+    "id": "0205",
+    "name": "Forretress",
+    "extra": ""
+  },
+  {
+    "id": "0208",
+    "name": "Steelix",
+    "extra": ""
+  },
+  {
+    "id": "0212",
+    "name": "Scizor",
+    "extra": ""
+  },
+  {
+    "id": "0214",
+    "name": "Heracross",
+    "extra": ""
+  },
+  {
+    "id": "0227",
+    "name": "Skarmory",
+    "extra": ""
+  },
+  {
+    "id": "0229",
+    "name": "Houndoom",
+    "extra": ""
+  },
+  {
+    "id": "0248",
+    "name": "Tyranitar",
+    "extra": ""
+  },
+  {
+    "id": "0254",
+    "name": "Sceptile",
+    "extra": ""
+  },
+  {
+    "id": "0257",
+    "name": "Blaziken",
+    "extra": ""
+  },
+  {
+    "id": "0260",
+    "name": "Swampert",
+    "extra": ""
+  },
+  {
+    "id": "0279",
+    "name": "Pelipper",
+    "extra": ""
+  },
+  {
+    "id": "0282",
+    "name": "Gardevoir",
+    "extra": ""
+  },
+  {
+    "id": "0302",
+    "name": "Sableye",
+    "extra": ""
+  },
+  {
+    "id": "0303",
+    "name": "Mawile",
+    "extra": ""
+  },
+  {
+    "id": "0306",
+    "name": "Aggron",
+    "extra": ""
+  },
+  {
+    "id": "0308",
+    "name": "Medicham",
+    "extra": ""
+  },
+  {
+    "id": "0310",
+    "name": "Manectric",
+    "extra": ""
+  },
+  {
+    "id": "0319",
+    "name": "Sharpedo",
+    "extra": ""
+  },
+  {
+    "id": "0323",
+    "name": "Camerupt",
+    "extra": ""
+  },
+  {
+    "id": "0324",
+    "name": "Torkoal",
+    "extra": ""
+  },
+  {
+    "id": "0334",
+    "name": "Altaria",
+    "extra": ""
+  },
+  {
+    "id": "0350",
+    "name": "Milotic",
+    "extra": ""
+  },
+  {
+    "id": "0351",
+    "name": "Castform",
+    "extra": ""
+  },
+  {
+    "id": "0354",
+    "name": "Banette",
+    "extra": ""
+  },
+  {
+    "id": "0358",
+    "name": "Chimecho",
+    "extra": ""
+  },
+  {
+    "id": "0359",
+    "name": "Absol",
+    "extra": ""
+  },
+  {
+    "id": "0362",
+    "name": "Glalie",
+    "extra": ""
+  },
+  {
+    "id": "0376",
+    "name": "Metagross",
+    "extra": ""
+  },
+  {
+    "id": "0389",
+    "name": "Torterra",
+    "extra": ""
+  },
+  {
+    "id": "0392",
+    "name": "Infernape",
+    "extra": ""
+  },
+  {
+    "id": "0395",
+    "name": "Empoleon",
+    "extra": ""
+  },
+  {
+    "id": "0398",
+    "name": "Staraptor",
+    "extra": ""
+  },
+  {
+    "id": "0405",
+    "name": "Luxray",
+    "extra": ""
+  },
+  {
+    "id": "0407",
+    "name": "Roserade",
+    "extra": ""
+  },
+  {
+    "id": "0409",
+    "name": "Rampardos",
+    "extra": ""
+  },
+  {
+    "id": "0411",
+    "name": "Bastiodon",
+    "extra": ""
+  },
+  {
+    "id": "0428",
+    "name": "Lopunny",
+    "extra": ""
+  },
+  {
+    "id": "0442",
+    "name": "Spiritomb",
+    "extra": ""
+  },
+  {
+    "id": "0445",
+    "name": "Garchomp",
+    "extra": ""
+  },
+  {
+    "id": "0448",
+    "name": "Lucario",
+    "extra": ""
+  },
+  {
+    "id": "0450",
+    "name": "Hippowdon",
+    "extra": ""
+  },
+  {
+    "id": "0454",
+    "name": "Toxicroak",
+    "extra": ""
+  },
+  {
+    "id": "0460",
+    "name": "Abomasnow",
+    "extra": ""
+  },
+  {
+    "id": "0461",
+    "name": "Weavile",
+    "extra": ""
+  },
+  {
+    "id": "0464",
+    "name": "Rhyperior",
+    "extra": ""
+  },
+  {
+    "id": "0470",
+    "name": "Leafeon",
+    "extra": ""
+  },
+  {
+    "id": "0471",
+    "name": "Glaceon",
+    "extra": ""
+  },
+  {
+    "id": "0472",
+    "name": "Gliscor",
+    "extra": ""
+  },
+  {
+    "id": "0473",
+    "name": "Mamoswine",
+    "extra": ""
+  },
+  {
+    "id": "0475",
+    "name": "Gallade",
+    "extra": ""
+  },
+  {
+    "id": "0478",
+    "name": "Froslass",
+    "extra": ""
+  },
+  {
+    "id": "0479",
+    "name": "Rotom",
+    "extra": ""
+  },
+  {
+    "id": "0479",
+    "name": "Rotom",
+    "extra": "ig=-Heat|name=[[Rotom (Pokémon)|Rotom (Heat Rotom)]]"
+  },
+  {
+    "id": "0479",
+    "name": "Rotom",
+    "extra": "ig=-Wash|name=[[Rotom (Pokémon)|Rotom (Wash Rotom)]]"
+  },
+  {
+    "id": "0479",
+    "name": "Rotom",
+    "extra": "ig=-Frost|name=[[Rotom (Pokémon)|Rotom (Frost Rotom)]]"
+  },
+  {
+    "id": "0479",
+    "name": "Rotom",
+    "extra": "ig=-Fan|name=[[Rotom (Pokémon)|Rotom (Fan Rotom)]]"
+  },
+  {
+    "id": "0479",
+    "name": "Rotom",
+    "extra": "ig=-Mow|name=[[Rotom (Pokémon)|Rotom (Mow Rotom)]]"
+  },
+  {
+    "id": "0497",
+    "name": "Serperior",
+    "extra": ""
+  },
+  {
+    "id": "0500",
+    "name": "Emboar",
+    "extra": ""
+  },
+  {
+    "id": "0503",
+    "name": "Samurott",
+    "extra": ""
+  },
+  {
+    "id": "0503",
+    "name": "Samurott",
+    "extra": "ig=-Hisui|name=[[Samurott (Pokémon)|Samurott (Hisuian Form)]]"
+  },
+  {
+    "id": "0505",
+    "name": "Watchog",
+    "extra": ""
+  },
+  {
+    "id": "0510",
+    "name": "Liepard",
+    "extra": ""
+  },
+  {
+    "id": "0512",
+    "name": "Simisage",
+    "extra": ""
+  },
+  {
+    "id": "0514",
+    "name": "Simisear",
+    "extra": ""
+  },
+  {
+    "id": "0516",
+    "name": "Simipour",
+    "extra": ""
+  },
+  {
+    "id": "0518",
+    "name": "Musharna",
+    "extra": ""
+  },
+  {
+    "id": "0530",
+    "name": "Excadrill",
+    "extra": ""
+  },
+  {
+    "id": "0531",
+    "name": "Audino",
+    "extra": ""
+  },
+  {
+    "id": "0534",
+    "name": "Conkeldurr",
+    "extra": ""
+  },
+  {
+    "id": "0545",
+    "name": "Scolipede",
+    "extra": ""
+  },
+  {
+    "id": "0547",
+    "name": "Whimsicott",
+    "extra": ""
+  },
+  {
+    "id": "0553",
+    "name": "Krookodile",
+    "extra": ""
+  },
+  {
+    "id": "0563",
+    "name": "Cofagrigus",
+    "extra": ""
+  },
+  {
+    "id": "0569",
+    "name": "Garbodor",
+    "extra": ""
+  },
+  {
+    "id": "0571",
+    "name": "Zoroark",
+    "extra": ""
+  },
+  {
+    "id": "0571",
+    "name": "Zoroark",
+    "extra": "ig=-Hisui|name=[[Zoroark (Pokémon)|Zoroark (Hisuian Form)]]"
+  },
+  {
+    "id": "0579",
+    "name": "Reuniclus",
+    "extra": ""
+  },
+  {
+    "id": "0584",
+    "name": "Vanilluxe",
+    "extra": ""
+  },
+  {
+    "id": "0587",
+    "name": "Emolga",
+    "extra": ""
+  },
+  {
+    "id": "0609",
+    "name": "Chandelure",
+    "extra": ""
+  },
+  {
+    "id": "0614",
+    "name": "Beartic",
+    "extra": ""
+  },
+  {
+    "id": "0618",
+    "name": "Stunfisk",
+    "extra": ""
+  },
+  {
+    "id": "0618",
+    "name": "Stunfisk",
+    "extra": "ig=-Galar|name=[[Stunfisk (Pokémon)|Stunfisk (Galarian Form)]]"
+  },
+  {
+    "id": "0623",
+    "name": "Golurk",
+    "extra": ""
+  },
+  {
+    "id": "0635",
+    "name": "Hydreigon",
+    "extra": ""
+  },
+  {
+    "id": "0637",
+    "name": "Volcarona",
+    "extra": ""
+  },
+  {
+    "id": "0652",
+    "name": "Chesnaught",
+    "extra": ""
+  },
+  {
+    "id": "0655",
+    "name": "Delphox",
+    "extra": ""
+  },
+  {
+    "id": "0658",
+    "name": "Greninja",
+    "extra": ""
+  },
+  {
+    "id": "0660",
+    "name": "Diggersby",
+    "extra": ""
+  },
+  {
+    "id": "0663",
+    "name": "Talonflame",
+    "extra": ""
+  },
+  {
+    "id": "0666",
+    "name": "Vivillon",
+    "extra": "ig=-High Plains|name=[[Vivillon (Pokémon)|Vivillon (High Plains Pattern)]]"
+  },
+  {
+    "id": "0671",
+    "name": "Florges",
+    "extra": "name=[[Florges (Pokémon)|Florges (Red Flower)]]"
+  },
+  {
+    "id": "0671",
+    "name": "Florges",
+    "extra": "ig=-Yellow|name=[[Florges (Pokémon)|Florges (Yellow Flower)]]"
+  },
+  {
+    "id": "0671",
+    "name": "Florges",
+    "extra": "ig=-Orange|name=[[Florges (Pokémon)|Florges (Orange Flower)]]"
+  },
+  {
+    "id": "0671",
+    "name": "Florges",
+    "extra": "ig=-Blue|name=[[Florges (Pokémon)|Florges (Blue Flower)]]"
+  },
+  {
+    "id": "0671",
+    "name": "Florges",
+    "extra": "ig=-White|name=[[Florges (Pokémon)|Florges (White Flower)]]"
+  },
+  {
+    "id": "0675",
+    "name": "Pangoro",
+    "extra": ""
+  },
+  {
+    "id": "0676",
+    "name": "Furfrou",
+    "extra": ""
+  },
+  {
+    "id": "0676",
+    "name": "Furfrou",
+    "extra": "ig=-Matron|name=[[Furfrou (Pokémon)|Furfrou (Matron Trim)]]"
+  },
+  {
+    "id": "0676",
+    "name": "Furfrou",
+    "extra": "ig=-Dandy|name=[[Furfrou (Pokémon)|Furfrou (Dandy Trim)]]"
+  },
+  {
+    "id": "0678",
+    "name": "Meowstic",
+    "extra": "name=[[Meowstic (Pokémon)|Meowstic (Male)]]"
+  },
+  {
+    "id": "0678",
+    "name": "Meowstic",
+    "extra": "ig=-Female|name=[[Meowstic (Pokémon)|Meowstic (Female)]]"
+  },
+  {
+    "id": "0681",
+    "name": "Aegislash",
+    "extra": ""
+  },
+  {
+    "id": "0683",
+    "name": "Aromatisse",
+    "extra": ""
+  },
+  {
+    "id": "0685",
+    "name": "Slurpuff",
+    "extra": ""
+  },
+  {
+    "id": "0687",
+    "name": "Malamar",
+    "extra": ""
+  },
+  {
+    "id": "0689",
+    "name": "Barbaracle",
+    "extra": ""
+  },
+  {
+    "id": "0691",
+    "name": "Dragalge",
+    "extra": ""
+  },
+  {
+    "id": "0693",
+    "name": "Clawitzer",
+    "extra": ""
+  },
+  {
+    "id": "0695",
+    "name": "Heliolisk",
+    "extra": ""
+  },
+  {
+    "id": "0697",
+    "name": "Tyrantrum",
+    "extra": ""
+  },
+  {
+    "id": "0699",
+    "name": "Aurorus",
+    "extra": ""
+  },
+  {
+    "id": "0700",
+    "name": "Sylveon",
+    "extra": ""
+  },
+  {
+    "id": "0701",
+    "name": "Hawlucha",
+    "extra": ""
+  },
+  {
+    "id": "0702",
+    "name": "Dedenne",
+    "extra": ""
+  },
+  {
+    "id": "0706",
+    "name": "Goodra",
+    "extra": ""
+  },
+  {
+    "id": "0706",
+    "name": "Goodra",
+    "extra": "ig=-Hisui|name=[[Goodra (Pokémon)|Goodra (Hisuian Form)]]"
+  },
+  {
+    "id": "0707",
+    "name": "Klefki",
+    "extra": ""
+  },
+  {
+    "id": "0709",
+    "name": "Trevenant",
+    "extra": ""
+  },
+  {
+    "id": "0711",
+    "name": "Gourgeist",
+    "extra": "name=[[Gourgeist (Pokémon)|Gourgeist (Medium Veriety)]]"
+  },
+  {
+    "id": "0711",
+    "name": "Gourgeist",
+    "extra": "ig=-Small|name=[[Gourgeist (Pokémon)|Gourgeist (Small Variety)]]"
+  },
+  {
+    "id": "0711",
+    "name": "Gourgeist",
+    "extra": "ig=-Large|name=[[Gourgeist (Pokémon)|Gourgeist (Large Variety)]]"
+  },
+  {
+    "id": "0711",
+    "name": "Gourgeist",
+    "extra": "ig=-Jumbo|name=[[Gourgeist (Pokémon)|Gourgeist (Jumbo Variety)]]"
+  },
+  {
+    "id": "0713",
+    "name": "Avalugg",
+    "extra": ""
+  },
+  {
+    "id": "0713",
+    "name": "Avalugg",
+    "extra": "ig=-Hisui|name=[[Avalugg (Pokémon)|Avalugg (Hisuian Form)]]"
+  },
+  {
+    "id": "0715",
+    "name": "Noivern",
+    "extra": ""
+  },
+  {
+    "id": "0724",
+    "name": "Decidueye",
+    "extra": ""
+  },
+  {
+    "id": "0724",
+    "name": "Decidueye",
+    "extra": "ig=-Hisui|name=[[Decidueye (Pokémon)|Decidueye (Hisuian Form)]]"
+  },
+  {
+    "id": "0727",
+    "name": "Incineroar",
+    "extra": ""
+  },
+  {
+    "id": "0730",
+    "name": "Primarina",
+    "extra": ""
+  },
+  {
+    "id": "0733",
+    "name": "Toucannon",
+    "extra": ""
+  },
+  {
+    "id": "0740",
+    "name": "Crabominable",
+    "extra": ""
+  },
+  {
+    "id": "0745",
+    "name": "Lycanroc",
+    "extra": "name=[[Lycanroc (Pokémon)|Lycanroc (Midday Form)]]"
+  },
+  {
+    "id": "0745",
+    "name": "Lycanroc",
+    "extra": "ig=-Midnight|name=[[Lycanroc (Pokémon)|Lycanroc (Midnight Form)]]"
+  },
+  {
+    "id": "0745",
+    "name": "Lycanroc",
+    "extra": "ig=-Dusk|name=[[Lycanroc (Pokémon)|Lycanroc (Dusk Form)]]"
+  },
+  {
+    "id": "0748",
+    "name": "Toxapex",
+    "extra": ""
+  },
+  {
+    "id": "0750",
+    "name": "Mudsdale",
+    "extra": ""
+  },
+  {
+    "id": "0752",
+    "name": "Araquanid",
+    "extra": ""
+  },
+  {
+    "id": "0758",
+    "name": "Salazzle",
+    "extra": ""
+  },
+  {
+    "id": "0763",
+    "name": "Tsareena",
+    "extra": ""
+  },
+  {
+    "id": "0765",
+    "name": "Oranguru",
+    "extra": ""
+  },
+  {
+    "id": "0766",
+    "name": "Passimian",
+    "extra": ""
+  },
+  {
+    "id": "0778",
+    "name": "Mimikyu",
+    "extra": ""
+  },
+  {
+    "id": "0780",
+    "name": "Drampa",
+    "extra": ""
+  },
+  {
+    "id": "0784",
+    "name": "Kommo-o",
+    "extra": ""
+  },
+  {
+    "id": "0823",
+    "name": "Corviknight",
+    "extra": ""
+  },
+  {
+    "id": "0841",
+    "name": "Flapple",
+    "extra": ""
+  },
+  {
+    "id": "0842",
+    "name": "Appletun",
+    "extra": ""
+  },
+  {
+    "id": "0844",
+    "name": "Sandaconda",
+    "extra": ""
+  },
+  {
+    "id": "0855",
+    "name": "Polteageist",
+    "extra": "name=[[Polteageist (Pokémon)|Polteageist (Phony Form)]]"
+  },
+  {
+    "id": "0855",
+    "name": "Polteageist",
+    "extra": "name=[[Polteageist (Pokémon)|Polteageist (Antique Form)]]"
+  },
+  {
+    "id": "0858",
+    "name": "Hatterene",
+    "extra": ""
+  },
+  {
+    "id": "0866",
+    "name": "Mr. Rime",
+    "extra": ""
+  },
+  {
+    "id": "0867",
+    "name": "Runerigus",
+    "extra": ""
+  },
+  {
+    "id": "0869",
+    "name": "Alcremie",
+    "extra": "name=[[Alcremie (Pokémon)|Alcremie (Vanilla Cream)]]"
+  },
+  {
+    "id": "0869",
+    "name": "Alcremie",
+    "extra": "ig=-Ruby Cream|name=[[Alcremie (Pokémon)|Alcremie (Ruby Cream)]]"
+  },
+  {
+    "id": "0869",
+    "name": "Alcremie",
+    "extra": "ig=-Matcha Cream|name=[[Alcremie (Pokémon)|Alcremie (Matcha Cream)]]"
+  },
+  {
+    "id": "0869",
+    "name": "Alcremie",
+    "extra": "ig=-Mint Cream|name=[[Alcremie (Pokémon)|Alcremie (Mint Cream)]]"
+  },
+  {
+    "id": "0869",
+    "name": "Alcremie",
+    "extra": "ig=-Lemon Cream|name=[[Alcremie (Pokémon)|Alcremie (Lemon Cream)]]"
+  },
+  {
+    "id": "0869",
+    "name": "Alcremie",
+    "extra": "ig=-Salted Cream|name=[[Alcremie (Pokémon)|Alcremie (Salted Cream)]]"
+  },
+  {
+    "id": "0869",
+    "name": "Alcremie",
+    "extra": "ig=-Ruby Swirl|name=[[Alcremie (Pokémon)|Alcremie (Ruby Swirl)]]"
+  },
+  {
+    "id": "0869",
+    "name": "Alcremie",
+    "extra": "ig=-Caramel Swirl|name=[[Alcremie (Pokémon)|Alcremie (Caramel Swirl)]]"
+  },
+  {
+    "id": "0869",
+    "name": "Alcremie",
+    "extra": "ig=-Rainbow Swirl|name=[[Alcremie (Pokémon)|Alcremie (Rainbow Swirl)]]"
+  },
+  {
+    "id": "0870",
+    "name": "Falinks",
+    "extra": ""
+  },
+  {
+    "id": "0877",
+    "name": "Morpeko",
+    "extra": ""
+  },
+  {
+    "id": "0887",
+    "name": "Dragapult",
+    "extra": ""
+  },
+  {
+    "id": "0899",
+    "name": "Wyrdeer",
+    "extra": ""
+  },
+  {
+    "id": "0900",
+    "name": "Kleavor",
+    "extra": ""
+  },
+  {
+    "id": "0902",
+    "name": "Basculegion",
+    "extra": "name=[[Basculegion (Pokémon)|Basculegion (Male)]]"
+  },
+  {
+    "id": "0902",
+    "name": "Basculegion",
+    "extra": "ig=-Female|name=[[Basculegion (Pokémon)|Basculegion (Female)]]"
+  },
+  {
+    "id": "0903",
+    "name": "Sneasler",
+    "extra": ""
+  },
+  {
+    "id": "0908",
+    "name": "Meowscarada",
+    "extra": ""
+  },
+  {
+    "id": "0911",
+    "name": "Skeledirge",
+    "extra": ""
+  },
+  {
+    "id": "0914",
+    "name": "Quaquaval",
+    "extra": ""
+  },
+  {
+    "id": "0925",
+    "name": "Maushold",
+    "extra": "ig=-Three|name=[[Maushold (Pokémon)|Maushold (Family of Three)]]"
+  },
+  {
+    "id": "0925",
+    "name": "Maushold",
+    "extra": "name=[[Maushold (Pokémon)|Maushold (Family of Four)]]"
+  },
+  {
+    "id": "0934",
+    "name": "Garganacl",
+    "extra": ""
+  },
+  {
+    "id": "0936",
+    "name": "Armarouge",
+    "extra": ""
+  },
+  {
+    "id": "0937",
+    "name": "Ceruledge",
+    "extra": ""
+  },
+  {
+    "id": "0939",
+    "name": "Bellibolt",
+    "extra": ""
+  },
+  {
+    "id": "0952",
+    "name": "Scovillain",
+    "extra": ""
+  },
+  {
+    "id": "0956",
+    "name": "Espathra",
+    "extra": ""
+  },
+  {
+    "id": "0959",
+    "name": "Tinkaton",
+    "extra": ""
+  },
+  {
+    "id": "0964",
+    "name": "Palafin",
+    "extra": ""
+  },
+  {
+    "id": "0968",
+    "name": "Orthworm",
+    "extra": ""
+  },
+  {
+    "id": "0970",
+    "name": "Glimmora",
+    "extra": ""
+  },
+  {
+    "id": "0972",
+    "name": "Houndstone",
+    "extra": ""
+  },
+  {
+    "id": "0979",
+    "name": "Annihilape",
+    "extra": ""
+  },
+  {
+    "id": "0981",
+    "name": "Farigiraf",
+    "extra": ""
+  },
+  {
+    "id": "0983",
+    "name": "Kingambit",
+    "extra": ""
+  },
+  {
+    "id": "1000",
+    "name": "Gholdengo",
+    "extra": ""
+  },
+  {
+    "id": "1013",
+    "name": "Sinistcha",
+    "extra": "name=[[Sinistcha (Pokémon)|Sinistcha (Unremarkable Form)]]"
+  },
+  {
+    "id": "1013",
+    "name": "Sinistcha",
+    "extra": "name=[[Sinistcha (Pokémon)|Sinistcha (Masterpiece Form)]]"
+  },
+  {
+    "id": "1018",
+    "name": "Archaludon",
+    "extra": ""
+  },
+  {
+    "id": "1019",
+    "name": "Hydrapple",
+    "extra": ""
+  }
+]
