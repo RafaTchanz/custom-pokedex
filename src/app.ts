@@ -112,6 +112,7 @@ class PokedexApp {
   private showdownFormatsMap: Record<string, ShowdownFormatData> = {};
   private showdownChampionsFormatsMap: Record<string, ShowdownFormatData> = {};
   private championsLearnsetsMap: Record<string, string[]> = {};
+  private recommendedMovesMap: Record<string, Record<string, string[]>> = {};
   private bulbapediaChampionsData: { ndexes: Set<number>; forms: Set<string> } | null = null;
   private activeModalTab: 'general' | 'moves' | 'evolution' | 'encounters' | 'competitive' = 'general';
   private isShinyActive: boolean = false;
@@ -380,15 +381,17 @@ class PokedexApp {
       this.allPokemon = await response.json();
       this.buildSpeciesGroups();
 
-      // Load Showdown formats, Champions mod data, and Champions learnsets in parallel
+      // Load Showdown formats, Champions mod data, Champions learnsets, and Recommended Moves in parallel
       Promise.all([
         fetch('/data/showdown_formats.json').then(r => r.ok ? r.json() : null).catch(() => null),
         fetch('/data/showdown_champions_formats.json').then(r => r.ok ? r.json() : null).catch(() => null),
-        fetch('/data/champions_learnsets.json').then(r => r.ok ? r.json() : null).catch(() => null)
-      ]).then(([gen9Data, champsData, champsLearnsets]) => {
+        fetch('/data/champions_learnsets.json').then(r => r.ok ? r.json() : null).catch(() => null),
+        fetch('/data/recommended_moves.json').then(r => r.ok ? r.json() : null).catch(() => null)
+      ]).then(([gen9Data, champsData, champsLearnsets, recMoves]) => {
         if (gen9Data) this.showdownFormatsMap = gen9Data;
         if (champsData) this.showdownChampionsFormatsMap = champsData;
         if (champsLearnsets) this.championsLearnsetsMap = champsLearnsets;
+        if (recMoves) this.recommendedMovesMap = recMoves;
         if (this.currentViewMode === 'builder') {
           this.renderTeamBuilderTableOnly();
         }
@@ -1564,9 +1567,44 @@ class PokedexApp {
         ? `<select class="tb-select member-variety-select" data-slot="${activeSlotIdx}" style="margin-top: 0.25rem; font-size: 0.75rem;">${varietiesHTML}</select>`
         : '';
 
-      // Moves Selects (Alphabetically Sorted) & Duplicate Prevention & Type/Power Boxes
-      const sortedAvailableMoves = [...(activeMember.availableMoves || [])].sort((a, b) => a.name.localeCompare(b.name));
+      // Moves Selects (Regulation-Aware Competitive Sorting & Highlights)
+      const currentFormatKey = isChampions ? 'champions' : (isNationalDex ? 'national-dex' : 'scarlet-violet');
+      const speciesAlias = activeMember.name.toLowerCase().replace(/[^a-z0-9]/g, '');
+      const formatRecsList = (this.recommendedMovesMap[currentFormatKey] && this.recommendedMovesMap[currentFormatKey][speciesAlias]) || [];
+      const formatRecsSet = new Set(formatRecsList.map(m => m.toLowerCase()));
+
+      const rawAvailableMoves = activeMember.availableMoves || [];
+      const recMoves = rawAvailableMoves.filter(m => formatRecsSet.has(m.name.toLowerCase())).sort((a, b) => a.name.localeCompare(b.name));
+      const otherMoves = rawAvailableMoves.filter(m => !formatRecsSet.has(m.name.toLowerCase())).sort((a, b) => a.name.localeCompare(b.name));
+      const sortedAvailableMoves = [...recMoves, ...otherMoves];
       const selectedMovesSet = new Set(activeMember.moves.filter(m => m && m.trim().length > 0).map(m => m.toLowerCase()));
+
+      // Quick Recommended Meta Moves Pills HTML
+      const formatNameLabel = isChampions ? '🏆 Champions' : (isNationalDex ? '🌐 NatDex' : '🔴 Gen 9 SV');
+      let recommendedPillsPanelHTML = '';
+      if (recMoves.length > 0) {
+        const pillsHTML = recMoves.map(m => {
+          const typeColor = TYPE_COLORS[m.type.toLowerCase()] || '#a8a77a';
+          const isSelected = selectedMovesSet.has(m.name.toLowerCase());
+          return `
+            <button class="tb-rec-move-btn ${isSelected ? 'selected' : ''}" data-move-name="${m.name}" data-slot="${activeSlotIdx}" style="background: rgba(30,41,59,0.85); border: 1px solid ${isSelected ? typeColor : 'rgba(255,255,255,0.15)'}; color: ${isSelected ? '#4ade80' : '#f8fafc'}; font-size: 0.65rem; font-weight: 700; padding: 0.15rem 0.45rem; border-radius: 6px; cursor: pointer; display: inline-flex; align-items: center; gap: 0.25rem;">
+              <span style="color: ${typeColor}; font-weight: 800;">★</span> ${m.name} ${isSelected ? '✓' : '+'}
+            </button>
+          `;
+        }).join('');
+
+        recommendedPillsPanelHTML = `
+          <div style="margin-bottom: 0.6rem; background: rgba(56,189,248,0.06); border: 1px solid rgba(56,189,248,0.2); border-radius: 8px; padding: 0.45rem 0.6rem;">
+            <div style="font-size: 0.675rem; font-weight: 800; color: #38bdf8; text-transform: uppercase; margin-bottom: 0.35rem; display: flex; align-items: center; justify-content: space-between;">
+              <span>⭐ Golpes Mais Usados (${formatNameLabel} Meta)</span>
+              <span style="font-size: 0.6rem; color: #94a3b8; text-transform: none; font-weight: 600;">Clique para adicionar</span>
+            </div>
+            <div style="display: flex; gap: 0.35rem; flex-wrap: wrap;">
+              ${pillsHTML}
+            </div>
+          </div>
+        `;
+      }
 
       const movesHTML = [0, 1, 2, 3].map(mIdx => {
         const currentMoveName = activeMember.moves[mIdx] || '';
@@ -1576,9 +1614,12 @@ class PokedexApp {
           sortedAvailableMoves.map(mv => {
             const isCurrent = mv.name.toLowerCase() === currentMoveName.toLowerCase();
             const isDuplicate = !isCurrent && selectedMovesSet.has(mv.name.toLowerCase());
+            const isMeta = formatRecsSet.has(mv.name.toLowerCase());
             const disabledAttr = isDuplicate ? 'disabled style="color: #64748b; background: rgba(15,23,42,0.8);"' : '';
-            const labelSuffix = isDuplicate ? ' (Já Selecionado)' : '';
-            return `<option value="${mv.name}" ${isCurrent ? 'selected' : ''} ${disabledAttr}>${mv.name}${labelSuffix}</option>`;
+            const starPrefix = isMeta ? '⭐ ' : '';
+            const metaTag = isMeta ? ' (Competitivo)' : '';
+            const labelSuffix = isDuplicate ? ' (Já Selecionado)' : metaTag;
+            return `<option value="${mv.name}" ${isCurrent ? 'selected' : ''} ${disabledAttr}>${starPrefix}${mv.name}${labelSuffix}</option>`;
           }).join('');
 
         const typeColor = currentMoveObj ? (TYPE_COLORS[currentMoveObj.type.toLowerCase()] || '#a8a77a') : 'rgba(148,163,184,0.2)';
@@ -1688,6 +1729,7 @@ class PokedexApp {
           <div class="tb-editor-grid">
             <!-- Column 1: Moves -->
             <div>
+              ${recommendedPillsPanelHTML}
               <div class="tb-section-label">Movimentos (Golpes)</div>
               ${movesHTML}
             </div>
@@ -2288,6 +2330,29 @@ class PokedexApp {
 
   private attachTeamBuilderEvents(): void {
     if (!this.teamBuilderContainer) return;
+
+    // Recommended Meta Move Pills click
+    const recMoveBtns = this.teamBuilderContainer.querySelectorAll('.tb-rec-move-btn');
+    recMoveBtns.forEach(btn => {
+      btn.addEventListener('click', () => {
+        const moveName = btn.getAttribute('data-move-name');
+        if (!moveName) return;
+        const activeMember = this.teamBuilderService.members[this.activeSlotIndexToPick];
+        if (!activeMember) return;
+
+        const existingIdx = activeMember.moves.findIndex(m => m && m.toLowerCase() === moveName.toLowerCase());
+        if (existingIdx !== -1) {
+          activeMember.moves[existingIdx] = '';
+        } else {
+          const emptyIdx = activeMember.moves.findIndex(m => !m || m.trim().length === 0);
+          const targetIdx = emptyIdx !== -1 ? emptyIdx : 0;
+          activeMember.moves[targetIdx] = moveName;
+        }
+
+        this.teamBuilderService.saveToLocalStorage();
+        this.renderTeamBuilder();
+      });
+    });
 
     // Avatar Strip clicks
     const avatarCards = this.teamBuilderContainer.querySelectorAll('.tb-avatar-card');
