@@ -1332,10 +1332,17 @@ class PokedexApp {
         };
 
         const fdChamps = getChampsData(p);
-        if (fdChamps) {
-          if (fdChamps.isNonstandard || fdChamps.tier === 'Illegal' || fdChamps.tier === 'Uber' || fdChamps.tier === 'AG') {
-            return false;
-          }
+        if (!fdChamps) return false;
+
+        const tier = (fdChamps.tier || '').toUpperCase();
+        const natTier = (fdChamps.natDexTier || '').toUpperCase();
+        if (fdChamps.isNonstandard || tier === 'ILLEGAL' || tier === 'UBER' || tier === 'AG' || natTier === 'UBER' || natTier === 'AG') {
+          return false;
+        }
+
+        const isNFE = tier === 'NFE' || tier === 'LC' || natTier === 'NFE' || natTier === 'LC';
+        if (isNFE && pName !== 'pikachu') {
+          return false;
         }
       } else if (mode === 'national-dex') {
         if (fd) {
