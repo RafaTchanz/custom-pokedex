@@ -1707,10 +1707,15 @@ class PokedexApp {
         </div>
 
         <div class="tb-actions-row">
-          <div class="format-switcher">
-            <button class="format-btn ${isChampions ? 'active' : ''}" data-format="champions">🏆 Champions (66 Pts)</button>
-            <button class="format-btn ${isSV ? 'sv-active' : ''}" data-format="scarlet-violet">🔴 Scarlet & Violet (510 EVs)</button>
-            <button class="format-btn ${isNationalDex ? 'nat-active' : ''}" data-format="national-dex">🌐 National Dex (510 EVs)</button>
+          <div class="format-switcher-container">
+            <span style="font-size: 0.8rem; font-weight: 800; color: #38bdf8; display: flex; align-items: center; gap: 0.35rem; white-space: nowrap;">
+              🎯 Formato:
+            </span>
+            <select id="tb-format-select" class="format-dropdown-select">
+              <option value="champions" ${isChampions ? 'selected' : ''}>🏆 Champions (66 Pts • Restrito/Megas)</option>
+              <option value="scarlet-violet" ${isSV ? 'selected' : ''}>🔴 Scarlet & Violet (510 EVs • Terastal)</option>
+              <option value="national-dex" ${isNationalDex ? 'selected' : ''}>🌐 National Dex (510 EVs • Pokédex Geral)</option>
+            </select>
           </div>
           <button id="random-team-btn" class="tb-btn">🎲 Time Aleatório</button>
           <button id="export-team-btn" class="tb-btn primary">📋 Exportar Showdown</button>
@@ -1757,10 +1762,6 @@ class PokedexApp {
           </div>
 
           <div class="tb-table-controls-wrapper">
-            <select id="tb-table-legality" class="tb-select" style="width: auto; padding: 0.45rem 0.5rem; border-color: rgba(56,189,248,0.4); background: rgba(15,23,42,0.85); color: #38bdf8; font-weight: 700;">
-              <option value="format" ${this.tbFormatLegalityFilter === 'format' ? 'selected' : ''}>🎯 Permitidos (${isChampions ? 'Champions' : isNationalDex ? 'National Dex' : 'Scarlet & Violet'})</option>
-              <option value="all" ${this.tbFormatLegalityFilter === 'all' ? 'selected' : ''}>🌐 Todos Pokémons</option>
-            </select>
             <input type="text" id="tb-table-search" class="tb-options-search" placeholder="🔍 Nome, #..." value="${this.tbSearchQuery}" style="width: 140px;">
             <select id="tb-table-gen" class="tb-select" style="width: auto; padding: 0.45rem 0.5rem;">
               <option value="all" ${this.tbGenFilter === 'all' ? 'selected' : ''}>Todas Gens</option>
@@ -2150,15 +2151,15 @@ class PokedexApp {
       });
     });
 
-    // Format buttons click
-    const formatBtns = this.teamBuilderContainer.querySelectorAll('.format-btn');
-    formatBtns.forEach(btn => {
-      btn.addEventListener('click', () => {
-        const mode = btn.getAttribute('data-format') as FormatMode;
+    // Format Select dropdown change
+    const formatSelect = document.getElementById('tb-format-select') as HTMLSelectElement;
+    if (formatSelect) {
+      formatSelect.addEventListener('change', () => {
+        const mode = formatSelect.value as FormatMode;
         this.teamBuilderService.setFormatMode(mode);
         this.renderTeamBuilder();
       });
-    });
+    }
 
     // Remove member buttons click (Stays at the top of the page upon removal)
     const removeBtns = this.teamBuilderContainer.querySelectorAll('.remove-member-btn');
@@ -2246,15 +2247,6 @@ class PokedexApp {
         this.activeSlotIndexToPick = 0;
         this.teamBuilderService.clearStorage();
         this.renderTeamBuilder();
-      });
-    }
-
-    // Table Legality Filter
-    const tableLegality = document.getElementById('tb-table-legality') as HTMLSelectElement;
-    if (tableLegality) {
-      tableLegality.addEventListener('change', () => {
-        this.tbFormatLegalityFilter = tableLegality.value as any;
-        this.renderTeamBuilderTableOnly();
       });
     }
 

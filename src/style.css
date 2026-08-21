@@ -1058,55 +1058,42 @@ body {
   flex-wrap: wrap;
 }
 
-.format-switcher {
-  display: inline-flex;
-  background: rgba(15, 23, 42, 0.95);
-  border: 1px solid rgba(255, 255, 255, 0.18);
-  border-radius: 14px;
-  padding: 4px;
-  gap: 4px;
+/* Format Selector - Sleek Responsive Dropdown */
+.format-switcher-container {
+  display: flex;
   align-items: center;
-  box-sizing: border-box;
+  gap: 0.5rem;
+  background: rgba(15, 23, 42, 0.85);
+  border: 1px solid rgba(56, 189, 248, 0.35);
+  border-radius: 12px;
+  padding: 0.3rem 0.65rem;
+  box-shadow: 0 4px 14px rgba(0, 0, 0, 0.25);
+  transition: all 0.25s ease;
+  max-width: 100%;
 }
 
-.format-btn {
+.format-switcher-container:focus-within,
+.format-switcher-container:hover {
+  border-color: var(--accent-blue);
+  box-shadow: 0 0 14px rgba(56, 189, 248, 0.4);
+}
+
+.format-dropdown-select {
   background: transparent;
   border: none;
-  color: #94a3b8;
-  font-weight: 700;
-  font-size: 0.775rem;
-  padding: 0.45rem 0.75rem;
-  border-radius: 10px;
-  cursor: pointer;
-  transition: all 0.25s ease;
-  white-space: nowrap;
-  line-height: 1.2;
-}
-
-.format-btn:hover {
   color: #f8fafc;
-  background: rgba(255, 255, 255, 0.06);
+  font-size: 0.825rem;
+  font-weight: 800;
+  outline: none;
+  cursor: pointer;
+  max-width: 100%;
 }
 
-.format-btn.active {
-  background: linear-gradient(135deg, #f59e0b, #ef4444);
-  color: #ffffff;
-  font-weight: 800;
-  box-shadow: 0 0 14px rgba(245, 158, 11, 0.45);
-}
-
-.format-btn.sv-active {
-  background: linear-gradient(135deg, #38bdf8, #818cf8);
-  color: #0f172a;
-  font-weight: 800;
-  box-shadow: 0 0 14px rgba(56, 189, 248, 0.45);
-}
-
-.format-btn.nat-active {
-  background: linear-gradient(135deg, #10b981, #06b6d4);
-  color: #0f172a;
-  font-weight: 800;
-  box-shadow: 0 0 14px rgba(16, 185, 129, 0.45);
+.format-dropdown-select option {
+  background: #0f172a;
+  color: #f8fafc;
+  font-weight: 700;
+  padding: 0.5rem;
 }
 
 .tb-btn {
