@@ -1356,24 +1356,6 @@ class PokedexApp {
             }
           }
         }
-
-        const getChampsData = (pCard: PokemonCardData) => {
-          if (!this.showdownChampionsFormatsMap || Object.keys(this.showdownChampionsFormatsMap).length === 0) return null;
-          let key = pCard.name.toLowerCase().replace(/[^a-z0-9]/g, '');
-          if (this.showdownChampionsFormatsMap[key]) return this.showdownChampionsFormatsMap[key];
-          const base = pCard.name.split('-')[0];
-          key = base.toLowerCase().replace(/[^a-z0-9]/g, '');
-          return this.showdownChampionsFormatsMap[key] || null;
-        };
-
-        const fdChamps = getChampsData(p);
-        if (fdChamps) {
-          const tier = (fdChamps.tier || '').toUpperCase();
-          const natTier = (fdChamps.natDexTier || '').toUpperCase();
-          if (fdChamps.isNonstandard || tier === 'ILLEGAL' || tier === 'UBER' || tier === 'AG' || natTier === 'UBER' || natTier === 'AG') {
-            return false;
-          }
-        }
       } else if (mode === 'national-dex') {
         if (fd) {
           if (fd.tier === 'Illegal' || fd.natDexTier === 'Illegal') return false;
