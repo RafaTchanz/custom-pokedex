@@ -1543,20 +1543,41 @@ class PokedexApp {
         ? `<select class="tb-select member-variety-select" data-slot="${activeSlotIdx}" style="margin-top: 0.25rem; font-size: 0.75rem;">${varietiesHTML}</select>`
         : '';
 
-      // Moves Selects (Alphabetically Sorted)
+      // Moves Selects (Alphabetically Sorted) & Duplicate Prevention & Type/Power Boxes
       const sortedAvailableMoves = [...(activeMember.availableMoves || [])].sort((a, b) => a.name.localeCompare(b.name));
+      const selectedMovesSet = new Set(activeMember.moves.filter(m => m && m.trim().length > 0).map(m => m.toLowerCase()));
+
       const movesHTML = [0, 1, 2, 3].map(mIdx => {
-        const currentMove = activeMember.moves[mIdx] || '';
+        const currentMoveName = activeMember.moves[mIdx] || '';
+        const currentMoveObj = sortedAvailableMoves.find(mv => mv.name.toLowerCase() === currentMoveName.toLowerCase());
+
         const optionsHTML = `<option value="">-- Golpe #${mIdx + 1} --</option>` +
           sortedAvailableMoves.map(mv => {
-            return `<option value="${mv.name}" ${mv.name.toLowerCase() === currentMove.toLowerCase() ? 'selected' : ''}>${mv.name} (${mv.type}${mv.power ? ` • ${mv.power} Pow` : ''})</option>`;
+            const isCurrent = mv.name.toLowerCase() === currentMoveName.toLowerCase();
+            const isDuplicate = !isCurrent && selectedMovesSet.has(mv.name.toLowerCase());
+            const disabledAttr = isDuplicate ? 'disabled style="color: #64748b; background: rgba(15,23,42,0.8);"' : '';
+            const labelSuffix = isDuplicate ? ' (Já Selecionado)' : '';
+            return `<option value="${mv.name}" ${isCurrent ? 'selected' : ''} ${disabledAttr}>${mv.name}${labelSuffix}</option>`;
           }).join('');
 
+        const typeColor = currentMoveObj ? (TYPE_COLORS[currentMoveObj.type.toLowerCase()] || '#a8a77a') : 'rgba(148,163,184,0.2)';
+        const typePillHTML = currentMoveObj
+          ? `<span class="tb-move-type-pill" style="background: ${typeColor}; color: #fff; font-size: 0.65rem; font-weight: 800; padding: 0.15rem 0.45rem; border-radius: 4px; text-transform: uppercase;">${currentMoveObj.type}</span>`
+          : `<span class="tb-move-type-pill" style="background: rgba(148,163,184,0.15); color: #64748b; font-size: 0.65rem; font-weight: 700; padding: 0.15rem 0.45rem; border-radius: 4px;">---</span>`;
+
+        const powerPillHTML = currentMoveObj
+          ? `<span class="tb-move-power-pill" style="background: rgba(56,189,248,0.15); color: #38bdf8; border: 1px solid rgba(56,189,248,0.3); font-size: 0.65rem; font-weight: 800; padding: 0.15rem 0.45rem; border-radius: 4px;">${currentMoveObj.power ? `${currentMoveObj.power} POW` : 'STATUS'}</span>`
+          : `<span class="tb-move-power-pill" style="background: rgba(148,163,184,0.15); color: #64748b; font-size: 0.65rem; font-weight: 700; padding: 0.15rem 0.45rem; border-radius: 4px;">---</span>`;
+
         return `
-          <div class="tb-move-item">
-            <select class="tb-move-select member-move-select" data-slot="${activeSlotIdx}" data-move-idx="${mIdx}">
+          <div class="tb-move-item" style="display: flex; align-items: center; gap: 0.4rem; margin-bottom: 0.4rem;">
+            <select class="tb-move-select member-move-select" data-slot="${activeSlotIdx}" data-move-idx="${mIdx}" style="flex: 1;">
               ${optionsHTML}
             </select>
+            <div style="display: flex; align-items: center; gap: 0.25rem;">
+              ${typePillHTML}
+              ${powerPillHTML}
+            </div>
           </div>
         `;
       }).join('');
@@ -1600,16 +1621,26 @@ class PokedexApp {
         const maxSingle = isChampions ? 32 : 252;
         const fillPercent = Math.min(100, Math.max(8, (finalVal / 320) * 100));
 
+        let natureBadgeHTML = '';
+        let finalValColorStyle = '';
+        if (k === natureInfo.plus) {
+          natureBadgeHTML = `<span class="tb-nature-badge-plus" style="background: rgba(239,68,68,0.25); color: #f87171; border: 1px solid rgba(239,68,68,0.5); font-size: 0.7rem; padding: 0.05rem 0.35rem; border-radius: 4px; font-weight: 900; margin-left: 0.2rem;">+</span>`;
+          finalValColorStyle = 'color: #f87171; font-weight: 900;';
+        } else if (k === natureInfo.minus) {
+          natureBadgeHTML = `<span class="tb-nature-badge-minus" style="background: rgba(59,130,246,0.25); color: #60a5fa; border: 1px solid rgba(59,130,246,0.5); font-size: 0.7rem; padding: 0.05rem 0.35rem; border-radius: 4px; font-weight: 900; margin-left: 0.2rem;">-</span>`;
+          finalValColorStyle = 'color: #60a5fa; font-weight: 900;';
+        }
+
         return `
           <div class="tb-stat-row" style="align-items: center; gap: 0.35rem;">
-            <span class="tb-stat-label">${statLabels[k]}</span>
+            <span class="tb-stat-label">${statLabels[k]}${natureBadgeHTML}</span>
             <span class="tb-stat-base">${base}</span>
             <span class="tb-stat-invested">+${invested}</span>
             <div class="tb-stat-bar-container" style="flex: 1;">
               <div class="tb-stat-bar-fill ${barClasses[k]}" style="width: ${fillPercent}%;"></div>
             </div>
             <input type="number" class="stat-number-input" data-slot="${activeSlotIdx}" data-stat="${k}" min="0" max="${maxSingle}" value="${invested}">
-            <span class="tb-stat-final">${finalVal}</span>
+            <span class="tb-stat-final" style="${finalValColorStyle}">${finalVal}</span>
           </div>
           <div style="margin-bottom: 0.3rem;">
             <input type="range" class="stat-range-input" data-slot="${activeSlotIdx}" data-stat="${k}" min="0" max="${maxSingle}" value="${invested}" style="width: 100%; accent-color: var(--accent-blue);">
