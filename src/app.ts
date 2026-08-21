@@ -2180,11 +2180,11 @@ class PokedexApp {
       if (tableSection) {
         const headerHeight = this.getHeaderHeight();
         const rect = tableSection.getBoundingClientRect();
-        if (Math.abs(rect.top - headerHeight) < 35) {
+        const targetY = Math.max(0, window.pageYOffset + rect.top - headerHeight);
+        if (Math.abs(window.pageYOffset - targetY) < 5) {
           return;
         }
-        const targetY = Math.max(0, rect.top + window.pageYOffset - headerHeight - 10);
-        this.smoothScrollToY(targetY, 400);
+        this.smoothScrollToY(targetY, 350);
       }
     }, 60);
   }
@@ -2197,11 +2197,11 @@ class PokedexApp {
       if (targetElement) {
         const headerHeight = this.getHeaderHeight();
         const rect = targetElement.getBoundingClientRect();
-        if (Math.abs(rect.top - headerHeight) < 35) {
+        const targetY = Math.max(0, window.pageYOffset + rect.top - headerHeight);
+        if (Math.abs(window.pageYOffset - targetY) < 5) {
           return;
         }
-        const targetY = Math.max(0, rect.top + window.pageYOffset - headerHeight - 10);
-        this.smoothScrollToY(targetY, 400);
+        this.smoothScrollToY(targetY, 350);
       }
     }, 60);
   }
@@ -2299,8 +2299,6 @@ class PokedexApp {
         this.renderTeamBuilder();
         if (isEmpty) {
           this.scrollToSpeciesTable();
-        } else {
-          this.scrollToActiveSlotEditor();
         }
       });
     });
