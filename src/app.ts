@@ -90,7 +90,7 @@ const TYPE_COLORS: Record<string, string> = {
 };
 
 import { SmogonService, CompetitiveData, MovesetOption } from './services/smogonService';
-import { TeamBuilderService, TeamMember, StatBlock, FormatMode, ALL_TYPES, TYPE_CHART, POPULAR_ITEMS, NATURES } from './services/teamBuilderService';
+import { TeamBuilderService, TeamMember, StatBlock, FormatMode, ALL_TYPES, TYPE_CHART, POPULAR_ITEMS, MEGA_STONES, NATURES } from './services/teamBuilderService';
 
 class PokedexApp {
   private pokemonData: PokemonCardData[] = [];
@@ -106,6 +106,8 @@ class PokedexApp {
   private tbSortOrder: 'asc' | 'desc' = 'asc';
   private tbGenFilter: string = 'all';
   private tbTypeFilter: string = 'all';
+  private tbAbilityFilter: string = 'all';
+  private tbMoveFilter: string = '';
   private activeModalTab: 'general' | 'moves' | 'evolution' | 'encounters' | 'competitive' = 'general';
   private isShinyActive: boolean = false;
   private is3DModelActive: boolean = false;
@@ -1250,6 +1252,17 @@ class PokedexApp {
         if (!hasType) return false;
       }
 
+      if (this.tbAbilityFilter !== 'all') {
+        const hasAbility = (p.abilities || []).some(a => a.name.toLowerCase() === this.tbAbilityFilter.toLowerCase());
+        if (!hasAbility) return false;
+      }
+
+      if (this.tbMoveFilter.trim()) {
+        const moveQuery = this.tbMoveFilter.toLowerCase().trim();
+        const hasMove = (p.moves || []).some(m => m.name.toLowerCase().includes(moveQuery));
+        if (!hasMove) return false;
+      }
+
       if (!query) return true;
 
       const nameMatch = p.name.toLowerCase().includes(query);
@@ -1392,8 +1405,16 @@ class PokedexApp {
 
       const naturesOptions = Object.keys(NATURES).map(n => `<option value="${n}" ${activeMember.nature === n ? 'selected' : ''}>${n}</option>`).join('');
       const abilitiesOptions = (activeMember.availableAbilities || ['Standard Ability']).map(ab => `<option value="${ab}" ${activeMember.ability === ab ? 'selected' : ''}>${ab}</option>`).join('');
-      const itemsOptions = POPULAR_ITEMS.map(it => `<option value="${it}" ${activeMember.item === it ? 'selected' : ''}>${it}</option>`).join('');
+      const itemList = isChampions ? [...POPULAR_ITEMS, ...MEGA_STONES] : POPULAR_ITEMS;
+      const itemsOptions = itemList.map(it => `<option value="${it}" ${activeMember.item === it ? 'selected' : ''}>${it}</option>`).join('');
       const teraOptions = ALL_TYPES.map(t => `<option value="${t.toUpperCase()}" ${activeMember.teraType === t.toUpperCase() ? 'selected' : ''}>${t.charAt(0).toUpperCase() + t.slice(1)}</option>`).join('');
+
+      const teraOptionsField = !isChampions ? `
+        <div class="tb-field-group">
+          <label>Tera Type</label>
+          <select class="tb-select member-tera-select" data-slot="${activeSlotIdx}">${teraOptions}</select>
+        </div>
+      ` : '';
 
       // Stats Bars Calculation (Image 3 style)
       const statKeys: (keyof StatBlock)[] = ['hp', 'atk', 'def', 'spa', 'spd', 'spe'];
@@ -1416,13 +1437,14 @@ class PokedexApp {
         const fillPercent = Math.min(100, Math.max(8, (finalVal / 320) * 100));
 
         return `
-          <div class="tb-stat-row">
+          <div class="tb-stat-row" style="align-items: center; gap: 0.35rem;">
             <span class="tb-stat-label">${statLabels[k]}</span>
             <span class="tb-stat-base">${base}</span>
             <span class="tb-stat-invested">+${invested}</span>
-            <div class="tb-stat-bar-container">
+            <div class="tb-stat-bar-container" style="flex: 1;">
               <div class="tb-stat-bar-fill ${barClasses[k]}" style="width: ${fillPercent}%;"></div>
             </div>
+            <input type="number" class="stat-number-input" data-slot="${activeSlotIdx}" data-stat="${k}" min="0" max="${maxSingle}" value="${invested}">
             <span class="tb-stat-final">${finalVal}</span>
           </div>
           <div style="margin-bottom: 0.3rem;">
@@ -1471,10 +1493,7 @@ class PokedexApp {
                   <label>Item</label>
                   <select class="tb-select member-item-select" data-slot="${activeSlotIdx}">${itemsOptions}</select>
                 </div>
-                <div class="tb-field-group">
-                  <label>Tera Type</label>
-                  <select class="tb-select member-tera-select" data-slot="${activeSlotIdx}">${teraOptions}</select>
-                </div>
+                ${teraOptionsField}
               </div>
             </div>
 
@@ -1482,12 +1501,12 @@ class PokedexApp {
             <div>
               <div class="tb-section-label">
                 <span>Estatísticas Nível 50</span>
-                <span style="color: ${totalPoints > maxTotal ? '#ef4444' : '#38bdf8'}; font-weight: 800;">${totalPoints} / ${maxTotal} Pts</span>
+                <span class="tb-total-points-badge" style="color: ${totalPoints > maxTotal ? '#ef4444' : (totalPoints === maxTotal ? '#4ade80' : '#38bdf8')}; font-weight: 800;">${totalPoints} / ${maxTotal} Pts</span>
               </div>
               ${statsRowsHTML}
               <div style="display: flex; justify-content: space-between; font-size: 0.65rem; color: #94a3b8; border-top: 1px solid rgba(255,255,255,0.08); padding-top: 0.35rem; margin-top: 0.2rem;">
-                <span>Total Base: <strong style="color: #cbd5e1;">${sumBase}</strong></span>
-                <span>Total Final: <strong style="color: #4ade80;">${sumFinal}</strong></span>
+                <span>Total Base: <strong class="tb-sum-base" style="color: #cbd5e1;">${sumBase}</strong></span>
+                <span>Total Final: <strong class="tb-sum-final" style="color: #4ade80;">${sumFinal}</strong></span>
               </div>
             </div>
           </div>
@@ -1527,6 +1546,16 @@ class PokedexApp {
         </div>
       `;
     }).join('');
+
+    // Compile unique abilities across species for table filter
+    const allAbilitiesSet = new Set<string>();
+    this.speciesGroups.forEach(g => {
+      (g.selectedPokemon.abilities || []).forEach(a => {
+        if (a && a.name) allAbilitiesSet.add(a.name);
+      });
+    });
+    const sortedAbilities = Array.from(allAbilitiesSet).sort((a, b) => a.localeCompare(b));
+    const abilitiesFilterOptions = sortedAbilities.map(ab => `<option value="${ab}" ${this.tbAbilityFilter === ab ? 'selected' : ''}>${ab}</option>`).join('');
 
     // 4. Table view of species for selecting active slot with base stats sorting!
     const tableSpecies = this.getFilteredAndSortedTeamBuilderSpecies();
@@ -1634,10 +1663,10 @@ class PokedexApp {
             </p>
           </div>
 
-          <div style="display: flex; gap: 0.5rem; flex-wrap: wrap; align-items: center;">
-            <input type="text" id="tb-table-search" class="tb-options-search" placeholder="🔍 Buscar por nome, #, golpe ou habilidade..." value="${this.tbSearchQuery}" style="width: 240px;">
-            <select id="tb-table-gen" class="tb-select" style="width: auto; padding: 0.45rem 0.65rem;">
-              <option value="all" ${this.tbGenFilter === 'all' ? 'selected' : ''}>Todas as Gerações</option>
+          <div style="display: flex; gap: 0.4rem; flex-wrap: wrap; align-items: center;">
+            <input type="text" id="tb-table-search" class="tb-options-search" placeholder="🔍 Nome, #..." value="${this.tbSearchQuery}" style="width: 150px;">
+            <select id="tb-table-gen" class="tb-select" style="width: auto; padding: 0.45rem 0.5rem;">
+              <option value="all" ${this.tbGenFilter === 'all' ? 'selected' : ''}>Todas Gens</option>
               <option value="1" ${this.tbGenFilter === '1' ? 'selected' : ''}>Gen 1 (Kanto)</option>
               <option value="2" ${this.tbGenFilter === '2' ? 'selected' : ''}>Gen 2 (Johto)</option>
               <option value="3" ${this.tbGenFilter === '3' ? 'selected' : ''}>Gen 3 (Hoenn)</option>
@@ -1648,10 +1677,15 @@ class PokedexApp {
               <option value="8" ${this.tbGenFilter === '8' ? 'selected' : ''}>Gen 8 (Galar)</option>
               <option value="9" ${this.tbGenFilter === '9' ? 'selected' : ''}>Gen 9 (Paldea)</option>
             </select>
-            <select id="tb-table-type" class="tb-select" style="width: auto; padding: 0.45rem 0.65rem;">
-              <option value="all" ${this.tbTypeFilter === 'all' ? 'selected' : ''}>Todos os Tipos</option>
+            <select id="tb-table-type" class="tb-select" style="width: auto; padding: 0.45rem 0.5rem;">
+              <option value="all" ${this.tbTypeFilter === 'all' ? 'selected' : ''}>Todos Tipos</option>
               ${ALL_TYPES.map(t => `<option value="${t}" ${this.tbTypeFilter === t ? 'selected' : ''}>${t.charAt(0).toUpperCase() + t.slice(1)}</option>`).join('')}
             </select>
+            <select id="tb-table-ability" class="tb-select" style="width: auto; padding: 0.45rem 0.5rem;">
+              <option value="all" ${this.tbAbilityFilter === 'all' ? 'selected' : ''}>Todas Habilidades</option>
+              ${abilitiesFilterOptions}
+            </select>
+            <input type="text" id="tb-table-move" class="tb-options-search" placeholder="🗡️ Filtrar Golpe..." value="${this.tbMoveFilter}" style="width: 160px;">
           </div>
         </div>
 
@@ -1868,6 +1902,24 @@ class PokedexApp {
       });
     }
 
+    // Table Ability Filter
+    const tableAbility = document.getElementById('tb-table-ability') as HTMLSelectElement;
+    if (tableAbility) {
+      tableAbility.addEventListener('change', () => {
+        this.tbAbilityFilter = tableAbility.value;
+        this.renderTeamBuilder();
+      });
+    }
+
+    // Table Move Filter
+    const tableMove = document.getElementById('tb-table-move') as HTMLInputElement;
+    if (tableMove) {
+      tableMove.addEventListener('input', () => {
+        this.tbMoveFilter = tableMove.value;
+        this.renderTeamBuilder();
+      });
+    }
+
     // Table Column Sort Headers
     const sortThs = this.teamBuilderContainer.querySelectorAll('.tb-sort-th');
     sortThs.forEach(th => {
@@ -1944,7 +1996,64 @@ class PokedexApp {
       });
     });
 
-    // Range inputs for Points/EVs
+    // In-place real-time updating for sliders and number inputs WITHOUT HTML tear-down!
+    const handleStatChange = (slotIdx: number, statKey: keyof StatBlock, val: number) => {
+      const member = this.teamBuilderService.members[slotIdx];
+      const isChampions = this.teamBuilderService.formatMode === 'champions';
+
+      const clampedVal = isChampions
+        ? this.teamBuilderService.clampChampionsPoints(member, statKey, val)
+        : this.teamBuilderService.clampEVs(member, statKey, val);
+
+      const sliderEl = this.teamBuilderContainer?.querySelector(`.stat-range-input[data-slot="${slotIdx}"][data-stat="${statKey}"]`) as HTMLInputElement;
+      const numInputEl = this.teamBuilderContainer?.querySelector(`.stat-number-input[data-slot="${slotIdx}"][data-stat="${statKey}"]`) as HTMLInputElement;
+
+      if (sliderEl && parseInt(sliderEl.value, 10) !== clampedVal) sliderEl.value = clampedVal.toString();
+      if (numInputEl && parseInt(numInputEl.value, 10) !== clampedVal) numInputEl.value = clampedVal.toString();
+
+      const base = member.baseStats ? member.baseStats[statKey] || 80 : 80;
+      const iv = member.ivs ? member.ivs[statKey] : 31;
+      const finalVal = this.teamBuilderService.calculateStat(statKey, base, clampedVal, iv, member.nature);
+      const fillPercent = Math.min(100, Math.max(8, (finalVal / 320) * 100));
+
+      if (sliderEl) {
+        const rowEl = sliderEl.closest('div')?.previousElementSibling as HTMLElement;
+        if (rowEl) {
+          const investedSpan = rowEl.querySelector('.tb-stat-invested');
+          const fillBar = rowEl.querySelector('.tb-stat-bar-fill') as HTMLElement;
+          const finalSpan = rowEl.querySelector('.tb-stat-final');
+
+          if (investedSpan) investedSpan.textContent = `+${clampedVal}`;
+          if (fillBar) fillBar.style.width = `${fillPercent}%`;
+          if (finalSpan) finalSpan.textContent = finalVal.toString();
+        }
+      }
+
+      const totalPoints = isChampions ? this.teamBuilderService.getChampionsTotalPoints(member) : this.teamBuilderService.getEVsTotalPoints(member);
+      const maxTotal = isChampions ? 66 : 510;
+      const pointsCounterEl = this.teamBuilderContainer?.querySelector('.tb-total-points-badge') as HTMLElement;
+      if (pointsCounterEl) {
+        pointsCounterEl.textContent = `${totalPoints} / ${maxTotal} Pts`;
+        pointsCounterEl.style.color = totalPoints > maxTotal ? '#ef4444' : (totalPoints === maxTotal ? '#4ade80' : '#38bdf8');
+      }
+
+      let sumBase = 0;
+      let sumFinal = 0;
+      const statKeys: (keyof StatBlock)[] = ['hp', 'atk', 'def', 'spa', 'spd', 'spe'];
+      statKeys.forEach(k => {
+        const b = member.baseStats ? member.baseStats[k] || 80 : 80;
+        const inv = isChampions ? (member.championsPoints[k] || 0) : (member.evs[k] || 0);
+        const f = this.teamBuilderService.calculateStat(k, b, inv, member.ivs ? member.ivs[k] : 31, member.nature);
+        sumBase += b;
+        sumFinal += f;
+      });
+
+      const totalBaseEl = this.teamBuilderContainer?.querySelector('.tb-sum-base') as HTMLElement;
+      const totalFinalEl = this.teamBuilderContainer?.querySelector('.tb-sum-final') as HTMLElement;
+      if (totalBaseEl) totalBaseEl.textContent = sumBase.toString();
+      if (totalFinalEl) totalFinalEl.textContent = sumFinal.toString();
+    };
+
     const rangeInputs = this.teamBuilderContainer.querySelectorAll('.stat-range-input');
     rangeInputs.forEach(inp => {
       inp.addEventListener('input', (e) => {
@@ -1952,13 +2061,18 @@ class PokedexApp {
         const slotIdx = parseInt(target.getAttribute('data-slot') || '0', 10);
         const statKey = target.getAttribute('data-stat') as keyof StatBlock;
         const val = parseInt(target.value || '0', 10);
+        handleStatChange(slotIdx, statKey, val);
+      });
+    });
 
-        if (this.teamBuilderService.formatMode === 'champions') {
-          this.teamBuilderService.members[slotIdx].championsPoints[statKey] = val;
-        } else {
-          this.teamBuilderService.members[slotIdx].evs[statKey] = val;
-        }
-        this.renderTeamBuilder();
+    const numberInputs = this.teamBuilderContainer.querySelectorAll('.stat-number-input');
+    numberInputs.forEach(inp => {
+      inp.addEventListener('input', (e) => {
+        const target = e.target as HTMLInputElement;
+        const slotIdx = parseInt(target.getAttribute('data-slot') || '0', 10);
+        const statKey = target.getAttribute('data-stat') as keyof StatBlock;
+        const val = parseInt(target.value || '0', 10);
+        handleStatChange(slotIdx, statKey, val);
       });
     });
 

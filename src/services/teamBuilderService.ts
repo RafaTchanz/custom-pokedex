@@ -66,9 +66,26 @@ export const TYPE_CHART: Record<string, Record<string, number>> = {
 };
 
 export const POPULAR_ITEMS = [
-  'Leftovers', 'Choice Band', 'Choice Specs', 'Choice Scarf', 'Life Orb',
-  'Focus Sash', 'Heavy-Duty Boots', 'Assault Vest', 'Rocky Helmet', 'Eviolite',
-  'Booster Energy', 'Clear Amulet', 'Covert Cloak', 'Sitrus Berry', 'Lum Berry'
+  'Leftovers', 'Focus Sash', 'Choice Scarf', 'Choice Band', 'Choice Specs',
+  'Life Orb', 'Assault Vest', 'Heavy-Duty Boots', 'Rocky Helmet', 'Eviolite',
+  'Booster Energy', 'Loaded Dice', 'Clear Amulet', 'Covert Cloak', 'Weakness Policy',
+  'Air Balloon', 'Light Clay', 'Flame Orb', 'Toxic Orb', 'Eject Button', 'Red Card',
+  'Expert Belt', 'Sitrus Berry', 'Lum Berry', 'Salac Berry', 'Petaya Berry', 'Liechi Berry',
+  'Occa Berry', 'Passho Berry', 'Wacan Berry', 'Rindo Berry', 'Yache Berry', 'Chople Berry',
+  'Kebia Berry', 'Shuca Berry', 'Tanga Berry', 'Charti Berry', 'Kasib Berry', 'Haban Berry',
+  'Colbur Berry', 'Babiri Berry', 'Roseli Berry'
+];
+
+export const MEGA_STONES = [
+  'Charizardite X', 'Charizardite Y', 'Blastoisinite', 'Venusaurite', 'Gengarite',
+  'Lucarionite', 'Mewtwonite X', 'Mewtwonite Y', 'Salamencite', 'Metagrossite',
+  'Gardevoirite', 'Galladite', 'Gyaradosite', 'Tyranitarite', 'Alakazamite',
+  'Garchompite', 'Sablenite', 'Mawilite', 'Aggronite', 'Scizorite',
+  'Heracronite', 'Houndoominite', 'Aerodactylite', 'Pinsirite', 'Slowbronite',
+  'Abomasite', 'Manectrite', 'Banettite', 'Absolite', 'Medichamite',
+  'Ampharosite', 'Kangaskhanite', 'Latiasite', 'Latiosite', 'Beedrillite',
+  'Pidgeotite', 'Sceptilite', 'Swampertite', 'Steelixite', 'Cameruptite',
+  'Sharpedonite', 'Altariaite', 'Glalitite', 'Audinite', 'Diancite'
 ];
 
 export const NATURES: Record<string, { plus?: keyof StatBlock; minus?: keyof StatBlock; label: string }> = {
@@ -131,6 +148,30 @@ export class TeamBuilderService {
     if (total > 510) return false;
     const stats: (keyof StatBlock)[] = ['hp', 'atk', 'def', 'spa', 'spd', 'spe'];
     return stats.every(s => (m.evs[s] || 0) <= 252);
+  }
+
+  public clampChampionsPoints(m: TeamMember, stat: keyof StatBlock, requestedValue: number): number {
+    const clampedSingle = Math.min(32, Math.max(0, requestedValue));
+    const otherSum = (['hp', 'atk', 'def', 'spa', 'spd', 'spe'] as (keyof StatBlock)[])
+      .filter(k => k !== stat)
+      .reduce((sum, k) => sum + (m.championsPoints[k] || 0), 0);
+
+    const allowed = Math.max(0, 66 - otherSum);
+    const finalVal = Math.min(clampedSingle, allowed);
+    m.championsPoints[stat] = finalVal;
+    return finalVal;
+  }
+
+  public clampEVs(m: TeamMember, stat: keyof StatBlock, requestedValue: number): number {
+    const clampedSingle = Math.min(252, Math.max(0, requestedValue));
+    const otherSum = (['hp', 'atk', 'def', 'spa', 'spd', 'spe'] as (keyof StatBlock)[])
+      .filter(k => k !== stat)
+      .reduce((sum, k) => sum + (m.evs[k] || 0), 0);
+
+    const allowed = Math.max(0, 510 - otherSum);
+    const finalVal = Math.min(clampedSingle, allowed);
+    m.evs[stat] = finalVal;
+    return finalVal;
   }
 
   public calculateStat(
