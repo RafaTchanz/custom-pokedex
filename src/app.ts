@@ -111,7 +111,7 @@ class PokedexApp {
   private tbFormatLegalityFilter: 'format' | 'all' = 'format';
   private showdownFormatsMap: Record<string, any> = {};
   private showdownChampionsFormatsMap: Record<string, any> = {};
-  private serebiiChampionsSpeciesSet: Set<string> = new Set();
+  private bulbapediaChampionsSpeciesSet: Set<string> = new Set();
   private activeModalTab: 'general' | 'moves' | 'evolution' | 'encounters' | 'competitive' = 'general';
   private isShinyActive: boolean = false;
   private is3DModelActive: boolean = false;
@@ -379,21 +379,44 @@ class PokedexApp {
       this.allPokemon = await response.json();
       this.buildSpeciesGroups();
 
-      // Load Showdown formats, Champions mod data, and Serebii Champions Roster in parallel
+      // Load Showdown formats and Champions mod data in parallel
       Promise.all([
         fetch('/data/showdown_formats.json').then(r => r.ok ? r.json() : null).catch(() => null),
-        fetch('/data/showdown_champions_formats.json').then(r => r.ok ? r.json() : null).catch(() => null),
-        fetch('/data/serebii_champions_species.json').then(r => r.ok ? r.json() : null).catch(() => null)
-      ]).then(([gen9Data, champsData, serebiiData]) => {
+        fetch('/data/showdown_champions_formats.json').then(r => r.ok ? r.json() : null).catch(() => null)
+      ]).then(([gen9Data, champsData]) => {
         if (gen9Data) this.showdownFormatsMap = gen9Data;
         if (champsData) this.showdownChampionsFormatsMap = champsData;
-        if (serebiiData && Array.isArray(serebiiData)) {
-          this.serebiiChampionsSpeciesSet = new Set(serebiiData.map((s: string) => s.toLowerCase()));
-        }
         if (this.currentViewMode === 'builder') {
           this.renderTeamBuilderTableOnly();
         }
       });
+
+      // Dynamically fetch live Pokémon Champions species roster from Bulbapedia official MediaWiki API
+      const bulbapediaApiUrl = 'https://bulbapedia.bulbagarden.net/w/api.php?action=parse&page=List_of_Pok%C3%A9mon_in_Pok%C3%A9mon_Champions&prop=wikitext&format=json&origin=*';
+      fetch(bulbapediaApiUrl)
+        .then(r => r.ok ? r.json() : null)
+        .then(d => {
+          if (d && d.parse && d.parse.wikitext && d.parse.wikitext['*']) {
+            const text = d.parse.wikitext['*'];
+            const matches = Array.from(text.matchAll(/\{\{gdex\/Champs\|\d+\|([^|}]+)/g)).map(m => (m[1] as string).toLowerCase());
+            if (matches.length > 0) {
+              this.bulbapediaChampionsSpeciesSet = new Set(matches);
+              if (this.currentViewMode === 'builder') this.renderTeamBuilderTableOnly();
+              return;
+            }
+          }
+          throw new Error('Fallback to local snapshot');
+        })
+        .catch(() => {
+          fetch('/data/bulbapedia_champions_species.json')
+            .then(r => r.ok ? r.json() : null)
+            .then((list: string[] | null) => {
+              if (list && Array.isArray(list)) {
+                this.bulbapediaChampionsSpeciesSet = new Set(list.map(s => s.toLowerCase()));
+                if (this.currentViewMode === 'builder') this.renderTeamBuilderTableOnly();
+              }
+            }).catch(() => {});
+        });
 
       this.render();
     } catch (err) {
@@ -1295,7 +1318,7 @@ class PokedexApp {
         if (isIllegal(fd)) return false;
       } else if (mode === 'champions') {
         const baseName = pName.split('-')[0];
-        if (this.serebiiChampionsSpeciesSet.size > 0 && !this.serebiiChampionsSpeciesSet.has(baseName)) {
+        if (this.bulbapediaChampionsSpeciesSet.size > 0 && !this.bulbapediaChampionsSpeciesSet.has(baseName)) {
           return false;
         }
 
