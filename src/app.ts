@@ -1617,10 +1617,23 @@ class PokedexApp {
         ? `<select class="tb-select member-variety-select" data-slot="${activeSlotIdx}" style="margin-top: 0.25rem; font-size: 0.75rem;">${varietiesHTML}</select>`
         : '';
 
-      // Moves Selects (Regulation-Aware Competitive Sorting & Highlights & Deduplication)
+      // Moves Selects (Regulation-Aware Competitive Sorting & Highlights & Deduplication with Fallback)
       const currentFormatKey = isChampions ? 'champions' : (isNationalDex ? 'national-dex' : 'scarlet-violet');
       const speciesAlias = activeMember.name.toLowerCase().replace(/[^a-z0-9]/g, '');
-      const formatRecsList = (this.recommendedMovesMap[currentFormatKey] && this.recommendedMovesMap[currentFormatKey][speciesAlias]) || [];
+
+      let formatRecsList: string[] = [];
+      const recMap = this.recommendedMovesMap;
+      if (recMap[currentFormatKey] && recMap[currentFormatKey][speciesAlias] && recMap[currentFormatKey][speciesAlias].length > 0) {
+        formatRecsList = recMap[currentFormatKey][speciesAlias];
+      } else if (recMap['scarlet-violet'] && recMap['scarlet-violet'][speciesAlias] && recMap['scarlet-violet'][speciesAlias].length > 0) {
+        formatRecsList = recMap['scarlet-violet'][speciesAlias];
+      } else if (recMap['national-dex'] && recMap['national-dex'][speciesAlias] && recMap['national-dex'][speciesAlias].length > 0) {
+        formatRecsList = recMap['national-dex'][speciesAlias];
+      } else if (recMap['champions'] && recMap['champions'][speciesAlias] && recMap['champions'][speciesAlias].length > 0) {
+        formatRecsList = recMap['champions'][speciesAlias];
+      } else if (recMap['all-formats'] && recMap['all-formats'][speciesAlias] && recMap['all-formats'][speciesAlias].length > 0) {
+        formatRecsList = recMap['all-formats'][speciesAlias];
+      }
       const formatRecsSet = new Set(formatRecsList.map(m => m.toLowerCase().trim()));
 
       // Deduplicate rawAvailableMoves by move name
@@ -2400,8 +2413,20 @@ class PokedexApp {
     member.nature = 'Jolly';
     member.teraType = (p.types[0]?.name || 'NORMAL').toUpperCase();
 
-    // Assign top recommended competitive moves for active regulation format
-    const formatRecs = (this.recommendedMovesMap[currentFormatKey] && this.recommendedMovesMap[currentFormatKey][speciesAlias]) || [];
+    // Assign top recommended competitive moves with fallback for active regulation format
+    let formatRecs: string[] = [];
+    const recMap = this.recommendedMovesMap;
+    if (recMap[currentFormatKey] && recMap[currentFormatKey][speciesAlias] && recMap[currentFormatKey][speciesAlias].length > 0) {
+      formatRecs = recMap[currentFormatKey][speciesAlias];
+    } else if (recMap['scarlet-violet'] && recMap['scarlet-violet'][speciesAlias] && recMap['scarlet-violet'][speciesAlias].length > 0) {
+      formatRecs = recMap['scarlet-violet'][speciesAlias];
+    } else if (recMap['national-dex'] && recMap['national-dex'][speciesAlias] && recMap['national-dex'][speciesAlias].length > 0) {
+      formatRecs = recMap['national-dex'][speciesAlias];
+    } else if (recMap['champions'] && recMap['champions'][speciesAlias] && recMap['champions'][speciesAlias].length > 0) {
+      formatRecs = recMap['champions'][speciesAlias];
+    } else if (recMap['all-formats'] && recMap['all-formats'][speciesAlias] && recMap['all-formats'][speciesAlias].length > 0) {
+      formatRecs = recMap['all-formats'][speciesAlias];
+    }
     const recMovesSet = new Set(formatRecs.map(m => m.toLowerCase().trim()));
 
     const recommendedList = legalMoves.filter(m => recMovesSet.has(m.name.toLowerCase().trim())).map(m => m.name);
