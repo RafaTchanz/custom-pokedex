@@ -2191,17 +2191,14 @@ class PokedexApp {
 
   private scrollToActiveSlotEditor(): void {
     setTimeout(() => {
-      const targetElement = this.teamBuilderContainer?.querySelector('.tb-avatars-strip')
+      const targetElement = this.teamBuilderContainer?.querySelector('.tb-active-slot-section .tb-member-card')
                          || this.teamBuilderContainer?.querySelector('.tb-active-slot-section')
                          || this.teamBuilderContainer?.querySelector('.tb-member-card');
       if (targetElement) {
         const headerHeight = this.getHeaderHeight();
         const rect = targetElement.getBoundingClientRect();
-        const targetY = Math.max(0, window.pageYOffset + rect.top - headerHeight);
-        if (Math.abs(window.pageYOffset - targetY) < 5) {
-          return;
-        }
-        this.smoothScrollToY(targetY, 350);
+        const targetY = Math.max(0, window.pageYOffset + rect.top - headerHeight - 10);
+        this.smoothScrollToY(targetY, 400);
       }
     }, 60);
   }
@@ -2299,6 +2296,8 @@ class PokedexApp {
         this.renderTeamBuilder();
         if (isEmpty) {
           this.scrollToSpeciesTable();
+        } else {
+          this.scrollToActiveSlotEditor();
         }
       });
     });
