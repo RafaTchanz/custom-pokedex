@@ -1699,7 +1699,7 @@ class PokedexApp {
       </div>
 
       <!-- 4. Interactive Spreadsheet Table Picker with Base Stats Sorting -->
-      <div class="tb-options-panel">
+      <div class="tb-options-panel" id="tb-species-table-section">
         <div class="tb-options-header">
           <div>
             <h3>📊 Seleção de Pokémon em Tabela (Definir Slot #${activeSlotIdx + 1})</h3>
@@ -1856,6 +1856,55 @@ class PokedexApp {
     this.attachTableRowsEvents();
   }
 
+  private clearTeamBuilderTableFilters(): void {
+    this.tbSearchQuery = '';
+    this.tbTypeFilter = 'all';
+    this.tbGenFilter = 'all';
+    this.tbAbilityFilter = 'all';
+    this.tbMoveFilter = '';
+    const searchInput = document.getElementById('tb-table-search') as HTMLInputElement;
+    if (searchInput) searchInput.value = '';
+    const moveInput = document.getElementById('tb-table-move') as HTMLInputElement;
+    if (moveInput) moveInput.value = '';
+    const typeSelect = document.getElementById('tb-table-type') as HTMLSelectElement;
+    if (typeSelect) typeSelect.value = 'all';
+    const genSelect = document.getElementById('tb-table-gen') as HTMLSelectElement;
+    if (genSelect) genSelect.value = 'all';
+    const abilitySelect = document.getElementById('tb-table-ability') as HTMLSelectElement;
+    if (abilitySelect) abilitySelect.value = 'all';
+  }
+
+  private scrollToSpeciesTable(): void {
+    requestAnimationFrame(() => {
+      setTimeout(() => {
+        const tableSection = document.getElementById('tb-species-table-section') || this.teamBuilderContainer?.querySelector('.tb-options-panel');
+        if (tableSection) {
+          const yOffset = -110;
+          const y = tableSection.getBoundingClientRect().top + window.pageYOffset + yOffset;
+          window.scrollTo({ top: Math.max(0, y), behavior: 'smooth' });
+
+          const searchInput = document.getElementById('tb-table-search') as HTMLInputElement;
+          if (searchInput) {
+            searchInput.focus();
+          }
+        }
+      }, 50);
+    });
+  }
+
+  private scrollToActiveSlotEditor(): void {
+    requestAnimationFrame(() => {
+      setTimeout(() => {
+        const editorSection = this.teamBuilderContainer?.querySelector('.tb-active-slot-section');
+        if (editorSection) {
+          const yOffset = -110;
+          const y = editorSection.getBoundingClientRect().top + window.pageYOffset + yOffset;
+          window.scrollTo({ top: Math.max(0, y), behavior: 'smooth' });
+        }
+      }, 50);
+    });
+  }
+
   private attachTableRowsEvents(): void {
     if (!this.teamBuilderContainer) return;
     const tableRows = this.teamBuilderContainer.querySelectorAll('.tb-table-row');
@@ -1921,6 +1970,13 @@ class PokedexApp {
     }
 
     this.renderTeamBuilder();
+
+    const currentMember = this.teamBuilderService.members[this.activeSlotIndexToPick];
+    if (!currentMember || !currentMember.name) {
+      this.scrollToSpeciesTable();
+    } else {
+      this.scrollToActiveSlotEditor();
+    }
   }
 
   private attachTeamBuilderEvents(): void {
@@ -1939,6 +1995,8 @@ class PokedexApp {
         this.renderTeamBuilder();
         if (isEmpty) {
           this.scrollToSpeciesTable();
+        } else {
+          this.scrollToActiveSlotEditor();
         }
       });
     });
@@ -1956,7 +2014,8 @@ class PokedexApp {
     // Remove member buttons click
     const removeBtns = this.teamBuilderContainer.querySelectorAll('.remove-member-btn');
     removeBtns.forEach(btn => {
-      btn.addEventListener('click', () => {
+      btn.addEventListener('click', (e) => {
+        e.stopPropagation();
         const slotIdx = parseInt(btn.getAttribute('data-slot') || '0', 10);
         this.teamBuilderService.members[slotIdx] = this.teamBuilderService.createEmptyMember(slotIdx);
         this.activeSlotIndexToPick = slotIdx;
