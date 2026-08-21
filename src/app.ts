@@ -111,7 +111,7 @@ class PokedexApp {
   private tbFormatLegalityFilter: 'format' | 'all' = 'format';
   private showdownFormatsMap: Record<string, any> = {};
   private showdownChampionsFormatsMap: Record<string, any> = {};
-  private bulbapediaChampionsSpeciesSet: Set<string> = new Set();
+  private serebiiChampionsSpeciesSet: Set<string> = new Set();
   private activeModalTab: 'general' | 'moves' | 'evolution' | 'encounters' | 'competitive' = 'general';
   private isShinyActive: boolean = false;
   private is3DModelActive: boolean = false;
@@ -379,16 +379,16 @@ class PokedexApp {
       this.allPokemon = await response.json();
       this.buildSpeciesGroups();
 
-      // Load Showdown formats, Champions mod data, and Bulbapedia Champions Roster in parallel
+      // Load Showdown formats, Champions mod data, and Serebii Champions Roster in parallel
       Promise.all([
         fetch('/data/showdown_formats.json').then(r => r.ok ? r.json() : null).catch(() => null),
         fetch('/data/showdown_champions_formats.json').then(r => r.ok ? r.json() : null).catch(() => null),
-        fetch('/data/bulbapedia_champions_m_b_species.json').then(r => r.ok ? r.json() : null).catch(() => null)
-      ]).then(([gen9Data, champsData, bulbaData]) => {
+        fetch('/data/serebii_champions_species.json').then(r => r.ok ? r.json() : null).catch(() => null)
+      ]).then(([gen9Data, champsData, serebiiData]) => {
         if (gen9Data) this.showdownFormatsMap = gen9Data;
         if (champsData) this.showdownChampionsFormatsMap = champsData;
-        if (bulbaData && Array.isArray(bulbaData)) {
-          this.bulbapediaChampionsSpeciesSet = new Set(bulbaData.map((s: string) => s.toLowerCase()));
+        if (serebiiData && Array.isArray(serebiiData)) {
+          this.serebiiChampionsSpeciesSet = new Set(serebiiData.map((s: string) => s.toLowerCase()));
         }
         if (this.currentViewMode === 'builder') {
           this.renderTeamBuilderTableOnly();
@@ -1295,7 +1295,7 @@ class PokedexApp {
         if (isIllegal(fd)) return false;
       } else if (mode === 'champions') {
         const baseName = pName.split('-')[0];
-        if (this.bulbapediaChampionsSpeciesSet.size > 0 && !this.bulbapediaChampionsSpeciesSet.has(baseName)) {
+        if (this.serebiiChampionsSpeciesSet.size > 0 && !this.serebiiChampionsSpeciesSet.has(baseName)) {
           return false;
         }
 
