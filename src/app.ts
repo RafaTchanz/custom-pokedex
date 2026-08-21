@@ -64,47 +64,49 @@ interface PokemonCardData {
 interface PokemonSpeciesGroup {
   speciesId: number;
   name: string;
-  defaultPokemon: PokemonCardData;
   varieties: PokemonCardData[];
   selectedPokemon: PokemonCardData;
 }
 
 const TYPE_COLORS: Record<string, string> = {
-  normal: '#a8a77a',
-  fire: '#ff4422',
-  water: '#3399ff',
-  grass: '#77cc55',
-  electric: '#ffcc33',
-  ice: '#66ccff',
-  fighting: '#bb5544',
-  poison: '#aa5599',
-  ground: '#ddbb55',
-  flying: '#8899ff',
-  psychic: '#ff5599',
-  bug: '#aabb22',
-  rock: '#bbaa66',
-  ghost: '#6666bb',
-  dragon: '#7766ee',
-  dark: '#775544',
-  steel: '#aaaabb',
-  fairy: '#ee99ee',
+  normal: '#A8A77A',
+  fire: '#EE8130',
+  water: '#6390F0',
+  grass: '#7AC74C',
+  electric: '#F7D02C',
+  ice: '#96D9D6',
+  fighting: '#C22E28',
+  poison: '#A33EA1',
+  ground: '#E2BF65',
+  flying: '#A98FF3',
+  psychic: '#F95587',
+  bug: '#A6B91A',
+  rock: '#B6A136',
+  ghost: '#735797',
+  dragon: '#6F35FC',
+  dark: '#705746',
+  steel: '#B7B7CE',
+  fairy: '#D685AD'
 };
 
 import { SmogonService, CompetitiveData, MovesetOption } from './services/smogonService';
+import { TeamBuilderService, TeamMember, StatBlock, FormatMode, ALL_TYPES, TYPE_CHART, POPULAR_ITEMS, NATURES } from './services/teamBuilderService';
 
 class PokedexApp {
-  private allPokemon: PokemonCardData[] = [];
+  private pokemonData: PokemonCardData[] = [];
   private speciesGroups: PokemonSpeciesGroup[] = [];
   private currentAudio: HTMLAudioElement | null = null;
   private currentPlayingBtn: HTMLButtonElement | null = null;
   private smogonService: SmogonService = new SmogonService();
+  private teamBuilderService: TeamBuilderService = new TeamBuilderService();
+  private currentViewMode: 'cards' | 'table' | 'builder' = 'cards';
+  private activeSlotIndexToPick: number | null = null;
   private activeModalTab: 'general' | 'moves' | 'evolution' | 'encounters' | 'competitive' = 'general';
   private isShinyActive: boolean = false;
   private is3DModelActive: boolean = false;
   private isGlobalShinyActive: boolean = false;
   private isGlobal3DActive: boolean = false;
   private isFiltersCollapsed: boolean = false;
-  private isTableViewMode: boolean = false;
   private cardShinyState: Map<number, boolean> = new Map();
   private movesMethodFilter: 'level-up' | 'egg' | 'machine' = 'level-up';
 
@@ -122,8 +124,14 @@ class PokedexApp {
   private global3DBtn!: HTMLButtonElement;
   private toggleFiltersBtn!: HTMLButtonElement;
   private toggleFiltersText!: HTMLSpanElement;
-  private viewModeBtn!: HTMLButtonElement;
-  private viewModeText!: HTMLSpanElement;
+  private viewModeCards!: HTMLButtonElement;
+  private viewModeTable!: HTMLButtonElement;
+  private viewModeBuilder!: HTMLButtonElement;
+  private teamBuilderContainer!: HTMLDivElement;
+  private pickerModal!: HTMLDivElement;
+  private pickerGrid!: HTMLDivElement;
+  private pickerSearchInput!: HTMLInputElement;
+  private closePickerBtn!: HTMLButtonElement;
   private filterBar!: HTMLDivElement;
   private backToTopBtn!: HTMLButtonElement;
   private gridContainer!: HTMLDivElement;
@@ -155,8 +163,14 @@ class PokedexApp {
     this.global3DBtn = document.getElementById('global-3d-btn') as HTMLButtonElement;
     this.toggleFiltersBtn = document.getElementById('toggle-filters-btn') as HTMLButtonElement;
     this.toggleFiltersText = document.getElementById('toggle-filters-text') as HTMLSpanElement;
-    this.viewModeBtn = document.getElementById('view-mode-btn') as HTMLButtonElement;
-    this.viewModeText = document.getElementById('view-mode-text') as HTMLSpanElement;
+    this.viewModeCards = document.getElementById('view-mode-cards') as HTMLButtonElement;
+    this.viewModeTable = document.getElementById('view-mode-table') as HTMLButtonElement;
+    this.viewModeBuilder = document.getElementById('view-mode-builder') as HTMLButtonElement;
+    this.teamBuilderContainer = document.getElementById('team-builder-container') as HTMLDivElement;
+    this.pickerModal = document.getElementById('pokemon-picker-modal') as HTMLDivElement;
+    this.pickerGrid = document.getElementById('picker-grid') as HTMLDivElement;
+    this.pickerSearchInput = document.getElementById('picker-search-input') as HTMLInputElement;
+    this.closePickerBtn = document.getElementById('close-picker-btn') as HTMLButtonElement;
     this.filterBar = document.getElementById('filter-bar') as HTMLDivElement;
     this.backToTopBtn = document.getElementById('back-to-top-btn') as HTMLButtonElement;
     this.gridContainer = document.getElementById('pokemon-grid') as HTMLDivElement;
@@ -187,11 +201,37 @@ class PokedexApp {
       this.render();
     });
 
-    if (this.viewModeBtn) {
-      this.viewModeBtn.addEventListener('click', () => {
-        this.isTableViewMode = !this.isTableViewMode;
-        this.viewModeText.textContent = this.isTableViewMode ? 'Modo Grade' : 'Modo Planilha';
+    if (this.viewModeCards) {
+      this.viewModeCards.addEventListener('click', () => {
+        this.currentViewMode = 'cards';
         this.render();
+      });
+    }
+
+    if (this.viewModeTable) {
+      this.viewModeTable.addEventListener('click', () => {
+        this.currentViewMode = 'table';
+        this.render();
+      });
+    }
+
+    if (this.viewModeBuilder) {
+      this.viewModeBuilder.addEventListener('click', () => {
+        this.currentViewMode = 'builder';
+        this.render();
+      });
+    }
+
+    if (this.closePickerBtn) {
+      this.closePickerBtn.addEventListener('click', () => {
+        this.pickerModal.classList.add('hidden');
+        this.activeSlotIndexToPick = null;
+      });
+    }
+
+    if (this.pickerSearchInput) {
+      this.pickerSearchInput.addEventListener('input', () => {
+        this.renderPickerGrid();
       });
     }
 
@@ -484,6 +524,26 @@ class PokedexApp {
     const totalVarietiesCount = filtered.reduce((sum, g) => sum + g.varieties.length, 0);
     this.totalCountText.textContent = `${filtered.length} Espécies (${totalVarietiesCount} Formas)`;
 
+    // Update Segmented Control UI
+    if (this.viewModeCards) this.viewModeCards.classList.toggle('active', this.currentViewMode === 'cards');
+    if (this.viewModeTable) this.viewModeTable.classList.toggle('active', this.currentViewMode === 'table');
+    if (this.viewModeBuilder) this.viewModeBuilder.classList.toggle('active', this.currentViewMode === 'builder');
+
+    if (this.currentViewMode === 'builder') {
+      this.gridContainer.classList.add('hidden');
+      this.tableContainer.classList.add('hidden');
+      this.emptyState.classList.add('hidden');
+      if (this.teamBuilderContainer) {
+        this.teamBuilderContainer.classList.remove('hidden');
+        this.renderTeamBuilder();
+      }
+      return;
+    }
+
+    if (this.teamBuilderContainer) {
+      this.teamBuilderContainer.classList.add('hidden');
+    }
+
     if (filtered.length === 0) {
       this.gridContainer.innerHTML = '';
       this.tableBody.innerHTML = '';
@@ -495,7 +555,7 @@ class PokedexApp {
 
     this.emptyState.classList.add('hidden');
 
-    if (this.isTableViewMode) {
+    if (this.currentViewMode === 'table') {
       this.gridContainer.classList.add('hidden');
       this.tableContainer.classList.remove('hidden');
       this.renderTable(filtered);
@@ -1117,6 +1177,346 @@ class PokedexApp {
     } catch (err) {
       console.error('Error rendering modal content:', err);
     }
+  }
+
+  private renderTeamBuilder(): void {
+    if (!this.teamBuilderContainer) return;
+
+    const isChampions = this.teamBuilderService.formatMode === 'champions';
+
+    const membersHTML = this.teamBuilderService.members.map((m, slotIdx) => {
+      if (!m.name) {
+        return `
+          <div class="team-slot-card">
+            <button class="add-member-btn" data-slot="${slotIdx}">
+              <span class="add-plus-icon">+</span>
+              <span>Adicionar Pokémon #${slotIdx + 1}</span>
+            </button>
+          </div>
+        `;
+      }
+
+      const totalPoints = isChampions ? this.teamBuilderService.getChampionsTotalPoints(m) : this.teamBuilderService.getEVsTotalPoints(m);
+      const maxTotal = isChampions ? 66 : 510;
+      const typeBadges = (m.types || []).map(t => {
+        const color = TYPE_COLORS[t.toLowerCase()] || '#a8a77a';
+        return `<span class="type-badge" style="background: ${color}; font-size: 0.65rem; padding: 0.15rem 0.45rem;">${t}</span>`;
+      }).join(' ');
+
+      const movesSelectHTML = [0, 1, 2, 3].map(moveIdx => {
+        const selectedMove = m.moves[moveIdx] || '';
+        const optionsHTML = `<option value="">-- Selecionar Golpe #${moveIdx + 1} --</option>` +
+          (m.availableMoves || []).map(mv => `<option value="${mv.name}" ${mv.name.toLowerCase() === selectedMove.toLowerCase() ? 'selected' : ''}>${mv.name} (${mv.type}${mv.power ? ` • ${mv.power} Pow` : ''})</option>`).join('');
+
+        return `
+          <div style="margin-bottom: 0.35rem;">
+            <select class="member-move-select" data-slot="${slotIdx}" data-move-idx="${moveIdx}" style="width: 100%; padding: 0.4rem; background: rgba(15,23,42,0.8); border: 1px solid var(--border-color); border-radius: 8px; color: #f8fafc; font-size: 0.775rem;">
+              ${optionsHTML}
+            </select>
+          </div>
+        `;
+      }).join('');
+
+      const statKeys: (keyof StatBlock)[] = ['hp', 'atk', 'def', 'spa', 'spd', 'spe'];
+      const statLabels: Record<keyof StatBlock, string> = { hp: 'HP', atk: 'Atk', def: 'Def', spa: 'SpA', spd: 'SpD', spe: 'Spe' };
+
+      const statsInputsHTML = statKeys.map(k => {
+        const val = isChampions ? m.championsPoints[k] : m.evs[k];
+        const maxSingle = isChampions ? 32 : 252;
+        return `
+          <div style="display: flex; align-items: center; justify-content: space-between; gap: 0.35rem; margin-bottom: 0.25rem;">
+            <span style="font-size: 0.725rem; font-weight: 700; color: #94a3b8; width: 30px;">${statLabels[k]}</span>
+            <input type="range" class="stat-range-input" data-slot="${slotIdx}" data-stat="${k}" min="0" max="${maxSingle}" value="${val}" style="flex: 1; accent-color: var(--accent-blue);">
+            <input type="number" class="stat-num-input" data-slot="${slotIdx}" data-stat="${k}" min="0" max="${maxSingle}" value="${val}" style="width: 42px; padding: 0.2rem; background: rgba(0,0,0,0.3); border: 1px solid var(--border-color); border-radius: 6px; color: #38bdf8; font-size: 0.75rem; font-weight: 800; text-align: center;">
+          </div>
+        `;
+      }).join('');
+
+      const itemsOptions = POPULAR_ITEMS.map(it => `<option value="${it}" ${m.item === it ? 'selected' : ''}>${it}</option>`).join('');
+      const naturesOptions = Object.keys(NATURES).map(n => `<option value="${n}" ${m.nature === n ? 'selected' : ''}>${n} (${NATURES[n].label})</option>`).join('');
+      const abilitiesOptions = (m.availableAbilities || ['Standard Ability']).map(ab => `<option value="${ab}" ${m.ability === ab ? 'selected' : ''}>${ab}</option>`).join('');
+      const teraOptions = ALL_TYPES.map(t => `<option value="${t.toUpperCase()}" ${m.teraType === t.toUpperCase() ? 'selected' : ''}>${t.charAt(0).toUpperCase() + t.slice(1)}</option>`).join('');
+
+      return `
+        <div class="team-slot-card filled">
+          <div style="display: flex; align-items: center; justify-content: space-between; margin-bottom: 0.75rem;">
+            <div style="display: flex; align-items: center; gap: 0.75rem;">
+              <img src="${m.officialArtworkUrl || m.spriteUrl}" alt="${m.name}" style="width: 55px; height: 55px; object-fit: contain;">
+              <div>
+                <h4 style="margin: 0; font-size: 1rem; font-weight: 800; text-transform: capitalize; color: #f8fafc;">${m.name}</h4>
+                <div style="margin-top: 0.25rem;">${typeBadges}</div>
+              </div>
+            </div>
+            <button class="remove-member-btn" data-slot="${slotIdx}" style="background: rgba(239,68,68,0.15); border: 1px solid rgba(239,68,68,0.3); color: #fca5a5; padding: 0.35rem 0.65rem; border-radius: 8px; font-size: 0.75rem; font-weight: 700; cursor: pointer;">&times; Remover</button>
+          </div>
+
+          <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 0.4rem; margin-bottom: 0.6rem;">
+            <div>
+              <label style="font-size: 0.7rem; color: #94a3b8; font-weight: 700;">Habilidade</label>
+              <select class="member-ability-select" data-slot="${slotIdx}" style="width: 100%; padding: 0.35rem; background: rgba(15,23,42,0.8); border: 1px solid var(--border-color); border-radius: 8px; color: #f8fafc; font-size: 0.75rem;">
+                ${abilitiesOptions}
+              </select>
+            </div>
+            <div>
+              <label style="font-size: 0.7rem; color: #94a3b8; font-weight: 700;">Item</label>
+              <select class="member-item-select" data-slot="${slotIdx}" style="width: 100%; padding: 0.35rem; background: rgba(15,23,42,0.8); border: 1px solid var(--border-color); border-radius: 8px; color: #f8fafc; font-size: 0.75rem;">
+                ${itemsOptions}
+              </select>
+            </div>
+            <div>
+              <label style="font-size: 0.7rem; color: #94a3b8; font-weight: 700;">Nature</label>
+              <select class="member-nature-select" data-slot="${slotIdx}" style="width: 100%; padding: 0.35rem; background: rgba(15,23,42,0.8); border: 1px solid var(--border-color); border-radius: 8px; color: #f8fafc; font-size: 0.75rem;">
+                ${naturesOptions}
+              </select>
+            </div>
+            <div>
+              <label style="font-size: 0.7rem; color: #94a3b8; font-weight: 700;">Tera Type</label>
+              <select class="member-tera-select" data-slot="${slotIdx}" style="width: 100%; padding: 0.35rem; background: rgba(15,23,42,0.8); border: 1px solid var(--border-color); border-radius: 8px; color: #f8fafc; font-size: 0.75rem;">
+                ${teraOptions}
+              </select>
+            </div>
+          </div>
+
+          <div style="font-size: 0.75rem; font-weight: 800; color: #38bdf8; margin-bottom: 0.35rem;">⚔️ Golpes Selecionados (Movepool):</div>
+          ${movesSelectHTML}
+
+          <div style="display: flex; justify-content: space-between; align-items: center; margin-top: 0.6rem; margin-bottom: 0.35rem; font-size: 0.75rem;">
+            <span style="font-weight: 800; color: #f8fafc;">${isChampions ? 'Pontos de Atributo' : 'EVs'}:</span>
+            <span style="font-weight: 800; color: ${totalPoints > maxTotal ? '#ef4444' : '#38bdf8'};">${totalPoints} / ${maxTotal} Pts</span>
+          </div>
+          ${statsInputsHTML}
+        </div>
+      `;
+    }).join('');
+
+    const coverageList = this.teamBuilderService.analyzeTeamCoverage();
+    const coverageCardsHTML = coverageList.map(cov => {
+      const typeColor = TYPE_COLORS[cov.type.toLowerCase()] || '#94a3b8';
+
+      return `
+        <div class="coverage-pill" style="border-left: 4px solid ${typeColor};">
+          <div style="font-weight: 800; text-transform: uppercase; font-size: 0.725rem; color: ${typeColor};">${cov.type}</div>
+          <div style="font-size: 0.7rem; color: #cbd5e1; margin-top: 0.2rem;">
+            <div>🛡️ Fraqueza: <strong style="color: ${cov.weakCount > 2 ? '#ef4444' : '#f8fafc'};">${cov.weakCount}</strong></div>
+            <div>🛡️ Resistência: <strong style="color: #4ade80;">${cov.resistCount}</strong></div>
+            <div>⚔️ Golpe 2x+: <strong style="color: #38bdf8;">${cov.superEffectiveMovesCount}</strong></div>
+          </div>
+        </div>
+      `;
+    }).join('');
+
+    this.teamBuilderContainer.innerHTML = `
+      <div class="team-header-bar">
+        <div class="team-title-group">
+          <h2>⚔️ Criador e Construtor de Time</h2>
+          <p>Monte e analise sua equipe de 6 Pokémons com regras personalizadas por formato</p>
+        </div>
+
+        <div style="display: flex; align-items: center; gap: 1rem; flex-wrap: wrap;">
+          <div class="format-switcher">
+            <button class="format-btn ${isChampions ? 'active' : ''}" data-format="champions">🏆 Pokémon Champions</button>
+            <button class="format-btn ${!isChampions ? 'sv-active' : ''}" data-format="scarlet-violet">🔴 Scarlet & Violet</button>
+          </div>
+          <button id="export-team-btn" style="background: var(--accent-blue); color: #0f172a; border: none; font-weight: 800; font-size: 0.85rem; padding: 0.55rem 1rem; border-radius: 12px; cursor: pointer;">📋 Exportar Time</button>
+        </div>
+      </div>
+
+      <div style="background: rgba(15,23,42,0.6); border: 1px solid rgba(56,189,248,0.25); padding: 0.85rem 1.25rem; border-radius: 14px; margin-bottom: 1.5rem; font-size: 0.85rem; color: #94a3b8; display: flex; align-items: center; gap: 0.75rem;">
+        <span style="font-size: 1.25rem;">ℹ️</span>
+        <div>
+          ${isChampions
+            ? `<strong style="color: #fbbf24;">Regras Pokémon Champions:</strong> Todos os IVs são fixados em <strong>31 (6IV)</strong> no nível 50. Distribua até <strong>66 Pontos de Atributo</strong> (máximo de 32 pontos por status individual).`
+            : `<strong style="color: #38bdf8;">Regras Scarlet & Violet:</strong> Distribua até <strong>510 EVs</strong> (máximo de 252 por status) e ajuste os IVs de 0 a 31.`
+          }
+        </div>
+      </div>
+
+      <div class="team-slots-grid">
+        ${membersHTML}
+      </div>
+
+      <div class="coverage-dashboard">
+        <h3>📊 Análise de Vantagens e Desvantagens do Time (Matriz Defensiva & Golpes)</h3>
+        <p style="font-size: 0.825rem; color: var(--text-muted); margin: 0;">Análise em tempo real das fraquezas defensivas, resistências e da cobertura de golpes súper efetivos dos 6 membros contra todos os 18 tipos elementares.</p>
+        <div class="coverage-grid">
+          ${coverageCardsHTML}
+        </div>
+      </div>
+    `;
+
+    this.attachTeamBuilderEvents();
+  }
+
+  private attachTeamBuilderEvents(): void {
+    if (!this.teamBuilderContainer) return;
+
+    // Format buttons click
+    const formatBtns = this.teamBuilderContainer.querySelectorAll('.format-btn');
+    formatBtns.forEach(btn => {
+      btn.addEventListener('click', () => {
+        const mode = btn.getAttribute('data-format') as FormatMode;
+        this.teamBuilderService.setFormatMode(mode);
+        this.renderTeamBuilder();
+      });
+    });
+
+    // Add member buttons click
+    const addBtns = this.teamBuilderContainer.querySelectorAll('.add-member-btn');
+    addBtns.forEach(btn => {
+      btn.addEventListener('click', () => {
+        const slotIdx = parseInt(btn.getAttribute('data-slot') || '0', 10);
+        this.openPokemonPicker(slotIdx);
+      });
+    });
+
+    // Remove member buttons click
+    const removeBtns = this.teamBuilderContainer.querySelectorAll('.remove-member-btn');
+    removeBtns.forEach(btn => {
+      btn.addEventListener('click', () => {
+        const slotIdx = parseInt(btn.getAttribute('data-slot') || '0', 10);
+        this.teamBuilderService.members[slotIdx] = this.teamBuilderService.createEmptyMember(slotIdx);
+        this.renderTeamBuilder();
+      });
+    });
+
+    // Move selects change
+    const moveSelects = this.teamBuilderContainer.querySelectorAll('.member-move-select');
+    moveSelects.forEach(sel => {
+      sel.addEventListener('change', (e) => {
+        const target = e.target as HTMLSelectElement;
+        const slotIdx = parseInt(target.getAttribute('data-slot') || '0', 10);
+        const moveIdx = parseInt(target.getAttribute('data-move-idx') || '0', 10);
+        this.teamBuilderService.members[slotIdx].moves[moveIdx] = target.value;
+        this.renderTeamBuilder();
+      });
+    });
+
+    // Ability, Item, Nature, Tera selects
+    const abilitySelects = this.teamBuilderContainer.querySelectorAll('.member-ability-select');
+    abilitySelects.forEach(s => {
+      s.addEventListener('change', (e) => {
+        const target = e.target as HTMLSelectElement;
+        const slotIdx = parseInt(target.getAttribute('data-slot') || '0', 10);
+        this.teamBuilderService.members[slotIdx].ability = target.value;
+      });
+    });
+
+    const itemSelects = this.teamBuilderContainer.querySelectorAll('.member-item-select');
+    itemSelects.forEach(s => {
+      s.addEventListener('change', (e) => {
+        const target = e.target as HTMLSelectElement;
+        const slotIdx = parseInt(target.getAttribute('data-slot') || '0', 10);
+        this.teamBuilderService.members[slotIdx].item = target.value;
+      });
+    });
+
+    const natureSelects = this.teamBuilderContainer.querySelectorAll('.member-nature-select');
+    natureSelects.forEach(s => {
+      s.addEventListener('change', (e) => {
+        const target = e.target as HTMLSelectElement;
+        const slotIdx = parseInt(target.getAttribute('data-slot') || '0', 10);
+        this.teamBuilderService.members[slotIdx].nature = target.value;
+      });
+    });
+
+    const teraSelects = this.teamBuilderContainer.querySelectorAll('.member-tera-select');
+    teraSelects.forEach(s => {
+      s.addEventListener('change', (e) => {
+        const target = e.target as HTMLSelectElement;
+        const slotIdx = parseInt(target.getAttribute('data-slot') || '0', 10);
+        this.teamBuilderService.members[slotIdx].teraType = target.value;
+      });
+    });
+
+    // Range & Number inputs for Points/EVs
+    const rangeInputs = this.teamBuilderContainer.querySelectorAll('.stat-range-input, .stat-num-input');
+    rangeInputs.forEach(inp => {
+      inp.addEventListener('input', (e) => {
+        const target = e.target as HTMLInputElement;
+        const slotIdx = parseInt(target.getAttribute('data-slot') || '0', 10);
+        const statKey = target.getAttribute('data-stat') as keyof StatBlock;
+        const val = parseInt(target.value || '0', 10);
+
+        if (this.teamBuilderService.formatMode === 'champions') {
+          this.teamBuilderService.members[slotIdx].championsPoints[statKey] = val;
+        } else {
+          this.teamBuilderService.members[slotIdx].evs[statKey] = val;
+        }
+        this.renderTeamBuilder();
+      });
+    });
+
+    // Export button click
+    const exportBtn = document.getElementById('export-team-btn');
+    if (exportBtn) {
+      exportBtn.addEventListener('click', () => {
+        const text = this.teamBuilderService.exportShowdownText();
+        navigator.clipboard.writeText(text).then(() => {
+          alert('📋 Time exportado com sucesso para a sua área de transferência!');
+        }).catch(() => {
+          alert(text);
+        });
+      });
+    }
+  }
+
+  private openPokemonPicker(slotIndex: number): void {
+    this.activeSlotIndexToPick = slotIndex;
+    this.pickerModal.classList.remove('hidden');
+    this.renderPickerGrid();
+  }
+
+  private renderPickerGrid(): void {
+    if (!this.pickerGrid) return;
+
+    const term = (this.pickerSearchInput?.value || '').toLowerCase().trim();
+    const filteredGroups = this.speciesGroups.filter(g => {
+      if (!term) return true;
+      const p = g.selectedPokemon;
+      return p.name.toLowerCase().includes(term) ||
+             p.id.toString().includes(term) ||
+             p.types.some(t => t.name.toLowerCase().includes(term));
+    });
+
+    this.pickerGrid.innerHTML = filteredGroups.slice(0, 100).map(g => {
+      const p = g.selectedPokemon;
+      const artwork = p.media.officialArtworkUrl || p.media.spriteUrl;
+      return `
+        <div class="picker-item" data-species-id="${g.speciesId}">
+          <img src="${artwork}" alt="${p.name}">
+          <div class="picker-item-name">${p.name}</div>
+        </div>
+      `;
+    }).join('');
+
+    const items = this.pickerGrid.querySelectorAll('.picker-item');
+    items.forEach(it => {
+      it.addEventListener('click', () => {
+        const sId = parseInt(it.getAttribute('data-species-id') || '0', 10);
+        const group = this.speciesGroups.find(g => g.speciesId === sId);
+        if (group && this.activeSlotIndexToPick !== null) {
+          const p = group.selectedPokemon;
+          const member = this.teamBuilderService.members[this.activeSlotIndexToPick];
+          member.speciesId = group.speciesId;
+          member.pokemonId = p.id;
+          member.name = p.name;
+          member.types = p.types.map(t => t.name);
+          member.spriteUrl = p.media.spriteUrl;
+          member.officialArtworkUrl = p.media.officialArtworkUrl;
+          member.availableAbilities = (p.abilities || []).map(a => a.name);
+          member.availableMoves = p.moves || [];
+          member.ability = member.availableAbilities[0] || 'Standard Ability';
+          member.item = 'Leftovers';
+          member.nature = 'Jolly';
+          member.teraType = (p.types[0]?.name || 'NORMAL').toUpperCase();
+          member.moves = (p.moves || []).slice(0, 4).map(m => m.name);
+
+          this.pickerModal.classList.add('hidden');
+          this.activeSlotIndexToPick = null;
+          this.renderTeamBuilder();
+        }
+      });
+    });
   }
 
   private closeModal(): void {

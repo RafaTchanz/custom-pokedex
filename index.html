@@ -28,9 +28,11 @@
         </div>
 
         <div class="header-actions">
-          <button id="view-mode-btn" class="toggle-filters-btn secondary" title="Alternar entre Grade e Planilha de Stats">
-            📊 <span id="view-mode-text">Modo Planilha</span>
-          </button>
+          <div class="view-segmented-control">
+            <button id="view-mode-cards" class="segmented-btn active" title="Modo Cards em Grade">🎴 Cards</button>
+            <button id="view-mode-table" class="segmented-btn" title="Modo Planilha de Stats">📊 Planilha</button>
+            <button id="view-mode-builder" class="segmented-btn" title="Criador e Construtor de Time">⚔️ Time</button>
+          </div>
 
           <button id="toggle-filters-btn" class="toggle-filters-btn" title="Esconder ou mostrar barra de filtros">
             🎛️ <span id="toggle-filters-text">Filtros</span>
@@ -157,6 +159,11 @@
         </div>
       </div>
 
+      <!-- Team Builder View -->
+      <div id="team-builder-container" class="team-builder-container hidden">
+        <!-- Team Builder rendered dynamically -->
+      </div>
+
       <div id="empty-state" class="empty-state hidden">
         <div class="empty-icon">🔍</div>
         <h3>Nenhum Pokémon encontrado</h3>
@@ -186,6 +193,20 @@
       <button id="modal-next-btn" class="modal-nav-btn next" title="Próximo Pokémon (Seta Direita ▶)">
         ▶
       </button>
+    </div>
+
+    <!-- Pokémon Selection Picker Modal for Team Builder -->
+    <div id="pokemon-picker-modal" class="modal-backdrop hidden" role="dialog" aria-modal="true">
+      <div class="modal-card picker-card">
+        <button id="close-picker-btn" class="modal-close" aria-label="Fechar seletor">&times;</button>
+        <div class="picker-header">
+          <h3>Selecione um Pokémon para a Equipe</h3>
+          <input type="text" id="picker-search-input" placeholder="Buscar por Nome, # ou Tipo..." autocomplete="off">
+        </div>
+        <div id="picker-grid" class="picker-grid">
+          <!-- Picker Pokémon cards rendered dynamically -->
+        </div>
+      </div>
     </div>
   </div>
 

@@ -7,7 +7,7 @@ const OUTPUT_FILE = path.join(process.cwd(), 'public', 'data', 'pokemon.json');
 
 describe('Export Enriched JSON Dataset for Web UI', () => {
   it('generates public/data/pokemon.json with full moves, encounters, and 3D models', () => {
-    execSync('node src/scripts/exportDataEnriched.js', { stdio: 'inherit' });
+    execSync(`"${process.execPath}" src/scripts/exportDataEnriched.js`, { stdio: 'inherit' });
     expect(fs.existsSync(OUTPUT_FILE)).toBe(true);
 
     const content = fs.readFileSync(OUTPUT_FILE, 'utf-8');

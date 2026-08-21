@@ -209,6 +209,15 @@ export class SmogonService {
       });
     }
 
+    // Ensure Champions builds are always prioritized at the top (#1 build)
+    movesets.sort((a, b) => {
+      const aIsChampions = (a.format || '').toLowerCase().includes('champion') || (a.name || '').toLowerCase().includes('champion');
+      const bIsChampions = (b.format || '').toLowerCase().includes('champion') || (b.name || '').toLowerCase().includes('champion');
+      if (aIsChampions && !bIsChampions) return -1;
+      if (!aIsChampions && bIsChampions) return 1;
+      return 0;
+    });
+
     const primaryEvs = movesets[0] ? this.formatEvs(movesets[0].evs) : 'N/A';
     const primaryNature = movesets[0] ? movesets[0].natures.join(' / ') : 'N/A';
 
