@@ -109,8 +109,9 @@ class PokedexApp {
   private tbAbilityFilter: string = 'all';
   private tbMoveFilter: string = '';
   private tbFormatLegalityFilter: 'format' | 'all' = 'format';
-  private showdownFormatsMap: Record<string, any> = {};
-  private showdownChampionsFormatsMap: Record<string, any> = {};
+  private showdownFormatsMap: Record<string, ShowdownFormatData> = {};
+  private showdownChampionsFormatsMap: Record<string, ShowdownFormatData> = {};
+  private championsLearnsetsMap: Record<string, string[]> = {};
   private bulbapediaChampionsData: { ndexes: Set<number>; forms: Set<string> } | null = null;
   private activeModalTab: 'general' | 'moves' | 'evolution' | 'encounters' | 'competitive' = 'general';
   private isShinyActive: boolean = false;
@@ -379,13 +380,15 @@ class PokedexApp {
       this.allPokemon = await response.json();
       this.buildSpeciesGroups();
 
-      // Load Showdown formats and Champions mod data in parallel
+      // Load Showdown formats, Champions mod data, and Champions learnsets in parallel
       Promise.all([
         fetch('/data/showdown_formats.json').then(r => r.ok ? r.json() : null).catch(() => null),
-        fetch('/data/showdown_champions_formats.json').then(r => r.ok ? r.json() : null).catch(() => null)
-      ]).then(([gen9Data, champsData]) => {
+        fetch('/data/showdown_champions_formats.json').then(r => r.ok ? r.json() : null).catch(() => null),
+        fetch('/data/champions_learnsets.json').then(r => r.ok ? r.json() : null).catch(() => null)
+      ]).then(([gen9Data, champsData, champsLearnsets]) => {
         if (gen9Data) this.showdownFormatsMap = gen9Data;
         if (champsData) this.showdownChampionsFormatsMap = champsData;
+        if (champsLearnsets) this.championsLearnsetsMap = champsLearnsets;
         if (this.currentViewMode === 'builder') {
           this.renderTeamBuilderTableOnly();
         }
@@ -1522,7 +1525,15 @@ class PokedexApp {
     if (activeMember && activeMember.speciesId) {
       const group = this.speciesGroups.find(g => g.speciesId === activeMember.speciesId);
       if (group && group.selectedPokemon) {
-        const validMoves = group.selectedPokemon.moves || [];
+        let validMoves = group.selectedPokemon.moves || [];
+        if (isChampions && this.championsLearnsetsMap && Object.keys(this.championsLearnsetsMap).length > 0) {
+          const alias = activeMember.name.toLowerCase().replace(/[^a-z0-9]/g, '');
+          const champsLearnset = this.championsLearnsetsMap[alias];
+          if (champsLearnset && Array.isArray(champsLearnset)) {
+            const champsSet = new Set(champsLearnset.map(m => m.toLowerCase()));
+            validMoves = validMoves.filter(m => champsSet.has(m.name.toLowerCase()));
+          }
+        }
         activeMember.availableMoves = validMoves;
         const validMoveNamesSet = new Set(validMoves.map(m => m.name.toLowerCase()));
         activeMember.moves = activeMember.moves.map(mName => (mName && validMoveNamesSet.has(mName.toLowerCase())) ? mName : '');
@@ -2175,9 +2186,9 @@ class PokedexApp {
       const editorSection = this.teamBuilderContainer?.querySelector('.tb-active-slot-section') || this.teamBuilderContainer?.querySelector('.tb-member-card');
       if (editorSection) {
         const isMobile = window.innerWidth <= 768;
-        const yOffset = isMobile ? -135 : -150;
+        const yOffset = isMobile ? -30 : -40;
         const targetY = Math.max(0, editorSection.getBoundingClientRect().top + window.pageYOffset + yOffset);
-        this.smoothScrollToY(targetY, 650);
+        this.smoothScrollToY(targetY, 550);
       }
     }, 60);
   }
@@ -2195,7 +2206,7 @@ class PokedexApp {
     });
   }
 
-  private assignPokemonToSlot(slotIndex: number, speciesId: number): void {
+  private assignPokemonToSlot(slotIndex: number, speciesId: number, autoScroll: boolean = true): void {
     const group = this.speciesGroups.find(g => g.speciesId === speciesId);
     if (!group) return;
 
@@ -2249,11 +2260,13 @@ class PokedexApp {
     this.teamBuilderService.saveToLocalStorage();
     this.renderTeamBuilder();
 
-    const currentMember = this.teamBuilderService.members[this.activeSlotIndexToPick];
-    if (!currentMember || !currentMember.name) {
-      this.scrollToSpeciesTable();
-    } else {
-      this.scrollToActiveSlotEditor();
+    if (autoScroll) {
+      const currentMember = this.teamBuilderService.members[this.activeSlotIndexToPick];
+      if (!currentMember || !currentMember.name) {
+        this.scrollToSpeciesTable();
+      } else {
+        this.scrollToActiveSlotEditor();
+      }
     }
   }
 
@@ -2350,9 +2363,12 @@ class PokedexApp {
           if (available.length === 0) break;
           const randIdx = Math.floor(Math.random() * available.length);
           const pickedGroup = available.splice(randIdx, 1)[0];
-          this.assignPokemonToSlot(i, pickedGroup.speciesId);
+          this.assignPokemonToSlot(i, pickedGroup.speciesId, false);
         }
+        this.activeSlotIndexToPick = 0;
         this.teamBuilderService.saveToLocalStorage();
+        this.renderTeamBuilder();
+        this.scrollToActiveSlotEditor();
       });
     }
 
