@@ -246,7 +246,7 @@ class PokedexApp {
       this.toggleFiltersBtn.addEventListener('click', () => {
         this.isFiltersCollapsed = !this.isFiltersCollapsed;
         this.filterBar.classList.toggle('collapsed', this.isFiltersCollapsed);
-        this.toggleFiltersText.textContent = this.isFiltersCollapsed ? 'Mostrar Filtros' : 'Filtros';
+        this.toggleFiltersText.textContent = this.isFiltersCollapsed ? '🔍 Abrir Filtros' : '🔍 Ocultar Filtros';
       });
     }
 
