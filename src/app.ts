@@ -1600,8 +1600,13 @@ class PokedexApp {
       const spe = getStat('speed');
       const bst = hp + atk + def + spa + spd + spe;
 
+      const isAlreadyInTeam = this.teamBuilderService.members.some(m => m.speciesId === g.speciesId);
+      const actionButtonHTML = isAlreadyInTeam
+        ? `<span style="font-size: 0.7rem; font-weight: 800; color: #38bdf8; background: rgba(56,189,248,0.15); border: 1px solid rgba(56,189,248,0.3); padding: 0.25rem 0.5rem; border-radius: 6px; display: inline-block;">✓ No Time</span>`
+        : `<button class="tb-btn primary select-species-btn" data-species-id="${g.speciesId}" style="font-size: 0.7rem; padding: 0.25rem 0.6rem;">➕ Selecionar</button>`;
+
       return `
-        <tr class="tb-table-row" data-species-id="${g.speciesId}" style="border-bottom: 1px solid rgba(255,255,255,0.06); font-size: 0.825rem;">
+        <tr class="tb-table-row ${isAlreadyInTeam ? 'already-in-team-row' : ''}" data-species-id="${g.speciesId}" style="border-bottom: 1px solid rgba(255,255,255,0.06); font-size: 0.825rem; ${isAlreadyInTeam ? 'opacity: 0.65;' : ''}">
           <td style="padding: 0.6rem; font-weight: 800; color: #94a3b8;">${formattedId}</td>
           <td style="padding: 0.4rem;"><img src="${imgUrl}" alt="${p.name}" style="width: 38px; height: 38px; object-fit: contain;"></td>
           <td style="padding: 0.6rem; font-weight: 700; color: #ffffff; text-transform: capitalize;">${p.name}</td>
@@ -1614,13 +1619,18 @@ class PokedexApp {
           <td style="padding: 0.6rem; font-weight: 700; color: #f472b6;">${spe}</td>
           <td style="padding: 0.6rem;"><span style="font-weight: 800; color: #38bdf8;">${bst}</span></td>
           <td style="padding: 0.6rem; text-align: center;">
-            <button class="tb-btn primary select-species-btn" data-species-id="${g.speciesId}" style="font-size: 0.7rem; padding: 0.25rem 0.6rem;">➕ Selecionar</button>
+            ${actionButtonHTML}
           </td>
         </tr>
       `;
     }).join('');
 
     this.teamBuilderContainer.innerHTML = `
+      <!-- 1. Top 6 Avatar Strip (Avatares dos 6 Slots - Fixed Sticky below header) -->
+      <div class="tb-avatars-strip">
+        ${avatarsHTML}
+      </div>
+
       <!-- Top Bar & Controls -->
       <div class="tb-top-bar">
         <div class="tb-title-group">
@@ -1633,18 +1643,13 @@ class PokedexApp {
 
         <div class="tb-actions-row">
           <div class="format-switcher">
-            <button class="format-btn ${isChampions ? 'active' : ''}" data-format="champions">🏆 Champions (66 Pts / 31 IVs)</button>
+            <button class="format-btn ${isChampions ? 'active' : ''}" data-format="champions">🏆 Champions (66 Pts)</button>
             <button class="format-btn ${!isChampions ? 'sv-active' : ''}" data-format="scarlet-violet">🔴 Scarlet & Violet (510 EVs)</button>
           </div>
           <button id="random-team-btn" class="tb-btn">🎲 Time Aleatório</button>
           <button id="export-team-btn" class="tb-btn primary">📋 Exportar Showdown</button>
           <button id="clear-team-btn" class="tb-btn" style="color: #fca5a5;">🗑️ Resetar</button>
         </div>
-      </div>
-
-      <!-- 1. Top 6 Avatar Strip (Avatares dos 6 Slots) -->
-      <div class="tb-avatars-strip">
-        ${avatarsHTML}
       </div>
 
       <!-- 2. Active Slot Detailed Editor -->
@@ -1781,6 +1786,18 @@ class PokedexApp {
     const group = this.speciesGroups.find(g => g.speciesId === speciesId);
     if (!group) return;
 
+    // Species Clause: Check if this species is already in a different slot in the team
+    const duplicateSlot = this.teamBuilderService.members.findIndex(
+      (m, idx) => m.speciesId === speciesId && idx !== slotIndex
+    );
+
+    if (duplicateSlot !== -1) {
+      const speciesName = group.selectedPokemon.name;
+      const formattedName = speciesName.charAt(0).toUpperCase() + speciesName.slice(1);
+      alert(`⚠️ O Pokémon "${formattedName}" já está presente no Slot #${duplicateSlot + 1}!\n\nA Regra de Espécie (Species Clause) proíbe Pokémons repetidos na mesma equipe.`);
+      return;
+    }
+
     const p = group.selectedPokemon;
     const member = this.teamBuilderService.members[slotIndex];
     member.speciesId = group.speciesId;
@@ -1790,7 +1807,6 @@ class PokedexApp {
     member.spriteUrl = p.media.spriteUrl;
     member.officialArtworkUrl = p.media.officialArtworkUrl;
 
-    // Extract baseStats
     const getStat = (sName: string) => p.stats.find(s => s.name.toLowerCase() === sName.toLowerCase() || s.name.toLowerCase() === sName.replace('-', ''))?.baseStat || 80;
     member.baseStats = {
       hp: getStat('hp'),
@@ -1809,7 +1825,6 @@ class PokedexApp {
     member.teraType = (p.types[0]?.name || 'NORMAL').toUpperCase();
     member.moves = (p.moves || []).slice(0, 4).map(m => m.name);
 
-    // Auto advance to next slot if available
     if (this.activeSlotIndexToPick < 5) {
       this.activeSlotIndexToPick++;
     }
@@ -2180,27 +2195,9 @@ class PokedexApp {
     items.forEach(it => {
       it.addEventListener('click', () => {
         const sId = parseInt(it.getAttribute('data-species-id') || '0', 10);
-        const group = this.speciesGroups.find(g => g.speciesId === sId);
-        if (group && this.activeSlotIndexToPick !== null) {
-          const p = group.selectedPokemon;
-          const member = this.teamBuilderService.members[this.activeSlotIndexToPick];
-          member.speciesId = group.speciesId;
-          member.pokemonId = p.id;
-          member.name = p.name;
-          member.types = p.types.map(t => t.name);
-          member.spriteUrl = p.media.spriteUrl;
-          member.officialArtworkUrl = p.media.officialArtworkUrl;
-          member.availableAbilities = (p.abilities || []).map(a => a.name);
-          member.availableMoves = p.moves || [];
-          member.ability = member.availableAbilities[0] || 'Standard Ability';
-          member.item = 'Leftovers';
-          member.nature = 'Jolly';
-          member.teraType = (p.types[0]?.name || 'NORMAL').toUpperCase();
-          member.moves = (p.moves || []).slice(0, 4).map(m => m.name);
-
+        if (this.activeSlotIndexToPick !== null) {
+          this.assignPokemonToSlot(this.activeSlotIndexToPick, sId);
           this.pickerModal.classList.add('hidden');
-          this.activeSlotIndexToPick = null;
-          this.renderTeamBuilder();
         }
       });
     });
