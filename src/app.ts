@@ -109,6 +109,7 @@ class PokedexApp {
   private tbAbilityFilter: string = 'all';
   private tbMoveFilter: string = '';
   private tbFormatLegalityFilter: 'format' | 'all' = 'format';
+  private showdownFormatsMap: Record<string, any> = {};
   private activeModalTab: 'general' | 'moves' | 'evolution' | 'encounters' | 'competitive' = 'general';
   private isShinyActive: boolean = false;
   private is3DModelActive: boolean = false;
@@ -375,6 +376,19 @@ class PokedexApp {
       }
       this.allPokemon = await response.json();
       this.buildSpeciesGroups();
+
+      // Load Showdown formats data in parallel for real-time format legality filtering
+      fetch('/data/showdown_formats.json')
+        .then(r => r.ok ? r.json() : null)
+        .then(d => {
+          if (d) {
+            this.showdownFormatsMap = d;
+            if (this.currentViewMode === 'builder') {
+              this.renderTeamBuilderTableOnly();
+            }
+          }
+        }).catch(() => {});
+
       this.render();
     } catch (err) {
       console.error('Error loading Pokédex dataset:', err);
@@ -1250,10 +1264,32 @@ class PokedexApp {
       const p = g.selectedPokemon;
 
       if (this.tbFormatLegalityFilter === 'format') {
-        const isSV = this.teamBuilderService.formatMode === 'scarlet-violet';
-        if (isSV) {
-          const pName = p.name.toLowerCase();
-          if (pName.includes('-mega') || pName.includes('primal-')) return false;
+        const getShowdownData = (pCard: PokemonCardData) => {
+          if (!this.showdownFormatsMap || Object.keys(this.showdownFormatsMap).length === 0) return null;
+          let key = pCard.name.toLowerCase().replace(/[^a-z0-9]/g, '');
+          if (this.showdownFormatsMap[key]) return this.showdownFormatsMap[key];
+          const baseName = pCard.name.split('-')[0];
+          key = baseName.toLowerCase().replace(/[^a-z0-9]/g, '');
+          return this.showdownFormatsMap[key] || null;
+        };
+
+        const fd = getShowdownData(p);
+        const mode = this.teamBuilderService.formatMode;
+
+        if (mode === 'scarlet-violet') {
+          const isMega = p.name.toLowerCase().includes('-mega') || p.name.toLowerCase().includes('primal-');
+          if (isMega) return false;
+          if (fd && (fd.isNonstandard === 'Past' || fd.isNonstandard === 'Future' || fd.isNonstandard === 'Unobtainable' || fd.isNonstandard === 'Custom')) {
+            return false;
+          }
+        } else if (mode === 'champions') {
+          if (fd) {
+            const isUber = fd.tier === 'Uber' || fd.tier === 'AG' || fd.natDexTier === 'Uber' || fd.natDexTier === 'AG';
+            const isCustom = fd.isNonstandard === 'Unobtainable' || fd.isNonstandard === 'Custom';
+            if (isUber || isCustom) return false;
+          }
+        } else if (mode === 'national-dex') {
+          if (fd && fd.natDexTier === 'Illegal') return false;
         }
       }
 
