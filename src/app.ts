@@ -2174,17 +2174,25 @@ class PokedexApp {
     return header ? header.getBoundingClientRect().height : 75;
   }
 
+  private getStickyOffset(): number {
+    const headerHeight = this.getHeaderHeight();
+    const avatarsStrip = this.teamBuilderContainer?.querySelector('.tb-avatars-strip');
+    const stripHeight = avatarsStrip ? avatarsStrip.getBoundingClientRect().height : 0;
+    return headerHeight + stripHeight;
+  }
+
   private scrollToSpeciesTable(): void {
     setTimeout(() => {
       const tableSection = document.getElementById('tb-species-table-section') || this.teamBuilderContainer?.querySelector('.tb-options-panel');
       if (tableSection) {
-        const headerHeight = this.getHeaderHeight();
+        const offset = this.getStickyOffset();
         const rect = tableSection.getBoundingClientRect();
-        const targetY = Math.max(0, window.pageYOffset + rect.top - headerHeight);
-        if (Math.abs(window.pageYOffset - targetY) < 5) {
-          return;
-        }
-        this.smoothScrollToY(targetY, 350);
+        const targetY = Math.max(0, window.pageYOffset + rect.top - offset - 10);
+        
+        window.scrollTo({
+          top: targetY,
+          behavior: 'smooth'
+        });
       }
     }, 60);
   }
@@ -2195,10 +2203,9 @@ class PokedexApp {
                          || this.teamBuilderContainer?.querySelector('.tb-active-slot-section')
                          || this.teamBuilderContainer?.querySelector('.tb-member-card');
       if (targetElement) {
-        const header = document.querySelector('.app-header');
-        const headerHeight = header ? header.getBoundingClientRect().height : 75;
+        const offset = this.getStickyOffset();
         const rect = targetElement.getBoundingClientRect();
-        const targetY = Math.max(0, window.pageYOffset + rect.top - headerHeight - 12);
+        const targetY = Math.max(0, window.pageYOffset + rect.top - offset - 10);
         
         window.scrollTo({
           top: targetY,
