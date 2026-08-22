@@ -141,6 +141,58 @@ body {
   flex-wrap: wrap;
 }
 
+.view-segmented-control {
+  display: inline-flex;
+  background: rgba(30, 41, 59, 0.8);
+  border: 1px solid var(--border-color);
+  padding: 0.25rem;
+  border-radius: 9999px;
+  gap: 0.2rem;
+  align-items: center;
+}
+
+.segmented-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.35rem;
+  padding: 0.4rem 0.85rem;
+  border: none;
+  background: transparent;
+  color: var(--text-muted);
+  border-radius: 9999px;
+  font-size: 0.8rem;
+  font-weight: 700;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.segmented-btn:hover {
+  color: var(--text-main);
+}
+
+.segmented-btn.active {
+  background: #38bdf8;
+  color: #0f172a;
+  box-shadow: 0 0 10px rgba(56, 189, 248, 0.3);
+}
+
+.sub-nav-control {
+  background: rgba(15, 23, 42, 0.6);
+  border-color: rgba(56, 189, 248, 0.25);
+}
+
+.sub-btn {
+  font-size: 0.775rem;
+  padding: 0.35rem 0.7rem;
+}
+
+.sub-btn.active {
+  background: rgba(56, 189, 248, 0.25);
+  color: #38bdf8;
+  border: 1px solid #38bdf8;
+  box-shadow: 0 0 8px rgba(56, 189, 248, 0.2);
+}
+
 .toggle-filters-btn {
   display: inline-flex;
   align-items: center;

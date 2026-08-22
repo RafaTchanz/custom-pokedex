@@ -139,9 +139,13 @@ class PokedexApp {
   private global3DBtn!: HTMLButtonElement;
   private toggleFiltersBtn!: HTMLButtonElement;
   private toggleFiltersText!: HTMLSpanElement;
+  private activeMainFeature: 'dex' | 'competitive' = 'dex';
+  private dexViewMode: 'cards' | 'table' = 'cards';
+  private navFeatureDex!: HTMLButtonElement;
+  private navFeatureCompetitive!: HTMLButtonElement;
+  private dexSubviewControl!: HTMLDivElement;
   private viewModeCards!: HTMLButtonElement;
   private viewModeTable!: HTMLButtonElement;
-  private viewModeBuilder!: HTMLButtonElement;
   private teamBuilderContainer!: HTMLDivElement;
   private pickerModal!: HTMLDivElement;
   private pickerGrid!: HTMLDivElement;
@@ -178,9 +182,11 @@ class PokedexApp {
     this.global3DBtn = document.getElementById('global-3d-btn') as HTMLButtonElement;
     this.toggleFiltersBtn = document.getElementById('toggle-filters-btn') as HTMLButtonElement;
     this.toggleFiltersText = document.getElementById('toggle-filters-text') as HTMLSpanElement;
+    this.navFeatureDex = document.getElementById('nav-feature-dex') as HTMLButtonElement;
+    this.navFeatureCompetitive = document.getElementById('nav-feature-competitive') as HTMLButtonElement;
+    this.dexSubviewControl = document.getElementById('dex-subview-control') as HTMLDivElement;
     this.viewModeCards = document.getElementById('view-mode-cards') as HTMLButtonElement;
     this.viewModeTable = document.getElementById('view-mode-table') as HTMLButtonElement;
-    this.viewModeBuilder = document.getElementById('view-mode-builder') as HTMLButtonElement;
     this.teamBuilderContainer = document.getElementById('team-builder-container') as HTMLDivElement;
     this.pickerModal = document.getElementById('pokemon-picker-modal') as HTMLDivElement;
     this.pickerGrid = document.getElementById('picker-grid') as HTMLDivElement;
@@ -216,8 +222,26 @@ class PokedexApp {
       this.render();
     });
 
+    if (this.navFeatureDex) {
+      this.navFeatureDex.addEventListener('click', () => {
+        this.activeMainFeature = 'dex';
+        this.currentViewMode = this.dexViewMode;
+        this.render();
+      });
+    }
+
+    if (this.navFeatureCompetitive) {
+      this.navFeatureCompetitive.addEventListener('click', () => {
+        this.activeMainFeature = 'competitive';
+        this.currentViewMode = 'builder';
+        this.render();
+      });
+    }
+
     if (this.viewModeCards) {
       this.viewModeCards.addEventListener('click', () => {
+        this.activeMainFeature = 'dex';
+        this.dexViewMode = 'cards';
         this.currentViewMode = 'cards';
         this.render();
       });
@@ -225,14 +249,9 @@ class PokedexApp {
 
     if (this.viewModeTable) {
       this.viewModeTable.addEventListener('click', () => {
+        this.activeMainFeature = 'dex';
+        this.dexViewMode = 'table';
         this.currentViewMode = 'table';
-        this.render();
-      });
-    }
-
-    if (this.viewModeBuilder) {
-      this.viewModeBuilder.addEventListener('click', () => {
-        this.currentViewMode = 'builder';
         this.render();
       });
     }
@@ -652,12 +671,15 @@ class PokedexApp {
     const totalVarietiesCount = filtered.reduce((sum, g) => sum + g.varieties.length, 0);
     this.totalCountText.textContent = `${filtered.length} Espécies (${totalVarietiesCount} Formas)`;
 
-    // Update Segmented Control UI
-    if (this.viewModeCards) this.viewModeCards.classList.toggle('active', this.currentViewMode === 'cards');
-    if (this.viewModeTable) this.viewModeTable.classList.toggle('active', this.currentViewMode === 'table');
-    if (this.viewModeBuilder) this.viewModeBuilder.classList.toggle('active', this.currentViewMode === 'builder');
+    // Update Main Feature Navigation UI & Sub-View Control
+    if (this.navFeatureDex) this.navFeatureDex.classList.toggle('active', this.activeMainFeature === 'dex');
+    if (this.navFeatureCompetitive) this.navFeatureCompetitive.classList.toggle('active', this.activeMainFeature === 'competitive');
+    if (this.dexSubviewControl) this.dexSubviewControl.style.display = this.activeMainFeature === 'dex' ? 'flex' : 'none';
 
-    if (this.currentViewMode === 'builder') {
+    if (this.viewModeCards) this.viewModeCards.classList.toggle('active', this.dexViewMode === 'cards');
+    if (this.viewModeTable) this.viewModeTable.classList.toggle('active', this.dexViewMode === 'table');
+
+    if (this.activeMainFeature === 'competitive' || this.currentViewMode === 'builder') {
       this.gridContainer.classList.add('hidden');
       this.tableContainer.classList.add('hidden');
       this.emptyState.classList.add('hidden');

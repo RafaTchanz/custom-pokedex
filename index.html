@@ -28,15 +28,23 @@
         </div>
 
         <div class="header-actions">
-          <div class="view-segmented-control">
-            <button id="view-mode-cards" class="segmented-btn active" title="Modo Cards em Grade">
-              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><rect x="3" y="3" width="7" height="7"></rect><rect x="14" y="3" width="7" height="7"></rect><rect x="14" y="14" width="7" height="7"></rect><rect x="3" y="14" width="7" height="7"></rect></svg> Cards
+          <!-- Main Feature Switcher: Pokédex vs Competitivo -->
+          <div class="view-segmented-control main-nav-control">
+            <button id="nav-feature-dex" class="segmented-btn active" title="Catálogo de Pokémons (Pokédex)">
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"></path><path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"></path></svg> Pokédex
             </button>
-            <button id="view-mode-table" class="segmented-btn" title="Modo Planilha de Stats">
-              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><line x1="18" y1="20" x2="18" y2="10"></line><line x1="12" y1="20" x2="12" y2="4"></line><line x1="6" y1="20" x2="6" y2="14"></line></svg> Planilha
+            <button id="nav-feature-competitive" class="segmented-btn" title="Modo Competitivo (Montar Time)">
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M14.5 17.5L3 6V3h3l11.5 11.5"></path><path d="M13 19l6-6"></path><path d="M16 16l4 4"></path><path d="M19 13l2 2"></path></svg> Competitivo
             </button>
-            <button id="view-mode-builder" class="segmented-btn" title="Criador e Construtor de Time">
-              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M14.5 17.5L3 6V3h3l11.5 11.5"></path><path d="M13 19l6-6"></path><path d="M16 16l4 4"></path><path d="M19 13l2 2"></path></svg> Time
+          </div>
+
+          <!-- Pokédex Sub-View Selector (Cards vs Planilha) -->
+          <div id="dex-subview-control" class="view-segmented-control sub-nav-control">
+            <button id="view-mode-cards" class="segmented-btn sub-btn active" title="Modo Cards em Grade">
+              <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><rect x="3" y="3" width="7" height="7"></rect><rect x="14" y="3" width="7" height="7"></rect><rect x="14" y="14" width="7" height="7"></rect><rect x="3" y="14" width="7" height="7"></rect></svg> Cards
+            </button>
+            <button id="view-mode-table" class="segmented-btn sub-btn" title="Modo Planilha de Stats">
+              <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><line x1="18" y1="20" x2="18" y2="10"></line><line x1="12" y1="20" x2="12" y2="4"></line><line x1="6" y1="20" x2="6" y2="14"></line></svg> Planilha
             </button>
           </div>
 
