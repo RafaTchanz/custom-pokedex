@@ -11166,6 +11166,20 @@
       "Foul Play",
       "Nasty Plot",
       "Hex"
+    ],
+    "arbok": [
+      "Coil",
+      "Gunk Shot",
+      "Sucker Punch",
+      "Earthquake",
+      "Crunch",
+      "Switcheroo",
+      "Aqua Tail",
+      "Seed Bomb",
+      "Poison Jab",
+      "Fire Fang",
+      "Ice Fang",
+      "Thunder Fang"
     ]
   }
 }
